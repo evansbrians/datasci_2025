@@ -1,0 +1,827 @@
+Visit_ID,Site_ID,Treatment,Sample_number,Provisional_ID,ID2,Caterpillar_mass_mg,DaysSince
+1,107,Unlit,3,Small green noctuid - LYU?,Green noctuid,12.13,0
+2,113,Unlit,2,Bright green with thin white stripe which joins to rear legs,Green noctuid,42.83,0
+2,113,HPS,2,Small brown noctuid,Dart noctuid,37.63,0
+2,113,HPS,1,Small brown noctuid,Dart noctuid,44.33,0
+1,107,Unlit,2,Small green noctuid - LYU?,Green noctuid,182.73,0
+2,113,Unlit,6,small noctuid,Brown noctuid,3.23,0
+2,113,HPS,5,Small noctuid,Brown noctuid,36.63,0
+2,113,Unlit,5,Small noctuid,Brown noctuid,12.63,0
+1,107,HPS,1,Small noctuid,Brown noctuid,8.43,0
+2,113,HPS,4,Large yellow Underwing?,Large Yellow Underwing,433.125,0
+2,113,Unlit,3,Small noctuid - SSR?,Brown noctuid,34.53,0
+1,107,Unlit,1,Small noctuid - SSR?,Brown noctuid,36.83,0
+2,113,Unlit,7,unknown - mush,Unknown,15.03,0
+2,113,HPS,6,unknown,Unknown,13.63,0
+2,113,Unlit,1,Small green noctuid - LYU?,Green noctuid,142.43,0
+2,113,HPS,3,Angle shades?,Green noctuid,454.425,0
+2,113,Unlit,4,Small noctuid - SSR?,Brown noctuid,34.63,0
+1,107,HPS,2,Small noctuid,Brown noctuid,13.43,0
+1,107,HPS,3,Small noctuid - SSR?,Brown noctuid,12.23,0
+8,139,HPS,1,Small noctuid - SSR?,Brown noctuid,16.54,11
+9,171,HPS,1,Dark noctuid. Pale stripe. ,Dart noctuid,61.14,11
+9,171,Unlit,8,Small noctuid - SSR?,Brown noctuid,72.94,11
+7,149,Unlit,1,Large yellow Underwing?,Large Yellow Underwing,401.325,11
+8,139,Unlit,1,Small noctuid,Brown noctuid,1.54,11
+6,156,LPS,1,Small noctuid - SSR?,Brown noctuid,24.24,11
+7,149,Unlit,6,Small noctuid - SSR?,Brown noctuid,18.54,11
+7,149,Unlit,8,Small noctuid,Brown noctuid,47.24,11
+9,171,Unlit,3,Small noctuid,Brown noctuid,9.46,11
+7,149,Unlit,2,Small noctuid,Brown noctuid,26.44,11
+9,171,HPS,5,Small noctuid,Brown noctuid,10.24,11
+9,171,HPS,7,SSR,Brown noctuid,197.24,11
+9,171,HPS,3,Small noctuid - SSR?,Brown noctuid,28.34,11
+6,156,LPS,2,Small noctuid - SSR?,Brown noctuid,54.24,11
+6,156,LPS,4,Small noctuid - SSR?,Brown noctuid,33.74,11
+7,149,LED,2,Small noctuid,Brown noctuid,27.64,11
+6,156,LPS,3,Small noctuid,Brown noctuid,1.34,11
+7,149,Unlit,9,Small noctuid - SSR?,Brown noctuid,18.94,11
+7,149,Unlit,7,Small noctuid,Brown noctuid,20.64,11
+9,171,HPS,4,dark noctuid. Pale stripe. ,Dart noctuid,45.94,11
+9,171,Unlit,5,small noctuid,Brown noctuid,7.84,11
+6,156,Unlit,2,Small noctuid,Brown noctuid,9.24,11
+6,156,Unlit,1,small green noctuid,Green noctuid,35.64,11
+7,149,Unlit,3,Small noctuid - SSR?,Brown noctuid,43.64,11
+7,149,Unlit,5,Small noctuid,Brown noctuid,13.44,11
+9,171,Unlit,6,Small noctuid - SSR?,Brown noctuid,10.44,11
+7,149,Unlit,4,Small noctuid - SSR?,Brown noctuid,21.24,11
+9,171,Unlit,4,dark noctuid. Pale stripe. ,Dart noctuid,20.14,11
+9,171,HPS,8,large yellow Underwing?,Large Yellow Underwing,279.54,11
+9,171,Unlit,1,Small noctuid - SSR?,Brown noctuid,42.24,11
+9,171,HPS,2,small green noctuid,Green noctuid,44.54,11
+7,149,Unlit,10,Small noctuid - SSR?,Brown noctuid,26.74,11
+9,171,Unlit,2,dark noctuid. Pale stripe. ,Dart noctuid,44.24,11
+7,149,LED,1,small green noctuid,Green noctuid,79.64,11
+9,171,HPS,6,Small green noctuid - LYU?,Green noctuid,94.64,11
+20,16,HPS,4,SSR,Brown noctuid,132.37,39
+20,16,HPS,1,ssR,Brown noctuid,220.07,39
+20,16,Unlit,8,ssR,Brown noctuid,110.27,39
+20,16,Unlit,2,ssR,Brown noctuid,88.47,39
+20,16,Unlit,7,ssR,Brown noctuid,51.17,39
+20,16,HPS,5,ssR,Brown noctuid,181.07,39
+20,16,Unlit,10,ssR,Brown noctuid,296.67,39
+20,16,HPS,6,SSR,Brown noctuid,124.47,39
+20,16,Unlit,5,SSR,Brown noctuid,36.47,39
+20,16,Unlit,9,SSR,Brown noctuid,420.17,39
+20,16,HPS,3,SSR,Brown noctuid,35.87,39
+20,16,Unlit,4,SSR,Brown noctuid,66.57,39
+20,16,HPS,2,SSR,Brown noctuid,240.47,39
+20,16,Unlit,11,green noctuid.,Green noctuid,74.77,39
+20,16,Unlit,3,SSR,Brown noctuid,34.07,39
+20,16,Unlit,6,SSR,Brown noctuid,217.37,39
+20,16,HPS,7,SSR,Brown noctuid,57.07,39
+20,16,Unlit,1,SSR,Brown noctuid,80.37,39
+20,16,Unlit,12,SSR,Brown noctuid,10.87,39
+20,16,Unlit,13,SSR,Brown noctuid,11.17,39
+20,16,Unlit,14,SSR,Brown noctuid,13.27,39
+21,143,HPS,1,SSR,Brown noctuid,115.17,39
+21,143,Unlit,1,SSR,Brown noctuid,267.87,39
+21,143,HPS,2,SSR,Brown noctuid,85.37,39
+21,143,Unlit,2,SSR,Brown noctuid,13.55,39
+21,143,Unlit,3,SSR,Brown noctuid,8.8,39
+21,143,Unlit,4,SSR,Brown noctuid,20.55,39
+21,143,Unlit,5,SSR,Brown noctuid,11.23,39
+21,143,Unlit,7,SSR,Brown noctuid,46.98,39
+21,143,Unlit,8,SSR,Brown noctuid,11.3,39
+21,143,Unlit,9,SSR,Brown noctuid,15.5,39
+21,143,Unlit,10,SSR,Brown noctuid,19.22,39
+21,143,Unlit,11,SSR,Brown noctuid,178.37,39
+21,143,Unlit,12,SSR,Brown noctuid,18.92,39
+21,143,Unlit,13,SSR,Brown noctuid,17.73,39
+21,143,Unlit,14,SSR,Brown noctuid,9.88,39
+21,143,Unlit,15,SSR,Brown noctuid,10.1,39
+21,143,Unlit,16,SSR,Brown noctuid,20.95,39
+10,163,LED,1,Green noctuid,Green noctuid,57.1,12
+10,163,LED,2,Small noctuid - SSR?,Brown noctuid,76.1,12
+10,163,LED,3,Small noctuid - SSR?,Brown noctuid,90.1,12
+10,163,LED,4,Small noctuid - SSR?,Brown noctuid,36.8,12
+10,163,LED,5,Small noctuid - SSR?,Brown noctuid,31.9,12
+10,163,LED,6,Small noctuid - SSR?,Brown noctuid,36.7,12
+10,163,LED,7,Small noctuid - SSR?,Brown noctuid,60.1,12
+10,163,LED,8,Small noctuid - SSR?,Brown noctuid,34.9,12
+10,163,LED,9,Small noctuid - SSR?,Brown noctuid,25.7,12
+10,163,LED,10,Small noctuid - SSR?,Brown noctuid,49.1,12
+10,163,LED,11,Small noctuid - SSR?,Brown noctuid,35.1,12
+10,163,LED,12,Small noctuid - SSR?,Brown noctuid,48.8,12
+10,163,LED,13,Small noctuid - SSR?,Brown noctuid,39.1,12
+10,163,LED,14,Small noctuid - SSR?,Brown noctuid,45.7,12
+10,163,LED,15,Small noctuid - SSR?,Brown noctuid,34.1,12
+10,163,LED,16,Small noctuid - SSR?,Brown noctuid,37.9,12
+10,163,LED,17,Small noctuid - SSR?,Brown noctuid,66.1,12
+10,163,LED,18,Small noctuid - SSR?,Brown noctuid,85.4,12
+10,163,LED,19,Small noctuid - SSR?,Brown noctuid,150.4,12
+10,163,LED,20,Small noctuid - SSR?,Brown noctuid,30.1,12
+10,163,LED,21,Small noctuid - SSR?,Brown noctuid,50.6,12
+10,163,LED,22,Small noctuid - SSR?,Brown noctuid,37.8,12
+10,163,LED,23,Small noctuid - SSR?,Brown noctuid,31.1,12
+10,163,LED,24,Small noctuid - SSR?,Brown noctuid,49.2,12
+10,163,LED,25,Small noctuid - SSR?,Brown noctuid,46.9,12
+10,163,LED,26,Small noctuid - SSR?,Brown noctuid,43.5,12
+10,163,LED,27,Small noctuid - SSR?,Brown noctuid,16.8,12
+10,163,LED,28,Small noctuid - SSR?,Brown noctuid,47.1,12
+10,163,LED,29,Small noctuid - SSR?,Brown noctuid,29.9,12
+10,163,LED,30,Small noctuid - SSR?,Brown noctuid,36.1,12
+10,163,LED,31,Small noctuid - SSR?,Brown noctuid,30.9,12
+10,163,LED,32,Small noctuid - SSR?,Brown noctuid,46,12
+10,163,LED,33,Small noctuid - SSR?,Brown noctuid,59.4,12
+10,163,LED,34,Small noctuid - SSR?,Brown noctuid,41.7,12
+10,163,LED,35,Small noctuid - SSR?,Brown noctuid,43.9,12
+10,163,LED,36,Small noctuid - SSR?,Brown noctuid,38.1,12
+10,163,Unlit,1,dark noctuid.,Dart noctuid,379.3,12
+10,163,Unlit,2,Green noctuid,Green noctuid,60.5,12
+10,163,Unlit,3,Green noctuid,Green noctuid,57.1,12
+10,163,Unlit,4,Green noctuid,Green noctuid,12.4,12
+10,163,Unlit,5,Green noctuid,Green noctuid,38.6,12
+10,163,Unlit,6,Green noctuid,Green noctuid,21.6,12
+10,163,Unlit,7,Small noctuid - SSR?,Brown noctuid,50.2,12
+10,163,Unlit,8,Small noctuid - SSR?,Brown noctuid,69.4,12
+10,163,Unlit,9,Small noctuid - SSR?,Brown noctuid,93.8,12
+10,163,Unlit,10,Small noctuid - SSR?,Brown noctuid,32.2,12
+10,163,Unlit,11,Small noctuid - SSR?,Brown noctuid,27.9,12
+10,163,Unlit,12,Small noctuid - SSR?,Brown noctuid,55.1,12
+10,163,Unlit,13,Small noctuid - SSR?,Brown noctuid,24.5,12
+10,163,Unlit,14,Small noctuid - SSR?,Brown noctuid,24.3,12
+10,163,Unlit,15,Small noctuid - SSR?,Brown noctuid,10.5,12
+10,163,Unlit,16,Small noctuid - SSR?,Brown noctuid,22.54,12
+10,163,Unlit,17,Small noctuid - SSR?,Brown noctuid,14.24,12
+10,163,Unlit,18,Small noctuid - SSR?,Brown noctuid,14.84,12
+10,163,Unlit,19,Small noctuid - SSR?,Brown noctuid,8.44,12
+10,163,Unlit,20,Small noctuid - SSR?,Brown noctuid,10.24,12
+10,163,Unlit,21,Small noctuid - SSR?,Brown noctuid,38.74,12
+10,163,Unlit,22,Small noctuid - SSR?,Brown noctuid,3.84,12
+10,163,Unlit,23,Small noctuid - SSR?,Brown noctuid,9.54,12
+10,163,Unlit,24,Small noctuid - SSR?,Brown noctuid,6.94,12
+10,163,Unlit,25,Small noctuid - SSR?,Brown noctuid,5.34,12
+10,163,Unlit,26,Small noctuid - SSR?,Brown noctuid,30.54,12
+10,163,Unlit,27,Small noctuid - SSR?,Brown noctuid,11.84,12
+10,163,Unlit,28,Small noctuid - SSR?,Brown noctuid,11.04,12
+11,161,Unlit,1,Small noctuid - SSR?,Brown noctuid,50.3,12
+11,161,Unlit,2,Small noctuid - SSR?,Brown noctuid,24.9,12
+11,161,Unlit,3,Small noctuid - SSR?,Brown noctuid,39.1,12
+11,161,LPS,1,Small noctuid - SSR?,Brown noctuid,79.2,12
+11,161,LPS,2,Small noctuid - SSR?,Brown noctuid,50.6,12
+11,161,LED,1,Small noctuid - SSR?,Brown noctuid,45,12
+11,161,LED,2,Small noctuid - SSR?,Brown noctuid,45.2,12
+12,16,HPS,1,Small noctuid - SSR?,Brown noctuid,180.9,12
+12,16,HPS,2,Small noctuid - SSR?,Brown noctuid,43.9,12
+12,16,Unlit,1,Small noctuid - SSR?,Brown noctuid,41.4,12
+12,16,Unlit,2,Small noctuid - SSR?,Brown noctuid,65.3,12
+12,16,Unlit,3,Small noctuid - SSR?,Brown noctuid,68.8,12
+12,16,Unlit,4,Small noctuid - SSR?,Brown noctuid,45.4,12
+12,16,Unlit,5,Small noctuid - SSR?,Brown noctuid,42.2,12
+12,16,Unlit,6,Small noctuid - SSR?,Brown noctuid,31.1,12
+12,16,Unlit,7,Small noctuid - SSR?,Brown noctuid,30.9,12
+12,16,Unlit,8,Small noctuid - SSR?,Brown noctuid,53.9,12
+21,143,HPS,10,small noctuid - SSR?,Brown noctuid,58.9,39
+21,143,HPS,6,SSR,Brown noctuid,178.9,39
+21,143,HPS,9,Small noctuid - SSR?,Brown noctuid,60.3,39
+21,143,HPS,3,Small noctuid - SSR?,Brown noctuid,34.5,39
+21,143,HPS,4,ssR,Brown noctuid,125.9,39
+21,143,HPS,7,ssR,Brown noctuid,98.5,39
+21,143,HPS,8,ssR,Brown noctuid,153.1,39
+21,143,HPS,11,ssR,Brown noctuid,125.7,39
+21,143,HPS,5,ssR,Brown noctuid,105.9,39
+13,143,Unlit,16,Small noctuid - SSR?,Brown noctuid,49.5,12
+13,143,Unlit,48,Small noctuid - SSR?,Brown noctuid,88.7,12
+13,143,Unlit,15,small noctuid - ssr?,Brown noctuid,110.1,12
+13,143,Unlit,28,small noctuid - ssr?,Brown noctuid,83.2,12
+13,143,Unlit,44,small noctuid - ssr?,Brown noctuid,37.4,12
+13,143,Unlit,31,small noctuid - ssr?,Brown noctuid,39.8,12
+13,143,Unlit,19,small noctuid - ssr?,Brown noctuid,27.8,12
+13,143,Unlit,40,small noctuid - ssr?,Brown noctuid,23,12
+13,143,Unlit,26,small noctuid - ssr?,Brown noctuid,74.7,12
+13,143,Unlit,7,Small noctuid - SSR?,Brown noctuid,75.6,12
+13,143,Unlit,33,Small noctuid - SSR?,Brown noctuid,64.3,12
+13,143,Unlit,14,large yellow Underwing?,Large Yellow Underwing,266.3,12
+13,143,Unlit,22,Small noctuid - SSR?,Brown noctuid,40.1,12
+13,143,Unlit,11,Small noctuid - SSR?,Brown noctuid,55.9,12
+13,143,Unlit,34,Small noctuid - SSR?,Brown noctuid,73.89,12
+13,143,Unlit,3,Small noctuid - SSR?,Brown noctuid,52,12
+13,143,Unlit,29,Small noctuid - SSR?,Brown noctuid,84,12
+13,143,Unlit,36,Small noctuid - SSR?,Brown noctuid,74,12
+13,143,Unlit,9,Small noctuid - SSR?,Brown noctuid,44.3,12
+13,143,Unlit,23,Small noctuid - SSR?,Brown noctuid,40.3,12
+13,143,Unlit,4,Small noctuid - SSR?,Brown noctuid,76.5,12
+13,143,Unlit,41,Small noctuid - SSR?,Brown noctuid,21.4,12
+13,143,Unlit,22.5,Small noctuid - SSR?,Brown noctuid,4.34,12
+13,143,Unlit,16,Small noctuid - SSR?,Brown noctuid,29.7,12
+13,143,Unlit,2,Small noctuid - SSR?,Brown noctuid,48.8,12
+13,143,Unlit,32,Small noctuid - SSR?,Brown noctuid,53.8,12
+13,143,Unlit,25,Small noctuid - SSR?,Brown noctuid,46.9,12
+13,143,Unlit,5,large yellow Underwing?,Large Yellow Underwing,424.8,12
+13,143,Unlit,1,angle shades?,Green noctuid,313.6,12
+13,143,Unlit,11,Small noctuid - SSR?,Brown noctuid,61.3,12
+13,143,Unlit,30,Small noctuid - SSR?,Brown noctuid,34,12
+13,143,Unlit,39,Small noctuid - SSR?,Brown noctuid,50.4,12
+13,143,Unlit,20,Small noctuid - SSR?,Brown noctuid,95.5,12
+13,143,Unlit,13,Small noctuid - SSR?,Brown noctuid,37.9,12
+13,143,Unlit,43,Small noctuid - SSR?,Brown noctuid,41.8,12
+13,143,Unlit,45,Small noctuid - SSR?,Brown noctuid,50,12
+13,143,Unlit,11.5,Small noctuid - SSR?,Brown noctuid,31.8,12
+13,143,Unlit,18,Small noctuid - SSR?,Brown noctuid,71.1,12
+13,143,Unlit,10,Small noctuid - SSR?,Brown noctuid,66.8,12
+13,143,Unlit,6,green noctuid,Green noctuid,55.1,12
+13,143,Unlit,33,green noctuid,Green noctuid,69.6,12
+13,143,Unlit,38,small noctuid - SSR?,Brown noctuid,53.7,12
+13,143,Unlit,21,ssr,Brown noctuid,45.6,12
+13,143,Unlit,37,small noctuid - SSR?,Brown noctuid,87.4,12
+13,143,Unlit,8,small noctuid - SSR?,Brown noctuid,46.2,12
+13,143,Unlit,25,Xestia,Xestia,112.7,12
+13,143,HPS,9,small noctuid - SSR?,Brown noctuid,37.2,12
+13,143,HPS,1,small noctuid - SSR?,Brown noctuid,22.1,12
+13,143,HPS,12,small noctuid - SSR?,Brown noctuid,44.7,12
+13,143,HPS,13,small noctuid - SSR?,Brown noctuid,37.2,12
+13,143,HPS,11,small noctuid - SSR?,Brown noctuid,62.5,12
+13,143,HPS,14,small noctuid - SSR?,Brown noctuid,30.4,12
+13,143,HPS,3,small noctuid - SSR?,Brown noctuid,139.1,12
+13,143,HPS,15,small noctuid - SSR?,Brown noctuid,16.8,12
+13,143,HPS,7,small noctuid - SSR?,Brown noctuid,85.4,12
+13,143,HPS,10,green noctuid,Green noctuid,84.5,12
+13,143,HPS,4,small noctuid - SSR?,Brown noctuid,63.1,12
+13,143,HPS,8,small noctuid - SSR?,Brown noctuid,44.2,12
+13,143,HPS,5,small noctuid - SSR?,Brown noctuid,61.6,12
+13,143,HPS,2,small noctuid - SSR?,Brown noctuid,62.7,12
+13,143,HPS,6,small noctuid - SSR?,Brown noctuid,89.4,12
+14,134,Unlit,6,small noctuid - SSR?,Brown noctuid,34.3,12
+14,134,HPS,5,small noctuid - SSR?,Brown noctuid,56.7,12
+14,134,HPS,1,large yellow Underwing?,Large Yellow Underwing,238.6,12
+14,134,HPS,2,large yellow Underwing?,Large Yellow Underwing,604.2,12
+14,134,HPS,6,Small noctuid - SSR?,Brown noctuid,75.4,12
+14,134,Unlit,1,Small noctuid - SSR?,Brown noctuid,82.6,12
+14,134,Unlit,3,small noctuid - SSR?,Brown noctuid,93.7,12
+14,134,HPS,3,small noctuid - SSR?,Brown noctuid,88.5,12
+14,134,Unlit,7,small noctuid - SSR?,Brown noctuid,106.8,12
+14,134,HPS,9,Small noctuid - SSR?,Brown noctuid,85,12
+14,134,HPS,4,green noctuid,Green noctuid,43.1,12
+14,134,HPS,7,Small noctuid - SSR?,Brown noctuid,40.6,12
+14,134,Unlit,2,green noctuid,Green noctuid,55.2,12
+14,134,Unlit,3,Small noctuid - SSR?,Brown noctuid,55.9,12
+14,134,HPS,8,Small noctuid - SSR?,Brown noctuid,45,12
+22,171,HPS,7,Small noctuid - SSR?,Brown noctuid,57.3,39
+22,171,HPS,2,Small noctuid - SSR?,Brown noctuid,147.8,39
+22,171,HPS,1,Small noctuid - SSR?,Brown noctuid,88.1,39
+22,171,HPS,10,Small noctuid - SSR?,Brown noctuid,61.8,39
+22,171,HPS,4,Small noctuid - SSR?,Brown noctuid,46.6,39
+22,171,HPS,8,Small noctuid - SSR?,Brown noctuid,42.4,39
+22,171,HPS,12,Small noctuid - SSR?,Brown noctuid,88,39
+22,171,Unlit,4,Small noctuid - SSR?,Brown noctuid,68.9,39
+22,171,Unlit,9,Small noctuid - SSR?,Brown noctuid,27.5,39
+22,171,Unlit,1,green noctuid,Green noctuid,54.9,39
+22,171,Unlit,5,Small noctuid - SSR?,Brown noctuid,141.6,39
+22,171,Unlit,7,green noctuid,Green noctuid,108.2,39
+22,171,Unlit,6,Small noctuid - SSR?,Brown noctuid,105.2,39
+22,171,Unlit,3,Small noctuid - SSR?,Brown noctuid,52.3,39
+22,171,Unlit,2,small noctuid - SSR?,Brown noctuid,57.9,39
+22,171,Unlit,8,small noctuid - SSR?,Brown noctuid,47,39
+22,171,HPS,9,small noctuid - SSR?,Brown noctuid,47.2,39
+22,171,HPS,13,small noctuid - SSR?,Brown noctuid,27.2,39
+22,171,HPS,6,green noctuid,Green noctuid,61.54,39
+22,171,HPS,7,green noctuid,Green noctuid,77.34,39
+22,171,HPS,3,small noctuid,Brown noctuid,79.94,39
+22,171,HPS,5,green noctuid,Green noctuid,60.24,39
+22,171,HPS,11,dark noctuid.,Dart noctuid,89.54,39
+25,156,LPS,6,small noctuid,Brown noctuid,97.94,43
+22,171,HPS,14,SSR,Brown noctuid,81.44,39
+23,5,Unlit,3,small noctuid,Brown noctuid,27.27,43
+23,5,Unlit,10,ssR,Brown noctuid,78.77,43
+23,5,Unlit,9,small noctuid,Brown noctuid,16.07,43
+23,5,Unlit,12,small noctuid,Brown noctuid,27.67,43
+23,5,Unlit,4,small noctuid,Brown noctuid,52.77,43
+23,5,Unlit,8,small noctuid,Brown noctuid,3.47,43
+23,5,Unlit,1,small noctuid,Brown noctuid,15.17,43
+23,5,Unlit,6,small noctuid,Brown noctuid,0.77,43
+23,5,Unlit,16,small noctuid,Brown noctuid,17.97,43
+23,5,HPS,1,unknown- tiny,Unknown,5.57,43
+23,5,Unlit,5,dark noctuid.,Dart noctuid,36.77,43
+23,5,HPS,3,green noctuid,Green noctuid,3.97,43
+23,5,Unlit,11,small noctuid,Brown noctuid,11.97,43
+23,5,HPS,2,small geo,Brown geo,6.37,43
+23,5,Unlit,7,small noctuid,Brown noctuid,17.17,43
+23,5,Unlit,14,green noctuid,Green noctuid,17.97,43
+23,5,Unlit,13,SSR,Brown noctuid,74.17,43
+23,5,Unlit,2,green noctuid,Green noctuid,5.27,43
+23,5,Unlit,15,ssR,Brown noctuid,63.47,43
+24,149,Unlit,22,SSR,Brown noctuid,32.17,43
+24,149,LED,3,ssR,Brown noctuid,53.67,43
+24,149,Unlit,1,ssR,Brown noctuid,18.17,43
+24,149,Unlit,20,SSR,Brown noctuid,60.57,43
+24,149,Unlit,17,SSR,Brown noctuid,21.57,43
+24,149,Unlit,12,SSR,Brown noctuid,46.87,43
+24,149,Unlit,3,SSR,Brown noctuid,93.87,43
+24,149,Unlit,21,SSR,Brown noctuid,24.87,43
+24,149,Unlit,10,SSR,Brown noctuid,117.27,43
+24,149,Unlit,7,small noctuid,Brown noctuid,24.57,43
+24,149,Unlit,19,small noctuid,Brown noctuid,19.37,43
+24,149,LED,6,SSR,Brown noctuid,39.37,43
+24,149,Unlit,16,SSR,Brown noctuid,93.37,43
+24,149,Unlit,6,SSR,Brown noctuid,244.67,43
+24,149,Unlit,2,SSr,Brown noctuid,2.47,43
+24,149,Unlit,15,SSR,Brown noctuid,22.57,43
+24,149,Unlit,14,SSr,Brown noctuid,45.87,43
+24,149,Unlit,18,small noctuid,Brown noctuid,11.27,43
+24,149,LED,7,SSR,Brown noctuid,37.04,43
+24,149,LED,1,SSR,Brown noctuid,17.57,43
+24,149,Unlit,4,SSr,Brown noctuid,34.47,43
+24,149,Unlit,9,SSR,Brown noctuid,18.07,43
+24,149,Unlit,11,SSR,Brown noctuid,55.27,43
+24,149,Unlit,13,small noctuid,Brown noctuid,27.87,43
+24,149,LED,4,SSR,Brown noctuid,60.97,43
+24,149,Unlit,15.5,small noctuid,Brown noctuid,17.87,43
+24,149,Unlit,5,small noctuid,Brown noctuid,51.37,43
+24,149,LED,5,SSr,Brown noctuid,48.57,43
+24,149,Unlit,8,SSR,Brown noctuid,81.07,43
+24,149,LED,2,small noctuid,Brown noctuid,14.47,43
+24,149,LED,8,SSR,Brown noctuid,165.525,43
+25,156,Unlit,6,SSR,Brown noctuid,48.77,43
+25,156,LPS,2,SSR,Brown noctuid,124.97,43
+25,156,LPS,4,SSR,Brown noctuid,108.17,43
+25,156,Unlit,4,brown noctuid,Dart noctuid,82.37,43
+25,156,Unlit,3,brown noctuid,Dart noctuid,84.67,43
+25,156,LPS,1,brown noctuid,Dart noctuid,113.17,43
+25,156,Unlit,1,brown noctuid,Dart noctuid,45.67,43
+25,156,LPS,7.5,SSR,Brown noctuid,134.87,43
+25,156,Unlit,5,small noctuid,Brown noctuid,32.57,43
+25,156,LPS,7,small noctuid,Brown noctuid,4.57,43
+25,156,LPS,6,small noctuid,Brown noctuid,10.27,43
+25,156,LPS,9,small noctuid,Brown noctuid,19.57,43
+25,156,Unlit,7,small noctuid,Brown noctuid,1.37,43
+25,156,Unlit,2,small noctuid,Brown noctuid,16.97,43
+25,156,LPS,3,small noctuid,Brown noctuid,58.57,43
+25,156,Unlit,8,small noctuid,Brown noctuid,40.37,43
+26,233,LED,5,SSR,Brown noctuid,94.47,43
+26,233,Unlit,9,SSr,Brown noctuid,91.47,43
+26,233,LED,3,small noctuid,Brown noctuid,22.07,43
+26,233,LED,8,SSr,Brown noctuid,43.67,43
+26,233,Unlit,6,small noctuid,Brown noctuid,6.97,43
+26,233,Unlit,1,dark noctuid. LYU?,Dart noctuid,173.57,43
+26,233,Unlit,5,SSR,Brown noctuid,46.17,43
+26,233,Unlit,8,green noctuid,Green noctuid,51.77,43
+26,233,Unlit,2,SSR?,Brown noctuid,161.97,43
+26,233,LED,2,SSR,Brown noctuid,86.77,43
+26,233,Unlit,4,small noctuid,Brown noctuid,51.67,43
+26,233,LED,4,SSR?,Brown noctuid,203.27,43
+26,233,Unlit,7,SSR,Brown noctuid,39.87,43
+26,233,Unlit,3,small noctuid,Brown noctuid,22.47,43
+26,233,LED,7,small noctuid,Brown noctuid,8.27,43
+26,233,Unlit,10,SSR?,Brown noctuid,238.87,43
+26,233,Unlit,11,SSR?,Brown noctuid,286.87,43
+26,233,LED,1,SSR,Brown noctuid,41.77,43
+25,156,LPS,5,SSR,Brown noctuid,126.17,43
+26,233,LED,9,Xestia,Xestia,72.07,43
+27,241,LED,3,small noctuid,Brown noctuid,33.77,43
+27,241,Unlit,5,small noctuid,Brown noctuid,10.27,43
+27,241,LED,10,small noctuid,Brown noctuid,27.67,43
+27,241,Unlit,16,small noctuid,Brown noctuid,88.57,43
+27,241,LED,6,small noctuid,Brown noctuid,8.37,43
+27,241,Unlit,18,small noctuid,Brown noctuid,65.77,43
+27,241,Unlit,12,small noctuid,Brown noctuid,68.37,43
+27,241,Unlit,15,small noctuid,Brown noctuid,75.27,43
+27,241,Unlit,10,small noctuid,Brown noctuid,64.87,43
+27,241,Unlit,3,small noctuid,Brown noctuid,21.47,43
+27,241,LED,2,SSR,Brown noctuid,89.27,43
+27,241,Unlit,17,small noctuid,Brown noctuid,28.07,43
+27,241,Unlit,7,small noctuid,Brown noctuid,21.37,43
+27,241,Unlit,2,small noctuid,Brown noctuid,7.47,43
+27,241,LED,4,small noctuid,Brown noctuid,23.47,43
+27,241,Unlit,1,SSR?,Brown noctuid,224.67,43
+27,241,LED,12,small noctuid,Brown noctuid,49.27,43
+27,241,Unlit,11,small noctuid,Brown noctuid,13.97,43
+27,241,Unlit,19,small noctuid,Brown noctuid,1.17,43
+27,241,Unlit,9,small noctuid,Brown noctuid,26.57,43
+27,241,LED,1,small noctuid,Brown noctuid,62.17,43
+27,241,LED,7,small noctuid,Brown noctuid,72.67,43
+27,241,Unlit,6,small noctuid,Brown noctuid,59.57,43
+27,241,Unlit,13,small noctuid,Brown noctuid,72.07,43
+27,241,Unlit,8,SSR,Brown noctuid,40.07,43
+27,241,Unlit,3.5,SSR,Brown noctuid,56.97,43
+27,241,Unlit,14,SSR,Brown noctuid,35.57,43
+27,241,LED,5,small noctuid,Brown noctuid,19.87,43
+27,241,LED,9,SSR,Brown noctuid,51.37,43
+27,241,LED,11,SSR,Brown noctuid,47.17,43
+27,241,Unlit,4,small noctuid,Brown noctuid,4.47,43
+27,241,LED,8,small noctuid,Brown noctuid,35.87,43
+28,247,Unlit,18,small noctuid,Brown noctuid,11.07,43
+28,247,LED,3,small noctuid,Brown noctuid,66.97,43
+28,247,Unlit,12,small noctuid,Brown noctuid,3.87,43
+28,247,LED,9,small noctuid,Brown noctuid,11.77,43
+28,247,LED,10,green noctuid,Green noctuid,9.07,43
+28,247,LED,8,tiny noctuid,Unknown,7.37,43
+28,247,LED,7,green noctuid,Green noctuid,68.07,43
+28,247,Unlit,8,small noctuid,Brown noctuid,37.47,43
+28,247,Unlit,1,small noctuid,Brown noctuid,40.47,43
+28,247,Unlit,5,small noctuid,Brown noctuid,6.67,43
+28,247,Unlit,6,small noctuid,Brown noctuid,21.97,43
+28,247,LED,11,small noctuid,Brown noctuid,11.97,43
+28,247,Unlit,2,small noctuid,Brown noctuid,19.77,43
+28,247,Unlit,20,small noctuid,Brown noctuid,57.47,43
+28,247,LED,2,small noctuid,Brown noctuid,4.87,43
+28,247,Unlit,14,small noctuid,Brown noctuid,25.67,43
+28,247,LED,5,SSR,Brown noctuid,128.37,43
+28,247,Unlit,16,small noctuid,Brown noctuid,24.97,43
+28,247,Unlit,21,small noctuid,Brown noctuid,59.77,43
+28,247,Unlit,7,small noctuid,Brown noctuid,5.97,43
+28,247,Unlit,3,small noctuid,Brown noctuid,21.27,43
+28,247,Unlit,10,small noctuid,Brown noctuid,8.97,43
+28,247,LED,4,small noctuid,Brown noctuid,39.87,43
+28,247,Unlit,11,small noctuid,Brown noctuid,55.07,43
+28,247,Unlit,22,unknown- tiny,Unknown,0.67,43
+28,247,Unlit,19,unknown geo,Unknown,4.37,43
+28,247,Unlit,13,small noctuid,Brown noctuid,4.27,43
+28,247,Unlit,4,small noctuid,Brown noctuid,58.37,43
+28,247,Unlit,9,small noctuid,Brown noctuid,3.57,43
+28,247,Unlit,15,small noctuid,Brown noctuid,9.17,43
+28,247,LED,6,small noctuid,Brown noctuid,79.47,43
+28,247,Unlit,17,small noctuid,Brown noctuid,2.67,43
+28,247,LED,1,small noctuid,Brown noctuid,3.77,43
+29,134,Unlit,10,small noctuid,Brown noctuid,33.84,43
+29,134,Unlit,12,small noctuid,Brown noctuid,144.14,43
+29,134,HPS,1,SSR,Brown noctuid,182.84,43
+29,134,HPS,2,small noctuid,Brown noctuid,60.64,43
+29,134,HPS,16,SSR,Brown noctuid,113.14,43
+29,134,HPS,6,small noctuid,Brown noctuid,80.14,43
+29,134,Unlit,16,small noctuid,Brown noctuid,29.14,43
+29,134,Unlit,15,small noctuid,Brown noctuid,95.94,43
+29,134,HPS,7,small noctuid,Brown noctuid,81.04,43
+29,134,HPS,24,SSR,Brown noctuid,117.94,43
+29,134,HPS,26,small noctuid,Brown noctuid,28.44,43
+29,134,Unlit,14,small noctuid,Brown noctuid,58.34,43
+29,134,Unlit,3,small noctuid,Brown noctuid,131.74,43
+29,134,Unlit,2,small noctuid,Brown noctuid,146.14,43
+29,134,HPS,8,small noctuid,Brown noctuid,40.54,43
+29,134,HPS,5,small noctuid,Brown noctuid,31.54,43
+29,134,HPS,9,small noctuid,Brown noctuid,165.04,43
+29,134,HPS,3,small noctuid,Brown noctuid,128.84,43
+29,134,Unlit,7,small noctuid,Brown noctuid,59.14,43
+29,134,HPS,21,small noctuid,Brown noctuid,50.64,43
+29,134,HPS,17,small noctuid,Brown noctuid,80.84,43
+29,134,HPS,28,Tiny green noctuid,Green noctuid,13.84,43
+29,134,HPS,10,SSR,Brown noctuid,158.04,43
+29,134,Unlit,13,SSR,Brown noctuid,321.14,43
+29,134,HPS,11,small noctuid,Brown noctuid,38.34,43
+29,134,HPS,12,small noctuid,Brown noctuid,54.14,43
+29,134,HPS,4,SSR,Brown noctuid,153.94,43
+29,134,HPS,19,small noctuid,Brown noctuid,36.14,43
+29,134,HPS,14,SSR,Brown noctuid,219.04,43
+29,134,HPS,15,small noctuid,Brown noctuid,86.74,43
+29,134,HPS,22,SSR,Brown noctuid,94.24,43
+29,134,HPS,25,SSR,Brown noctuid,163.24,43
+29,134,HPS,20,SSr,Brown noctuid,82.14,43
+29,134,Unlit,9,SSr,Brown noctuid,180.34,43
+29,134,HPS,27,small noctuid,Brown noctuid,47.64,43
+29,134,Unlit,5,green noctuid,Green noctuid,99.64,43
+29,134,Unlit,8,small noctuid,Brown noctuid,30.94,43
+29,134,Unlit,1,small noctuid,Brown noctuid,29.74,43
+29,134,Unlit,6,small noctuid,Brown noctuid,50.64,43
+29,134,HPS,23,ssr,Brown noctuid,87.84,43
+29,134,Unlit,11,ssr,Brown noctuid,110.74,43
+29,134,HPS,18,SSR,Brown noctuid,224.74,43
+29,134,Unlit,4,small noctuid,Brown noctuid,0.64,43
+29,134,HPS,13,small noctuid,Brown noctuid,15.34,43
+30,129,Unlit,3,small noctuid,Brown noctuid,7.74,43
+32,107,Unlit,1,small noctuid,Brown noctuid,52.24,43
+30,129,LED,1,small noctuid,Brown noctuid,120.64,43
+30,129,Unlit,2,small noctuid,Brown noctuid,67.84,43
+30,129,LED,2,small noctuid,Brown noctuid,40.34,43
+32,107,HPS,3,small noctuid,Brown noctuid,96.84,43
+31,113,Unlit,4,small noctuid,Brown noctuid,18.64,43
+31,113,HPS,2,small noctuid,Brown noctuid,49.04,43
+30,129,Unlit,6,small noctuid,Brown noctuid,67.84,43
+31,113,Unlit,5,small noctuid,Brown noctuid,85.54,43
+31,113,HPS,1,small noctuid,Brown noctuid,33.24,43
+30,129,Unlit,1,small noctuid,Brown noctuid,79.74,43
+32,107,Unlit,2,small noctuid,Brown noctuid,14.64,43
+32,107,HPS,1,small noctuid,Brown noctuid,129.74,43
+30,129,Unlit,5,small noctuid,Brown noctuid,39.14,43
+32,107,HPS,5,unknown- tiny,Unknown,23.54,43
+31,113,Unlit,3,ssr,Brown noctuid,101.14,43
+32,107,HPS,4,small noctuid,Brown noctuid,24.64,43
+30,129,Unlit,4,small noctuid,Brown noctuid,30.24,43
+31,113,Unlit,2,small noctuid,Brown noctuid,171.14,43
+31,113,Unlit,1,small noctuid,Brown noctuid,56.84,43
+31,113,HPS,3,small noctuid,Brown noctuid,31.04,43
+32,107,HPS,2,SSR,Brown noctuid,91.74,43
+33,163,LED,4,small noctuid,Brown noctuid,43.97,48
+33,163,LED,8,small noctuid,Brown noctuid,27.67,48
+33,163,Unlit,16,small noctuid,Brown noctuid,17.87,48
+33,163,LED,5,small noctuid,Brown noctuid,66.67,48
+33,163,Unlit,10,small noctuid,Brown noctuid,15.17,48
+33,163,LED,7,small noctuid,Brown noctuid,99.77,48
+33,163,Unlit,20,small noctuid,Brown noctuid,87.37,48
+33,163,LED,3,SSR,Brown noctuid,120.97,48
+33,163,Unlit,19,small noctuid,Brown noctuid,31.47,48
+33,163,Unlit,11,small noctuid,Brown noctuid,116.17,48
+33,163,Unlit,15,small noctuid,Brown noctuid,7.07,48
+33,163,Unlit,1,small noctuid,Brown noctuid,1.07,48
+33,163,Unlit,5,small noctuid,Brown noctuid,9.97,48
+33,163,Unlit,6,small noctuid,Brown noctuid,0.07,48
+33,163,Unlit,13,small noctuid,Brown noctuid,23.77,48
+33,163,Unlit,18,small noctuid,Brown noctuid,10.67,48
+33,163,LED,6,small noctuid,Brown noctuid,93.07,48
+33,163,Unlit,9,small noctuid,Brown noctuid,11.37,48
+33,163,Unlit,12,green noctuid,Green noctuid,34.27,48
+33,163,LED,2,small noctuid,Brown noctuid,135.87,48
+33,163,LED,10,small noctuid,Brown noctuid,13.57,48
+33,163,Unlit,2,small noctuid,Brown noctuid,19.87,48
+33,163,LED,9,small noctuid,Brown noctuid,95.87,48
+33,163,Unlit,3,small noctuid,Brown noctuid,14.37,48
+33,163,Unlit,17,small noctuid,Brown noctuid,108.37,48
+33,163,LED,1,small noctuid,Brown noctuid,29.17,48
+33,163,Unlit,7,small noctuid,Brown noctuid,43.47,48
+33,163,Unlit,8,small noctuid,Brown noctuid,10.17,48
+33,163,Unlit,4,small noctuid,Brown noctuid,6.67,48
+33,163,Unlit,14,small noctuid,Brown noctuid,13.87,48
+34,161b,LPS,5,SSR,Brown noctuid,171.54,48
+34,161b,Unlit,3,SSR,Brown noctuid,126.04,48
+34,161b,Unlit,5,SSR,Brown noctuid,31.04,48
+34,161b,Unlit,6,small noctuid,Brown noctuid,37.84,48
+34,161b,LED,1,small noctuid,Brown noctuid,40.77,48
+34,161b,Unlit,2,small noctuid,Brown noctuid,48.44,48
+34,161b,LPS,4,SSR,Brown noctuid,367.57,48
+34,161b,Unlit,1,SSR,Brown noctuid,58.57,48
+34,161b,LPS,6,SSR,Brown noctuid,175.14,48
+34,161b,LPS,3,small noctuid,Brown noctuid,3.27,48
+34,161b,Unlit,4,small noctuid,Brown noctuid,48.94,48
+34,161b,LPS,2,small noctuid,Brown noctuid,8.97,48
+34,161b,LPS,1,small noctuid,Brown noctuid,19.57,48
+35,16,Unlit,1,SSR,Brown noctuid,392.57,48
+35,16,Unlit,3,small noctuid,Brown noctuid,17.47,48
+35,16,HPS,2,SSR,Brown noctuid,197.44,48
+35,16,Unlit,8,small noctuid,Brown noctuid,3.47,48
+35,16,Unlit,4,small noctuid,Brown noctuid,36.47,48
+35,16,Unlit,2,SSR,Brown noctuid,131.67,48
+35,16,HPS,1,small noctuid,Brown noctuid,61.97,48
+35,16,Unlit,7,small noctuid,Brown noctuid,7.67,48
+35,16,Unlit,6,small noctuid,Brown noctuid,17.07,48
+35,16,HPS,3,SSR,Brown noctuid,349.24,48
+35,16,Unlit,5,small noctuid,Brown noctuid,12.67,48
+36,143,HPS,5,small noctuid,Brown noctuid,48.87,48
+36,143,HPS,2,small noctuid,Brown noctuid,57.37,48
+36,143,Unlit,5,SSR,Brown noctuid,221.04,48
+36,143,Unlit,6,ssR,Brown noctuid,153.04,48
+36,143,Unlit,1,small noctuid,Brown noctuid,27.54,48
+36,143,HPS,4,small noctuid,Brown noctuid,27.77,48
+36,143,Unlit,3,small noctuid,Brown noctuid,82.74,48
+36,143,HPS,7,small noctuid,Brown noctuid,47.57,48
+36,143,Unlit,8,small noctuid,Brown noctuid,106.54,48
+36,143,Unlit,4,SSR,Brown noctuid,177.14,48
+36,143,Unlit,2,SSR,Brown noctuid,77.84,48
+36,143,HPS,1,small noctuid,Brown noctuid,32.47,48
+36,143,Unlit,7,small noctuid,Brown noctuid,73.14,48
+36,143,HPS,6,small noctuid,Brown noctuid,26.97,48
+36,143,HPS,3,small noctuid,Brown noctuid,78.57,48
+37,171,HPS,3,small noctuid,Brown noctuid,102.47,48
+37,171,Unlit,1,small noctuid,Brown noctuid,38.37,48
+37,171,Unlit,3,SSR,Brown noctuid,90.57,48
+37,171,Unlit,2,small noctuid,Brown noctuid,74.07,48
+37,171,HPS,4,small noctuid,Brown noctuid,24.07,48
+37,171,HPS,2,small noctuid,Brown noctuid,34.37,48
+37,171,HPS,5,small noctuid,Brown noctuid,70.07,48
+37,171,HPS,1,small noctuid,Brown noctuid,40.57,48
+38,149,Unlit,8,SSR,Brown noctuid,264.24,48
+38,149,LED,3,small noctuid,Brown noctuid,68.74,48
+38,149,Unlit,6,small noctuid,Brown noctuid,66.94,48
+38,149,Unlit,4,small noctuid,Brown noctuid,122.14,48
+38,149,Unlit,7,small noctuid,Brown noctuid,178.84,48
+38,149,LED,2,small noctuid,Brown noctuid,128.34,48
+38,149,Unlit,2,small noctuid,Brown noctuid,36.74,48
+38,149,LED,1,SSR,Brown noctuid,174.94,48
+38,149,Unlit,9,small noctuid,Brown noctuid,83.54,48
+38,149,Unlit,1,small noctuid,Brown noctuid,40.54,48
+38,149,Unlit,3,small noctuid,Brown noctuid,90.44,48
+38,149,Unlit,5,small noctuid,Brown noctuid,45.34,48
+39,233,Unlit,12,small noctuid,Brown noctuid,105.14,48
+39,233,LED,8,small noctuid,Brown noctuid,43.34,48
+39,233,Unlit,4,small noctuid,Brown noctuid,35.54,48
+39,233,Unlit,14,SSR,Brown noctuid,141.34,48
+39,233,Unlit,11,small noctuid,Brown noctuid,45.34,48
+39,233,Unlit,15,small noctuid,Brown noctuid,73.04,48
+39,233,LED,7,SSR,Brown noctuid,117.04,48
+39,233,Unlit,6,small noctuid,Brown noctuid,45.14,48
+39,233,Unlit,3,small noctuid,Brown noctuid,111.44,48
+39,233,LED,3,small noctuid,Brown noctuid,40.24,48
+39,233,Unlit,8,small noctuid,Brown noctuid,26.74,48
+39,233,Unlit,9,small noctuid,Brown noctuid,51.54,48
+39,233,Unlit,1,small noctuid,Brown noctuid,66.04,48
+39,233,Unlit,10,small noctuid,Brown noctuid,39.04,48
+39,233,Unlit,2,SSR,Brown noctuid,214.64,48
+39,233,Unlit,7,small noctuid,Brown noctuid,35.94,48
+39,233,Unlit,13,small noctuid,Brown noctuid,90.94,48
+39,233,Unlit,5,small noctuid,Brown noctuid,62.54,48
+39,233,LED,6,small noctuid,Brown noctuid,41.74,48
+39,233,LED,5,small noctuid,Brown noctuid,40.14,48
+39,233,LED,1,small noctuid,Brown noctuid,85.14,48
+39,233,LED,4,SSR,Brown noctuid,192.84,48
+39,233,LED,10,small noctuid,Brown noctuid,42.44,48
+39,233,LED,2,small noctuid,Brown noctuid,96.54,48
+39,233,LED,9,small noctuid,Brown noctuid,60.24,48
+39,233,LED,11,small noctuid,Brown noctuid,74.94,48
+40,241,LED,2,SSR,Brown noctuid,118.44,48
+40,241,Unlit,2,small noctuid,Brown noctuid,102.04,48
+40,241,Unlit,9,small noctuid,Brown noctuid,32.54,48
+40,241,LED,4,small noctuid,Brown noctuid,27.14,48
+40,241,Unlit,6,SSR,Brown noctuid,163.84,48
+40,241,Unlit,10,small noctuid,Brown noctuid,60.04,48
+40,241,LED,3,SSR,Brown noctuid,146.64,48
+40,241,Unlit,4,SSR,Brown noctuid,40.24,48
+40,241,Unlit,1,small noctuid,Brown noctuid,40.74,48
+40,241,LED,1,small noctuid,Brown noctuid,59.64,48
+40,241,Unlit,5,SSR,Brown noctuid,191.24,48
+40,241,Unlit,7,SSR,Brown noctuid,260.94,48
+40,241,Unlit,8,small noctuid,Brown noctuid,34.84,48
+40,241,Unlit,3,SSR,Brown noctuid,210.74,48
+42,113,Unlit,3,green noctuid,Green noctuid,50.84,48
+42,113,HPS,2,SSR,Brown noctuid,158.74,48
+42,113,HPS,1,SSR,Brown noctuid,147.84,48
+42,113,HPS,4,green noctuid,Green noctuid,36.94,48
+42,113,Unlit,4,green noctuid,Green noctuid,47.54,48
+42,113,Unlit,5,green noctuid,Green noctuid,59.24,48
+42,113,HPS,3,SSR,Brown noctuid,269.44,48
+43,129,Unlit,1,small noctuid,Brown noctuid,2240.74,48
+42,113,HPS,5,green noctuid,Green noctuid,138.64,48
+42,113,Unlit,2,green noctuid,Green noctuid,55.94,48
+42,113,Unlit,1,green noctuid,Green noctuid,138.84,48
+44,5,Unlit,2,Mesapamea,Mesapamea,69.54,96
+44,5,HPS,3,butterfly,butterfly,15.34,96
+44,5,Unlit,1,SSR,Brown noctuid,436.27,96
+44,5,HPS,2,small noctuid,Brown noctuid,131.34,96
+44,5,Unlit,7,ssr,Brown noctuid,284.94,96
+44,5,Unlit,3,ssr,Brown noctuid,315.67,96
+44,5,Unlit,5,SSR,Brown noctuid,354.37,96
+44,5,HPS,1,mesapamea,Mesapamea,40.34,96
+44,5,Unlit,8,brown geo,Brown geo,61.44,96
+44,5,Unlit,6,mesapamea,Mesapamea,63.44,96
+45,247,Unlit,1,SSR,Brown noctuid,294.27,96
+45,247,Unlit,7,SSR,Brown noctuid,138.24,96
+45,247,Unlit,6,green noctuid,Green noctuid,83.24,96
+45,247,Unlit,2,SSR,Brown noctuid,483.87,96
+45,247,LED,3,SSR,Brown noctuid,249.57,96
+45,247,Unlit,4,small noctuid,Brown noctuid,42.44,96
+45,247,LED,2,SSR,Brown noctuid,408.47,96
+45,247,Unlit,5,green noctuid,Green noctuid,18.84,96
+45,247,LED,1,SSr,Brown noctuid,240.77,96
+47,156,LPS,1,ssr,Brown noctuid,145.37,96
+47,156,LPS,2,SSR,Brown noctuid,402.67,96
+47,156,Unlit,1,butterfly,butterfly,41.14,96
+48,149,LED,1,green noctuid,Green noctuid,241.17,96
+48,149,LED,3,ssR,Brown noctuid,449.37,96
+48,149,LED,2,small noctuid,Brown noctuid,145.47,96
+48,149,Unlit,6,ssR,Brown noctuid,622.17,96
+48,149,Unlit,5,"dark noctuid, pale stripe",Dart noctuid,164.14,96
+48,149,Unlit,2,SSR,Brown noctuid,313.87,96
+48,149,Unlit,7,mesapamea,Mesapamea,108.94,96
+48,149,Unlit,1,ssr,Brown noctuid,493.07,96
+48,149,Unlit,3,ssr,Brown noctuid,428.37,96
+49,171,Unlit,1,SSR,Brown noctuid,464.87,96
+49,171,HPS,1,"dark noctuid, pale stripe",Dart noctuid,136.84,96
+49,171,Unlit,2,straw underwing?,Straw Underwing,209.44,96
+46,241,Unlit,8,SSR,Brown noctuid,459.27,96
+46,241,Unlit,9,ssr,Brown noctuid,411.77,96
+46,241,LED,5,small noctuid,Brown noctuid,63.74,96
+46,241,Unlit,3,SSR,Brown noctuid,217.77,96
+46,241,Unlit,1,SSR,Brown noctuid,264.97,96
+46,241,LED,1,SSR,Brown noctuid,341.37,96
+46,241,Unlit,4,SSR,Brown noctuid,541.66,96
+46,241,Unlit,6,small noctuid,Brown noctuid,33.54,96
+46,241,Unlit,2,small noctuid,Brown noctuid,43.04,96
+46,241,Unlit,11,SSR,Brown noctuid,195.37,96
+46,241,LED,7,SSR,Brown noctuid,343.87,96
+46,241,Unlit,12,SSR,Brown noctuid,192.67,96
+46,241,LED,8,SSR,Brown noctuid,263.64,96
+46,241,Unlit,14,mesapamea,Mesapamea,29.14,96
+46,241,Unlit,10,SSR,Brown noctuid,358.67,96
+46,241,LED,3,small noctuid,Brown noctuid,74.34,96
+46,241,Unlit,13,SSR,Brown noctuid,407.47,96
+46,241,LED,2,SSR,Brown noctuid,317.47,96
+46,241,LED,6,green geo,Green geometrid,97.54,96
+46,241,Unlit,7,mythimina?,Mythimina?,143.34,96
+46,241,LED,4,SSR,Brown noctuid,211.04,96
+66,171,Unlit,1,broad-bordered YU,Broad-bordered Yellow Underwing,1403.57,131
+51,139,Unlit,1,small noctuid,Brown noctuid,167.94,96
+52,134,HPS,2,SSR,Brown noctuid,449.57,96
+52,134,HPS,3,SSR,Brown noctuid,506.77,96
+52,134,Unlit,2,SSR,Brown noctuid,371.07,96
+52,134,HPS,1,SSR,Brown noctuid,194.57,96
+52,134,Unlit,1,small noctuid,Brown noctuid,51.04,96
+53,143,HPS,3,SSR,Brown noctuid,326.47,96
+53,143,HPS,6,SSR,Brown noctuid,369.67,96
+53,143,HPS,4,unknown - tiny,Unknown,10.24,96
+53,143,HPS,2,SSR,Brown noctuid,100.24,96
+53,143,Unlit,1,SSR,Brown noctuid,206.94,96
+53,143,HPS,5,SSR,Brown noctuid,497.97,96
+53,143,Unlit,3,unknown - tiny,Unknown,8.94,96
+53,143,Unlit,4,SSR,Brown noctuid,514.77,96
+53,143,HPS,1,small noctuid,Brown noctuid,165.64,96
+53,143,Unlit,2,SSR,Brown noctuid,219.64,96
+58,107,Unlit,4,small noctuid,Brown noctuid,141.84,125
+58,107,HPS,1,noctuid - long and thin. Like mesapamea but brown,Mesapamea,46.94,125
+58,107,Unlit,3,SSR,Brown noctuid,180.64,125
+58,107,Unlit,1,butterfly,butterfly,178.74,125
+58,107,Unlit,2,butterfly,butterfly,29.34,125
+56,163,Unlit,1,unknown. Light brown,Unknown,20.04,96
+54,16,Unlit,1,ssr,Brown noctuid,492.57,96
+54,16,HPS,2,ssr,Brown noctuid,389.17,96
+54,16,HPS,1,small noctuid,Brown noctuid,34.34,96
+54,16,Unlit,2,ssr,Brown noctuid,365.27,96
+64,161b,Unlit,5,ssr,Brown noctuid,562.07,130
+64,161b,LPS,2,butterfly,butterfly,80.34,130
+64,161b,LPS,3,mesapamea,Mesapamea,122.14,130
+64,161b,Unlit,4,SSR,Brown noctuid,519.77,130
+64,161b,Unlit,2,butterfly,butterfly,24.44,130
+64,161b,Unlit,1,butterfly,butterfly,38.64,130
+64,161b,Unlit,3,mesapamea,Mesapamea,90.14,130
+64,161b,LPS,1,butterfly,butterfly,68.14,130
+60,129,Unlit,2,butterfly,butterfly,112.97,129
+60,129,Unlit,1,large yellow underwoing?,Large Yellow Underwing,1396.07,129
+60,129,Unlit,3,sSR,Brown noctuid,373.24,129
+60,129,LED,1,butterfly,butterfly,164.27,129
+55,161b,Unlit,1,small noctuid,Brown noctuid,109.97,96
+48,149,Unlit,8,butterfly,butterfly,40.84,96
+46,241,Unlit,5,SSR,Brown noctuid,253.77,96
+45,247,Unlit,3,SSR,Brown noctuid,165.17,96
+48,149,LED,4,SSR,Brown noctuid,420.17,96
+48,149,Unlit,4,SSr,Brown noctuid,177.64,96
+4,5,HPS,1,green noctuid,Green noctuid,39.94,10
+4,5,Unlit,3,small noctuid,Brown noctuid,28.84,10
+4,5,Unlit,4,small noctuid,Brown noctuid,33.74,10
+4,5,HPS,7,green noctuid,Green noctuid,230.74,10
+4,5,Unlit,2,small noctuid,Brown noctuid,17.54,10
+4,5,Unlit,1,small noctuid,Brown noctuid,52.24,10
+4,5,Unlit,8,small noctuid,Brown noctuid,8.74,10
+4,5,HPS,10,small noctuid,Brown noctuid,5.54,10
+4,5,Unlit,9,small noctuid,Brown noctuid,6.64,10
+4,5,Unlit,10,green noctuid,Green noctuid,23.84,10
+4,5,HPS,8,"dark noctuid, pale stripe",Dart noctuid,46.34,10
+4,5,HPS,11,small noctuid,Brown noctuid,50.04,10
+4,5,HPS,5,small noctuid,Brown noctuid,9.44,10
+4,5,Unlit,7,small noctuid,Brown noctuid,45.54,10
+4,5,HPS,3,green noctuid,Green noctuid,274.14,10
+4,5,Unlit,5,small noctuid,Brown noctuid,43.94,10
+4,5,HPS,4,small noctuid,Brown noctuid,12.54,10
+4,5,HPS,12,large yellow underwoing?,Large Yellow Underwing,233.425,10
+4,5,HPS,6,green noctuid,Green noctuid,15.94,10
+4,5,Unlit,11,small noctuid,Brown noctuid,53.94,10
+4,5,HPS,9,small noctuid,Brown noctuid,111.44,10
+4,5,Unlit,6,small noctuid,Brown noctuid,42.54,10
+4,5,HPS,2,small noctuid,Brown noctuid,63.74,10
+70,107,Unlit,1,Lesser yellow underwing or similar,Noctua,683.77,132
+69,134,HPS,1,large yellow underwoing?,Large Yellow Underwing,1296.37,131
+69,134,Unlit,1,small noctuid,Brown noctuid,22.74,131
+65,5,HPS,1,noctuid with chevrons at end,Xestia,196.74,130
+65,5,Unlit,1,butterfly,butterfly,82.14,130
+59,107,Unlit,2,green noctuid,Green noctuid,45.84,129
+59,107,Unlit,1,mesapamea,Mesapamea,49.54,129
+59,107,HPS,1,mesapamea,Mesapamea,58.24,129
+59,107,HPS,2,green geo,Green geometrid,113.54,129
+57,113,Unlit,3,butterfly,butterfly,137.64,125
+57,113,HPS,1,butterfly,butterfly,46.84,125
+57,113,Unlit,2,small noctuid,Brown noctuid,69.84,125
+57,113,Unlit,5,small noctuid,Brown noctuid,46.14,125
+57,113,Unlit,1,SSR,Brown noctuid,178.54,125
+57,113,Unlit,4,mesapamea,Mesapamea,76.14,125
+71,129,Unlit,1,Mythimina?,Mythimina?,395.27,132
+71,129,LED,2,butterfly,butterfly,148.07,132
+71,129,LED,1,Mythimina?,Mythimina?,218.47,132
+71,129,Unlit,3,butterfly,butterfly,55.44,132
+71,129,Unlit,2,mesapamea,Mesapamea,48.84,132
+71,129,Unlit,4,butterfly,butterfly,122.84,132
+62,156,LPS,1,butterfly,butterfly,16.04,129
+62,156,Unlit,1,mesapamea,Mesapamea,72.44,129
+63,241,Unlit,3,SSR,Brown noctuid,371.04,129
+63,241,Unlit,1,SSR,Brown noctuid,379.97,129
+63,241,Unlit,4,SSR,Brown noctuid,282.27,129
+63,241,LED,1,small noctuid,Brown noctuid,125.44,129
+63,241,LED,2,SSR,Brown noctuid,382.77,129
+63,241,Unlit,5,small noctuid,Brown noctuid,77.74,129
+63,241,LED,4,butterfly,butterfly,68.54,129
+63,241,Unlit,6,butterfly,butterfly,22.54,129
+63,241,LED,3,butterfly,butterfly,97.84,129
+63,241,Unlit,2,SSR,Brown noctuid,426.07,129
+63,241,LED,5,stripy brown noctuid,Dart noctuid,90.64,129
+61,139,Unlit,5,butterfly,butterfly,113.34,129
+61,139,Unlit,1,burnet,Burnet,124.64,129
+61,139,HPS,1,brown geo,Brown geo,41.94,129
+61,139,Unlit,4,butterfly,butterfly,86.64,129
+61,139,Unlit,2,unknown - tiny,Unknown,9.54,129
+61,139,HPS,3,winter moth,Winter Moth,28.84,129
+61,139,HPS,6,burnet,Burnet,68.64,129
+61,139,Unlit,8,burnet,Burnet,47.94,129
+61,139,Unlit,7,unknown - tiny,Unknown,26.44,129
+61,139,HPS,4,butterfly,butterfly,77.94,129
+61,139,HPS,5,butterfly,butterfly,100.14,129
+61,139,Unlit,6,burnet,Burnet,49.24,129
+61,139,HPS,2,brown noctuid,Dart noctuid,63.74,129
+61,139,Unlit,3,butterfly,butterfly,94.84,129
+68,139,HPS,1,brown geo,Brown geo,37.94,131
+68,139,HPS,5,unknown - tiny,Unknown,21.04,131
+68,139,Unlit,1,butterfly,butterfly,91.04,131
+68,139,HPS,4,brown geo,Brown geo,33.14,131
+68,139,HPS,6,brown geo,Brown geo,21.04,131
+68,139,Unlit,6,green geo,Green geometrid,17.24,131
+68,139,Unlit,2,unknown - tiny,Unknown,13.64,131
+68,139,Unlit,5,butterfly,butterfly,185.04,131
+68,139,Unlit,4,unknown - mush,Unknown,47.44,131
+68,139,Unlit,3,winter moth,Winter Moth,45.74,131
+68,139,HPS,3,winter moth,Winter Moth,13.64,131
+68,139,Unlit,8,butterfly,butterfly,180.94,131
+68,139,HPS,7,unknown - tiny,Unknown,27.94,131
+68,139,Unlit,7,winter moth,Winter Moth,21.94,131

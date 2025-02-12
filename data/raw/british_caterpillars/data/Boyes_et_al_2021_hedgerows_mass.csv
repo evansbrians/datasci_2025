@@ -1,0 +1,996 @@
+Site_ID,Treatment,Sample_number,Provisional_ID,ID2,Caterpillar_mass_mg
+4,Unlit,31,Micro?,Micro,2.55
+4,Unlit,38,Northern Winter,Winter moth sp,41.75
+4,LED,15,Northern Winter,Winter moth sp,29.75
+4,Unlit,40,Winter Moth,Winter moth sp,34.15
+4,LED,18,Winter Moth,Winter moth sp,19.95
+4,LED,5,Northern Winter,Winter moth sp,56.46
+4,LED,10,Winter Moth,Winter moth sp,30.36
+4,Unlit,43,Unknown,Unknown,11.75
+4,Unlit,33,NOrthern Winter,Winter moth sp,21.05
+4,LED,22,Dark geometrid,Brown geo,51.15
+4,LED,21,Northern Winter,Winter moth sp,45.45
+4,Unlit,30,Winter Moth,Winter moth sp,29.85
+4,Unlit,29,Northern Winter,Winter moth sp,22.25
+4,Unlit,30.5,Winter Moth,Winter moth sp,10.35
+4,Unlit,34,Winter Moth,Winter moth sp,7.65
+4,LED,20,Winter Moth,Winter moth sp,41.35
+4,HPS,11,Micro? Hedya?,Micro,34.86
+4,Unlit,39,Winter Moth,Winter moth sp,6.85
+4,LED,28,Northern Winter,Winter moth sp,0.65
+4,LED,26,Winter Moth,Winter moth sp,57.55
+4,LED,2,Winter Moth,Winter moth sp,49.06
+4,Unlit,44,Winter Moth,Winter moth sp,52.75
+4,LED,1,Winter Moth,Winter moth sp,66.66
+4,LED,17,Winter Moth,Winter moth sp,28.25
+4,LED,3,Winter Moth,Winter moth sp,69.56
+4,Unlit,37,Winter Moth,Winter moth sp,48.45
+4,LED,8,Northern Winter,Winter moth sp,21.16
+4,Unlit,36,Winter Moth,Winter moth sp,60.95
+4,LED,7,Winter Moth,Winter moth sp,44.36
+4,Unlit,35,Northern Winter,Winter moth sp,4.85
+4,Unlit,17.5,Winter Moth,Winter moth sp,26.95
+4,LED,25,Winter Moth,Winter moth sp,33.55
+4,Unlit,20.5,Micro? Hedya?,Micro,42.25
+4,Unlit,14.5,Winter Moth,Winter moth sp,49.46
+4,Unlit,17.8,Winter Moth,Winter moth sp,57.45
+4,LED,9,Winter Moth,Winter moth sp,29.66
+4,LED,6,Winter Moth,Winter moth sp,26.96
+4,LED,19,Winter Moth,Winter moth sp,44.55
+4,LED,12,Fat micro. Green. Dark dorsal lines,Acrobasis,53.26
+4,Unlit,17.2,Northern Winter,Winter moth sp,44.25
+4,LED,24,Winter Moth,Winter moth sp,50.55
+4,Unlit,32,Northern Winter,Winter moth sp,47.05
+4,Unlit,42,Winter Moth,Winter moth sp,29.35
+4,Unlit,41,Winter Moth,Winter moth sp,21.85
+4,LED,27,Northern Winter,Winter moth sp,29.05
+4,LED,14,Winter moth,Winter moth sp,23.86
+4,LED,23,Winter Moth,Winter moth sp,55.85
+4,LED,4,Winter Moth,Winter moth sp,66.66
+4,LED,19,Winter Moth,Winter moth sp,43.15
+4,LED,8,Winter Moth,Winter moth sp,48.25
+4,LED,10,Micro? Hedya?,Micro,58.35
+4,LED,15,Winter Moth,Winter moth sp,45.95
+4,LED,21,Winter Moth,Winter moth sp,98.35
+4,LED,23,Micro? Hedya?,Micro,55.85
+4,LED,18,Winter Moth,Winter moth sp,64.55
+4,LED,12,Micro? Hedya?,Micro,50.45
+4,LED,25,Black micro,Tortrix,28.75
+4,LED,20,Winter Moth,Winter moth sp,22.75
+4,LED,20,Winter Moth,Winter moth sp,59.55
+4,LED,16,Micro? Hedya?,Micro,64.35
+4,LED,4,Winter Moth,Winter moth sp,67.85
+4,LED,10,Unknown. Fat micro,Unknown,85.05
+4,LED,16,Winter Moth,Winter moth sp,60.65
+4,LED,3,Winter Moth,Winter moth sp,78.15
+4,LED,14,Winter Moth,Winter moth sp,56.55
+4,HPS,11,Winter Moth,Winter moth sp,34.05
+4,LED,5,Winter Moth,Winter moth sp,59.85
+4,LED,19,Winter Moth,Winter moth sp,69.45
+4,HPS,11,Tiny. Winter?,Unknown,11.65
+4,LED,19,Mottled Umber,Mottled Umber,10.85
+4,LED,26,Winter Moth,Winter moth sp,75.05
+4,LED,22,Winter Moth,Winter moth sp,19.65
+4,LED,15,Micro? Hedya?,Micro,18.85
+4,LED,24,Winter Moth,Winter moth sp,47.85
+4,LED,2,Unknown. Fat micro,Unknown,31.65
+4,LED,14,Unknown. Fat micro,Unknown,68.25
+4,LED,3,Winter Moth,Winter moth sp,48.55
+4,LED,9,Unknown. Micro?,Unknown,24.55
+4,LED,12,Winter Moth,Winter moth sp,55.35
+4,LED,18,Winter Moth,Winter moth sp,34.55
+4,LED,22,Micro? Hedya?,Micro,22.75
+4,LED,21,Winter Moth,Winter moth sp,50.75
+4,LED,6,Winter Moth,Winter moth sp,77.65
+4,LED,4,Winter Moth,Winter moth sp,79.25
+4,LED,3,Winter Moth,Winter moth sp,26.35
+4,LED,6,Micro? Hedya?,Micro,40.75
+4,LED,26,Micro? Hedya?,Micro,19.75
+4,LED,9,Winter Moth,Winter moth sp,53.85
+4,LED,25,Winter Moth,Winter moth sp,44.65
+4,LED,14,Winter?,Winter moth sp,29.05
+4,HPS,11,Winter Moth,Winter moth sp,31.55
+4,LED,17,Winter Moth,Winter moth sp,74.55
+4,LED,26,Micro? Hedya?,Micro,11.15
+4,Unlit,37,Tiny. Micro?,Unknown,4.55
+4,LED,28,Tiny. Winter?,Unknown,8.45
+4,Unlit,26.5,Coleophora,Coleophora,4.85
+4,Unlit,34,Winter Moth,Winter moth sp,5.65
+4,Unlit,49,Green. Two dark stripes. Acrobasis?,Acrobasis,14.75
+4,LED,2,Winter Moth,Winter moth sp,13.35
+4,Unlit,35,Tiny. Brown,Unknown,8.55
+4,LED,9,Brown geo,Brown geo,10.95
+4,Unlit,30,Winter Moth,Winter moth sp,19.05
+4,LED,1,Winter?,Winter moth sp,16.95
+4,LED,27,Winter?,Winter moth sp,8.05
+4,Unlit,71,Winter Moth,Winter moth sp,14.75
+4,LED,18,Unknown Tiny,Unknown,7.25
+4,Unlit,30,Winter Moth,Winter moth sp,18.45
+4,Unlit,43,Winter Moth,Winter moth sp,4.85
+4,LED,12,Micro? Hedya?,Micro,16.65
+4,LED,5,Big geo with horns at end. Pale Brindled Beauty?,Other geo,193.75
+4,LED,8,Big geo with horns at end. Pale Brindled Beauty?,Other geo,118.55
+4,LED,6,Big geo with horns at end. Pale Brindled Beauty?,Other geo,122.05
+4,Unlit,62,Mottled Umber,Mottled Umber,169.35
+4,LED,14,Winter Moth,Winter moth sp,32.25
+4,LED,48,Sawfly?,Unknown,23.15
+4,Unlit,39,Winter Moth,Winter moth sp,26.15
+4,Unlit,36,Green. Two dark stripes. Acrobasis?,Acrobasis,24.15
+4,Unlit,41,Winter Moth,Winter moth sp,23.15
+4,LED,1,winter Moth,Winter moth sp,29.15
+4,LED,10,Tiny. Winter?,Unknown,22.55
+4,HPS,11,Green. Two dark stripes. Acrobasis?,Acrobasis,39.25
+4,LED,7,Sawfly?,Unknown,21.15
+4,Unlit,32,Winter Moth,Winter moth sp,38.55
+4,LED,23,Winter Moth,Winter moth sp,35.45
+4,LED,10,Winter Moth,Winter moth sp,24.65
+4,LED,16,Micro? Hedya?,Micro,39.65
+4,LED,8,Micro? Hedya?,Micro,35.35
+4,LED,13,Micro? Hedya?,Micro,35.85
+4,LED,10,Winter Moth,Winter moth sp,37.55
+4,Unlit,69,Winter Moth,Winter moth sp,38.75
+4,Unlit,63,Winter Moth,Winter moth sp,21.75
+4,Unlit,35,Winter Moth,Winter moth sp,32.95
+4,Unlit,31,Winter Moth,Winter moth sp,26.45
+4,Unlit,68,Northern Winter,Winter moth sp,31.35
+4,Unlit,47,winter Moth,Winter moth sp,31.65
+4,LED,2,Winter Moth,Winter moth sp,26.75
+4,LED,23,Micro? Hedya?,Micro,52.55
+4,Unlit,42,Winter Moth,Winter moth sp,42.75
+4,LED,4,Winter Moth,Winter moth sp,46.85
+4,Unlit,40,Winter Moth,Winter moth sp,61.35
+4,LED,17,Winter Moth,Winter moth sp,54.05
+4,Unlit,43,Winter Moth,Winter moth sp,74.65
+4,LED,46,Winter Moth,Winter moth sp,90.85
+4,Unlit,50,Dark. Pale Underside,Dark noctuid,43.95
+4,Unlit,29,Winter Moth,Winter moth sp,52.15
+4,LED,18,Winter Moth,Winter moth sp,56.15
+4,LED,27,Micro? Hedya?,Micro,40.15
+4,Unlit,47,Winter Moth,Winter moth sp,76.55
+4,Unlit,33,Winter Moth,Winter moth sp,60.55
+4,Unlit,45,Winter Moth,Winter moth sp,46.95
+4,Unlit,38,Brown geo,Brown geo,73.05
+4,LED,24,Dark noctuid. Pale stripe,Dark noctuid,66.55
+4,LED,12,Winter Moth,Winter moth sp,72.85
+4,Unlit,51,Winter Moth,Winter moth sp,44.15
+4,Unlit,44,Winter Moth,Winter moth sp,63.15
+4,LED,16,Winter Moth,Winter moth sp,59.95
+4,LED,15,Winter Moth,Winter moth sp,59.95
+4,LED,20,Winter Moth,Winter moth sp,50.05
+4,LED,21,Winter Moth,Winter moth sp,48.95
+4,LED,3,Winter Moth,Winter moth sp,65.75
+4,LED,19,Winter Moth,Winter moth sp,51.35
+4,LED,22,Winter Moth,Winter moth sp,72.95
+4,LED,13,Northern Winter,Winter moth sp,49.95
+4,Unlit,31,Northern Winter,Winter moth sp,58.85
+4,LED,8,Northern Winter,Winter moth sp,45.35
+4,LED,7,Micro? Hedya?,Micro,41.25
+4,LED,28,Micro? Hedya?,Micro,41.75
+4,LED,1,Micro? Hedya?,Micro,40.85
+4,LED,13,big geo with horns at end. Pale Brindled Beauty?,Other geo,79.25
+4,LED,2,Micro? Hedya?,Micro,56.45
+4,LED,4,Winter Moth,Winter moth sp,64.95
+4,LED,9,Winter Moth,Winter moth sp,46.55
+4,Unlit,49,Winter Moth,Winter moth sp,62.15
+4,LED,3,Winter Moth,Winter moth sp,48.05
+4,Unlit,36,Winter Moth,Winter moth sp,47.15
+4,Unlit,40,Winter Moth,Winter moth sp,57.05
+4,Unlit,64,winter Moth,Winter moth sp,54.85
+4,LED,46,Winter Moth,Winter moth sp,59.55
+4,Unlit,58,Winter Moth,Winter moth sp,42.55
+4,Unlit,38,Micro? Hedya?,Micro,60.35
+4,LED,5,Winter Moth,Winter moth sp,45.75
+4,Unlit,29,Winter Moth,Winter moth sp,45.45
+4,Unlit,42,Winter Moth,Winter moth sp,47.05
+4,LED,4,Winter Moth,Winter moth sp,45.05
+15,HPS,5,Tiny. Black. Micro. White markings near head,Unknown,0.8
+15,HPS,1,Common Footman,Common Footman,1.9
+15,HPS,5,Tiny. Green noctuid pale stripe?,Unknown,2.7
+4,LED,21,Coleophora,Coleophora,2.8
+15,HPS,3,Coleophora,Coleophora,3
+15,HPS,5,Unknown. Tiny,Unknown,3.6
+4,Unlit,56,Tiny. Winter?,Unknown,3.9
+15,HPS,6,Winter Moth,Winter moth sp,4.6
+4,LED,1,Tiny. Micro?,Unknown,5.1
+15,HPS,6,Unknown. Tiny,Unknown,5.1
+15,HPS,3,Winter Moth,Winter moth sp,5.9
+15,HPS,4,Yellow-tail,Yellow-tail,6
+11,Unlit,8,Dark geo,Brown geo,6.2
+15,HPS,2,Ypsolopha?,Ypsolopha,7.4
+15,HPS,6,Green/dark noctuid. Pale stripe,Dark noctuid,9.6
+15,HPS,4,Winter Moth,Winter moth sp,9.9
+15,HPS,1,Common Footman,Common Footman,10.1
+15,HPS,1,Ypsolopha?,Ypsolopha,10.1
+4,Unlit,33,Tiny. Winter?,Unknown,10.6
+4,Unlit,41,Winter Moth,Winter moth sp,11.8
+4,LED,7,Tiny. Micro?,Unknown,12.1
+4,Unlit,37,Unknown. Micro?,Unknown,13.4
+15,HPS,4,Winter Moth,Winter moth sp,14.1
+4,HPS,11,Unknown. Micro/sawfly?,Unknown,14.9
+4,LED,5,Northern Winter,Winter moth sp,18.6
+11,Unlit,5,Ypsolopha?,Ypsolopha,19.9
+4,LED,12,Pale underside one,Dark noctuid,139.47
+15,HPS,2,Dark noctuid. Pale stripe. Red head,Dark noctuid,22.4
+4,LED,13,Winter Moth,Winter moth sp,24
+4,LED,13,Micro? Hedya?,Micro,24.6
+15,HPS,1,Magpie,Magpie,25
+4,LED,23,Winter Moth,Winter moth sp,25.5
+4,LED,24,Winter Moth,Winter moth sp,26
+15,Unlit,7,Yellow-tail,Yellow-tail,26.47
+4,LED,24,Micro? Hedya?,Micro,28.1
+4,Unlit,59,Micro? Hedya?,Micro,28.5
+4,Unlit,39,Northern Winter,Winter moth sp,28.6
+15,HPS,3,Green noctuid. Pale stripe,Green noctuid,29.7
+4,Unlit,44,Winter Moth,Winter moth sp,32.1
+4,LED,17,Brown geo,Brown geo,32.2
+4,Unlit,34,Winter Moth,Winter moth sp,34.1
+4,Unlit,54,Winter Moth,Winter moth sp,34.7
+4,LED,20,Winter?,Winter moth sp,35.5
+4,LED,19,Northern Winter,Winter moth sp,36.6
+4,LED,22,Northern Winter,Winter moth sp,37.1
+4,LED,14,Winter Moth,Winter moth sp,37.9
+4,LED,14,Winter Moth,Winter moth sp,38.2
+4,Unlit,57,Winter Moth,Winter moth sp,38.5
+4,Unlit,52,Winter Moth,Winter moth sp,38.8
+4,LED,6,Winter Moth,Winter moth sp,39.7
+4,LED,26,Winter Moth,Winter moth sp,40
+4,Unlit,50,Winter Moth,Winter moth sp,40.9
+4,LED,5,Winter Moth,Winter moth sp,43.4
+15,HPS,1,Micro? Green,Micro,43.5
+4,LED,28,Winter Moth,Winter moth sp,44
+4,LED,6,Winter Moth,Winter moth sp,44.6
+4,LED,27,winter Moth,Winter moth sp,46.4
+4,Unlit,67,Winter Moth,Winter moth sp,46.7
+4,Unlit,55,Winter Moth,Winter moth sp,47.6
+4,LED,7,Winter Moth,Winter moth sp,47.6
+11,HPS,4,Winter Moth,Winter moth sp,48.6
+4,Unlit,65,Winter Moth,Winter moth sp,49.3
+4,LED,9,Northern Winter,Winter moth sp,49.4
+15,HPS,2,Winter Moth,Winter moth sp,49.9
+4,Unlit,51,Micro? Hedya?,Micro,50.3
+4,LED,16,Winter Moth,Winter moth sp,51.9
+4,Unlit,66,winter Moth,Winter moth sp,53.1
+4,Unlit,40,winter Moth,Winter moth sp,53.8
+15,Unlit,7,Winter Moth,Winter moth sp,54.17
+15,HPS,3,Winter Moth,Winter moth sp,55.87
+4,LED,8,Winter Moth,Winter moth sp,56.3
+11,Unlit,9,Winter Moth,Winter moth sp,57.7
+4,Unlit,60,Winter Moth,Winter moth sp,58
+15,HPS,3,Winter Moth,Winter moth sp,58.4
+4,LED,17,Northern Winter,Winter moth sp,59.1
+4,LED,17,Winter Moth,Winter moth sp,59.2
+4,LED,20,Winter Moth,Winter moth sp,59.5
+4,Unlit,53,winter Moth,Winter moth sp,60.1
+4,LED,2,Winter Moth,Winter moth sp,61
+4,Unlit,45,winter Moth,Winter moth sp,61.2
+4,Unlit,70,Winter Moth,Winter moth sp,61.3
+4,LED,21,Winter Moth,Winter moth sp,65.4
+15,HPS,2,Common Footman,Common Footman,66.3
+4,Unlit,61,Geo. Dark mottled umber maybe,Mottled Umber,66.7
+4,Unlit,32,Northern Winter,Winter moth sp,67.7
+4,LED,7,Winter Moth,Winter moth sp,69.9
+4,LED,15,Winter Moth,Winter moth sp,71.3
+4,LED,25,winter Moth,Winter moth sp,72.9
+4,Unlit,37.5,Big geo.,Other geo,78.5
+15,HPS,4,Yellow-tail,Yellow-tail,86.37
+15,HPS,2,Green noctuid. Orthosia?,Green noctuid,86.67
+4,LED,1,Micro? Hedya?,Micro,92.8
+11,HPS,3,Unknown. Micro?,Unknown,13.6
+116,HPS,6,Micro? Hedya?,Micro,2.4
+11,HPS,2,Winter Moth,Winter moth sp,17.7
+11,HPS,1,Brown geo,Brown geo,18.6
+11,HPS,2,Winter Moth,Winter moth sp,9.6
+11,HPS,3,Unknown. Green,Unknown,7.47
+11,HPS,4,Brown geo,Brown geo,17.17
+11,HPS,1,Brown geo,Brown geo,29.1
+11,Unlit,7,winter Moth,Winter moth sp,38.3
+11,Unlit,10,Winter Moth,Winter moth sp,38.07
+11,Unlit,7,Brown noctuid wiith pale stripe,Dark noctuid,56.17
+11,HPS,4,Brown geo,Brown geo,31.97
+11,HPS,3,Winter Moth,Winter moth sp,29.97
+11,Unlit,5,Brown geo,Brown geo,83.07
+11,Unlit,6,Winter moth,Winter moth sp,26.97
+11,HPS,2,Winter moth,Winter moth sp,34.87
+11,Unlit,6,Unknown. Green. Micro?,Unknown,9.2
+11,Unlit,8,Brown geo,Brown geo,39.4
+11,HPS,1,Ypsolopha?,Ypsolopha,19.9
+11,HPS,2,Brown geo,Brown geo,18.1
+11,HPS,3,Winter Moth,Winter moth sp,33.2
+11,Unlit,6,Winter Moth,Winter moth sp,25.4
+11,Unlit,9,Brown geo,Brown geo,12.4
+11,Unlit,9,Brown geo,Brown geo,26.3
+11,Unlit,8,Brown geo,Brown geo,11.6
+11,Unlit,10,Unknown. Tiny,Unknown,4.3
+11,Unlit,5,Winter Moth,Winter moth sp,39.3
+11,HPS,3,Brown noctuid wiith pale stripe,Dark noctuid,17.4
+11,HPS,1,Acrobasis,Acrobasis,13.1
+11,HPS,4,Brown geo,Brown geo,14.8
+11,Unlit,7,Tiny. Micro?,Unknown,10.9
+11,HPS,2,Brown noctuid wiith pale stripe,Dark noctuid,55.6
+116,HPS,1,"Very large brown geo (not one of Agripois, etc(",Other geo,605.77
+116,HPS,4,Winter Moth,Winter moth sp,49.9
+116,HPS,5,Tiny green.,Unknown,9.1
+116,Unlit,11,Micro? Hedya?,Micro,11.3
+116,HPS,2,Micro? Hedya?,Micro,19.7
+116,HPS,3,Brown geo,Brown geo,25.8
+116,HPS,10,Ypsolopha?,Ypsolopha,7.9
+116,HPS,1,Winter Moth,Winter moth sp,49
+116,Unlit,23,Unknown. Tiny,Unknown,5.7
+116,HPS,6,Micro? Hedya?,Micro,70.8
+116,HPS,8,Unknown. Tiny,Unknown,6.6
+116,Unlit,28,micro? Hedya?,Micro,39.7
+116,Unlit,12,micro? Hedya?,Micro,28.9
+116,Unlit,25,winter Moth,Winter moth sp,21.5
+116,Unlit,24,Unknown. Tiny,Unknown,6.1
+116,HPS,1,Unknown. Tiny,Unknown,13.2
+116,HPS,7,Green noctuid. Pale stripe,Green noctuid,77.2
+116,HPS,2,Dark noctuid. Pale stripe. Red head,Dark noctuid,85
+116,HPS,10,Ypsolopha?,Ypsolopha,8.3
+116,HPS,2,Ypsolopha?,Ypsolopha,10.8
+116,HPS,2,Unknown. Tiny,Unknown,7.2
+116,HPS,3,Unknown. Micro/sawfly?,Unknown,43.4
+116,HPS,1,Unknown. Green,Unknown,22.2
+116,HPS,4,winter Moth,Winter moth sp,22.3
+116,Unlit,13,Unknown,Unknown,12.3
+116,HPS,9,Tiny. Micro?,Unknown,9.6
+116,Unlit,18,Micro? Hedya?,Micro,64.5
+116,Unlit,11,Unknown. Micro?,Unknown,49.9
+116,HPS,9,Tiny. Green,Unknown,2.8
+116,HPS,3,Ypsolopha?,Ypsolopha,9.2
+116,Unlit,17,Micro? Hedya?,Micro,56.4
+116,Unlit,21,Ypsolopha?,Ypsolopha,9.8
+116,Unlit,26,Tiny. Micro?,Unknown,12.8
+116,HPS,9,Unknown. Dark,Unknown,57.7
+116,Unlit,27,Ypsolopha,Ypsolopha,18
+116,Unlit,23,Ypsolopha,Ypsolopha,3.2
+116,HPS,9,Unknown,Unknown,11.8
+116,HPS,6,Micro? Hedya?,Micro,25
+116,HPS,8,Tiny. Micro?,Unknown,14.9
+116,HPS,3,Tiny. Green,Unknown,14.4
+116,Unlit,19,Ypsolopha?,Ypsolopha,11.3
+116,HPS,1,Tiny. Micro?,Unknown,5.4
+116,Unlit,22,Ypsolopha,Ypsolopha,13.2
+116,HPS,2,Unknown Tiny,Unknown,7.1
+116,Unlit,30,Ypsolopha,Ypsolopha,9
+116,HPS,5,Unknown. Dark,Unknown,18.2
+116,Unlit,14,Tiny. Micro?,Unknown,10.6
+116,HPS,5,Micro? Hedya?,Micro,65.1
+116,Unlit,29,Unknown,Unknown,19.9
+116,Unlit,31,Ypsolopha,Ypsolopha,26.5
+116,HPS,5,Tiny. Micro?,Unknown,6.5
+116,HPS,2,Micro? Hedya?,Micro,19.3
+116,Unlit,15,Unknown Tiny,Unknown,7.5
+116,HPS,4,Ypsolopha,Ypsolopha,19
+116,HPS,8,Unknown. Micro?,Unknown,18.94
+116,HPS,1,Unknown. Micro?,Unknown,24.7
+116,Unlit,70?,Ypsolopha,Ypsolopha,4.3
+116,HPS,10,Micro? Hedya?,Micro,35.8
+116,HPS,6,Micro? Hedya?,Micro,61.8
+116,HPS,7,Coleophora,Coleophora,11.3
+244,LED,1,Large green noctuid. Orthosia?,Green noctuid,823.6
+244,LED,10,Winter Moth,Winter moth sp,53.6
+244,LED,1,Unknown. Large black. Tortrix?,Unknown,190.8
+244,LED,9,Winter Moth,Winter moth sp,31.4
+244,LED,7,Winter Moth,Winter moth sp,24.5
+244,LED,4,Brown geo. Agriopis,Brown geo,122.1
+244,LED,8,Winter moth,Winter moth sp,44.5
+244,LED,3,Noctuid with pale stripe,Dark noctuid,198.8
+244,LED,1,Noctuid with pale stripe,Dark noctuid,81.5
+244,LED,12,Winter Moth,Winter moth sp,74.5
+244,LED,6,Winter Moth,Winter moth sp,52.5
+244,LED,13,Winter Moth,Winter moth sp,60.5
+244,LED,2,Unknown - mush,Unknown,189.6
+244,LED,2,Dark noctuid,Dark noctuid,187
+244,LED,16,Unknown - mush,Unknown,28.9
+244,LED,7,Winter Moth,Winter moth sp,53.5
+244,LED,10,Winter moth,Winter moth sp,74
+244,LED,3,Noctuid with pale stripe,Dark noctuid,188.7
+244,LED,12,winter Moth,Winter moth sp,27.2
+244,LED,13,winter Moth,Winter moth sp,56.3
+244,LED,2,noctuid with pale stripe,Dark noctuid,199.4
+244,LED,8,winter Moth,Winter moth sp,37.8
+244,LED,11,winter Moth,Winter moth sp,39.9
+244,LED,5,winter Moth,Winter moth sp,29.6
+244,LED,1,Dark noctuid,Dark noctuid,176.6
+244,LED,6,Green noctuid. Pale stripe,Green noctuid,198.5
+244,LED,14,winter Moth,Winter moth sp,60.1
+244,LED,5,Brown geo,Brown geo,101.2
+244,LED,9,winter Moth,Winter moth sp,25.8
+244,LED,3,Umber,Brown geo,157.3
+244,LED,14,Brown geo,Brown geo,34.7
+244,LED,11,Winter Moth,Winter moth sp,37.4
+244,LED,4,Umber,Brown geo,175.4
+244,LED,10,winter moth,Winter moth sp,71.1
+244,LED,15,winter moth,Winter moth sp,51.8
+244,LED,11,winter moth,Winter moth sp,58.3
+244,LED,6,winter moth,Winter moth sp,39.5
+244,LED,8,winter moth,Winter moth sp,35.5
+244,LED,7,winter Moth,Winter moth sp,37.4
+244,LED,5,green noctuid. Pale stripe,Green noctuid,95.2
+244,LED,9,winter Moth,Winter moth sp,41.7
+244,Unlit,24,Winter Moth,Winter moth sp,33.1
+244,LED,6,Unknown - mush,Unknown,16.5
+244,Unlit,18,Brown geo,Brown geo,27.9
+244,LED,4,winter Moth,Winter moth sp,14.1
+244,LED,11,Green noctuid. Pale stripe,Green noctuid,198.6
+244,Unlit,21,Brown geo,Brown geo,38.2
+244,LED,3,Northern Winter,Winter moth sp,18.5
+244,LED,6,Brown geo. Agriopis,Brown geo,72.5
+244,LED,15,winter Moth,Winter moth sp,32.4
+244,Unlit,17,winter Moth,Winter moth sp,33.6
+244,LED,11,winter Moth,Winter moth sp,29.9
+244,Unlit,25,winter Moth,Winter moth sp,39.9
+244,Unlit,24,winter Moth,Winter moth sp,65.5
+244,LED,2,winter Moth,Winter moth sp,57.7
+244,LED,13,winter Moth,Winter moth sp,75.5
+244,Unlit,19,Brown geo,Brown geo,35.9
+244,Unlit,20,winter Moth,Winter moth sp,18.1
+244,Unlit,32,winter Moth,Winter moth sp,46.1
+244,Unlit,29,winter Moth,Winter moth sp,64.7
+244,LED,7,Green noctuid. Pale stripe,Green noctuid,187.4
+244,Unlit,26,winter Moth,Winter moth sp,39.9
+244,Unlit,17,Brown geo,Brown geo,25
+244,Unlit,36,winter Moth,Winter moth sp,37
+244,Unlit,22,Green noctuid. Pale stripe,Green noctuid,197.6
+244,LED,9,winter Moth,Winter moth sp,31.1
+244,Unlit,20,green noctuid. Pale stripe,Green noctuid,146.9
+244,LED,16,winter Moth,Winter moth sp,83.2
+244,LED,8,green noctuid. Pale stripe,Green noctuid,58.3
+244,Unlit,17,Winter Moth,Winter moth sp,39.9
+244,Unlit,27,winter Moth,Winter moth sp,81.1
+244,Unlit,27,winter Moth,Winter moth sp,49.5
+244,LED,12,unknown - mush,Unknown,25.6
+244,LED,12,winter Moth,Winter moth sp,69.8
+244,Unlit,21,winter Moth,Winter moth sp,12.9
+244,Unlit,18,winter Moth,Winter moth sp,56.8
+244,LED,7,winter Moth,Winter moth sp,96.9
+244,LED,11,Northern Winter,Winter moth sp,33
+244,LED,1,UNknown - mush,Unknown,11.5
+244,LED,6,winter Moth,Winter moth sp,40.1
+244,Unlit,20,Brown geo,Brown geo,91.75
+244,LED,16,Tiny. Green,Unknown,10.6
+244,LED,14,winter moth,Winter moth sp,77.7
+244,Unlit,19,winter moth,Winter moth sp,50.6
+244,LED,15,winter moth,Winter moth sp,66.1
+244,LED,14,winter moth,Winter moth sp,58
+244,LED,2,Green noctuid. Pale stripe. Small Q?,Green noctuid,230.3
+244,LED,14,Unknown - mush,Unknown,55.6
+244,LED,8,Winter Moth,Winter moth sp,50.5
+244,LED,1,Unknown- not a moth?,Unknown,89.5
+244,LED,10,winter Moth,Winter moth sp,58.3
+244,LED,6,winter Moth,Winter moth sp,39.5
+116,HPS,7,Tiny. Micro?,Unknown,3
+116,HPS,4,Micro? Hedya?,Micro,39
+116,Unlit,27,Unknown Tiny,Unknown,2.1
+244,Unlit,28,Winter Moth,Winter moth sp,39.1
+244,Unlit,23,green noctuid. Pale stripe. Small Q?,Green noctuid,68.6
+244,Unlit,21,green noctuid. Pale stripe,Green noctuid,194.1
+244,Unlit,18,winter Moth,Winter moth sp,36.6
+244,Unlit,35,winter Moth,Winter moth sp,44.3
+244,LED,5,Brown geo,Brown geo,124.1
+244,Unlit,33,winter Moth,Winter moth sp,53.5
+244,LED,7,winter Moth,Winter moth sp,3.4
+244,Unlit,30,winter Moth,Winter moth sp,25
+244,Unlit,26,Tiny. Micro?,Unknown,5.1
+244,Unlit,22,Winter Moth,Winter moth sp,45.9
+244,LED,10,winter Moth,Winter moth sp,27.3
+244,LED,2,Mottled Umber,Mottled Umber,100.88
+244,LED,5,Brown geo,Brown geo,7.5
+244,Unlit,19,winter Moth,Winter moth sp,64.8
+244,LED,16,winter moth,Winter moth sp,26.5
+244,Unlit,25,Brown geo,Brown geo,73.8
+244,LED,10,winter Moth,Winter moth sp,38.4
+244,Unlit,31,winter moth,Winter moth sp,51.4
+244,LED,8,green noctuid. Pale stripe,Green noctuid,261
+244,Unlit,23,winter moth,Winter moth sp,50.3
+244,LED,1,Dark noctuid. Pale stripe. ,Dark noctuid,274.9
+244,Unlit,34,Unknown - mush,Unknown,12.4
+244,LED,13,winter Moth,Winter moth sp,28.8
+244,LED,15,winter Moth,Winter moth sp,62.9
+244,LED,12,Unknown Tiny,Unknown,10.1
+244,LED,3,winter Moth,Winter moth sp,63.4
+244,Unlit,30,winter Moth,Winter moth sp,101.7
+244,LED,3,brown geo,Brown geo,32
+244,Unlit,29,winter Moth,Winter moth sp,28.1
+244,Unlit,28,winter Moth,Winter moth sp,52.4
+244,LED,4,Unknown - mush,Unknown,21.4
+244,Unlit,22,brown geo,Brown geo,29.8
+244,LED,9,winter Moth,Winter moth sp,62.1
+244,Unlit,31,winter Moth,Winter moth sp,39.2
+244,LED,5,brown geo,Brown geo,86.3
+244,LED,7,winter Moth,Winter moth sp,35.2
+244,LED,9,winter moth,Winter moth sp,71.2
+121,HPS,3,winter moth,Winter moth sp,54.1
+121,HPS,2,Micro? Hedya?,Micro,61.2
+121,HPS,3,Micro? Hedya?,Micro,23.8
+121,HPS,4,Micro? Hedya?,Micro,20.2
+121,HPS,4,micro? Hedya?,Micro,21.4
+121,Unlit,8,Unknown Tiny,Unknown,1.7
+121,Unlit,7,Tiny. Black hairy,Unknown,3.9
+121,HPS,2,Noctuid?,Dark noctuid,48.7
+121,HPS,5,Tiny. Black hairy,Unknown,4.2
+121,HPS,1,Winter Moth,Winter moth sp,14
+121,HPS,2,winter Moth,Winter moth sp,24.1
+121,HPS,6,Coleophora,Coleophora,10.2
+121,HPS,1,winter Moth,Winter moth sp,68.4
+121,HPS,4,Micro?,Micro,37.1
+121,HPS,1,Tiny. Black hairy,Unknown,1.9
+121,HPS,5,Small brown noctuid or micro,Unknown,20.1
+121,HPS,1,Unknown Tiny,Unknown,10.5
+121,HPS,2,Unknown Tiny,Unknown,1.5
+121,HPS,1,Unknown Tiny,Unknown,16
+121,HPS,2,Winter Moth,Winter moth sp,51.7
+121,HPS,5,Micro?,Micro,6.3
+121,HPS,2,Small geo,Brown geo,11
+121,HPS,1,Micro? Hedya?,Micro,37.7
+121,HPS,6,Micro?,Micro,15.7
+121,HPS,3,Micro?,Micro,28.5
+21,Unlit,36,"Small light brown noctuid, with pale stripe. Or micro??",Dark noctuid,8.2
+21,HPS,1,winter Moth,Winter moth sp,28.9
+21,HPS,11,Micro? Hedya?,Micro,22.2
+21,HPS,17,winter Moth,Winter moth sp,47.5
+21,Unlit,40,winter Moth,Winter moth sp,41.9
+21,Unlit,33,Unknown - mush,Unknown,14.8
+21,HPS,9,Small geo,Brown geo,7.5
+21,HPS,4,winter moth,Winter moth sp,27.9
+21,Unlit,38,winter Moth,Winter moth sp,68.1
+21,HPS,18,winter Moth,Winter moth sp,36.4
+21,Unlit,29,Micro?,Micro,15.7
+21,HPS,12,brown geo,Brown geo,46.3
+21,HPS,16,winter Moth,Winter moth sp,36
+21,Unlit,48,brown geo,Brown geo,135.5
+21,HPS,7,winter Moth,Winter moth sp,54.6
+21,HPS,1,northern Winter,Winter moth sp,54.1
+21,HPS,2,winter Moth,Winter moth sp,8.1
+21,Unlit,26,winter Moth,Winter moth sp,18.4
+21,Unlit,21,winter Moth,Winter moth sp,45.9
+21,Unlit,27,winter Moth,Winter moth sp,26.9
+21,Unlit,33,winter Moth,Winter moth sp,29.4
+21,HPS,9,winter Moth,Winter moth sp,22.4
+21,HPS,13,brown geo,Brown geo,48.6
+21,Unlit,28,Coleophora,Coleophora,3.4
+21,HPS,18,winter moth,Winter moth sp,56.1
+21,HPS,19,Yellow tail,Yellow-tail,108.9
+21,HPS,7,Unusual noctuid. Spiky. Dark underside,Dark noctuid,147.3
+21,HPS,1,brown geo,Brown geo,8.1
+21,HPS,15,Winter Moth,Winter moth sp,43.1
+21,HPS,14,winter Moth,Winter moth sp,49.8
+21,HPS,19,Unknown Tiny,Unknown,10.5
+21,HPS,11,coleophora,Coleophora,5.9
+21,HPS,7,Micro?,Micro,14.2
+21,HPS,15,Micro? Hedya?,Micro,20.6
+21,HPS,12,Micro?,Micro,9.4
+21,HPS,2,winter Moth,Winter moth sp,31.8
+21,HPS,1,brown geo,Brown geo,71.4
+21,HPS,2,winter Moth,Winter moth sp,41.7
+21,HPS,12,winter Moth,Winter moth sp,21.2
+21,HPS,7?,winter Moth,Winter moth sp,34
+21,HPS,4,winter Moth,Winter moth sp,16.2
+21,HPS,3,coleophora,Coleophora,5
+21,HPS,4,winter Moth,Winter moth sp,45.6
+21,HPS,9,Micro?,Micro,3.2
+21,HPS,17,winter Moth,Winter moth sp,32.4
+21,HPS,6,winter Moth,Winter moth sp,10
+21,HPS,9,coleophora,Coleophora,39.7
+21,HPS,5,winter Moth,Winter moth sp,32
+21,HPS,16,Micro?,Micro,23.1
+21,HPS,6,winter Moth,Winter moth sp,10
+21,HPS,10,Micro?,Micro,13
+21,HPS,8,Unknown Tiny,Unknown,6.2
+21,HPS,13,Micro? Hedya?,Micro,24.5
+21,HPS,2,winter moth,Winter moth sp,11.4
+21,HPS,11,winter Moth,Winter moth sp,23.1
+21,HPS,8,Micro?,Micro,9.7
+21,HPS,16,Micro?,Micro,2.4
+21,HPS,8,brown geo,Brown geo,67.2
+21,HPS,7,Micro?,Micro,15.3
+21,HPS,15,winter Moth,Winter moth sp,29.9
+21,HPS,10,winter Moth,Winter moth sp,44.3
+21,HPS,6.5,winter Moth,Winter moth sp,50.6
+21,HPS,12,coleophora,Coleophora,10
+21,HPS,1,winter Moth,Winter moth sp,21.5
+21,HPS,18,winter Moth,Winter moth sp,52.3
+21,HPS,3,winter Moth,Winter moth sp,31.6
+21,HPS,14,Micro?,Micro,15.5
+21,HPS,6,Micro?,Micro,21.2
+21,HPS,5,Green geo. Epirrata?,Epirrata?,27.8
+21,HPS,9,Micro?,Micro,1.4
+21,HPS,17,Micro?,Micro,13.3
+21,HPS,13,Tiny,Unknown,2.9
+21,HPS,14,winter Moth,Winter moth sp,25.1
+21,HPS,18,Micro?,Micro,11.9
+21,HPS,4,winter Moth,Winter moth sp,40.2
+21,HPS,11,winter Moth,Winter moth sp,55.6
+21,HPS,5,winter Moth,Winter moth sp,33.7
+21,HPS,13,Small brown noctuid or micro,Unknown,10.2
+21,HPS,16,Tiny. Black hairy,Unknown,3.9
+21,Unlit,29,winter Moth,Winter moth sp,22
+21,Unlit,30,Noctuid with pale underside,Dark noctuid,109.1
+21,Unlit,28,Unknown - mush,Unknown,45
+21,Unlit,45,Micro?,Micro,20.2
+21,Unlit,39,winter Moth,Winter moth sp,42.4
+21,HPS,14,coleophora,Coleophora,9.8
+21,HPS,11,winter Moth,Winter moth sp,3.8
+21,Unlit,38,winter Moth,Winter moth sp,45.9
+21,Unlit,27,winter Moth,Winter moth sp,39.1
+21,HPS,5,northern Winter,Winter moth sp,49.5
+21,HPS,1,winter Moth,Winter moth sp,43.1
+21,Unlit,35,northern Winter,Winter moth sp,36.5
+21,Unlit,23,winter Moth,Winter moth sp,54.4
+21,Unlit,26,northern Winter,Winter moth sp,25.1
+21,HPS,19,winter Moth,Winter moth sp,34.8
+21,Unlit,15.5,Winter Moth,Winter moth sp,25.7
+21,HPS,3,northern Winter,Winter moth sp,25.3
+21,Unlit,42,northern Winter,Winter moth sp,38.5
+21,HPS,6,northern Winter,Winter moth sp,52.5
+21,Unlit,7or8,winter Moth,Winter moth sp,21.8
+21,Unlit,28,winter Moth,Winter moth sp,48.9
+21,HPS,13,Unknown Tiny,Unknown,1.2
+21,Unlit,33,winter moth,Winter moth sp,13.6
+21,HPS,12,winter moth,Winter moth sp,33.2
+21,HPS,3,winter moth,Winter moth sp,20.5
+21,Unlit,24,winter Moth,Winter moth sp,62.6
+21,Unlit,30,northern Winter,Winter moth sp,36.4
+21,Unlit,35,Unknown - mush,Unknown,28.3
+21,HPS,9,winter Moth,Winter moth sp,23.4
+21,HPS,4,winter Moth,Winter moth sp,69.1
+21,Unlit,22,winter Moth,Winter moth sp,27
+21,Unlit,21,winter Moth,Winter moth sp,16.3
+21,HPS,10,winter Moth,Winter moth sp,26.1
+21,HPS,15,coleophora,Coleophora,18
+21,Unlit,23,winter Moth,Winter moth sp,35
+21,HPS,10,micro?,Micro,18
+21,Unlit,49,Acrobasis,Acrobasis,59.6
+21,HPS,5,winter moth,Winter moth sp,18.4
+21,HPS,2,winter moth,Winter moth sp,64.7
+154,HPS,2,unknown - tiny,Unknown,3.3
+154,HPS,1,"Green noctuid, dots. Small Q?",Green noctuid,40.3
+154,Unlit,4,Ypsolopha,Ypsolopha,6.6
+154,HPS,1,Big geo,Other geo,163.57
+154,HPS,3,Winter Moth,Winter moth sp,56.8
+154,Unlit,7,Geo with horns,Other geo,97.5
+154,HPS,1,winter Moth,Winter moth sp,42.6
+154,HPS,2,winter Moth,Winter moth sp,14.1
+154,Unlit,4,Unknown - mush,Unknown,5.1
+154,Unlit,6,winter Moth,Winter moth sp,64.6
+154,HPS,1,Brown geo. Agriopis,Brown geo,86.6
+154,HPS,3,unknown geo. Nobly,Unknown,29.7
+154,HPS,2,Green geo. Epirrata?,Epirrata?,68.5
+154,HPS,1,winter Moth,Winter moth sp,55.5
+154,Unlit,6,unknown geo. Nobly,Unknown,136.7
+154,Unlit,8,Brown geo. Agriopis,Brown geo,23.3
+154,HPS,2,Brown geo. Agriopis,Brown geo,10.6
+154,Unlit,4,winter Moth,Winter moth sp,26.8
+154,HPS,1,mottled Umber,Mottled Umber,223.8
+154,HPS,2,brown geo,Brown geo,3.6
+154,HPS,3,Coleophora,Coleophora,5
+154,HPS,3,Green geo. Epirrata?,Epirrata?,56.8
+154,Unlit,5,Green geo. Epirrata?,Epirrata?,31.9
+154,HPS,3,winter Moth,Winter moth sp,65
+154,Unlit,5,brown geo,Brown geo,15.4
+21,Unlit,41,Green geo. Epirrata?,Epirrata?,58.2
+21,Unlit,23,Green geo. Epirrata?,Epirrata?,68.8
+21,HPS,14,winter Moth,Winter moth sp,38.2
+21,Unlit,32,Acrobasis,Acrobasis,5
+21,Unlit,17.5,winter moth,Winter moth sp,48.9
+21,HPS,14,coleophora,Coleophora,3.8
+21,Unlit,27,Micro. Tortrix?,Micro,2
+21,Unlit,29,Micro. Tortrix?,Micro,20.6
+21,Unlit,25,winter Moth,Winter moth sp,60.6
+21,Unlit,46,Micro. Tortrix?,Micro,21.7
+21,HPS,16,Green geo. Epirrata?,Epirrata?,7.2
+21,HPS,8,winter Moth,Winter moth sp,3.9
+21,Unlit,25,NOrthern Winter,Winter moth sp,30.3
+21,Unlit,26,acrobasis,Acrobasis,31.4
+21,HPS,5,Green geo. Epirrata?,Epirrata?,29.6
+21,Unlit,22,winter Moth,Winter moth sp,27.6
+21,HPS,3,winter Moth,Winter moth sp,32
+21,Unlit,24,Stripy noctuid,Dark noctuid,69.8
+21,Unlit,32,northern Winter,Winter moth sp,35.9
+21,HPS,11,Dark geo - agriopis,Brown geo,44.1
+21,Unlit,31,northern Winter,Winter moth sp,19
+21,HPS,11,winter Moth,Winter moth sp,47.2
+21,HPS,10,Green geo. Epirrata?,Epirrata?,31
+21,HPS,2,northern Winter,Winter moth sp,51.8
+21,Unlit,30,winter Moth,Winter moth sp,26.9
+21,Unlit,34,winter Moth,Winter moth sp,22.7
+21,Unlit,22,northern Winter,Winter moth sp,31.4
+21,Unlit,20.5,winter Moth,Winter moth sp,58.9
+21,Unlit,21,winter Moth,Winter moth sp,61.4
+21,Unlit,38,brown geo - agriopis,Brown geo,111.7
+21,HPS,4,Green geo. Epirrata?,Epirrata?,50.1
+21,HPS,6,Green geo. Epirrata?,Epirrata?,50.8
+21,HPS,8,winter Moth,Winter moth sp,53.2
+21,Unlit,31,acrobasis,Acrobasis,0.2
+21,HPS,16,coleophora,Coleophora,24.9
+21,HPS,7,green geo. Epirrata?,Epirrata?,48.6
+21,HPS,19,winter Moth,Winter moth sp,35.8
+21,HPS,17,northern Winter,Winter moth sp,33.9
+21,Unlit,20,winter Moth,Winter moth sp,34
+21,Unlit,34,acrobasis,Acrobasis,25.6
+21,HPS,13,winter Moth,Winter moth sp,45
+21,Unlit,24,winter Moth,Winter moth sp,23.2
+21,HPS,15,green geo. Epirrata?,Epirrata?,47.9
+21,Unlit,34,winter Moth,Winter moth sp,28.3
+21,Unlit,20,northern Winter,Winter moth sp,30.4
+21,Unlit,43,winter Moth,Winter moth sp,41.2
+21,HPS,18,winter Moth,Winter moth sp,27.7
+21,Unlit,30,micro?,Micro,25
+21,Unlit,37,acrobasis,Acrobasis,7.1
+21,HPS,6,winter Moth,Winter moth sp,63.9
+21,HPS,7,winter Moth,Winter moth sp,29.3
+21,Unlit,44,Unknown - mush,Unknown,37.5
+21,Unlit,32,yellow-tail,Yellow-tail,57.9
+21,Unlit,47,micro?,Micro,21.4
+21,Unlit,25.5,winter moth,Winter moth sp,65.5
+163,Unlit,12,green geo. Epirrata?,Epirrata?,67.2
+163,Unlit,23,ypsolopha,Ypsolopha,20
+163,LED,4,ypsolopha,Ypsolopha,24.9
+163,Unlit,16,green geo. Epirrata?,Epirrata?,27.5
+163,Unlit,14,green geo. Epirrata?,Epirrata?,74.3
+163,Unlit,11,ypsolopha,Ypsolopha,28.5
+163,LED,2,Brown geo. Agriopis,Brown geo,59.7
+163,LED,3,Brown geo. Agriopis,Brown geo,67.1
+163,LED,6,ypsolopha,Ypsolopha,24.6
+163,Unlit,21,ypsolopha,Ypsolopha,11.3
+163,LED,3,ypsolopha,Ypsolopha,20.3
+163,LED,7,unknown geo. Reddish,Unknown,54.1
+149,LED,7,coleophora,Coleophora,9.74
+149,LED,6,Micro. Tortrix?,Micro,30.34
+149,LED,3,unknown - tiny,Unknown,9.94
+149,LED,4,Micro. Tortrix?,Micro,4.04
+149,LED,6,ypsolopha,Ypsolopha,8.6
+149,LED,9,Micro. Tortrix?,Micro,45.34
+149,LED,3,Ypsolopha,Ypsolopha,3.14
+149,LED,3,Micro. Tortrix?,Micro,7.6
+149,LED,5,Micro. Tortrix?,Micro,5.3
+149,LED,10,brown geo - agriopis,Brown geo,15.54
+149,LED,9,coleophora,Coleophora,7.7
+149,Unlit,12,Micro. Tortrix?,Micro,7.74
+149,LED,4,coleophora,Coleophora,9.14
+149,LED,1,Micro. Tortrix?,Micro,1.24
+149,LED,4,Tiny - mush,Unknown,8.54
+149,LED,5,Micro. Tortrix?,Micro,38.84
+149,LED,6,Micro. Tortrix?,Micro,76.84
+149,LED,3,coleophora,Coleophora,4.44
+149,Unlit,15,mottled Umber,Mottled Umber,57
+149,Unlit,12,acrobasis,Acrobasis,33.3
+149,LED,1,Micro. Tortrix?,Micro,46.34
+149,LED,7,Micro. Tortrix?,Micro,43.64
+149,LED,8,unknown - tiny,Unknown,8.84
+149,LED,8,micro. Tortrix?,Micro,41.14
+149,LED,1,winter Moth,Winter moth sp,59.14
+149,Unlit,14,unknown - tiny,Unknown,5.84
+149,LED,2,micro. Tortrix?,Micro,19.84
+149,LED,1,unknown - micro?,Unknown,34.84
+149,LED,4,micro?,Micro,15
+149,LED,2,winter Moth,Winter moth sp,73.34
+149,LED,3,coleophora,Coleophora,16.04
+149,LED,7,coleophora,Coleophora,12.7
+149,Unlit,13,coleophora,Coleophora,30.9
+149,LED,11,Micro. Tortrix?,Micro,17.9
+149,LED,8,coleophora,Coleophora,28.1
+149,LED,4,unknown - micro?,Unknown,11.94
+149,Unlit,14,unknown - tiny,Unknown,4.2
+149,LED,5,Micro. Tortrix?,Micro,21.04
+149,LED,2,coleophora,Coleophora,13.24
+149,LED,10,winter Moth,Winter moth sp,30.44
+149,LED,7,Micro. Tortrix?,Micro,19.34
+149,LED,5,coleophora,Coleophora,7.76
+149,Unlit,13,unknown - tiny,Unknown,13.14
+149,LED,10,Micro. Tortrix?,Micro,28.84
+149,LED,2,Micro. Tortrix?,Micro,52.3
+149,LED,11,Micro. Tortrix?,Micro,38.04
+149,LED,1,Micro. Tortrix?,Micro,20.7
+149,LED,9,Micro. Tortrix?,Micro,49.34
+149,LED,1,mottled Umber,Mottled Umber,57.74
+149,LED,10,Unknown - mush,Unknown,10.7
+149,LED,5,coleophora,Coleophora,7.84
+149,LED,2,acrobasis,Acrobasis,31.94
+149,LED,6,Micro. Tortrix?,Micro,17.74
+149,LED,11,micro? Green tortrix?,Micro,37.64
+149,LED,2,mottled Umber,Mottled Umber,93.54
+149,LED,8,micro? Green tortrix?,Micro,23.34
+149,LED,3,micro? Green tortrix?,Micro,33.24
+149,LED,9,Micro. Tortrix?,Micro,27.24
+163,Unlit,19,Ypsolopha,Ypsolopha,38.9
+163,LED,4,green geo. Epirrata?,Epirrata?,78.4
+163,LED,6,green geo. Epirrata?,Epirrata?,39.1
+163,Unlit,15,pupa?,Unknown,64.7
+163,Unlit,11,green geo. Epirrata?,Epirrata?,98.4
+163,Unlit,18,brown geo - agriopis,Brown geo,43
+163,LED,6,Micro. Tortrix?,Micro,38.6
+163,Unlit,18,unknown geo.,Unknown,39.3
+163,Unlit,14,Small noctuid. Red head. Pale stripe,Dark noctuid,4.9
+163,Unlit,19,Micro. Tortrix?,Micro,16
+163,Unlit,10,coleophora,Coleophora,26.5
+163,Unlit,11,green geo. Epirrata?,Epirrata?,84.2
+163,Unlit,17,green geo. Epirrata?,Epirrata?,57.8
+163,Unlit,19,brown geo - agriopis,Brown geo,40.5
+163,Unlit,25,ypsolopha,Ypsolopha,35
+163,Unlit,20,micro. Tortrix?,Micro,15.3
+163,Unlit,23,ypsolopha,Ypsolopha,22.6
+163,Unlit,17,Maybe small noctuid,Dark noctuid,4.4
+163,LED,1,micro. Tortrix?,Micro,32.54
+163,LED,7,ypsolopha,Ypsolopha,15
+163,Unlit,9,green geo. Epirrata?,Epirrata?,82.2
+163,LED,7,green geo. Epirrata?,Epirrata?,72.8
+163,Unlit,24,northern Winter,Winter moth sp,10.7
+163,LED,3,Unknown - mush,Unknown,9.5
+163,Unlit,25,Unknown - mush,Unknown,17.6
+163,Unlit,20,ypsolopha,Ypsolopha,15.9
+163,Unlit,20,coleophora,Coleophora,14.5
+163,LED,8,brown geo - agriopis,Brown geo,21.2
+163,LED,8,winter Moth,Winter moth sp,35.3
+163,Unlit,13,green geo. Epirrata?,Epirrata?,54.1
+163,LED,8,coleophora,Coleophora,3.3
+163,Unlit,12,noctuid pale stripe,Dark noctuid,44.7
+163,Unlit,27,Unknown - mush,Unknown,6.5
+163,LED,5,green geo. Epirrata?,Epirrata?,62.2
+163,LED,5,coleophora,Coleophora,5
+163,LED,3,ypsolopha,Ypsolopha,22.1
+163,LED,1,green geo. Epirrata?,Epirrata?,26.7
+163,LED,4,coleophora,Coleophora,4.1
+163,LED,1,coleophora,Coleophora,4.2
+163,LED,1,tiny black hairy,Unknown,12
+163,LED,3,acrobasis,Acrobasis,30.6
+163,LED,6,coleophora,Coleophora,12.2
+163,LED,8,ypsolopha,Ypsolopha,34.7
+163,LED,8,coleophora,Coleophora,12.1
+163,LED,7,Micro. Tortrix?,Micro,8.3
+163,LED,7,coleophora,Coleophora,26.2
+163,LED,2,small green noctuid,Green noctuid,5.4
+163,LED,5,Micro. Tortrix?,Micro,32.5
+163,LED,4,green geo. Epirrata?,Epirrata?,97
+163,LED,6,Micro?,Micro,4.1
+163,LED,2,winter Moth,Winter moth sp,49.7
+163,LED,6,Micro. Tortrix?,Micro,16.9
+163,LED,5,Micro. Tortrix?,Micro,9.8
+163,LED,7,tiny - micro?,Unknown,5.1
+163,LED,4,mottled Umber,Mottled Umber,160.1
+163,LED,3,mottled Umber,Mottled Umber,86.3
+163,LED,2,coleophora,Coleophora,1.8
+163,Unlit,10,green geo. Epirrata?,Epirrata?,94.8
+163,Unlit,15,coleophora,Coleophora,4.9
+163,Unlit,16,coleophora,Coleophora,12.4
+163,Unlit,13,winter Moth,Winter moth sp,9.8
+163,Unlit,14,ypsolopha,Ypsolopha,41.2
+163,Unlit,10,Micro. Tortrix?,Micro,6.2
+163,Unlit,9,green geo. Epirrata?,Epirrata?,80.9
+163,Unlit,13,ypsolopha,Ypsolopha,31.8
+163,Unlit,12,ypsolopha,Ypsolopha,18
+163,Unlit,24,ypsolopha,Ypsolopha,10
+163,LED,1,copper underwing sp,copper underwing sp,865.9
+163,LED,5,ypsolopha,Ypsolopha,9.5
+163,Unlit,15,green geo. Epirrata?,Epirrata?,73.9
+163,Unlit,9,Unknown - mush,Unknown,35.7
+163,Unlit,22,ypsolopha,Ypsolopha,11.8
+163,Unlit,22,ypsolopha,Ypsolopha,25.3
+163,Unlit,17,brown geo - agriopis,Brown geo,62.8
+163,LED,2,brown geo - agriopis,Brown geo,66.6
+163,Unlit,26,ypsolopha,Ypsolopha,7.6
+163,LED,4,brown geo - agriopis,Brown geo,123
+163,Unlit,18,Micro. Tortrix?,Micro,64.8
+163,LED,5,brown geo.,Brown geo,36.5
+163,Unlit,21,common footman,Common Footman,66.8
+163,LED,2,Micro. Tortrix?,Micro,6.9
+163,Unlit,16,brown noctuid,Dark noctuid,171.5
+133,HPS,1,winter Moth,Winter moth sp,46.24
+133,LED,8,Micro. Tortrix?,Micro,29.4
+133,LED,7,Micro. Tortrix?,Micro,18.6
+133,LED,4,winter Moth,Winter moth sp,40.4
+133,LED,5,"Spotty, noctuid - eg apamea?",Dark noctuid,53.3
+133,LED,6,acrobasis,Acrobasis,22.7
+133,HPS,11,coleophora,Coleophora,14.44
+133,LED,4,acrobasis,Acrobasis,39.7
+133,LED,4,winter Moth,Winter moth sp,35.8
+133,LED,5,unknown - mush,Unknown,34.7
+133,LED,2,brown geo.,Brown geo,21
+133,HPS,1,brown geo.,Brown geo,6.4
+133,HPS,1,angle shades?,Angle Shades,265.87
+133,LED,6,Micro?,Micro,45.84
+133,LED,2,green noctuid. Pale stripe,Green noctuid,232.2
+133,LED,8,coleophora,Coleophora,2.2
+133,LED,3,green geo. Epirrata?,Epirrata?,75.14
+133,LED,2,green noctuid. Pale stripe,Green noctuid,34.4
+133,LED,5,Micro?,Micro,14.9
+133,HPS,10,coleophora,Coleophora,3.04
+133,LED,3,acrobasis,Acrobasis,32
+133,LED,3,brown geo.,Brown geo,19.2
+133,LED,4,winter Moth,Winter moth sp,50.7
+133,Unlit,13,coleophora,Coleophora,13.4
+133,LED,6,Micro. Tortrix?,Micro,17.5
+133,LED,4,winter Moth,Winter moth sp,23.5
+133,LED,3,winter Moth,Winter moth sp,46.6
+133,LED,9,coleophora,Coleophora,33.5
+133,LED,6,coleophora,Coleophora,9.2
+133,LED,8,unknown - tiny,Unknown,14.3
+133,LED,5,coleophora,Coleophora,16.5
+133,HPS,1,green noctuid.,Green noctuid,145.47
+133,LED,6,winter Moth,Winter moth sp,65.24
+133,LED,2,acrobasis,Acrobasis,28.54
+133,LED,5,winter Moth,Winter moth sp,55.84
+133,LED,3,acrobasis,Acrobasis,26.9
+133,HPS,1,brown geo - agriopis,Brown geo,93.9
+133,HPS,11,coleophora,Coleophora,49.9
+133,LED,2,brown geo - agriopis,Brown geo,49.6
+133,LED,4,winter Moth,Winter moth sp,58.64
+133,HPS,1,brown tail,Brown-tail,322.77
+133,LED,5,Micro?,Micro,26.3
+133,LED,2,winter Moth,Winter moth sp,43.1
+133,LED,7,unknown - tiny,Unknown,9.64
+133,LED,9,coleophora,Coleophora,12
+133,LED,6,brown geo,Brown geo,11.04
+133,LED,7,coleophora,Coleophora,6.54
+133,LED,3,winter Moth,Winter moth sp,57.4
+133,Unlit,12,coleophora,Coleophora,0.84
+133,HPS,10,coleophora,Coleophora,9.54
+168,Unlit,13,brown geo - agriopis,Brown geo,63.24
+168,Unlit,3,winter Moth,Winter moth sp,86.4
+168,Unlit,7,coleophora,Coleophora,12.6
+168,Unlit,14,coleophora,Coleophora,9.6
+168,Unlit,2,unknown - mush,Unknown,75.6
+168,LED,11,ypsolopha,Ypsolopha,21.4
+168,Unlit,2,unknown - mush,Unknown,23.64
+168,Unlit,12,Micro?,Micro,10.4
+168,LED,6,Micro. Tortrix?,Micro,16.3
+168,Unlit,1,brown geo - agriopis,Brown geo,60.3
+168,Unlit,5,unknown - mush,Unknown,8.4
+168,LED,11,brown geo,Brown geo,19.14
+168,Unlit,16,brown geo,Brown geo,42.9
+168,Unlit,18,unknown - mush,Unknown,23.64
+168,Unlit,16,Micro?,Micro,16.2
+168,Unlit,5,brown geo,Brown geo,17.6
+168,Unlit,14,brown geo - agriopis,Brown geo,45.7
+168,Unlit,17,winter Moth,Winter moth sp,94.6
+168,Unlit,9,Micro?,Micro,41.2
+168,LED,10,ypsolopha,Ypsolopha,13.6
+168,LED,6,coleophora,Coleophora,10.5
+168,LED,8,coleophora,Coleophora,8
+168,Unlit,4,winter Moth,Winter moth sp,21.5
+168,Unlit,15,Micro?,Micro,41.8
+168,Unlit,5,winter Moth,Winter moth sp,60.9
+168,Unlit,7,brown geo - agriopis,Brown geo,67.74
+168,Unlit,2,lackey,Lackey,190.4
+168,Unlit,3,brown geo - agriopis,Brown geo,62.5
+168,Unlit,3,Micro. Tortrix?,Micro,24.3
+168,Unlit,5,unknown geo,Unknown,47.4
+168,LED,8,brown geo - agriopis,Brown geo,35.8
+168,Unlit,13,Micro?,Micro,18.2
+168,LED,6,unknown - mush,Unknown,21.7
+168,Unlit,9,ypsolopha,Ypsolopha,9.44
+168,LED,6,brown geo - agriopis,Brown geo,51.24
+168,Unlit,12,unknown - mush,Unknown,72.74
+168,LED,10,northern Winter,Winter moth sp,19.3
+168,Unlit,3,unknown - mush,Unknown,27.44
+168,Unlit,19,brown geo - agriopis,Brown geo,55.64
+168,Unlit,1,green noctuid. Pale stripe,Green noctuid,219.5
+168,LED,8,green noctuid.,Green noctuid,108.4
+168,Unlit,2,brown geo,Brown geo,38.4
+168,Unlit,5,winter Moth,Winter moth sp,46.7
+168,Unlit,1,unknown - mush,Unknown,8
+168,Unlit,4,winter Moth,Winter moth sp,26.8
+168,Unlit,4,Micro?,Micro,15.5
+168,LED,6,brown geo - agriopis,Brown geo,56.3
+168,Unlit,3,brown geo - agriopis,Brown geo,42.1
+168,Unlit,7,brown geo,Brown geo,23.3
+168,Unlit,2,brown geo - agriopis,Brown geo,61.2
+168,LED,11,unknown - tiny,Unknown,10
+168,Unlit,4,unknown - tiny,Unknown,10.3
+168,Unlit,4,northern Winter,Winter moth sp,43.24
+168,Unlit,1,unknown - mush,Unknown,19.4
+168,Unlit,9,brown geo - agriopis,Brown geo,59.5
+168,Unlit,15,brown geo,Brown geo,19.34
+168,Unlit,2,green noctuid.,Green noctuid,124.7
+168,Unlit,1,brown geo - agriopis,Brown geo,11.1
+168,Unlit,7,brown geo,Brown geo,24
+168,Unlit,1,unknown - mush,Unknown,27.54
+168,LED,8,brown geo - agriopis,Brown geo,76.54
+168,Unlit,3,winter Moth,Winter moth sp,28.9
+168,Unlit,4,brown geo,Brown geo,22.8
+168,LED,10,ypsolopha,Ypsolopha,15.04
+168,Unlit,7,dark noctuid. Pale stripe. ,Dark noctuid,178
+216,Unlit,1,Micro?,Micro,15.5
+216,Unlit,1,green geo. Epirrata?,Epirrata?,88.9
+216,Unlit,2,brown noctuid with pale stripe,Dark noctuid,22.8
+216,Unlit,1,winter Moth,Winter moth sp,27.8
