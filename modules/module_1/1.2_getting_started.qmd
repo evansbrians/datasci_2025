@@ -39,7 +39,7 @@ I have created an RStudio project for you. We will use the same project througho
 ::: now_you
 {{< fa user-circle size=2x >}} [Please complete the following steps to set up your project for this course:]{style="padding-left: 0.5em;"}
 
-1. **Download** the attached file "gis_in_r_2024.zip". 
+1. **Download** the attached file "data_sci_2025.zip". 
 2. **Save** the file to a location on your computer that is: 
     * Easy to find: For Windows users, I suggest saving the file to your Desktop. Mac users, I suggest saving the file to the top level of your user folder (this level can be accessed in Finder with Command+Shift+H). 
     * Not in a folder with a space in the name: R abhors spaces in names (e.g., "My documents") -- and you should too!
@@ -137,7 +137,7 @@ We will explore these advantages and more in coming lessons!
 
 At the beginning of each session, I like to do a series of what I call "housekeeping steps". These include clearing any open scripts, any names assigned to your global environment, and your code history. Doing so helps you better organize your workflow, may reduce your computer's memory usage, and ensures that you can make the most out of RStudio's tools for managing your code and data during a session.
 
-I *strongly* recommend following the steps below at the start of each session (with the exception of this first session):
+I *strongly* recommend following the steps below at the start of each session:
 
 1.  If there are any script files open in your source pane. Close them. *Note: If any of your script titles are blue, you might want to save them prior to closing!*
 
@@ -175,7 +175,11 @@ If you wish to install more than one package at a time, you must provide a chara
 Copy-and-paste the code below into your console pane and run it to install the *janitor* and *arrow* packages:
 
 ```{r, eval=FALSE}
-install.packages(c("janitor", "arrow"))
+install.packages(
+  c(
+    "janitor", "arrow"
+  )
+)
 ```
 :::
 
@@ -211,7 +215,7 @@ You can check to see if your packages are up-to-date in the Tools menu ("Tools/C
 ::: mysecret
 {{< fa user-secret size=2x >}} [Update your packages often!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-For packages that you use less than one day per week week, I suggest checking for new versions at the beginning of each session. For packages that you use more often, it is considered best practice to check for updates at least once per week. 
+For packages that you use less than one day per week, I suggest checking for new versions at the beginning of each session. For packages that you use more often, it is considered best practice to check for updates at least once per week. 
 
 To view potential changes to the package since your last installation, I strongly recommend reading the "NEWS" file associated with the package. The NEWS file typically shows any changes to the package across the history of the package -- this is known as a packages **version history**. To do so, we use the function `news` with the argument `package = ...` and the name of the package in quotes. 
 
