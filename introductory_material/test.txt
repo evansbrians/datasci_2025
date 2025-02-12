@@ -1,0 +1,2 @@
+list(words = c("hello", "hello", "world", "world"), integers = 1:4)
+1:4

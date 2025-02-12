@@ -1,0 +1,12 @@
+name: 4-indexing
+title: 4-indexing
+username:
+account: smbc
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7895147
+bundleId: 7601420
+url: https://smbc.shinyapps.io/4-indexing/
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 1-intro_to_r.html|1-intro_to_r.Rmd|1a-intro.html|1a-intro.Rmd|2-values.html|2-values.Rmd|3-objects.html|3-objects.Rmd|5-Subset with logic.Rmd|6-RStudio.html|6-RStudio.Rmd|colors.txt|dogs_n_cats.svg|head.html|index.Rmd|learnr_1-intro_RStudio.html|learnr_1-intro_RStudio.Rmd|learnr_2-r_values.html|learnr_2-r_values.Rmd|learnr_3-r_objects.Rmd|learnr_4-indexing_with_logic.Rmd|my_object.rds|my_tibble.csv|outtakes.Rmd|temp.html|temp.Rmd|test.json|test.txt

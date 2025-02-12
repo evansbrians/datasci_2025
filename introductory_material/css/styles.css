@@ -1,0 +1,261 @@
+/* Header */
+
+.author {
+  padding-top:  1.5em;
+}
+
+.author, 
+.author_afil {
+    font-size: 1em !important;
+}
+
+.author:before
+{
+    content:' ';
+    display:block;
+    border:0.5px solid #efefef;
+}
+
+/* Some basic html tags */
+
+body {
+  font-size: 1.5rem;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+  padding-bottom: 0.1em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.25em;
+}
+
+h5 {
+  font-size: 1.15em;
+}
+
+/* Lines after headings */
+
+h1:after, h2:after, h3:after {
+    content:' ';
+    display:block;
+    border:0.5px solid #efefef;
+}
+
+/* Shortcuts */
+
+.shortcut {
+  font-family: Monospace;
+}
+
+/* Now you */
+
+.fa-user-circle {
+  font-size: 1.5em;
+  padding-right: 0.25em;
+}
+
+.now_you {
+  border-left: 8px solid #292093;
+  background-color: #e6ffff;
+  padding: 16px 16px 4px 16px;
+  margin: 15px 0px 15px 0px;
+}
+
+.reviewDiv {
+  border-radius: 15px;
+  border: 1px solid #aaaaaa;
+  background: #e6f9ff;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+/* User secret */
+
+.fa-user-secret {
+  font-size: 1.5em;
+  padding-right: 0.25em;
+}
+
+.secret-div {
+  border-radius: 10px;
+  border: 1px solid #D3D3D3;
+  background: #fafafa;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.roundBorderBlack {
+  border-radius: 25px;
+  border: 5px solid #D3D3D3;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+/* Term list for end of lessons */
+
+.glossary {
+  border-radius: 25px;
+  border: 5px solid #30288C;
+  background: #D6EAF8;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Tooltips*/
+
+.tt {
+    position: relative;
+    display: inline-block;
+    class: inline; 
+    font-weight: bold;
+    font-family: "Helvetica";
+    font-size: 1.25em;
+    border-bottom: 1px black;
+}
+
+.tt .ttText {
+    visibility: hidden;
+    font-weight: normal;
+    font-size: 1.25em;
+    width: 500px;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    text-align: left;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Popover for tutorial solutions */
+
+.popover .tutorial-solution-popover {
+  width: 1000px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+
+.tt:hover .ttText {
+    visibility: visible;
+}
+
+/*Table definitions*/
+
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ffffff;
+}
+  
+/* Create two equal columns that floats next to each other */
+  
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+}
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Exercises */
+
+blockquote {
+  font-size: 1.25em;
+  border-left: 8px solid #292093;
+  background-color: #e6ffff;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+ 
+.row {
+  margin: auto;
+}
+
+/*vertical line*/
+
+.vl {
+    border-left: 6px solid #a6a6a6;
+    height: 160px;
+}
+
+/* images*/
+
+.hex {
+  float: right;
+  margin: 0px 0px 15px 15px;
+  width: 30%;
+} 
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*code*/
+
+code {
+    padding: 2px 4px;
+    font-size: 0.75em;
+    color: #000000;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+/* Cut me? */
+
+.roundBorderBlackEx {
+  border-radius: 5px;
+  border: 5px solid #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.roundBorderEx {
+  border-radius: 3px;
+  border: 5px solid #30288C;
+  background: #D6EAF8;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+ 

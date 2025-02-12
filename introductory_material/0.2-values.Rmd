@@ -1,0 +1,791 @@
+---
+title: "Lesson two: Values"
+author: 
+  - name: Brian S. Evans, Ph.D.
+    email: evansbr@si.edu
+    affiliation: Smithsonian-Mason School of Conservation
+output: learnr::tutorial
+theme: yeti
+css: "css/styles.css"
+runtime: shiny_prerendered
+---
+
+<head>
+  <meta 
+    name="viewport" 
+    content=
+      "width=100vw, 
+      initial-scale=1,
+      maximum-scale=1" />
+  <link 
+    rel="stylesheet"  
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="images/data_sci_hex_logo.png" />
+</head>
+
+```{r setup, include=FALSE}
+# Load libraries:
+
+library(learnr)
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  tidy.opts = 
+    list(
+      width.cutoff = 60),
+  tidy = TRUE)
+
+tutorial_options(exercise.completion = FALSE)
+
+number_object <-
+  c(1, 1, 2, 3)
+
+my_integers <-
+  1:3
+
+example_factor <- 
+  factor(
+    c("one",
+      "one",
+      "two",
+      "three"))
+
+spring <-
+  c("March", "April", "May", "June")
+
+summer <-
+  c("June", "July", "August", "September")
+```
+
+## Overview  
+
+::: {.row}
+<img 
+  style="float: right;
+        margin: 0px 0px 5px 15px" 
+  src="images/hex_complex.png" 
+  width="30%" />
+The fundamental data object in R is an **atomic vector**. Atomic vectors form the building block of all other objects. In fact, any *single* data value in R *is* an atomic vector.  An atomic vector can be described by its "**class**", which represents what kind of values are present. All values in an atomic vector must be of the same class. The most commonly used classes of values are:
+
+* **Numbers**: Numbers can be double (e.g., 1.23) or integer (e.g., 1, 2)
+* **Characters**: Words or symbols (e.g., "hello")
+* **Factors**: Symbols or words assigned to integer values (e.g., "hello" = 1, "world" = 2)
+* **Logicals**: FALSE or TRUE values mapped to the integers 0 or 1, respectively
+:::
+
+<hr style="border-width: 5px;">
+
+## 1. Numbers  
+
+There are two basic kinds of numbers in R:
+
+* **Numeric, double**: For our purposes, this can be thought of simply as a decimal number
+* **Integer**: whole numbers
+
+Let's begin our exploration by creating an atomic vector that contains a set of numbers and assigning it to our global environment with the name `number_object`:
+
+```{r}
+number_object <- 
+  c(1, 1, 2, 3)
+
+number_object
+```
+
+We can use the function `class` to determine the class of the vector:
+
+```{r}
+class(number_object)
+```
+
+How an atomic vector is stored in your computer is known as the vector's **type**. We can use the function `typeof` to determine the type of storage method:
+
+```{r}
+typeof(number_object)
+```
+
+Notice that numbers created with the combine function, `c`, are stored as "double" (decimals) by default.
+
+We can generate integers by specifying a range of whole numbers, using the notation `from:to`. The colon (`:`) is a function for generating a sequence of values. Below I create a range of integer values from 1 through 3 and assign it to the global environment with the name `my_integers`:
+
+```{r}
+my_integers <-
+  1:3
+
+class(my_integers)
+
+typeof(my_integers)
+```
+
+If we want to generate an integer vector using `c`, we add an uppercase `L` after each number in the set:
+
+```{r}
+class(
+  c(1L, 1L, 2L, 3L))
+```
+
+We can also convert a numeric vector to integer with the function `as.integer()`:
+
+```{r}
+class(
+  as.integer(
+    c(1, 1, 2, 3)))
+```
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i>
+Using `as.integer()` is only safe if the numeric vector that you are converting to an integer is a whole number! Notice what happens when we try to convert decimal numbers to integers:
+
+```{r}
+as.integer(
+  c(1.1, 2.3, 5.8))
+```
+:::
+
+Similarly, we can use the function `as.numeric()` to convert an integer value to a double numeric value.
+
+```{r}
+class(
+  as.numeric(1:3))
+
+typeof(
+  as.numeric(1:3))
+```
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i>
+You may have noticed that there is a specific, and maybe strange, format to my code. The format I use represents a few best management practices in coding.
+
+* If named functions are nested, write each function on a separate line.
+* If an object is generated with a named function, provide the assignment and function on separate lines.
+:::
+
+### 1.1 Exercise 
+
+:::{.now_you}
+<i class="fa fa-user-circle"></i> 
+[Exploring number values]{style="font-size: 1.25em;"}
+
+Without assigning anything to your global environment, use the function `c` to combine the numeric values 8, 13, and 21:
+
+```{r combine_numbers, exercise = TRUE, exercise.lines = 3}
+
+```
+
+```{r combine_numbers-hint-1}
+c()
+```
+
+```{r combine_numbers-hint-2}
+c(8)
+```
+
+```{r combine_numbers-hint-3}
+c(8, ...)
+```
+
+```{r combine_numbers-hint-4}
+c(8, 13, 21)
+```
+
+What is the **type** of these values?
+
+```{r typeof, exercise = TRUE, exercise.lines = 2}
+
+```
+
+```{r typeof-hint-1}
+typeof(...)
+```
+
+```{r typeof-hint-2}
+typeof(
+  c(...))
+```
+
+```{r typeof-hint-3}
+typeof(
+  c(8, 13, 21))
+```
+
+Convert the values to integers:
+
+```{r as_integer, exercise = TRUE, exercise.lines = 3}
+
+```
+
+```{r as_integer-hint-1}
+as.integer(...)
+```
+
+```{r as_integer-hint-2}
+as.integer(
+  c(...))
+```
+
+```{r as_integer-hint-3}
+as.integer(
+  c(8, 13, 21))
+```
+
+What is the **type** of these values?
+
+```{r as_integer_type_of, exercise = TRUE, exercise.lines = 3}
+
+```
+
+```{r as_integer_type_of-hint-1}
+typeof(...)
+```
+
+```{r as_integer_type_of-hint-2}
+typeof(
+  as.integer(...))
+```
+
+```{r as_integer_type_of-hint-3}
+typeof(
+  as.integer(
+    c(...)))
+```
+
+```{r as_integer_type_of-hint-4}
+typeof(
+  as.integer(
+    c(8, 13, 21)))
+```
+
+```{r number_quiz, echo=FALSE}
+question(
+  "How did `as.integer()` alter these values?",
+  answer("It didn't, they're the same!",
+         message = random_encouragement()),
+  answer("It changed the way the values are stored",
+         correct = TRUE,
+         message = "Yes!"),
+  answer("It changed the way the values are printed",
+         message = random_encouragement()),
+  allow_retry = TRUE,
+  random_answer_order = FALSE)
+```
+:::
+
+<hr style="border-width: 5px;">
+
+## 2. Characters
+
+A **character** value is a symbol or set of symbols from a given alphabet (*note: this also may include numbers and punctuation*). When a character value is comprised of more than one symbol, it may be referred to as a **string**.
+
+Whenever you are working with characters, you enclose the character values within quotation marks. The following code creates an atomic vector of the character values "March", "February", "January", and "January" and assigns the object to the global environment with the name `months`:
+
+```{r}
+months <-
+  c("March",
+    "February",
+    "January",
+    "January")
+```
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i>
+When I combine more than three words, I typically place each word on its own line.
+:::
+
+
+The class and type of a character vector are both "character":
+
+```{r}
+class(months)
+
+typeof(months)
+```
+
+### 2.1 Conversion to characters
+
+Any atomic vector can be converted to a character vector using `as.character()`:
+
+```{r}
+as.character(1:5)
+```
+
+If we supply an atomic vector and one of the values is a character, the remaining values will be coerced into characters:
+
+```{r}
+c("January", 1, 1999)
+```
+
+### 2.2 Single or double quotes?
+
+Single (`'hello world'`) or double (`"hello world"`) quotes can be used interchangeably. If your character value includes a single or double quote, however, you need to ensure that you enclose the value in the other type of quotes:
+
+```{r, error = TRUE}
+'Hey, that's no way to say goodbye - L. Cohen'
+```
+
+In the above `'Hey that'` is considered to be a character value because that portion of the code is enclosed in quotation marks. R treats the remaining content as a name and thus throws an error.
+
+A similar problem can occur with double quotes:
+
+```{r, error = TRUE}
+""To me they will always be glorious birds" - Maude"
+```
+
+To address this, we can enclose each statement within the type of quotation marks not found in the text:
+
+```{r}
+"Hey, that's no way to say goodbye - L. Cohen"
+
+'"To me they will always be glorious birds" - Maude'
+```
+
+Note in the above that Maude's double quotation marks are preceded with a `\`. This is known as a character escape -- it means to treat the following character literally. 
+
+We can use `\` when we write a character value, directly escaping the problematic quotation mark:
+
+```{r, error = TRUE}
+'Hey, that\'s no way to say goodbye - L. Cohen'
+
+"\"To me they will always be glorious birds\" - Maude"
+```
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i>
+Although single or double quotes can be used interchangeably, it's considered best practice to use double quotes when referring to a character value.
+:::
+
+## 3. Factors
+
+A **factor** is a value that includes the following information:
+
+* **Integer value**: An integer value associated with factor level. For example, you may construct a factor of female and male treatment groups -- each treatment group would be assigned to a different integer value. 
+* **Levels**: Character values that are associated with the integer value. Continuing with the example above, the levels would be "female" and "male".
+* **Labels**: Character values assigned to each factor level. This relates to the character values that you see when you print or plot your data. For example, you may want to visualize female as "F" and males as "M".
+
+**Why would you use factors?** Factors are useful when character data can be grouped into one of a few (or several) values (e.g., juvenile and adult). Factors also may be useful if you are interested in specifying the order that values are displayed (e.g., small, medium, and large).
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i>
+The storage of factors as integers was one of the initial benefits of factors over characters --  characters vectors required much more memory to evaluate. This is no longer the case in most instances.
+:::
+
+### 3.1 Creating a factor vector
+
+Factors are created using the function `factor()`. The first argument to provide to `factor()` is a vector of character values that you would like to structure as factor variables.
+
+The following code generates a factor that contains the words, "one", "one", "two", and "three" and assigns the resultant object to the global environment with the name `example_factor` (*Notice the nested function structure!*):
+
+```{r}
+example_factor <- 
+  factor(
+    c("one",
+      "one",
+      "two",
+      "three"))
+```
+
+Let's look at the **class** and **type** of `example_factor`:
+
+```{r}
+class(example_factor)
+
+typeof(example_factor)
+```
+
+Notice that the type of object is integer??? Remember that `typeof()` lets us know how an atomic vector is stored within our computer's memory.
+
+Let's now look at `example_factor` itself:
+
+```{r}
+example_factor
+```
+
+Notice that there are four values, but these values have been grouped into three different levels. We can use `as.integer()` to observe the integer values mapped to these levels:
+
+```{r}
+as.integer(example_factor)
+```
+
+
+### 3.2 Setting factor levels
+
+As written, the order of the levels might cause us some trouble because the levels are ordered alphabetically by default. To see why this might be a problem, let's use a new function, `plot()` to represent the object graphically. The first argument of `plot()` is the data that you evaluating. The default output when plotting a factor object is the count of records (y-axis) at each factor level (x-axis). 
+
+```{r, out.width = "100%"}
+plot(example_factor)
+```
+
+Given our x-axis labels, the order makes little sense here! To address this, levels can be manually set. The function `factor` contains an argument, `levels`,  that can be used to order the values. To do so, we provide the character vector of distinct levels in the order that you would like them to be arranged:
+
+```{r}
+factor(
+  c("one", 
+    "one",
+    "two", 
+    "three"),
+  levels = c("one", "two", "three"))
+```
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i>
+When a function contains arguments that modify a function's behavior, place each of the modifying arguments on its own line!
+:::
+
+Given the printed output, it looks like this did the trick. Let's verify this by plotting the resultant object:
+
+```{r, out.width = "100%"}
+plot(
+  factor(
+    c("one", 
+      "one",
+      "two", 
+      "three"),
+    levels = c("one", "two", "three")))
+```
+
+### 3.3 Setting factor labels
+
+We can also modify the labels that are assigned to each level. Labels can be manually set using the `labels` argument of the `factor()` function. To do so, we provide a character vector of labels in the order of the factor `levels`. This can be super useful for making nicer plots. Let's change the labels to upper case and plot the data:
+
+```{r, out.width = "100%"}
+plot(
+  factor(
+    c("one", 
+      "one",
+      "two", 
+      "three"),
+    levels = c("one", "two", "three"),
+    labels = c("One", "Two", "Three")))
+```
+
+::: {.secret-div}
+<i class="fa fa-user-secret"></i> Despite their utility, factors can be a bit of a pain to deal with. If you are working with a factor vector that has an untenable number of levels, consider simplifying the factor levels or using a character vector instead.
+:::
+
+### 3.4 Exercise
+
+::: {.now_you}
+<i class="fa fa-user-circle"></i> 
+Create a factor that contains the words, "low", "medium", and "high". Do not assign a name to the resultant object. 
+
+```{r factor, exercise = TRUE, exercise.lines = 4}
+
+
+```
+
+```{r factor-hint-1}
+factor(...)
+```
+
+```{r factor-hint-2}
+factor(
+  c(...))
+```
+
+```{r factor-hint-3}
+factor(
+  c("low", "medium", "high"))
+```
+
+Repeat the above and use the `levels` argument of `factor()` to arrange the values from low to high: 
+
+```{r factor_set_levels, exercise = TRUE, exercise.lines = 8}
+
+
+```
+
+```{r factor_set_levels-hint-1}
+factor(
+  c("low", "medium", "high"),
+  levels = ...)
+```
+
+```{r factor_set_levels-hint-2}
+factor(
+  c("low", "medium", "high"),
+  levels = c(...))
+```
+
+```{r factor_set_levels-hint-3}
+factor(
+  c("low", "medium", "high"),
+  levels = c("low", "medium", "high"))
+```
+
+Repeat the above and capitalize "low", "medium", and "high" levels: 
+
+```{r factor_labels, exercise = TRUE, exercise.lines = 12}
+
+```
+
+```{r factor_labels-hint-1}
+factor(
+  c("low", "medium", "high"),
+  levels = c("low", "medium", "high"))
+```
+
+```{r factor_labels-hint-2}
+factor(
+  c("low", "medium", "high"),
+  levels = c("low", "medium", "high"),
+  labels = ...)
+```
+
+```{r factor_labels-hint-3}
+factor(
+  c("low", "medium", "high"),
+  levels = c("low", "medium", "high"),
+  labels = c(...))
+```
+
+```{r factor_labels-hint-4}
+factor(
+  c("low", "medium", "high"),
+  levels = c("low", "medium", "high"),
+  labels = c("Low", "Medium", "High"))
+```
+:::
+
+<hr style="border-width: 5px;">
+
+## 4. Logical values
+
+### 4.1 Logical constants
+
+R reserves the words `TRUE` and `FALSE` as logical constants. These constants are mapped to integer values:
+
+* **FALSE**: 0
+* **TRUE**: 1
+
+Because logical values are mapped to integers, they can be evaluated numerically:
+
+```{r}
+FALSE + TRUE
+
+mean(
+  c(FALSE, TRUE))
+```
+
+### 4.2 Logical tests
+
+#### 4.2.1 Logical operators
+
+Logical values can be obtained by evaluating objects with functions called **logical operators**. Logical operators in R include those displayed in the table below.
+
+| Operator |  Usage     |       Meaning                              |
+|:--------:|:----------:|:------------------------------------------:|
+| `==`     | `x == y`   | x is equal to y                            |
+| `!=`     | `x != y`   | x is NOT equal to y                        |
+| `!`      | `!(x)`     | NOT x                                      |
+| `|`      | `x | y`    | x OR y                                     |
+| `&`      | `x & y`    | x AND y                                    |
+| `%in%`   | `x %in% y` | a set of values x is in a set of values, y |
+| `<`      | `x < y`    | x is less than y                           |
+| `<=`     | `x <= y`   | x is less than or equal to y               |
+| `>`      | `x > y`    | x is greater than y                        |
+| `>=`     | `x >= y`   | x is greater than or equal to y            |
+
+We use logical operators to test whether a value matches a given condition. For example, we can test whether the value 3 is less than 4:
+
+```{r}
+3 < 4
+```
+
+... or whether the value 3 is greater than 4:
+
+```{r}
+3 > 4
+```
+
+We can test several values in an atomic vector simultaneously. For example, the below evaluates whether the values in the integer `2:4` are equal to the value 3:
+
+```{r}
+2:4 == 3
+```
+
+Logical operators are *mostly* directionally agnostic (but see `%in%` below) -- in other words, it doesn'tmatter which side of the operator the values are placed:
+
+```{r}
+3 == 2:4
+```
+
+We can include more complex statements as well. For example, we can test whether 3 is equal to `2 + 1`:
+
+```{r}
+3 == 2 + 1
+```
+
+... or whether 3 *is not* equal to `2 + 1`:
+
+```{r}
+3 != 2 + 1
+```
+
+#### 4.2.3 Logic with `&` and `|`
+
+We often want to string together multiple logical tests. For example, perhaps we want to return a logical value that expresses whether the value `3` is in the value `2` *or* the value `3`. To do so, we conduct two separate logical tests and separate each test with the *or* operator, `|`:
+
+```{r}
+3 == 2 | 3 == 3
+```
+
+The above evaluates to `TRUE` even though the second statement is `FALSE`! With the `|` operator, only one of the provided conditions must be met.
+
+Watch what happens when we complete the above with the *and* operator, `&`:
+
+```{r}
+3 == 2 & 3 == 3
+```
+
+The above evaluates to `FALSE` because the value 3 does not satisfy both conditions (i.e., it can't be equal to 3 and 4 at the same time). The `&` can be useful if multiple conditions *must* be met to return a value of `TRUE`:
+
+```{r}
+3 > 2 & 3 <= 3
+```
+
+#### 4.2.4 Logic and sets
+
+Care must be taken when evaluating whether there is equivalence among sets of values. For example, notice what this logical test returns:
+
+```{r}
+2:4 == 1:3
+```
+
+We might imagine that one of two of the values (2 and 3) evaluate to TRUE, no? To show why this is not the case, Let's compare `2:4` with a another integer vector:
+
+```{r}
+2:4 == 4:2
+```
+
+The above illustrates the behavior of `==` ... it's comparing between values in sets by location. As another example, notice the error message we receive when we add a value to the second set:
+
+```{r}
+2:4 == 5:2
+```
+
+Here, we get a warning message that is important not to ignore! R recycled the values from the first set.
+
+To compare values between sets (regardless of location) may be addressed using the `|` operator:
+
+```{r}
+2:4 == 4 | 2:4 == 3 | 2:4 == 2
+```
+
+But it is much more parsimonious to use the `%in%` operator:
+
+```{r}
+2:4 %in% 4:2
+```
+
+The `%in%` operator tests whether each of the values to the left of the operator is in the vector of values on the right (*Note:* `%in% *is not directionally agnostic!*). As such, the two vectors do not need to be of equivalent lengths:
+
+```{r}
+2:4 %in% 5:2
+```
+
+
+::: {.now_you}
+<i class="fa fa-user-circle"></i>
+Testing sets
+
+Consider the following character vectors:
+
+```{r}
+spring <-
+  c("March", "April", "May", "June")
+
+summer <-
+  c("June", "July", "August", "September")
+```
+
+Conduct a logical test to examine which of the spring months also occur during the summer:
+
+```{r spring_summer, exercise = TRUE, exercise.lines = 3}
+
+
+```
+
+```{r spring_summer-solution}
+
+spring %in% summer
+
+```
+
+Conduct a logical test to examine which of the summer months also occur during the spring:
+
+```{r summer_spring, exercise = TRUE, exercise.lines = 3}
+
+
+```
+
+```{r summer_spring-solution}
+
+summer %in% spring
+
+```
+
+Calculate how many summer months also occur in the spring:
+
+```{r summer_spring_sum, exercise = TRUE, exercise.lines = 3}
+
+```
+
+```{r summer_spring_sum-solution}
+sum(summer %in% spring)
+```
+
+:::
+
+<hr style="border-width: 5px;">
+
+## Term review and glossary
+
+<div class = "row">
+<div class = "glossary">
+
+### Functions
+
+* `<-` Assign a name to an object in R (assignment operator)
+* `()` Enclose arguments in a function
+* `:` Specify a range of number values with `from:to`
+* `c` Combine objects
+* `as.character` Convert an object to characters
+* `as.integer` Convert an object from double numeric to an integer
+* `as.numeric` Convert an object from integer to double numeric
+* `class` Determine the class of an object
+* `factor` Make a factor object
+* `mean` Calculate the average of a numeric or integer vector (note, use `na.rm = TRUE` in the presence of NA values)
+* `plot` Plot an object, used in this exercise to plot a factor
+* `typeof` Determine how R stores an object in your global environment
+
+#### Logical operators
+
+| Operator |  Usage     |       Meaning                              |
+|:--------:|:----------:|:------------------------------------------:|
+| `==`     | `x == y`   | x is equal to y                            |
+| `!=`     | `x != y`   | x is NOT equal to y                        |
+| `!`      | `!(x)`     | NOT x                                      |
+| `|`      | `x | y`    | x OR y                                     |
+| `&`      | `x & y`    | x AND y                                    |
+| `%in%`   | `x %in% y` | a set of values x is in a set of values, y |
+| `<`      | `x < y`    | x is less than y                           |
+| `<=`     | `x <= y`   | x is less than or equal to y               |
+| `>`      | `x > y`    | x is greater than y                        |
+| `>=`     | `x >= y`   | x is greater than or equal to y            |
+
+### Vocabulary
+
+* **Character**: a symbol or set of symbols from a given alphabet (note: also includes numbers and punctuation)
+* **Class**: The kind of values a data object represents (e.g., numbers, characters, factors, and logicals)
+* **Factor**: a value in which characters are mapped to integer levels and labels
+* **Integer**: a whole number
+* **Labels (of a factor)**: character values associated with a factor level when printing or plotting factors
+* **Levels (of a factor)**: character values mapped to integer values
+* **Logical operator**: Operators that are used to test logical statements (e.g., 3 `>` 2)
+* **Logical value**: TRUE or FALSE
+* **Numeric, double**: For our purposes, a decimal number
+* **Type**: how a value is stored in R (e.g., double or integer)
+* **Value**: any single unit of data
+</div>
+</div>
+
+<hr style="border-width: 5px;">
