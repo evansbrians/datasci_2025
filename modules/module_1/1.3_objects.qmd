@@ -41,7 +41,7 @@ Objects in R can be thought of as containers that store information. There are t
 
 In this lesson, we will begin our exploration of each of these types of objects. In doing so, I will introduce a lot of the terminology that we will use throughout this course (pay close attention to **bold text**!). You will learn:
 
-* What a function is (and what is not a function)
+* What is a function (and what is not a function)?
 * Prefix vs. infix functions
 * What the term "Global Environment" means and how to manage it effectively
 * What "package environments" are and how to use them with and without the `library` function
@@ -57,7 +57,7 @@ To get the most out of this lesson, please:
 
 * Open RStudio in a clean session;
 * Ensure that you are working in your course project;
-* Open the script file "scripts/lesson_1.3.R"
+* Open the script file [scripts/lesson_1.3.R]{.mono}
 * Code along with the content!
 
 ## Functions
@@ -67,11 +67,11 @@ A **function** is a set of instructions used to complete a given task. Ultimatel
 All functions are called with:
 
 * A name: The reference that R uses to retrieve the instructions for execution
-* Argument(s): The data upon which the function will act
+* Argument(s): Parameters provided to a function (e.g., the data upon which the function will act)
 
 ### Prefix functions
 
-The majority of functions in R are known as **prefix functions**. A prefix function is a function in which the name of the function precedes the target of the evaluation. To run most prefix functions, you supply the name assigned to the set of instructions, a set of parentheses, and the target of evaluation. Consider the following code:
+The majority of functions in R are known as **prefix functions**. A prefix function is a function in which the name of the function precedes the target of the evaluation. To run most prefix functions, you supply the name assigned to the set of instructions, parentheses, and the target of evaluation. Consider the following code:
 
 ```{r}
 c(1, 1, 2, 3)
@@ -81,7 +81,7 @@ In the above:
 
 * The assigned name (`c`; the combine function) is used to retrieve the set of instructions;
 * The parentheses (which are themselves a function) tell R to execute the function using the values that are enclosed within the parentheses;
-* The values inside the parentheses are the target of the execution;
+* The values inside the parentheses are both the target of the execution and the arguments;
 * Each argument is separated by a comma.
 
 *Note: Our line of code actually contains two functions, `c` and `()`.*
@@ -106,11 +106,11 @@ It is important to recognize that *some* symbols are operators and *all* operato
 
 An **infix function** is a function in which the name of the function is placed between the function's arguments. Most of the operators that we use in R are infix functions.  We learned examples of several infix operators in the preliminary lessons, which include (but are not limited to):
 
-* Assignment operators: `<-` and `=`;
+* Assignment operators (`<-` and `=`);
 * Mathematical operators, such as `+`, `/`, and `*`;
 * Logical operators, such as `==`, `>`, and `%in%`;
 * Colon operators (`:` and `::`);
-* The `$` extraction operators.
+* The `$` extraction operator.
 
 ### Braces and brackets
 
@@ -131,7 +131,7 @@ You can see if a function is primitive or an R function in your command line by 
 `<-`
 ```
 
-To see the primitive functions used in this lesson, please see **Review** at the bottom of this document.
+To see the primitive functions used in this lesson, please see **Reference** at the bottom of this document.
 
 ### Getting help with functions
 
@@ -162,7 +162,7 @@ In R, an **environment** can best be thought of as a collection of names that ar
 -   What is **memory**? Memory, or more specifically random access memory (RAM), is a temporary storage location for instructions (functions) and data. Memory allows for fast processing times (as opposed to data stored on a hard drive) because it is stored in a location that is very close to your computer's processor.
 -   What is a **name**? A "name" is a reference that R uses to call data from your computer's memory. This can also be referred to as an **assignment** (when used as a noun).
 
-In his book [Advanced R](https://adv-r.hadley.nz/){target="_blank"}, Hadley Wickham calls an environment a "bag of names" -- that's a pretty good way to think about it!
+In his book, [Advanced R](https://adv-r.hadley.nz/){target="_blank"}, Hadley Wickham calls an environment a "bag of names" -- that's a pretty good way to think about it!
 
 ### The global environment
 
@@ -208,13 +208,14 @@ environment(mean)
 
 The R community has generated thousands of packages for a variety of applications (most of which should be avoided). When we install a community-generated package (e.g., `install.packages("tidyverse")`), we are saving the package's contents to our hard drive, but we have not yet provided R with access to the package environment. In other words, the names of the functions in the package have not been added to R's search path.
 
-For example, the function `tribble` is in the *tibble* package. We downloaded that package when we installed the *tidyverse* metapackage (recall that the *tidyverse* metapackage loads multiple *tidyverse* packages). Although the *tibble* package has been installed, we do not yet have access to the `tribble` function in our current session:
+For example, the function `tribble` is in the *tibble* package. We downloaded that package when we installed the *tidyverse* metapackage (recall that the *tidyverse* metapackage loads multiple packages). Although the *tibble* package has been installed, we do not yet have access to the `tribble` function in our current session:
 
 ```{r, error = TRUE}
 tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 We received an error because R could not find the `tribble` function. That is because the *tibble* package's environment is not in R's search path for our current session:
@@ -227,23 +228,25 @@ We can provide R access to the *tibble* package's environment by providing the n
 
 ```{r}
 tibble::tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 Note that this pulled the `tribble` function from the `tibble` package's environment, but we still have not added the package environment to the search path. As such, the following still produces an error:
 
 ```{r, error = TRUE}
 tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 That is a desirable effect if you just want to use a package's functions once or twice in a given session (why load *all* of the names?). Moreover, because sometimes the names of functions in packages share names, this helps avoid conflicts among packages. 
 
-An alternative approach is to attach the package environment with the `library` function. This process for accessing a package's environment, which is sometimes referred to informally as "loading a package", should be used when the functions from a package are used often within a given script or R session. To attach a package, you simply supply the `library` function, followed by parentheses, and then the unquoted name of the package that you would like to attach:
+An alternative approach is to attach the package environment with the `library` function. This process for accessing a package's environment, which is sometimes referred to informally as "loading a package", should be used when the functions from a package are used often within a given script or R session. To attach a package, you simply supply the `library` function followed by parentheses, and then the unquoted name of the package that you would like to attach:
 
 ```{r, message = FALSE}
 library(tibble)
@@ -253,9 +256,10 @@ We can now call the function without the use of the `::` operator:
 
 ```{r, error = TRUE}
 tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 The above now works because the `library` function added the package's environment to R's search path for the current session:
@@ -281,7 +285,7 @@ To produce a character vector of *all* of the packages in the tidyverse (both co
 tidyverse_packages()
 ```
 
-To get a sense of which of the tidyverse packages make up the **core tidyverse**, generate a character vector of the search path *after* attaching the tidyverse metapackage:
+To get a sense of which tidyverse packages make up the **core tidyverse**, generate a character vector of the search path *after* attaching the tidyverse metapackage:
 
 ```{r}
 search()
@@ -300,7 +304,7 @@ The **order** of a data object allows us to reference values by position (unlike
 c(1, 1, 2, 3)
 ```
 
-The value "2" in the above vector is the third value in the vector. Because the data are ordered, we can index the vector with the `[[]]` function to extract the value at the third position:
+The value "2" in the above vector is the third value in the vector. Because the data are ordered, we can index the vector with the double square brackets (`[[...]]`) function to extract the value at the third position:
 
 ```{r}
 c(1, 1, 2, 3)[[3]]
@@ -319,8 +323,8 @@ The table below may help you sort between the structure of these common data obj
 
 The above is a handy (and often used) way to describe the structure of different object classes. However, I have found that it can lead to some confusion when working with these data objects. In an attempt to avoid this we will look at:
 
-* **Class**: A blueprint that describes an object's structure. We will assess this with the function `class`.
-* **Type**: How the object is stored in your computer. We will assess this with the function `typeof`
+* **Class**: A blueprint that describes an object's structure. We will assess this with the function `class()`.
+* **Type**: How the object is stored in your computer. We will assess this with the function `typeof()`.
 
 ::: mysecret
 {{< fa user-secret size=2x >}} [Evaluate the class and type of every data object that you create or use!]{style="font-size: 1.25em; padding-left: 0.5em;"}
@@ -398,10 +402,12 @@ Conversion between atomic vector classes and types can sometimes pose challenges
 
 ```{r}
 musicians <-
-  c("roger",
+  c(
+    "roger",
     "pete",
     "john",
-    "keith")
+    "keith"
+  )
 
 class(musicians)
 ```
@@ -485,7 +491,8 @@ matrix(
   1:4,
   nrow = 2,
   ncol = 2,
-  byrow = FALSE)
+  byrow = FALSE
+)
 ```
 
 Note in the above that the matrix was populated by column. This occurred because `byrow` was set to `FALSE` (the default). Watch what happens when we set `byrow = TRUE`:
@@ -495,7 +502,8 @@ matrix(
   1:4,
   nrow = 2,
   ncol = 2,
-  byrow = TRUE)
+  byrow = TRUE
+)
 ```
 
 It should come as no surprise that the class of the data object is a matrix (we did just generate a matrix, after all):
@@ -506,7 +514,8 @@ class(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
@@ -518,7 +527,8 @@ typeof(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
@@ -530,7 +540,8 @@ str(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
@@ -544,7 +555,8 @@ attributes(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
@@ -558,7 +570,8 @@ as.vector(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 
 # Arrange matrix by column and convert to a vector:
@@ -568,7 +581,8 @@ as.vector(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = FALSE)
+    byrow = FALSE
+  )
 )
 ```
 
@@ -584,7 +598,8 @@ matrix(
   c(musicians, 1:4),
   nrow = 4,
   ncol = 2,
-  byrow = TRUE)
+  byrow = TRUE
+)
 ```
 
 :::
