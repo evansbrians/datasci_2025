@@ -20,14 +20,14 @@ editor: source
 
 This course is divided into eight learning modules that will first ensure that you have a solid foundation in coding in the tidyverse and then apply that foundation to using R as a GIS (while continuing to enhance your tidyverse skills!). Each module is comprised of a series of html files that contain instructions, links, and videos. Course modules include (Note: This road map can also be found in the "Logistics" folder on Blackboard):
 
--   **Module 1: Foundations**  (21 - 27 Oct): We will lay the foundations for your success in this course!
--   **Module 2: The tidyverse** (28 Oct - 3 Nov): You will learn the primary tidyverse tools for managing and visualizing ecological data.
--   **Module 3: Introduction to shapefiles** (4 - 10 Nov): This module is our first foray in using R as a GIS and explores creating and using shapefiles with the *sf* package.
--   **Module 4: Programming in R and introduction to tmap**  (11 - 17 Nov): How to create custom functions, use iteration (with *purrr*) to improve your programming workflow, and generate high quality static and interactive maps with *tmap*.
--   **Module 5: Advanced shapefiles and introduction to rasters** (18 - 24 Nov): This module explores geometric operations with shapefiles and provides an introduction to using rasters (i.e., continuous surfaces) with the *terra* package.
--   **Module 6: Categorizing vectors, shapefiles, and rasters**  (25 Nov - 1 Dec): This week is all about classifying data (i.e., defining categories for continuous data or reclassifying categorical data). We will work with non-spatial data at first and then apply those concepts to shapefiles and rasters at the end of the module.
--   **Module 7: Advanced rasters and spatial patterns** (2 - 8 Dec): We will push the envelope a bit further by addressing concepts such as conducting terrain analyses of raster data, deriving density and distance rasters, and toe-dipping into the all-important concept of spatial autocorrelation.
--   **Module 8: Communicating data with Quarto and Shiny** (*Optional*; 9 - 15 Dec): The final module of this course will provide tools for sharing data products. You will learn how to communicate data by creating static (*Quarto*) and interactive (*Shiny*) web pages. *Note: As an optional module, you will not be evaluated on the content herein.*
+-   **Module 1: Foundations**  (17 - 23 Mar): We will lay the foundations for your success in this course!
+-   **Module 2: Introduction to the tidyverse** (24 - 30 Mar): You will learn what tidy data is and the primary tidyverse tools for managing and visualizing ecological data.
+-   **Module 3: Working with tidy data** (31 Mar - 6 Apr): This module provides the core tools for effectively working with tidy data, including adding or modifying columns, summarizing, subsetting with logic, and joining data across tables.
+-   **Module 4: Focus on subsetting**  (7 - 13 Apr): Here, we will explore all things subsetting, including iterative subsetting operations, filtering strings, dates and times, and subsetting vectors.
+-   **Module 5: Focus on mutation** (14 - 20 Apr): Lorem ipsum.
+-   **Module 6: Programming I**  (21 - 27 Apr): Lorem ipsum.
+-   **Module 7: Programming II** (*Optional*; 28 Apr - 4 May): Lorem ipsum.
+-   **Module 8: Communicating data** (*Optional*; 5 - 11 May): Lorem ipsum.
 
 ## Your recipe for success
 
