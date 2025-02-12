@@ -34,3 +34,75 @@ In this first module, we will cover the basic concepts and primary tools that we
 -   **1.6. Course style guide, part 1**: Modern standards in R coding compel us to generate code that is consistent, parsimonious, and communicable. This tutorial provides an introduction to code formatting rules that I will ask you to follow in the course.
 
 *Note: We will quickly build on the content herein, so please be sure to read/view all content in the order that it appears!*
+
+## About this week's data
+
+This week we will use the following data files in our exercises (*Note: You will download this content in **Lesson 1.2 Getting Started***):
+
+**Global populations and CO2 emissions** ([API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv]{.mono}): These data were compiled by the World Bank DataBank and provides information on the emissions of greenhouse gases and the populations of countries around the world. Neither the tabular data nor the name of the file were modified from the original version.
+
+**Iris** ([iris.csv]{.mono} and [iris.rds]{.mono}): This is Edgar Anderson’s famous data set that provides the measurements of flowers of three species of iris, Iris setosa, I. versicolor, and I. virginica. See `?iris` for more information.
+
+**My Covid garden** ([my_covid_garden.xlsx]{.mono}, [my_covid_garden.csv]{.mono}, [my_covid_garden.rds]{.mono}, and [badNameDataFrame.csv]{.mono}): These are tabular data sets (in different formats) that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
+
+**Portal rodents** ([portal.csv]{.mono} and [portal.xlsx]{.mono}). These data sets provide measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at this [link](https://portal.weecology.org/){target="_blank"}. I intentionally made the data a good bit messier than the original version.
+
+## Readings and resources
+
+<button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *tibble* and *tidyverse* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  "function_tables",
+  "functions_through_module_1.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+
+:::
+
+:::{style="margin-top:16px;"}
+
+-   Wickham & Grolemund (1^st^ edition):
+    -   [18.1-18.2: Pipes](https://r4ds.had.co.nz/pipes.html)
+    -   [11.1-11.2: Data import](https://r4ds.had.co.nz/data-import.html)
+
+-   **Cheat sheets:** I *strongly* recommend printing the cheat sheets to have a handy reference for understanding functions and how they are used (*Note: Please use [this link](https://rstudio.github.io/cheatsheets/translations.html) to access translated cheat sheets*)!
+    -   [RStudio IDE](https://rstudio.github.io/cheatsheets/rstudio-ide.pdf)
+    -   [Data import (readr)](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
+    -   [Base R](https://rstudio.github.io/cheatsheets/base-r.pdf)
+    -   [Best Practice for R](https://rstudio.github.io/cheatsheets/R-best-practice.pdf)
+
+:::
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
