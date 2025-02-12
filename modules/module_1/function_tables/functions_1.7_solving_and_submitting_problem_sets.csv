@@ -1,0 +1,8 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,[…],Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,!,Prefix logical operator (not)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,*,Infix arithmetic operator (multiply)
