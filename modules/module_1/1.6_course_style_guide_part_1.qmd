@@ -36,9 +36,9 @@ Style guides, such as this one, are common across many computer languages and or
 
 This lesson is divided into the following sections:
 
-- **Style guide, in brief**: This section provides the code formatting rules that we will follow in this course. I suggest returning to this *often* and comparing your problem set answers with this guide prior to submission.
+-   **Style guide, in brief**: This section provides the code formatting rules that we will follow in this course. I suggest returning to this *often* and comparing your problem set answers with this guide prior to submission.
 
-- **Style guide, in-depth**: I provide a description of the code formatting rules, why they are helpful, and examples of each. Recommendations that vary between this document and the tidyverse style guide are annotated with a superscript † symbol and are described, on a case-by-case basis.
+-   **Style guide, in-depth**: I provide a description of the code formatting rules, why they are helpful, and examples of each. Recommendations that vary between this document and the tidyverse style guide are annotated with a superscript † symbol and are described, on a case-by-case basis.
 
 *Note: I have often gotten the question of whether my own code uses our course style guide -- it does not. My personal style guide is much more strict! The course style guide is greatly simplified to make it easy to adhere to.*
 
@@ -48,38 +48,901 @@ This lesson is divided into the following sections:
 
 ### Horizontal spacing
 
-- **Commas** should be followed by *one* trailing space, but *not* a leading space. *Exception*: More than one space *can* be added after a comma if it improves the alignment within a code block.
-- **Infix functions** should be separated from surrounding code with a *single* leading and trailing space. *Exceptions:*
-  - The extraction (`$`) and colon (`:`, `::`) infix operators should *not* be preceded or followed by a space.
-  - You can add more than one space before the `=` operator if it improves code block alignment.
-- **Prefix functions**: Should *not* be preceded or followed by a space. *Exception*: *Do* include a trailing space if `~` is followed by function.
-- **Parentheses and brackets**: Parentheses (`(...)`)^†^, curly braces `{...}`, and square bracket (extraction: `[]`, `[[]]`) operators should *not* be preceded or followed by a space.
-- **Comments**: Add a *single* space between the hashtag (`#`) and comment.
-- **Indentation**: Piped and nested code should be indented *two* spaces (one tab stop) relative to the parent object in a chained analysis.
+-   **Commas** should be followed by one trailing space, but not a leading space. Exception: More than one space can be added after a comma if it improves the alignment within a code block.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c(1,1 , 2, 3 , 5)
+```
+
+[Good:]{.good}
+
+```{r}
+c(1, 1, 2, 3, 5)
+```
+:::
+
+:::
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Exception</button>
+::: panel
+**Exception**: More than one space *can* be added after a comma if it improves the alignment within a code block.
+
+```{r}
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
+-   **Infix functions** (e.g., %in%, +) should be separated from surrounding code with a single leading and trailing space.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+country<-c("boy", "howdy")
+
+nerdy <-c("hello", "world")
+
+formal<- c("warm", "wishes")
+
+my_list <- 
+  list(
+    country= "boy howdy", 
+    nerdy ="hello world", 
+    formal= "warm wishes")
+
+1/2
+1+ 2
+1 ==2
+
+c(11, 23, 32)%>%
+  mean()
+```
+
+[Good:]{.good}
+
+```{r}
+country <- c("boy", "howdy")
+
+nerdy <- c("hello", "world")
+
+formal <- c("warm", "wishes")
+
+my_list <- 
+  list(
+    country = "boy howdy", 
+    nerdy = "hello world", 
+    formal = "warm wishes")
+
+1 / 2
+1 + 2
+1 == 2
+
+c(11, 23, 32) %>%
+  mean()
+```
+:::
+
+:::
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Exception</button>
+::: panel
+**Exception**: The extraction (\$) and colon (:, ::) infix operators should not be preceded or followed by a space.
+
+[Bad:]{.bad}
+
+```{r}
+my_list$ nerdy
+
+my_list $nerdy
+
+readr ::read_csv
+
+readr:: read_csv
+
+1 :4
+
+1: 4
+```
+
+[Good:]{.good}
+
+```{r}
+my_list$nerdy
+
+readr::read_csv
+
+1:4
+```
+
+**Exception**: You can add more than one space before or after the = operator if it improves code block alignment.
+
+```{r}
+sayings <-
+  tibble(
+    country = c("boy", "howdy"),
+    nerdy   = c("hello", "world"),
+    formal  = c("warm", "wishes"))
+```
+:::
+
+:::
+
+-   **Prefix** **functions** (e.g., c(), tibble()): 
+
+    -   Should not be followed by a space.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c ("boy", "howdy")
+    
+    ! TRUE
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy")
+    
+    !TRUE
+    ```
+    :::
+    
+    :::
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Exception</button>
+    ::: panel
+    **Exception**: Include a trailing space after \~ if it is used as a prefix function.
+    
+    [Bad:]{.bad}
+    
+    ```{r}
+    c(1, 2) %>% 
+      map_dbl(~1 + .x)
+    
+    tribble(
+      ~x, ~y,
+      11, 2,
+      3,  5)
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c(1, 2) %>% 
+      map_dbl(~ 1 + .x)
+    
+    tribble(
+      ~ x, ~ y,
+      11, 2,
+      3,  5)
+    ```
+    :::
+    
+    :::
+
+    -   Should not be preceded by a space if they are the first argument within a nested function.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c("boy", "howdy")
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy")
+    ```
+    :::
+    
+    :::
+
+-   **Parentheses** (...)†: 
+
+    -   Opening and closing parentheses should not be preceded by a space.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c ("boy", "howdy")
+    
+    c("boy", "howdy" )
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy")
+    ```
+    :::
+    
+    :::
+
+    -   If the opening parentheses and function arguments are on the same line, the opening parentheses should not be followed by a space.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c( "boy", "howdy")
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy")
+    ```
+    :::
+    
+    :::
+
+    -   If the opening parentheses and the first argument of a function are on different lines, the first argument should be indented two spaces (one tab stop) relative to the start of the line above.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c (
+    "boy", 
+    "howdy"
+    )
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c(
+      "boy", 
+      "howdy"
+    )
+    ```
+    :::
+    
+    :::
+
+-   **Curly braces** {...}: You may include one or no space prior to an opening curly brace. Do not include a space after or before a closing curly brace.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Exception</button>
+::: panel
+**Exception**: If the closing curly brace is followed by a pipe operator (%\>%).
+
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
+-   **Square brackets** (subsetting \[\] and extraction \[\[\]\] operators) Should not be preceded or followed by a space.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+my_list [[1]]
+
+my_list[[ 1]]
+```
+
+[Good:]{.good}
+
+```{r}
+my_list[[1]]
+```
+:::
+
+:::
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Exception</button>
+::: panel
+**Exception**: When subsetting or extracting a multi-dimensional object inside of square brackets (e.g., df\[1, \]), include a single space for rows or columns in which all data are returned.
+
+[Bad:]{.bad}
+
+```{r}
+sayings[, -1]
+
+sayings[1,]
+```
+
+[Good:]{.good}
+
+```{r}
+sayings[ , 1]
+
+sayings[1, ]
+```
+:::
+
+:::
+
+-   **Pipe operators** (%\>%): 
+
+    -   Pipes should always be preceded by a space.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c ("boy", "howdy")
+    
+    ! TRUE
+    
+    tribble(
+      ~ x, ~ y,
+      11, 2,
+      3,  5)
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy")
+    
+    !TRUE
+    
+    tribble(
+      ~x, ~y,
+      11, 2,
+      3,  5)
+    ```
+    :::
+    
+    :::
+
+    -   The line following the first pipe in a piped code block should be indented two spaces (one tab stop) relative to the line above.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c ("boy", "howdy")
+    
+    ! TRUE
+    
+    tribble(
+      ~ x, ~ y,
+      11, 2,
+      3,  5)
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy")
+    
+    !TRUE
+    
+    tribble(
+      ~x, ~y,
+      11, 2,
+      3,  5)
+    ```
+    :::
+    
+    :::
+
+**Comments**: Add a single space between the hashtag (#) and comment.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+#my section header --------------------------------------------
+
+#My atomic vector:
+
+c(1, 2)
+```
+
+[Good:]{.good}
+
+```{r}
+# my section header -------------------------------------------
+
+# My atomic vector:
+
+c(1, 2)
+```
+:::
+
+:::
 
 ### Vertical spacing
 
--   **Code blocks**: Maintain *one* blank line between code blocks^†^. *Exception*: Do not separate adjacent `library()` functions with a blank line.
+-   **Code blocks**: Maintain *one* blank line between code blocks^†^. 
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c(1, 2)
+list(1, 2)
+```
+
+[Good:]{.good}
+
+```{r}
+c(1, 2)
+
+list(1, 2)
+```
+:::
+
+:::
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Exception</button>
+::: panel
+*Exception*: Do not separate adjacent `library()` functions with a blank line.
+
+[Bad:]{.bad}
+
+```{r}
+library(lobstr)
+library(tidyverse)
+```
+:::
+
+:::
+
 -   **Comments**: Maintain *one* blank line between code blocks and comments^†^.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+# my section header -------------------------------------------
+# My atomic vector:
+c(1, 2)
+```
+
+[Good:]{.good}
+
+```{r}
+# my section header -------------------------------------------
+
+# My atomic vector:
+
+c(1, 2)
+```
+:::
+
+:::
 
 ### Line breaks
 
-- Code and comments should not exceed 80 characters in width (if it is avoidable) -- add a line break, if possible.
+-   **Code and comments** should not exceed 80 characters in width (if it is avoidable) -- add a line break, if possible.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+brood_x_cicadas <- c("Magicicada cassini", "Magicicada septendecim", "Magicicada septendecula")
+```
+
+[Good:]{.good}
+
+```{r}
+brood_x_cicadas <- 
+  c(
+    "Magicicada cassini",
+    "Magicicada septendecim", 
+    "Magicicada septendecula"
+  )
+```
+:::
+
+:::
+
 -   **Prefix functions**: Include no more than *one* prefix function per line of code^†^. *Exceptions*: Prefix operators, the combine function (`c()`), `aes()`, and functions used to calculate summary statistics of a data object (e.g., `mean()`, `n()`, and `length()`).
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
 -   **Arguments in a function**: If you provide three or more arguments to a function, place each argument on its own line^†^. *Exception*: When using the `c()` or `list()` functions, you may include up to five numeric values.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
 -   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator ^†^.
--    **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line^†^.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
+-   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line^†^.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
 
 ### Assignment
 
 -   Always use the `<-` operator for global assignment.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
 -   Assigned names should be written in snake_case.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
 
 ### Functions
 
 -   **Nested functions** should not be nested deeper than two levels (use a pipe instead!)^†^ and each level should be indented *two* spaces (one tab stop) relative to the parent function.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
 -   **Logicals**: Spell out `TRUE` and `FALSE` in a function's argument.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
+
 -   If you modify the default behavior of a function's argument, include the name of the argument.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c ("boy", "howdy")
+
+! TRUE
+
+tribble(
+  ~ x, ~ y,
+  11, 2,
+  3,  5)
+```
+
+[Good:]{.good}
+
+```{r}
+c("boy", "howdy")
+
+!TRUE
+
+tribble(
+  ~x, ~y,
+  11, 2,
+  3,  5)
+```
+:::
+
+:::
 
 ## Style guide, in-depth
 
@@ -201,7 +1064,6 @@ readr::read_csv
 :::
 
 ::: indent_code_wb
-
 ```{r}
 sayings <-
   tibble(
@@ -212,7 +1074,7 @@ sayings <-
 :::
 
 ::: indent_bb
-[●]{.bulls}  **Prefix functions**: Should *not* be preceded or followed by a space.
+[●]{.bulls} **Prefix functions**: Should *not* be preceded or followed by a space.
 :::
 
 ::: indent_code_bb
@@ -262,7 +1124,7 @@ c(1, 2) %>%
 :::
 
 ::: indent_bb
-[●]{.bulls}  **Parentheses and brackets**: Parentheses (`(...)`)^†^, curly braces `{...}`, and square bracket (extraction: `[]`, `[[]]`) operators should *not* be preceded or followed by a space.
+[●]{.bulls} **Parentheses and brackets**: Parentheses (`(...)`)^†^, curly braces `{...}`, and square bracket (extraction: `[]`, `[[]]`) operators should *not* be preceded or followed by a space.
 :::
 
 ::: indent_code_bb
@@ -305,7 +1167,7 @@ mean(
 :::
 
 ::: indent_bb
-[●]{.bulls}  **Comments**: Add a *single* space between the hashtag (`#`) and comment.
+[●]{.bulls} **Comments**: Add a *single* space between the hashtag (`#`) and comment.
 :::
 
 ::: indent_code_bb
@@ -440,7 +1302,7 @@ brood_x_cicadas <-
 :::
 
 ::: indent_bb
-[●]{.bulls} **Prefix functions**: Include no more than *one* prefix function per line of code^†^. 
+[●]{.bulls} **Prefix functions**: Include no more than *one* prefix function per line of code^†^.
 :::
 
 ::: indent_code_bb
@@ -605,6 +1467,7 @@ factor(1:2) %>%
 ::: indent_bb
 [●]{.bulls} **Logicals**: Spell out `TRUE` and `FALSE` in a function's argument.
 :::
+
 ::: indent_code_bb
 [Bad:]{.bad}
 
@@ -654,3 +1517,19 @@ factor(
 ```
 :::
 
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
