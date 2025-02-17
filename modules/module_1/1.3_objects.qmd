@@ -610,7 +610,7 @@ matrix(
 
 A list is a one-dimensional object (i.e., vector) where values, which I will call **list items**, can be of any class or type.
 
-We can generate a list with the `list()` function. Let's combine our `musicians` and the integers `1:4` into a list and assign the name `my_list` to the data object:
+We can generate a list with the `list` function. Let's combine our `musicians` and the integers `1:4` into a list and assign the name `my_list` to the data object:
 
 ```{r}
 my_list <- list(musicians, 1:4)
@@ -622,7 +622,7 @@ Have a look at the values in the resultant object:
 my_list
 ```
 
-The class of each list item was maintained because lists are not atomic. Instead lists are what is known as a **recursive object** -- recursive objects are data objects that are made up of references to component objects. In other words, unlike an atomic vector, the list itself is simply a type of container for holding other objects (and, really, just the references to other objects ... we will see why in ***Lesson 1.5: Assignments***). As such, both the class and type of a list is simply a list:
+The class of each list item was maintained because lists are not atomic. Instead lists are what is known as **recursive objects** -- recursive objects are data objects that are made up of references to component objects. In other words, unlike an atomic vector, the list itself is simply a type of container for holding other objects (and, really, just the references to other objects ... we will see why in ***Lesson 1.5: Assignments***). As such, both the class and type of a list is simply a list:
 
 ```{r}
 class(my_list)
