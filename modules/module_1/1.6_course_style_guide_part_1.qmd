@@ -75,9 +75,10 @@ c(1, 1, 2, 3, 5)
 
 ```{r}
 tribble(
-  ~x, ~y,
-  11, 2,
-  3,  5)
+  ~ x, ~ y,
+  11,  2,
+  3,   5
+)
 ```
 :::
 
@@ -138,7 +139,7 @@ c(11, 23, 32) %>%
 :::
 
 ::: indent_code_bb
-<button class="accordion" style="margin-bottom:1em;">Exception</button>
+<button class="accordion" style="margin-bottom:1em;">Exceptions</button>
 ::: panel
 **Exception**: The extraction (\$) and colon (:, ::) infix operators should not be preceded or followed by a space.
 
@@ -337,61 +338,33 @@ sayings <-
 [Bad:]{.bad}
 
 ```{r}
-c ("boy", "howdy")
-
-! TRUE
-
-tribble(
-  ~ x, ~ y,
-  11, 2,
-  3,  5)
+c("boy", "howdy")
 ```
 
 [Good:]{.good}
 
 ```{r}
 c("boy", "howdy")
-
-!TRUE
-
-tribble(
-  ~x, ~y,
-  11, 2,
-  3,  5)
 ```
 :::
 
 :::
 
 ::: indent_code_bb
-<button class="accordion" style="margin-bottom:1em;">Exception</button>
+<button class="accordion" style="margin-bottom:1em;">Exceptions</button>
 ::: panel
 **Exception**: If the closing curly brace is followed by a pipe operator (%\>%).
 
 [Bad:]{.bad}
 
 ```{r}
-c ("boy", "howdy")
-
-! TRUE
-
-tribble(
-  ~ x, ~ y,
-  11, 2,
-  3,  5)
+c("boy", "howdy")
 ```
 
 [Good:]{.good}
 
 ```{r}
 c("boy", "howdy")
-
-!TRUE
-
-tribble(
-  ~x, ~y,
-  11, 2,
-  3,  5)
 ```
 :::
 
@@ -420,7 +393,7 @@ my_list[[1]]
 :::
 
 ::: indent_code_bb
-<button class="accordion" style="margin-bottom:1em;">Exception</button>
+<button class="accordion" style="margin-bottom:1em;">Exceptions</button>
 ::: panel
 **Exception**: When subsetting or extracting a multi-dimensional object inside of square brackets (e.g., df\[1, \]), include a single space for rows or columns in which all data are returned.
 
@@ -453,27 +426,13 @@ sayings[1, ]
     [Bad:]{.bad}
     
     ```{r}
-    c ("boy", "howdy")
-    
-    ! TRUE
-    
-    tribble(
-      ~ x, ~ y,
-      11, 2,
-      3,  5)
+    c("boy", "howdy")
     ```
     
     [Good:]{.good}
     
     ```{r}
     c("boy", "howdy")
-    
-    !TRUE
-    
-    tribble(
-      ~x, ~y,
-      11, 2,
-      3,  5)
     ```
     :::
     
@@ -487,27 +446,13 @@ sayings[1, ]
     [Bad:]{.bad}
     
     ```{r}
-    c ("boy", "howdy")
-    
-    ! TRUE
-    
-    tribble(
-      ~ x, ~ y,
-      11, 2,
-      3,  5)
+    c("boy", "howdy")
     ```
     
     [Good:]{.good}
     
     ```{r}
     c("boy", "howdy")
-    
-    !TRUE
-    
-    tribble(
-      ~x, ~y,
-      11, 2,
-      3,  5)
     ```
     :::
     
@@ -567,11 +512,9 @@ list(1, 2)
 :::
 
 ::: indent_code_bb
-<button class="accordion" style="margin-bottom:1em;">Exception</button>
+<button class="accordion" style="margin-bottom:1em;">Exceptions</button>
 ::: panel
 *Exception*: Do not separate adjacent `library()` functions with a blank line.
-
-[Bad:]{.bad}
 
 ```{r}
 library(lobstr)
@@ -607,6 +550,57 @@ c(1, 2)
 
 :::
 
+-   **Code and comments**: Should not be on the same line.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+rm(sayings) # Remove object from the global environment
+```
+
+[Good:]{.good}
+
+```{r}
+# Remove object from the global environment:
+
+rm(sayings) 
+```
+:::
+
+:::
+
+-   **Code within a single code block**: Should not be separated by blank lines unless it is separated by a comment.
+
+::: indent_code_bb
+<button class="accordion" style="margin-bottom:1em;">Example</button>
+::: panel
+[Bad:]{.bad}
+
+```{r}
+c(1, 1, 2, 3, 5) %>% 
+  
+  as.character()
+```
+
+[Good:]{.good}
+
+```{r}
+c(1, 1, 2, 3, 5) %>% 
+  as.character()
+
+c(1, 1, 2, 3, 5) %>% 
+  
+  # Convert to a character vector
+  
+  as.character() 
+```
+:::
+
+:::
+
 ### Line breaks
 
 -   **Code and comments** should not exceed 80 characters in width (if it is avoidable) -- add a line break, if possible.
@@ -634,7 +628,7 @@ brood_x_cicadas <-
 
 :::
 
--   **Prefix functions**: Include no more than *one* prefix function per line of code^†^. *Exceptions*: Prefix operators, the combine function (`c()`), `aes()`, and functions used to calculate summary statistics of a data object (e.g., `mean()`, `n()`, and `length()`).
+-   **Prefix functions**: Include no more than *one* prefix function per line of code^†^.
 
 ::: indent_code_bb
 <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -642,65 +636,166 @@ brood_x_cicadas <-
 [Bad:]{.bad}
 
 ```{r}
-c ("boy", "howdy")
-
-! TRUE
-
-tribble(
-  ~ x, ~ y,
-  11, 2,
-  3,  5)
+tibble(a = factor(1:2), b = 1:2)
 ```
 
 [Good:]{.good}
 
 ```{r}
-c("boy", "howdy")
-
-!TRUE
-
-tribble(
-  ~x, ~y,
-  11, 2,
-  3,  5)
+tibble(
+  a = factor(1:2), 
+  b = 1:2)
 ```
 :::
 
 :::
 
--   **Arguments in a function**: If you provide three or more arguments to a function, place each argument on its own line^†^. *Exception*: When using the `c()` or `list()` functions, you may include up to five numeric values.
-
 ::: indent_code_bb
-<button class="accordion" style="margin-bottom:1em;">Example</button>
+<button class="accordion" style="margin-bottom:1em;">Exceptions</button>
 ::: panel
+**Exception**: Prefix operators, and functions used to calculate summary statistics of a data object (e.g., `mean()`, `n()`, and `length()`).
+
 [Bad:]{.bad}
 
 ```{r}
-c ("boy", "howdy")
-
-! TRUE
-
-tribble(
-  ~ x, ~ y,
-  11, 2,
-  3,  5)
+c("boy", "howdy")
 ```
 
 [Good:]{.good}
 
 ```{r}
 c("boy", "howdy")
-
-!TRUE
-
-tribble(
-  ~x, ~y,
-  11, 2,
-  3,  5)
 ```
 :::
 
 :::
+
+-   **Arguments in a function**: 
+
+    -   If you provide three or more arguments to a function, place each argument on its own line^†^. 
+
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c("roger", "pete", "john", "keith")
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c(
+      "roger",
+      "pete",
+      "john",
+      "keith"
+    )
+    ```
+    :::
+    
+    :::
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
+    ::: panel
+    **Exception**: When using the `c()` or `list()` functions, you may include up to five numeric values.
+    
+    ```{r}
+    c(1, 1, 2, 3, 5)
+    ```
+    :::
+    
+    :::
+    
+    -   If a function is on the same line as another function, and the number of arguments across functions is greater than three, place each argument of the parent function on its own line.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c("roger", "pete", "john", "keith")
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c(
+      "roger",
+      "pete",
+      "john",
+      "keith"
+    )
+    ```
+    :::
+    
+    :::
+    
+    -   If you have more than one `=` in a function, place each argument on its own line.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    scale_y_continuous(limits = c(0, 75), expand = c(0, 0))
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    scale_y_continuous(
+      limits = c(0, 75), 
+      expand = c(0, 0)
+    )
+    ```
+    :::
+    
+    :::
+    
+    -   If a filtering operation (`filter()`) has more than one logical test, place each test on its own line.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    filter()
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    filter()
+    ```
+    :::
+    
+    :::
+
+    -   If a newly assigned column requires more than one line to create (given the rules above), add a new line after `=`.
+    
+    ::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    mutate()
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    mutate()
+    ```
+    :::
+    
+    :::
 
 -   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator ^†^.
 
