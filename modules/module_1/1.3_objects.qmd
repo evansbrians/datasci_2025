@@ -483,7 +483,7 @@ A **matrix** is an atomic vector with an additional attribute that arranges the 
 We can create a matrix from scratch using the `matrix` function. We supply:
 
 * An atomic vector of values
-* The number of rows (`nrow = ...`) and/or columns (`ncol = ...`) to arrange the data into
+* The number of rows (`nrow = ...`) and/or columns (`ncol = ...`) that the data will be arranged into
 * The order in which to populate the matrix (`byrow = FALSE` or `byrow = TRUE`)
 
 ```{r}
@@ -519,7 +519,7 @@ class(
 )
 ```
 
-... a peak under-the-hood, however, shows us that the data is stored as an atomic vector!
+... a peak under-the-hood, however, shows us that the data are stored as an atomic vector!
 
 ```{r}
 typeof(
@@ -560,7 +560,7 @@ attributes(
 )
 ```
 
-But what about `byrow = TRUE/FALSE`? Didn't we specify the location of those values in matrix? The function `as.vector` can be used to transform the data back into an atomic vector. Let's see what this generates when arranging the data by row or column:
+But what about `byrow = TRUE/FALSE`? Didn't we specify the location of those values in the matrix? The function `as.vector()` can be used to transform the data back into an atomic vector. Let's see what this generates when arranging the data by row or column:
 
 ```{r}
 # Arrange matrix by row and convert to a vector:
@@ -638,7 +638,7 @@ If we look at the structure of the data, we can see that the list is comprised o
 str(my_list)
 ```
 
-The concepts of parents and children may be a useful construct to understand this. A **parent** is a container that contains references to other objects. The name `my_list` is stored in the global environment, thus the global environment is a parent of `my_list`. A **child** is contained within a parent. The name `my_list` is a child of the global environment and reference points to the two vectors are children of the list object. As a reminder, a reference point is a symbol (or name, if a name is assigned), that R uses to find an object.
+The concepts of parents and children may be a useful construct to understand this. A **parent** is a container that contains references to other objects. The name `my_list` is stored in the global environment, thus the global environment is a parent of `my_list`. A **child** is contained within a parent. The name `my_list` is a child of the global environment. Reference points to the two vectors are children of the list object. As a reminder, a reference point is a symbol (or name, if a name is assigned), that R uses to find an object.
 
 The above shows that lists have a hierarchical structure. The list is a parent that contains reference points to it's children -- a character vector and an integer vector. Because each list item is stored separately, the list itself does not need to be atomic.
 
