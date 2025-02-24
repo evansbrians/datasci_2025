@@ -41,7 +41,7 @@ Objects in R can be thought of as containers that store information. There are t
 
 In this lesson, we will begin our exploration of each of these types of objects. In doing so, I will introduce a lot of the terminology that we will use throughout this course (pay close attention to **bold text**!). You will learn:
 
-* What a function is (and what is not a function)
+* What is a function (and what is not a function)?
 * Prefix vs. infix functions
 * What the term "Global Environment" means and how to manage it effectively
 * What "package environments" are and how to use them with and without the `library` function
@@ -57,7 +57,7 @@ To get the most out of this lesson, please:
 
 * Open RStudio in a clean session;
 * Ensure that you are working in your course project;
-* Open the script file "scripts/lesson_1.3.R"
+* Open the script file [scripts/lesson_1.3.R]{.mono}
 * Code along with the content!
 
 ## Functions
@@ -67,11 +67,11 @@ A **function** is a set of instructions used to complete a given task. Ultimatel
 All functions are called with:
 
 * A name: The reference that R uses to retrieve the instructions for execution
-* Argument(s): The data upon which the function will act
+* Argument(s): Parameters provided to a function (e.g., the data upon which the function will act)
 
 ### Prefix functions
 
-The majority of functions in R are known as **prefix functions**. A prefix function is a function in which the name of the function precedes the target of the evaluation. To run most prefix functions, you supply the name assigned to the set of instructions, a set of parentheses, and the target of evaluation. Consider the following code:
+The majority of functions in R are known as **prefix functions**. A prefix function is a function in which the name of the function precedes the target of the evaluation. To run most prefix functions, you supply the name assigned to the set of instructions, parentheses, and the target of evaluation. Consider the following code:
 
 ```{r}
 c(1, 1, 2, 3)
@@ -81,7 +81,7 @@ In the above:
 
 * The assigned name (`c`; the combine function) is used to retrieve the set of instructions;
 * The parentheses (which are themselves a function) tell R to execute the function using the values that are enclosed within the parentheses;
-* The values inside the parentheses are the target of the execution;
+* The values inside the parentheses are both the target of the execution and the arguments;
 * Each argument is separated by a comma.
 
 *Note: Our line of code actually contains two functions, `c` and `()`.*
@@ -106,11 +106,11 @@ It is important to recognize that *some* symbols are operators and *all* operato
 
 An **infix function** is a function in which the name of the function is placed between the function's arguments. Most of the operators that we use in R are infix functions.  We learned examples of several infix operators in the preliminary lessons, which include (but are not limited to):
 
-* Assignment operators: `<-` and `=`;
+* Assignment operators (`<-` and `=`);
 * Mathematical operators, such as `+`, `/`, and `*`;
 * Logical operators, such as `==`, `>`, and `%in%`;
 * Colon operators (`:` and `::`);
-* The `$` extraction operators.
+* The `$` extraction operator.
 
 ### Braces and brackets
 
@@ -131,7 +131,7 @@ You can see if a function is primitive or an R function in your command line by 
 `<-`
 ```
 
-To see the primitive functions used in this lesson, please see **Review** at the bottom of this document.
+To see the primitive functions used in this lesson, please see **Reference** at the bottom of this document.
 
 ### Getting help with functions
 
@@ -162,7 +162,7 @@ In R, an **environment** can best be thought of as a collection of names that ar
 -   What is **memory**? Memory, or more specifically random access memory (RAM), is a temporary storage location for instructions (functions) and data. Memory allows for fast processing times (as opposed to data stored on a hard drive) because it is stored in a location that is very close to your computer's processor.
 -   What is a **name**? A "name" is a reference that R uses to call data from your computer's memory. This can also be referred to as an **assignment** (when used as a noun).
 
-In his book [Advanced R](https://adv-r.hadley.nz/){target="_blank"}, Hadley Wickham calls an environment a "bag of names" -- that's a pretty good way to think about it!
+In his book, [Advanced R](https://adv-r.hadley.nz/){target="_blank"}, Hadley Wickham calls an environment a "bag of names" -- that's a pretty good way to think about it!
 
 ### The global environment
 
@@ -208,13 +208,14 @@ environment(mean)
 
 The R community has generated thousands of packages for a variety of applications (most of which should be avoided). When we install a community-generated package (e.g., `install.packages("tidyverse")`), we are saving the package's contents to our hard drive, but we have not yet provided R with access to the package environment. In other words, the names of the functions in the package have not been added to R's search path.
 
-For example, the function `tribble` is in the *tibble* package. We downloaded that package when we installed the *tidyverse* metapackage (recall that the *tidyverse* metapackage loads multiple *tidyverse* packages). Although the *tibble* package has been installed, we do not yet have access to the `tribble` function in our current session:
+For example, the function `tribble` is in the *tibble* package. We downloaded that package when we installed the *tidyverse* metapackage (recall that the *tidyverse* metapackage loads multiple packages). Although the *tibble* package has been installed, we do not yet have access to the `tribble` function in our current session:
 
 ```{r, error = TRUE}
 tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 We received an error because R could not find the `tribble` function. That is because the *tibble* package's environment is not in R's search path for our current session:
@@ -227,23 +228,25 @@ We can provide R access to the *tibble* package's environment by providing the n
 
 ```{r}
 tibble::tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 Note that this pulled the `tribble` function from the `tibble` package's environment, but we still have not added the package environment to the search path. As such, the following still produces an error:
 
 ```{r, error = TRUE}
 tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 That is a desirable effect if you just want to use a package's functions once or twice in a given session (why load *all* of the names?). Moreover, because sometimes the names of functions in packages share names, this helps avoid conflicts among packages. 
 
-An alternative approach is to attach the package environment with the `library` function. This process for accessing a package's environment, which is sometimes referred to informally as "loading a package", should be used when the functions from a package are used often within a given script or R session. To attach a package, you simply supply the `library` function, followed by parentheses, and then the unquoted name of the package that you would like to attach:
+An alternative approach is to attach the package environment with the `library` function. This process for accessing a package's environment, which is sometimes referred to informally as "loading a package", should be used when the functions from a package are used often within a given script or R session. To attach a package, you simply supply the `library` function followed by parentheses, and then the unquoted name of the package that you would like to attach:
 
 ```{r, message = FALSE}
 library(tibble)
@@ -253,9 +256,10 @@ We can now call the function without the use of the `::` operator:
 
 ```{r, error = TRUE}
 tribble(
-  ~a, ~b,
-  1,  1,
-  2,  3)
+  ~ a, ~ b,
+    1,   1,
+    2,   3
+)
 ```
 
 The above now works because the `library` function added the package's environment to R's search path for the current session:
@@ -281,7 +285,7 @@ To produce a character vector of *all* of the packages in the tidyverse (both co
 tidyverse_packages()
 ```
 
-To get a sense of which of the tidyverse packages make up the **core tidyverse**, generate a character vector of the search path *after* attaching the tidyverse metapackage:
+To get a sense of which tidyverse packages make up the **core tidyverse**, generate a character vector of the search path *after* attaching the tidyverse metapackage:
 
 ```{r}
 search()
@@ -300,7 +304,7 @@ The **order** of a data object allows us to reference values by position (unlike
 c(1, 1, 2, 3)
 ```
 
-The value "2" in the above vector is the third value in the vector. Because the data are ordered, we can index the vector with the `[[]]` function to extract the value at the third position:
+The value "2" in the above vector is the third value in the vector. Because the data are ordered, we can index the vector with the double square brackets (`[[...]]`) function to extract the value at the third position:
 
 ```{r}
 c(1, 1, 2, 3)[[3]]
@@ -319,8 +323,8 @@ The table below may help you sort between the structure of these common data obj
 
 The above is a handy (and often used) way to describe the structure of different object classes. However, I have found that it can lead to some confusion when working with these data objects. In an attempt to avoid this we will look at:
 
-* **Class**: A blueprint that describes an object's structure. We will assess this with the function `class`.
-* **Type**: How the object is stored in your computer. We will assess this with the function `typeof`
+* **Class**: A blueprint that describes an object's structure. We will assess this with the function `class()`.
+* **Type**: How the object is stored in your computer. We will assess this with the function `typeof()`.
 
 ::: mysecret
 {{< fa user-secret size=2x >}} [Evaluate the class and type of every data object that you create or use!]{style="font-size: 1.25em; padding-left: 0.5em;"}
@@ -398,10 +402,12 @@ Conversion between atomic vector classes and types can sometimes pose challenges
 
 ```{r}
 musicians <-
-  c("roger",
+  c(
+    "roger",
     "pete",
     "john",
-    "keith")
+    "keith"
+  )
 
 class(musicians)
 ```
@@ -477,7 +483,7 @@ A **matrix** is an atomic vector with an additional attribute that arranges the 
 We can create a matrix from scratch using the `matrix` function. We supply:
 
 * An atomic vector of values
-* The number of rows (`nrow = ...`) and/or columns (`ncol = ...`) to arrange the data into
+* The number of rows (`nrow = ...`) and/or columns (`ncol = ...`) that the data will be arranged into
 * The order in which to populate the matrix (`byrow = FALSE` or `byrow = TRUE`)
 
 ```{r}
@@ -485,7 +491,8 @@ matrix(
   1:4,
   nrow = 2,
   ncol = 2,
-  byrow = FALSE)
+  byrow = FALSE
+)
 ```
 
 Note in the above that the matrix was populated by column. This occurred because `byrow` was set to `FALSE` (the default). Watch what happens when we set `byrow = TRUE`:
@@ -495,7 +502,8 @@ matrix(
   1:4,
   nrow = 2,
   ncol = 2,
-  byrow = TRUE)
+  byrow = TRUE
+)
 ```
 
 It should come as no surprise that the class of the data object is a matrix (we did just generate a matrix, after all):
@@ -506,11 +514,12 @@ class(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
-... a peak under-the-hood, however, shows us that the data is stored as an atomic vector!
+... a peak under-the-hood, however, shows us that the data are stored as an atomic vector!
 
 ```{r}
 typeof(
@@ -518,7 +527,8 @@ typeof(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
@@ -530,7 +540,8 @@ str(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
@@ -544,11 +555,12 @@ attributes(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 ```
 
-But what about `byrow = TRUE/FALSE`? Didn't we specify the location of those values in matrix? The function `as.vector` can be used to transform the data back into an atomic vector. Let's see what this generates when arranging the data by row or column:
+But what about `byrow = TRUE/FALSE`? Didn't we specify the location of those values in the matrix? The function `as.vector()` can be used to transform the data back into an atomic vector. Let's see what this generates when arranging the data by row or column:
 
 ```{r}
 # Arrange matrix by row and convert to a vector:
@@ -558,7 +570,8 @@ as.vector(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = TRUE)
+    byrow = TRUE
+  )
 )
 
 # Arrange matrix by column and convert to a vector:
@@ -568,7 +581,8 @@ as.vector(
     1:4,
     nrow = 2,
     ncol = 2,
-    byrow = FALSE)
+    byrow = FALSE
+  )
 )
 ```
 
@@ -584,7 +598,8 @@ matrix(
   c(musicians, 1:4),
   nrow = 4,
   ncol = 2,
-  byrow = TRUE)
+  byrow = TRUE
+)
 ```
 
 :::
@@ -595,7 +610,7 @@ matrix(
 
 A list is a one-dimensional object (i.e., vector) where values, which I will call **list items**, can be of any class or type.
 
-We can generate a list with the `list()` function. Let's combine our `musicians` and the integers `1:4` into a list and assign the name `my_list` to the data object:
+We can generate a list with the `list` function. Let's combine our `musicians` and the integers `1:4` into a list and assign the name `my_list` to the data object:
 
 ```{r}
 my_list <- list(musicians, 1:4)
@@ -607,7 +622,7 @@ Have a look at the values in the resultant object:
 my_list
 ```
 
-The class of each list item was maintained because lists are not atomic. Instead lists are what is known as a **recursive object** -- recursive objects are data objects that are made up of references to component objects. In other words, unlike an atomic vector, the list itself is simply a type of container for holding other objects (and, really, just the references to other objects ... we will see why in ***Lesson 1.5: Assignments***). As such, both the class and type of a list is simply a list:
+The class of each list item was maintained because lists are not atomic. Instead lists are what is known as **recursive objects** -- recursive objects are data objects that are made up of references to component objects. In other words, unlike an atomic vector, the list itself is simply a type of container for holding other objects (and, really, just the references to other objects ... we will see why in ***Lesson 1.5: Assignments***). As such, both the class and type of a list is simply a list:
 
 ```{r}
 class(my_list)
@@ -623,7 +638,7 @@ If we look at the structure of the data, we can see that the list is comprised o
 str(my_list)
 ```
 
-The concepts of parents and children may be a useful construct to understand this. A **parent** is a container that contains references to other objects. The name `my_list` is stored in the global environment, thus the global environment is a parent of `my_list`. A **child** is contained within a parent. The name `my_list` is a child of the global environment and reference points to the two vectors are children of the list object. As a reminder, a reference point is a symbol (or name, if a name is assigned), that R uses to find an object.
+The concepts of parents and children may be a useful construct to understand this. A **parent** is a container that contains references to other objects. The name `my_list` is stored in the global environment, thus the global environment is a parent of `my_list`. A **child** is contained within a parent. The name `my_list` is a child of the global environment. Reference points to the two vectors are children of the list object. As a reminder, a reference point is a symbol (or name, if a name is assigned), that R uses to find an object.
 
 The above shows that lists have a hierarchical structure. The list is a parent that contains reference points to it's children -- a character vector and an integer vector. Because each list item is stored separately, the list itself does not need to be atomic.
 
@@ -652,7 +667,8 @@ We can use the function `data.frame()` to combine two vectors into a data frame 
 my_df <-
   data.frame(
     musician = musicians,
-    number = 1:4)
+    number = 1:4
+  )
 ```
 
 ... and have a look at the data:
@@ -699,7 +715,7 @@ typeof(my_df)
 
 ### Tibble data frames
 
-The above instance is the *only* time that we will use the function `data.frame` in this course (personally, I never use it). Instead we will use **tibble** data frames, which are a special, restrictive class of data frame.
+The above instance is the *only* time that we will use the function `data.frame()` in this course (personally, I never use it). Instead we will use **tibble** data frames, which are a special, restrictive class of data frame.
 
 To generate a tibble data frame, we can use the function `tibble()` to combine two vectors into a single data object:
 
@@ -709,7 +725,8 @@ To generate a tibble data frame, we can use the function `tibble()` to combine t
 my_tibble <- 
   tibble(
     musician = musicians,
-    number = 1:4)
+    number = 1:4
+  )
 
 my_tibble
 ```
@@ -725,13 +742,13 @@ The most apparent difference between a tibble and a typical data frame is that s
 The differences do not stop there though -- tibbles are also more restrictive. For example, notice the kind of object that is returned when we use indexing to extract the second column in a data frame:
 
 ```{r}
-my_df[, 2]
+my_df[ , 2]
 ```
 
 It is an atomic vector! For a tibble, the class of object does not change (it is still a tibble):
 
 ```{r}
-my_tibble[, 2]
+my_tibble[ , 2]
 ```
 
 Tibbles are also restrictive about the use of `$`. In a data frame, columns can be extracted with partial matching:
@@ -755,11 +772,13 @@ Finally (though there are more differences), data frames will recycle values dur
 ```{r}
 data.frame(
   a = 1, 
-  b = 1:4)
+  b = 1:4
+)
 
 data.frame(
   a = 1:2, 
-  b = 1:4)
+  b = 1:4
+)
 ```
 
 Whereas tibbles will only recycle a single value:
@@ -767,11 +786,13 @@ Whereas tibbles will only recycle a single value:
 ```{r, error = TRUE}
 tibble(
   a = 1, 
-  b = 1:4)
+  b = 1:4
+)
 
 tibble(
   a = 1:2,
-  b = 1:4)
+  b = 1:4
+)
 ```
 
 ::: mysecret
@@ -782,17 +803,18 @@ Error messages are annoying but incredibly useful -- we need to find a place in 
 
 #### Other ways of generating tibbles ...
 
-We can also construct a tibble by binding the vectors together with the `bind_cols()` function:
+We can also construct a tibble by binding the vectors together with the `bind_cols` function:
 
 ```{r}
 # A tibble of musicians and their instruments:
 
 bind_cols(
   musician = musicians,
-  number = 1:4)
+  number = 1:4
+)
 ```
 
-Because a tibble *is* a list and each column *is* a list item, we can also use `bind_cols` to combine two tibbles (by column):
+Because a tibble *is* a list and each column *is* a list item, we can also use `bind_cols()` to combine two tibbles (by column):
 
 ```{r}
 # A tibble of musicians and their instruments:
@@ -803,17 +825,18 @@ bind_cols(
 )
 ```
 
-Finally, it is often useful to use the `tribble()` function to generate a tibble. This allows for row-wise tibble construction -- in other words, the `tribble()` function allows us to generate a tibble with code that looks like the output. To do so, column names are preceded by a function operator (`~`) and separated by a comma. Values are typically written in the position that they will occupy in the resultant tibble.
+Finally, it is often useful to use the `tribble` function to generate a tibble. This allows for row-wise tibble construction -- in other words, the `tribble` function allows us to generate a tibble with code that looks like the output. To do so, column names are preceded by a formula operator (`~`) and separated by a comma. Values are typically written in the position that they will occupy in the resultant tibble.
 
 ```{r}
 # Combining the two vectors into a tibble with tribble():
 
 tribble(
-  ~musician, ~number,
+  ~ musician, ~ number,
   "roger",    1,
   "pete",     2,
   "john",     3,
-  "keith",    4)
+  "keith",    4
+)
 ```
 
 ## Indexing (enhanced review)
@@ -825,7 +848,8 @@ Recall that we can extract a list item by position:
 ```{r}
 list(
   fruit = c("apple", "banana"),
-  numbers = 1:2)[[1]]
+  numbers = 1:2
+)[[1]]
 ```
 
 ... or by name:
@@ -833,7 +857,8 @@ list(
 ```{r}
 list(
   fruit = c("apple", "banana"),
-  numbers = 1:2)[["fruit"]]
+  numbers = 1:2
+)[["fruit"]]
 ```
 
 Given that a tibble is a restrictive type of data frame:
@@ -885,20 +910,24 @@ It is greatly preferred to extract by name rather than position because:
 Of course, a data frame is a very special type of list -- it has two dimensions! This gives us the power to index by row (observation):
 
 ```{r}
-my_tibble[c(1, 4), ]
+my_tibble[
+  c(1, 4), ]
 ```
 
 ... by column (variable):
 
 ```{r}
-my_tibble[, "musician"]
+my_tibble[ , "musician"]
 ```
 
 ... or by both column *and* row:
 
 
 ```{r}
-my_tibble[c(1, 4), "musician"]
+my_tibble[
+  c(1, 4), 
+  "musician"
+]
 ```
 
 This two-dimensional nature of a data frame gives us an incredible opportunity to use logic to subset data frames to rows that match a given condition or set of conditions.
@@ -909,10 +938,11 @@ Recall (from ***Preliminary lesson 4***) that we can test whether the values in 
 my_tibble[["musician"]] == "roger"
 ```
 
-... or test whether the values in a vector match a set of values using the `==` operator:
+... or test whether the values in a vector match a set of values using the `%in%` operator:
 
 ```{r}
-my_tibble[["musician"]] %in% c("roger", "keith")
+my_tibble[["musician"]] %in% 
+  c("roger", "keith")
 ```
 
 By nesting these statements within the row position of our two-dimensional indexing brackets (`[row, column]`), we can subset the data to rows in which our test evaluates to `TRUE`:
@@ -922,7 +952,8 @@ my_tibble[
   my_tibble[["musician"]] == "roger", ]
 
 my_tibble[
-  my_tibble[["musician"]] %in% c("roger", "keith"), ]
+  my_tibble[["musician"]] %in% 
+    c("roger", "keith"), ]
 ```
 
 Please note that I include the above predominantly to ensure that you have a strong understanding of the structure of data frame objects. In the real world, the above method tends to make our code very difficult to read, especially as our subsetting operations become more complex. We will soon use tidyverse methods for completing this in a way that is easier to read *and* write! 
@@ -939,7 +970,11 @@ I will start by generating a vector of repeated fruits:
 ```{r}
 my_vector <- 
   rep(
-    c("apple", "banana", "grape"),
+    c(
+      "apple", 
+      "banana", 
+      "grape"
+    ),
     2
   )
 

@@ -638,6 +638,8 @@ The above works because the pipe passed the data to the location of the period.
 
 At this level of simplicity, either method is acceptable (but my preference is the placeholder method). As our data puzzles become more complex throughout this course, we will find opportunities to use both.
 
+**Note: The placeholder is not a function -- it is a symbol!**
+
 ::: mysecret
 {{< fa user-secret size=2x >}} [But doesn't base R have its own pipe?]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
