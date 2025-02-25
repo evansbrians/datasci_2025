@@ -32,15 +32,15 @@ knitr::opts_chunk$set(echo = TRUE,
 
 In this lesson, we will cover the basics of interacting with files stored on your hard drive. While the content herein is very introductory, there are many elements that advanced users will find useful. Across this lesson, you will learn:
 
--   Formatting considerations for R scripts and code
+-   Formatting considerations for R scripts and code.
 -   Why you should always work in a project.
--   How to read in data of different file: *This section includes a fairly long video and written review of video content*.
+-   How to read in data of different file types: *This section includes a fairly long video and written review of video content*.
 -   Data exploration steps you should take whenever you read in a file.
 -   How to write different kinds of files to your hard drive (and why you should do so sparingly).
 
 *Note: Don't worry about my mention of the project video -- I have created your project for you for this class*.
 
-[{{< fa exclamation-triangle size=2x >}} **Important!**]{style="color: red;"} This lesson assumes that you have completed the content in [Preliminary Lesson 1: R & RStudio](https://smbc.shinyapps.io/L0-intro_RStudio/#section-overview){target="_blank"} and [Preliminary Lessons 3.1-3.6](https://smbc.shinyapps.io/L2-rObjects/#section-overview){target="_blank"}. As the material covered herein will build on the content in that lesson, please do not proceed until completing that lesson.
+[{{< fa exclamation-triangle size=2x >}} **Important!**]{style="color: red;"} This lesson assumes that you have completed the content in [Preliminary Lesson 1: R & RStudio](https://smbc.shinyapps.io/L0-intro_RStudio/#section-overview){target="_blank"} and [Preliminary Lessons 3.1-3.6](https://smbc.shinyapps.io/L2-rObjects/#section-overview){target="_blank"}. As the material covered herein will build on the content in those lessons, please do not proceed until completing those lessons.
 
 I rely heavily on the *readr* package when reading in data. This is one of the **core tidyverse packages** -- recall that core tidyverse packages are those that are attached with `library(tidyverse)`.
 
@@ -50,7 +50,11 @@ I rely heavily on the *readr* package when reading in data. This is one of the *
 
 ## Data for this lesson
 
-We will use the following real datasets in this lesson:
+Please click on the following button to explore the real datasets we will use in this lesson:
+
+<button class="accordion">Metadata</button>
+
+::: panel
 
 **Global populations and CO~2~ emissions: API_EN.ATM.CO2E...csv**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx) and provides information on the emissions of greenhouse gases and the populations of countries around the world. Neither the tabular data nor the name of the file were modified from the original version.
 
@@ -60,9 +64,27 @@ We will use the following real datasets in this lesson:
 
 **Portal rodents: portal.csv and portal.xlsx**. These data sets provide measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at [this link](https://portal.weecology.org/). I intentionally made the data a good bit messier than the original version.
 
+:::
+
+## Setting up your session
+
+An R Studio **session** represents the time spent and operations conducted since opening R (*Note: sessions may be saved and loaded to avoid lost work*). At the beginning of each session, I like to do a series of housekeeping steps. Please do the following before continuing:
+
+1. Open your RStudio project (*Note: Always work from inside of a project!*).
+
+1. If there are any script files open in your source pane. Close them. *Note: If any of your script titles are blue, you might want to save them prior to closing!*
+
+1. In the *Environment* tab of your **workspace pane**, ensure that your **Global Environment** is empty. If it is not, click the *broom* to remove all objects.
+
+1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+
+By completing the steps above, your current session will be dedicated, in its entirety, to the task at hand. That really helps organize your workflow during a given session.
+
 ## Reading data
 
 The process of reading data describes making outside data (e.g., online data or data on your hard drive) available to your current R session. Please watch and code along with the video below. I review some key concepts that I hope you gathered from our previous lessons and break new ground with a description of the process of reading data into R.
+
+Note: This video is very old! As such, 
 
 {{< video https://www.youtube.com/embed/S9sySXd3VYc?si=Fc1FACb57ceIHxXQ >}}
 
