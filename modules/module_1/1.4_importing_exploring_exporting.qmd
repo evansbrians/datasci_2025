@@ -58,11 +58,7 @@ Please click on the following button to explore the real datasets we will use in
 
 **Global populations and CO~2~ emissions: API_EN.ATM.CO2E...csv**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx) and provides information on the emissions of greenhouse gases and the populations of countries around the world. Neither the tabular data nor the name of the file were modified from the original version.
 
-**Iris: iris.csv and iris.rds**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164)!).
-
 **My Covid garden: my_covid_garden.rds, my_covid_garden.csv, and my_covid_garden.xlsx**: This is a tabular data set (in different formats) that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
-
-**Portal rodents: portal.csv and portal.xlsx**. These data sets provide measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at [this link](https://portal.weecology.org/). I intentionally made the data a good bit messier than the original version.
 
 :::
 
@@ -232,7 +228,7 @@ Notice that the first column, `bed`, is an integer and `light_access` and `speci
 
 Excel files can be challenging to read into R but luckily the package `readxl` has made the process fairly straightforward 
 
-*Note: readxl is a tidyverse package, but not a member of the core tidyverse. Therefore, we must either load the package in our current R session with `library(readxl)` or directly call functions from the package using `readxl::`. Directly calling functions from this package is often preferable, since we only need to read in a file once.*
+*Note: readxl is a tidyverse package, but not a member of the core tidyverse. Therefore, we must either load the package in our current R session with `library(readxl)` or directly call functions from the package using `readxl::`. Directly calling functions from this package is often preferable, since we only need to read in a given file once.*
 
 Each table in an Excel file is typically stored within worksheets (the tabs on the bottom of the Excel window). Before we read in an Excel file, we should check how many worksheets are present. To do so, we use the function `readxl::excel_sheets()`:
 
@@ -253,7 +249,8 @@ If we would like to read in a different worksheet, we can supply the argument `s
 ```{r}
 readxl::read_excel(
   "data/raw/my_covid_garden.xlsx",
-  sheet = "garden_life")
+  sheet = "garden_life"
+)
 ```
 
 In the above, we notice that there are quite a few bad column names and what are most likely the correct column names are printed on the second line of data. We can add a `skip = [number of rows]` argument to skip the first two rows of data:
@@ -262,7 +259,8 @@ In the above, we notice that there are quite a few bad column names and what are
 readxl::read_excel(
   "data/raw/my_covid_garden.xlsx", 
   sheet = "garden_life",
-  skip = 2)
+  skip = 2
+)
 ```
 
 ::: mysecret
@@ -331,7 +329,8 @@ length(
   list(
     nerdy = "hello world",
     southern = "boy howdy",
-    fibo_numbers = c(0, 1, 1, 2))
+    fibo_numbers = c(0, 1, 1, 2)
+  )
 )
 ```
 
@@ -363,9 +362,19 @@ slice_tail(my_garden)
 With the argument `n = [number of rows]`, we can subset to the number of rows of our choosing. For example, to subset the data to just the first two rows of the data frame, we can use:
 
 ```{r}
-slice_head(my_garden, n = 2)
+slice_head(
+  my_garden, 
+  n = 2
+)
+```
 
-slice_tail(my_garden, n = 2)
+... or the last two rows of the data frame:
+
+```
+slice_tail(
+  my_garden, 
+  n = 2
+)
 
 ```
 
@@ -384,7 +393,8 @@ This arranged the rows of the table by the values in the column `bed`. If we wan
 ```{r}
 arrange(
   my_garden, 
-  desc(bed))
+  desc(bed)
+)
 ```
 
 ### Characters & factors
@@ -444,7 +454,7 @@ sd(my_garden$date)
 ::: mysecret
 {{< fa user-secret size=2x >}}  [For God's sake, **do not** use `view()`!]{style="font-size: 20px"}
 
-There is one early exploration step that is commonly used that I *do not recommend* ... the function `view()`. This function allows you to view your data as though it were a spreadsheet. Here is how it is applied (I have not run it here, but you *may* run it on your own).
+There is one early exploration step that is commonly used that I *do not recommend* ... the function `view()`. This function allows you to view your data as though it were a spreadsheet. Here is how it is applied, though it can also be run by clicking on and object name in the environment tab of your workspace pane (I have not run it here, but you *may* run it on your own).
 
 ```{r, eval = FALSE}
 view(my_garden)
@@ -463,18 +473,22 @@ Our final topic of this section is how to write data to a file. This is quite st
 
 There are two preferred ways to write an atomic vector to a file: as a *.txt* file or as an *.RDS* file.
 
-If you intend to share your vector outside of program R, saving the vector as a text file is a great way to do it. To do so, use the `write_lines()` function. The first argument of the function is the data to write and the second argument is the relative file path:
+If you intend to share your vector outside of program R, saving the vector as a text file is a great way to do it. To do so, use the `write_lines` function. The first argument of the function is the data to write and the second argument is the relative file path:
 
 ```{r}
 write_lines(
   unique(my_garden$light_access),
-  file = "data/raw/temp.txt")
+  file = "data/raw/temp.txt"
+)
 ```
 
 We can use the `list.files()` function to see if the file was written:
 
 ```{r}
-list.files("data/raw", pattern = "txt")
+list.files(
+  "data/raw", 
+  pattern = "txt"
+)
 ```
 
 ... and *really* check to see if it worked by reading the data back in:
@@ -492,7 +506,10 @@ file.remove("data/raw/temp.txt")
 ... and check to see if we successfully removed the file:
 
 ```{r}
-list.files("data/raw", pattern = "txt")
+list.files(
+  "data/raw", 
+  pattern = "txt"
+)
 ```
 
 If you do not intend to use or share the data outside of R, your best bet is to save the data as an *.RDS* file. For this, we use the function `write_rds()`. Again, the first argument of the function is the data to write and the second argument is the relative file path:
@@ -502,7 +519,8 @@ If you do not intend to use or share the data outside of R, your best bet is to 
 
 write_rds(
   factor(my_garden$light_access),
-  file = "data/raw/temp.rds")
+  file = "data/raw/temp.rds"
+)
 
 # Did it work?
 
@@ -512,7 +530,10 @@ read_rds("data/raw/temp.rds")
 
 file.remove("data/raw/temp.rds")
 
-list.files("data/raw", pattern = "rds")
+list.files(
+  "data/raw", 
+  pattern = "rds"
+)
 ```
 
 ::: mysecret
@@ -521,7 +542,7 @@ list.files("data/raw", pattern = "rds")
 Reading and writing *.RDS* files is super straightforward in R. As stated previously, you maintain all of the attributes of the data and, frankly, little thought has to be given about the structure of the object. If you are happy with its current structure, you are good to go. That being said, **do not** write the file as an *.RDS* if:
 
 -   You intend to share the file with a non-R-user
--   You plan to work with the file outside of R (hopefully, that will never be the case!)
+-   You plan to work with the file outside of R (hopefully that will never be the case!)
 -   The file is too big to fit in your memory (in such cases, R only maintains a pointer to a temporary file stored on your hard drive)
 :::
 
@@ -533,13 +554,17 @@ The **only** way that I save list-class objects is as an *.RDS* file! Let's make
 my_list <-
   list(
     light_access = factor(my_garden$light_access),
-    my_garden = my_garden)
+    my_garden = my_garden
+  )
 ```
 
 ... save it as an *.RDS* file:
 
 ```{r}
-write_rds(my_list, "data/raw/temp.rds")
+write_rds(
+  my_list, 
+  "data/raw/temp.rds"
+)
 ```
 
 ... check to see if it worked:
@@ -561,13 +586,16 @@ I should note that you can use R to write a list as an Excel file (each list ite
 The last kind of data we will write is a tibble. There are three options for doing so:
 
 -   `write.csv`: Base R version (**do not use!**)
--   `write_csv`: readr version (use this!)
+-   `write_csv`: readr version (**use this!**)
 -   `write_rds`: As above, handy if you do not intend to share the file with a non-R-user!
 
 Let's start with `write.csv()`. Again, we supply the dataset and a path to the file:
 
 ```{r}
-write.csv(my_garden, file = "data/raw/temp.csv")
+write.csv(
+  my_garden, 
+  file = "data/raw/temp.csv"
+)
 ```
 
 ... Let's see what the above returned:
@@ -590,10 +618,13 @@ file.remove("data/raw/temp.csv")
 Avoid writing files with `write.csv()` ... row numbers are rarely useful and there is a better way ...
 :::
 
-Use the *readr* function `write_csv`!
+Use the *readr* function `write_csv()`!
 
 ```{r}
-write_csv(my_garden, file = "data/raw/temp.csv")
+write_csv(
+  my_garden, 
+  file = "data/raw/temp.csv"
+)
 ```
 
 Let's see what the above returned:
@@ -613,7 +644,10 @@ As above, we could have also written the file using `write_rds()` (but see cavea
 ```{r}
 # Write as an rds file:
 
-write_rds(my_garden, "data/raw/temp.rds")
+write_rds(
+  my_garden, 
+  "data/raw/temp.rds"
+)
 
 # Check to see if it worked:
 
