@@ -84,7 +84,7 @@ By completing the steps above, your current session will be dedicated, in its en
 
 The process of reading data describes making outside data (e.g., online data or data on your hard drive) available to your current R session. Please watch and code along with the video below. I review some key concepts that I hope you gathered from our previous lessons and break new ground with a description of the process of reading data into R.
 
-Note: This video is very old! As such, 
+Note: Some videos in this course were recorded a long time ago! The way I format my code has changed a *lot* since then. You will learn about the formatting rules we use for this course in Lesson 1.6: Course style guide introduction and Lesson 2.x: Course style guide.
 
 {{< video https://www.youtube.com/embed/S9sySXd3VYc?si=Fc1FACb57ceIHxXQ >}}
 
@@ -106,7 +106,7 @@ This project contains a subfolder called `data` and in that folder is a subfolde
 
 *Note: The folder `data` may also be considered a "child" of its parent folder, `data_sci`. Likewise, the folder `raw` is a child of its parent folder, `data`.*
 
-The `raw` data folder contains a *.csv* file called `portal.csv`. The full path to this file is:
+The `raw` data folder contains a *.csv* file called `my_covid_garden.csv`. The full path to this file is:
 
 ```         
 /Volumes/ssd980/gits/datasci_2023/data_sci/data/raw/portal.csv
@@ -129,7 +129,7 @@ When we work within a project, the folder that contains the *.Rproj* file is the
 read_csv("data/raw/my_covid_garden.csv")
 ```
 
-In Base R, we can set our working directory using the function `setwd()`. Before RStudio came along, this function was on the top of most of our scripts. It might have look something like (**Do not run!**):
+In Base R, we can set our working directory using the function `setwd()`. Before RStudio came along, this function was on the top of most of our scripts. It might have looked something like (**Do not run!**):
 
 ```{r, eval = FALSE}
 # My code for the tutorial: reading, exploring, and writing data
@@ -154,14 +154,14 @@ This certainly helps reduce the amount of writing required to read in files. How
 
 Using `setwd()` in your code is dangerous because shared code will never work out-of-the-box. You will have to communicate to others (and your future self) to modify their working directory to match the location on their file systems. Conversely, if you share a **project** with your collaborators, everything will already be in place for them to execute the code.
 
-Even more importantly, you might change your mind about where you want to put your code or files. If you move your files to a new location, your code will no longer run until you modify the path within the `setwd()` function. Your code will be "broken". When you use projects, you can move your project anywhere you want in your file system and R will still be able to find your files.
+Even more importantly, you might change your mind about where you want to put your code or files. If you move your files to a new location, your code will no longer run until you modify the path within the `setwd` function. Your code will be "broken". When you use projects, you can move your project anywhere you want in your file system and R will still be able to find your files.
 :::
 
 ### Review: Read csv files
 
-Tabular data are most often stored as a **csv file** -- "csv" stands for "comma separated values". Data with this format are stored as a plain text files where commas separate values, and each record (e.g., row in a data frame) is placed on a new line. This is a robust format because it does not contain hidden encoding that can sometimes lead to problems (see Excel, below).
+Tabular data are most often stored as a **csv file** -- "csv" stands for "comma separated values". Data with this format are stored as a plain text file where commas separate values, and each record (e.g., row in a data frame) is placed on a new line. This is a robust format because it does not contain hidden encoding that can sometimes lead to problems (see Excel, below).
 
-It is best to read in *.csv* files with the *readr* function `read_csv` (*Note: Remember that the readr package a part of the core tidyverse!*). If we are working in a project, we supply the relative file path inside of parentheses. Let's read in the file `iris.csv` from the folder `data/raw` and assign the object to the name `my_garden`. 
+It is best to read in *.csv* files with the *readr* function `read_csv()` (*Note: Remember that the readr package a part of the core tidyverse!*). If we are working in a project, we supply the relative file path inside of parentheses. Let's read in the file `my_covid_garden.csv` from the folder `data/raw` and assign the object to the name `my_garden`. 
 
 ```{r}
 my_garden <-
@@ -206,7 +206,8 @@ Additional arguments can be passed to `read_csv()` to address this problem (and 
 read_csv(
   "data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv", 
   skip = 4, 
-  skip_empty_rows = FALSE)
+  skip_empty_rows = FALSE
+)
 ```
 
 ::: mysecret
@@ -219,7 +220,7 @@ Whenever you use a function for the first time, or use a function to address a n
 
 **RDS files** are the most straightforward file type to read in (but see the caveat associated with these files in "Writing data", below). RDS files are data sets that are written in, and written for, program R.
 
-We can read in an RDS file with the function `read_rds`. Let's read in the file `my_covid_garden.rds`:
+We can read in an RDS file with the function `read_rds()`. Let's read in the file `my_covid_garden.rds`:
 
 ```{r}
 read_rds("data/raw/my_covid_garden.rds")
@@ -229,7 +230,9 @@ Notice that the first column, `bed`, is an integer and `light_access` and `speci
 
 ### Review: Read Excel files
 
-Excel files can be challenging to read into R but luckily the package `readxl` has made the process fairly straightforward (*Note: readxl is a tidyverse package, but not a member of the core tidyverse*).
+Excel files can be challenging to read into R but luckily the package `readxl` has made the process fairly straightforward 
+
+*Note: readxl is a tidyverse package, but not a member of the core tidyverse. Therefore, we must either load the package in our current R session with `library(readxl)` or directly call functions from the package using `readxl::`. Directly calling functions from this package is often preferable, since we only need to read in a file once.*
 
 Each table in an Excel file is typically stored within worksheets (the tabs on the bottom of the Excel window). Before we read in an Excel file, we should check how many worksheets are present. To do so, we use the function `readxl::excel_sheets()`:
 
