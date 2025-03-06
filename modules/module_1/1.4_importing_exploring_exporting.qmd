@@ -62,6 +62,14 @@ Please click on the following button to explore the real datasets we will use in
 
 :::
 
+## Reading data
+
+The process of reading data describes making outside data (e.g., online data or data on your hard drive) available to your current R session. Please watch and code along with the video below. I review some key concepts that I hope you gathered from our previous lessons and break new ground with a description of the process of reading data into R.
+
+Note: Some videos in this course were recorded a long time ago! The way I format my code has changed a *lot* since then. You will learn about the formatting rules we use for this course in Lesson 1.6: Course style guide introduction and Lesson 2.x: Course style guide.
+
+{{< video https://www.youtube.com/embed/S9sySXd3VYc?si=Fc1FACb57ceIHxXQ >}}
+
 ## Setting up your session
 
 An R Studio **session** represents the time spent and operations conducted since opening R (*Note: sessions may be saved and loaded to avoid lost work*). At the beginning of each session, I like to do a series of housekeeping steps. Please do the following before continuing:
@@ -75,14 +83,6 @@ An R Studio **session** represents the time spent and operations conducted since
 1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
 
 By completing the steps above, your current session will be dedicated, in its entirety, to the task at hand. That really helps organize your workflow during a given session.
-
-## Reading data
-
-The process of reading data describes making outside data (e.g., online data or data on your hard drive) available to your current R session. Please watch and code along with the video below. I review some key concepts that I hope you gathered from our previous lessons and break new ground with a description of the process of reading data into R.
-
-Note: Some videos in this course were recorded a long time ago! The way I format my code has changed a *lot* since then. You will learn about the formatting rules we use for this course in Lesson 1.6: Course style guide introduction and Lesson 2.x: Course style guide.
-
-{{< video https://www.youtube.com/embed/S9sySXd3VYc?si=Fc1FACb57ceIHxXQ >}}
 
 ### Review: Why work in a project?
 
