@@ -2,7 +2,7 @@
 
 # This script will help you code along with the content in lesson 1.5. I have 
 # not included *all* of the code in the lesson, as I suggest writing some code
-# on your own (predomoninantly in the console pane).
+# on your own (predominantly in the console pane).
 
 # setup -------------------------------------------------------------------
 
@@ -35,7 +35,8 @@ southern_saying <- "boy howdy!"
 str_c(
   nerdy_greeting,
   southern_saying, 
-  sep = ", ")
+  sep = ", "
+)
 
 # Notice that the names can be used interchangeably with the objects that they
 # are assigned to:
@@ -43,17 +44,20 @@ str_c(
 str_c(
   "hello world",
   "boy howdy!", 
-  sep = ", ")
+  sep = ", "
+)
 
 str_c(
   nerdy_greeting,
   "boy howdy!", 
-  sep = ", ")
+  sep = ", "
+)
 
 str_c(
   "hello world",
   southern_saying, 
-  sep = ", ")
+  sep = ", "
+)
 
 # Likewise:
 
@@ -77,16 +81,20 @@ lobstr::ref(.GlobalEnv)
 ordered_numbers <- 1:20
 
 musicians <-
-  c("roger",
+  c(
+    "roger",
     "pete",
     "john",
-    "keith")
+    "keith"
+  )
 
 four_instruments <-
-  c("vocals",
+  c(
+    "vocals",
     "guitar",
     "bass",
-    "drums")
+    "drums"
+  )
 
 # Remove a single name:
 
@@ -138,7 +146,8 @@ lobstr::ref(my_sayings)
 my_list_named <- 
   list(
     nerdy_greeting = "hello world", 
-    southern_saying = "boy howdy!")
+    southern_saying = "boy howdy!"
+  )
 
 lobstr::ref(my_list_named)
 
@@ -163,8 +172,10 @@ lobstr::ref(my_list_named)
 # Why can't you use `$` with atomic vectors?
 
 my_sayings_named <- 
-  c(nerdy_greeting = "hello world", 
-    southern_saying = "boy howdy!")
+  c(
+    nerdy_greeting = "hello world", 
+    southern_saying = "boy howdy!"
+  )
 
 lobstr::ref(my_sayings_named)
 
@@ -183,14 +194,18 @@ unique(bad_df$`plant/mushroom`)
 
 # Rename one variable with `rename()`:
 
-rename(bad_df, bed = BED)
+rename(
+  bad_df, 
+  bed = BED
+)
 
 # Rename multiple variables with `rename()`:
 
 rename(
   bad_df, 
   bed = BED,
-  light_access = LightAccess)
+  light_access = LightAccess
+)
 
 # Rename non-syntactic variables with `rename()`:
 
@@ -199,7 +214,8 @@ rename(
   bed = BED,
   light_access = LightAccess,
   plant_mushroom = `plant/mushroom`,
-  event_date = `Event date`)
+  event_date = `Event date`
+)
 
 # No camelCase either!
 
@@ -209,14 +225,16 @@ rename(
   light_access = LightAccess,
   plant_mushroom = `plant/mushroom`,
   event_date = `Event date`,
-  garden_event = gardenEvent)
+  garden_event = gardenEvent
+)
 
 # Rename with set_names() ... but with bad names:
 
 my_list_add_names <- 
   set_names(
     my_list, 
-    c("Nerdy", "Southern"))
+    c("Nerdy", "Southern")
+  )
 
 # Nested function to convert to lowercase names:
 
@@ -297,37 +315,32 @@ read_csv("data/raw/badNameDataFrame.csv") %>%
     light_access = LightAccess,
     plant_mushroom = `plant/mushroom`,
     event_date = `Event date`,
-    garden_event = gardenEvent)
+    garden_event = gardenEvent
+  )
 
 # The options for doing so with nested code can be bleak:
 
 set_names(
   read_csv("data/raw/badNameDataFrame.csv"), 
-  c("bed",
+  c(
+    "bed",
     "light_access",
     "plant_mushroom",
     "event_date",
-    "garden_event")
+    "garden_event"
+  )
 )
 
 # Much nicer with pipes!
 
 read_csv("data/raw/badNameDataFrame.csv") %>% 
   set_names(
-    c("bed",
+    c(
+      "bed",
       "light_access",
       "plant_mushroom",
       "event_date",
-      "garden_event")
+      "garden_event"
+    )
   )
-
-
-
-
-
-
-
-
-
-
 
