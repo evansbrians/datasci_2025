@@ -33,7 +33,7 @@ This course will be broken down into eight learning modules (Note: This road map
 
 This course is, to put it mildly, *challenging*. If you have a solid strategy for working through the content, however, you will emerge from this experience with an incredible skillset that is ready to take on even the toughest of data challenges.
 
-Through my experiences with students throughout the years, I've found that the following practices are typically followed by students who get the most out of this course:
+Through my experiences with students throughout the years, I have found that the following practices are typically followed by students who get the most out of this course:
 
 -   **View all content in the order that it is presented**: We are often drawn to content that relates to something we would like to learn. Because each lesson builds on the previous lessons, it is important to avoid the temptation of exploring the content out of order. *This includes completing the preliminary course lessons before starting the course material!*
 -   **Do not skip lessons**: It is often easy to say to yourself "I already know how to do that" and, as such, either skip a given lesson or pay less attention to that lesson. Each lesson likely includes new functions, new function arguments, or important details that you may miss with even the most familiar of functions.
