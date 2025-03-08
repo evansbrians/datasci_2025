@@ -14,7 +14,8 @@
 
 library(tidyverse)
 
-# List files in a directory:
+# List files in a directory (Note: The files in your `data/raw` folder may be
+# different than the output shown in the video lesson):
 
 list.files()
 
@@ -36,11 +37,11 @@ read_csv("data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv")
 
 read_rds("data/raw/iris.rds")
 
-read_rds('data/raw/four_instruments.rds')
+read_rds("data/raw/four_instruments.rds")
 
 # Read an Excel file with the readxl package function read_xlsx:
 
-readxl::excel_sheets('data/raw/portal.xlsx')
+readxl::excel_sheets("data/raw/portal.xlsx")
 
 readxl::read_excel("data/raw/portal.xlsx")
 
