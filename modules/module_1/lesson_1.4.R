@@ -31,7 +31,8 @@ read_csv("data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv")
 read_csv(
   "data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv", 
   skip = 4, 
-  skip_empty_rows = FALSE)
+  skip_empty_rows = FALSE
+)
 
 # Read in an RDS file:
 
@@ -50,14 +51,16 @@ readxl::read_excel("data/raw/my_covid_garden.xlsx")
 
 readxl::read_excel(
   "data/raw/my_covid_garden.xlsx",
-  sheet = "garden_life")
+  sheet = "garden_life"
+)
 
 # Like csv files, we can skip rows:
 
 readxl::read_excel(
   "data/raw/my_covid_garden.xlsx", 
   sheet = "garden_life",
-  skip = 2)
+  skip = 2
+)
 
 # data exploration: structure  --------------------------------------------
 
@@ -96,7 +99,8 @@ length(
   list(
     nerdy = "hello world",
     southern = "boy howdy",
-    fibo_numbers = c(0, 1, 1, 2))
+    fibo_numbers = c(0, 1, 1, 2)
+  )
 )
 
 # Because a data frame is a type of list, the length of a data frame is the
@@ -116,11 +120,17 @@ slice_tail(my_garden)
 
 # Subset a data frame to the first two records with `n = ...`:
 
-slice_head(my_garden, n = 2)
+slice_head(
+  my_garden, 
+  n = 2
+)
 
 # Subset a data frame to the last two records with `n = ...`:
 
-slice_tail(my_garden, n = 2)
+slice_tail(
+  my_garden, 
+  n = 2
+)
 
 # data exploration: ordering ----------------------------------------------
 
@@ -133,7 +143,8 @@ arrange(my_garden, bed)
 
 arrange(
   my_garden, 
-  desc(bed))
+  desc(bed)
+)
 
 # data exploration: characters & factors ----------------------------------
 
@@ -185,12 +196,16 @@ sd(my_garden$date)
 
 write_lines(
   unique(my_garden$light_access),
-  file = "data/raw/temp.txt")
+  file = "data/raw/temp.txt"
+)
 
 # To see if we were successful, use `list.files()` to return a character vector
 # of file names (or paths) in a specified folder:?
 
-list.files("data/raw", pattern = "txt")
+list.files(
+  "data/raw", 
+  pattern = "txt"
+)
 
 # Try to read the file back in to make sure that the writing process worked:
 
@@ -204,7 +219,8 @@ file.remove("data/raw/temp.txt")
 
 write_rds(
   factor(my_garden$light_access),
-  file = "data/raw/temp.rds")
+  file = "data/raw/temp.rds"
+)
 
 # Did it work?
 
@@ -221,11 +237,15 @@ file.remove("data/raw/temp.rds")
 my_list <-
   list(
     light_access = factor(my_garden$light_access),
-    my_garden = my_garden)
+    my_garden = my_garden
+  )
 
 # Save as an RDS file:
 
-write_rds(my_list, "data/raw/temp.rds")
+write_rds(
+  my_list, 
+  "data/raw/temp.rds"
+)
 
 # Check to see if if worked:
 
@@ -239,7 +259,10 @@ file.remove("data/raw/temp.rds")
 
 # DO NOT USE the base R's write.csv() to write data frames:
 
-write.csv(my_garden, file = "data/raw/temp.csv")
+write.csv(
+  my_garden, 
+  file = "data/raw/temp.csv"
+)
 
 # Notice that it adds a row number column by default:
 
@@ -251,7 +274,10 @@ file.remove("data/raw/temp.csv")
 
 # DO USE write_csv():
 
-write_csv(my_garden, file = "data/raw/temp.csv")
+write_csv(
+  my_garden, 
+  file = "data/raw/temp.csv"
+)
 
 read_csv("data/raw/temp.csv")
 
@@ -261,7 +287,10 @@ file.remove("data/raw/temp.rds")
 
 # Writing a data frame as an RDS is also an option:
 
-write_rds(my_garden, "data/raw/temp.rds")
+write_rds(
+  my_garden, 
+  "data/raw/temp.rds"
+)
 
 # Check to see if it worked:
 
