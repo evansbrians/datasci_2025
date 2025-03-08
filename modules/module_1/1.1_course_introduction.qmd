@@ -18,16 +18,16 @@ editor: source
 
 ## Road map
 
-This course is divided into eight learning modules that will first ensure that you have a solid foundation in coding in the tidyverse and then apply that foundation to using R as a GIS (while continuing to enhance your tidyverse skills!). Each module is comprised of a series of html files that contain instructions, links, and videos. Course modules include (Note: This road map can also be found in the "Logistics" folder on Blackboard):
+This course will be broken down into eight learning modules (Note: This road map can also be found in the “Logistics” folder on Blackboard):
 
 -   **Module 1: Foundations**  (17 - 23 Mar): We will lay the foundations for your success in this course!
--   **Module 2: Introduction to the tidyverse** (24 - 30 Mar): You will learn what tidy data is and the primary tidyverse tools for managing and visualizing ecological data.
--   **Module 3: Working with tidy data** (31 Mar - 6 Apr): This module provides the core tools for effectively working with tidy data, including adding or modifying columns, summarizing, subsetting with logic, and joining data across tables.
--   **Module 4: Focus on subsetting**  (7 - 13 Apr): Here, we will explore all things subsetting, including iterative subsetting operations, filtering strings, dates and times, and subsetting vectors.
--   **Module 5: Focus on mutation** (14 - 20 Apr): Lorem ipsum.
--   **Module 6: Programming I**  (21 - 27 Apr): Lorem ipsum.
--   **Module 7: Programming II** (*Optional*; 28 Apr - 4 May): Lorem ipsum.
--   **Module 8: Communicating data** (*Optional*; 5 - 11 May): Lorem ipsum.
+-   **Module 2: Introduction to the tidyverse** (24 - 30 Mar): Here, you will learn the primary tidyverse tools for managing and visualizing ecological data and we will cover the underlying philosophy that guides the tidyverse (**tidy data**).
+-   **Module 3: Working with tidy data** (31 Mar - 6 Apr): This module provides an overview of the tidyverse tools to manage ecological data.
+-   **Module 4: Focus on subsetting**  (7 - 13 Apr): This module covers a variety of ways that we can subset the rows and columns of a data frame (*tidyselect* and *dplyr*), and values/items in a vector (*purrr*).
+-   **Module 5: Focus on mutation** (14 - 20 Apr): This module provides a deeper look into modifying, summarizing, and classifying data. We will also address working with classes of data that often represent unique challenges (strings: *stringr*; dates: *lubridate*).
+-   **Module 6: Programming I**  (21 - 27 Apr): Here, we focus on developing a programming workflow (*purrr*), evaluate processing time and memory usage, and apply tidyverse tools for working with big ecological datasets (*dbplyr* and *arrow*).
+-   **Module 7: Programming II** (*Optional*; 28 Apr - 4 May): In this optional module you will learn how to download and interact with data using web APIs, explore using GitHub from the Unix environment, and you will learn how to build your own custom packages. *Note: As an optional module, you will not be evaluated on the content herein.*
+-   **Module 8: Communicating data** (*Optional*; 5 - 11 May): The final module of this course will provide tools for sharing data products. You will learn how to communicate data by creating static (*Quarto*) and interactive (*Shiny*) web pages. *Note: As an optional module, you will not be evaluated on the content herein.*
 
 ## Your recipe for success
 
@@ -58,5 +58,5 @@ Elements of this course may be challenging, but help is on the way!
 -   **Virtual office hour sessions** are offered to provide one-on-one help with course materials.
 -   Please **contact us via email** if you find an error in the content or require assistance with course logistics.
     -   Brian Evans: [evansbr\@si.edu](mailto:evansbr@si.edu){target="_blank"}
-    -   Joe Kolowski: [kolowskij\@si.edu](mailto:kolowskij@si.edu){target="_blank"}
     -   Tara Snedgen: [snedgent\@si.edu](mailto:snedgent@si.edu){target="_blank"}
+    -   Joe Kolowski: [kolowskij\@si.edu](mailto:kolowskij@si.edu){target="_blank"}
