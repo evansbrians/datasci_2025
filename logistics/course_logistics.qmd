@@ -27,14 +27,14 @@ For further detail on course requirements, policies, grading criteria, and logis
 
 This course is divided into eight learning modules that will first ensure that you have a solid foundation in coding in the tidyverse and then apply that foundation to using R as a GIS (while continuing to enhance your tiydverse skills!). Each module is comprised of a series of html files that contain instructions, links, and videos. Course modules include:
 
--   **Module 1: Foundations**  (21 - 27 Oct): We will lay the foundations for your success in this course!
--   **Module 2: The tidyverse** (28 Oct - 3 Nov): You will learn the primary tidyverse tools for managing and visualizing ecological data.
--   **Module 3: Introduction to shapefiles** (4 - 10 Nov): This module is our first foray in using R as a GIS and explores creating and using shapefiles with the *sf* package.
--   **Module 4: Programming in R and introduction to tmap**  (11 - 17 Nov): How to create custom functions, use iteration (with *purrr*) to improve your programming workflow, and generate high quality static and interactive maps with *tmap*.
--   **Module 5: Advanced shapefiles and introduction to rasters** (18 - 24 Nov): This module explores geometric operations with shapefiles and provides an introduction to using rasters (i.e., continuous surfaces) with the *terra* package.
--   **Module 6: Categorizing vectors, shapefiles, and rasters**  (25 Nov - 1 Dec): This week is be all about classifying data (i.e., defining categories for continuous data or reclassifying categorical data). We will work with non-spatial data at first and then apply those concepts to shapefiles and rasters at the end of the module.
--   **Module 7: Advanced rasters and spatial patterns** (2 - 8 Dec): We will push the envelope a bit further by addressing concepts such as conducting terrain analyses of raster data, deriving density and distance rasters, and toe-dipping into the all-important concept of spatial autocorrelation.
--   **Module 8: Communicating data with Quarto and Shiny** (*Optional*; 9 - 15 Dec): The final module of this course will provide tools for sharing data products. You will learn how to communicate data by creating static (*Quarto*) and interactive (*Shiny*) web pages. *Note: As an optional module, you will not be evaluated on the content herein.*
+-   **Module 1: Foundations**  (17 - 23 Mar): We will lay the foundations for your success in this course!
+-   **Module 2: Introduction to the tidyverse** (24 - 30 Mar): Here, you will learn the primary tidyverse tools for managing and visualizing ecological data and we will cover the underlying philosophy that guides the tidyverse (**tidy data**).
+-   **Module 3: Working with tidy data** (31 Mar - 6 Apr): This module provides an overview of the tidyverse tools to manage ecological data.
+-   **Module 4: Focus on subsetting**  (7 - 13 Apr): This module covers a variety of ways that we can subset the rows and columns of a data frame (*tidyselect* and *dplyr*), and values/items in a vector (*purrr*).
+-   **Module 5: Focus on mutation** (14 - 20 Apr): This module provides a deeper look into modifying, summarizing, and classifying data. We will also address working with classes of data that often represent unique challenges (strings: *stringr*; dates: *lubridate*).
+-   **Module 6: Programming I**  (21 - 27 Apr): Here, we focus on developing a programming workflow (*purrr*), evaluate processing time and memory usage, and apply tidyverse tools for working with big ecological datasets (*dbplyr* and *arrow*).
+-   **Module 7: Programming II** (*Optional*; 28 Apr - 4 May): In this optional module you will learn how to download and interact with data using web APIs, explore using GitHub from the Unix environment, and you will learn how to build your own custom packages. *Note: As an optional module, you will not be evaluated on the content herein.*
+-   **Module 8: Communicating data** (*Optional*; 5 - 11 May): The final module of this course will provide tools for sharing data products. You will learn how to communicate data by creating static (*Quarto*) and interactive (*Shiny*) web pages. *Note: As an optional module, you will not be evaluated on the content herein.*
 
 ## Saving course material
 
@@ -61,10 +61,10 @@ Please ensure that your camera is on during all video meetings.
 
 | Meeting         |    Day    |    Time\*     |                                                  Zoom                                                   | Primary goal                             |
 |---------------|:-------------:|:-------------:|:-------------:|---------------|
-| Review session  |  Mondays  | 10:30 - 11:45 | [Link](https://smithsonian.zoom.us/j/89051670655?pwd=n0t7V6BTgwSA8buRkmzTvUiB2koRWb.1){target="_blank"} | Review problem set key                   |
-| Office hours^†^ | Thursdays | 08:00 - 09:30 | [Link](https://smithsonian.zoom.us/j/86023491095?pwd=T7jOZFBcghxDQyTck2ojKGaW8depbg.1){target="_blank"} | Course-relevant, one-on-one help session |
-| Q & A session   |  Fridays  | 10:45 - 11:30 | [Link](https://smithsonian.zoom.us/j/82938115463?pwd=6rAdJHPySVqskjWIqCLhrwtwE8U5SZ.1){target="_blank"} | Address questions regarding problem sets |
-| Office hours^†^ |  Fridays  | 13:30 - 14:45 | [Link](https://smithsonian.zoom.us/j/83933933410?pwd=DcytJ3RKAQdVznmadcjoj5NPSWT32k.1){target="_blank"} | Course-relevant, one-on-one help session |
+| Review session  |  Mondays  | 10:30 - 11:45 | [Link](https://smithsonian.zoom.us/j/86480494367?pwd=4aMCwsO09FmJ28KWoO59bb1Ur4eIob.1){target="_blank"} | Review problem set key                   |
+| Office hours^†^ | Thursdays | 08:00 - 09:30 | [Link](https://smithsonian.zoom.us/j/83359158760?pwd=aONKjMJMOZAJJkpaujdF8COcTCXMOD.1){target="_blank"} | Course-relevant, one-on-one help session |
+| Q & A session   |  Fridays  | 10:45 - 11:30 | [Link](https://smithsonian.zoom.us/j/82705299314?pwd=p88MehrdCHewUVazMoL6Vh1JqOC9vu.1){target="_blank"} | Address questions regarding problem sets |
+| Office hours^†^ |  Fridays  | 13:30 - 14:45 | [Link](https://smithsonian.zoom.us/j/81080079484?pwd=GPAApTL58WElNz1eJtSRIHbCXWVnIa.1){target="_blank"} | Course-relevant, one-on-one help session |
 
 [\* All times are Eastern Time (ET)]{style="padding-top:0em;\""}\
 ^†^ See [Office hours](#sec-officehrs), below, for details
@@ -74,14 +74,14 @@ Please ensure that your camera is on during all video meetings.
 ### Weekly Review Sessions: {.unnumbered}
 
 -   **When**: Mondays from 10:30-11:45 ET. Please note that there will be no Review Session on 11 November (US federal holiday).
--   **Review session link** (Zoom): Click [this link](https://smithsonian.zoom.us/j/89051670655?pwd=n0t7V6BTgwSA8buRkmzTvUiB2koRWb.1){target="_blank"} to join the review session.
+-   **Review session link** (Zoom): Click [this link](https://smithsonian.zoom.us/j/86480494367?pwd=4aMCwsO09FmJ28KWoO59bb1Ur4eIob.1){target="_blank"} to join the review session.
 -   **Purpose**: We will review the answers to the problem set that was due on the previous night. We will typically go over questions that students had difficulty with and then open the floor for further questions. Please feel free to ask questions throughout! Note: The first weekly review session will be dedicated to introducing the course.
 -   **Can’t make it?** We will post videos of these sessions on the following Tuesday morning
 
 ### Question & Answer sessions: {.unnumbered}
 
 -   **When**: Fridays from 10:45-11:30 ET
--   **Q & A session link** (Zoom): Click [this link](https://smithsonian.zoom.us/j/82938115463?pwd=6rAdJHPySVqskjWIqCLhrwtwE8U5SZ.1){target="_blank"} to join the Q & A session.
+-   **Q & A session link** (Zoom): Click [this link](https://smithsonian.zoom.us/j/82705299314?pwd=p88MehrdCHewUVazMoL6Vh1JqOC9vu.1){target="_blank"} to join the Q & A session.
 -   **Purpose**: We will address any questions you may have for the current problem set. This session is guided by you, so please come prepared to ask questions! When all questions for the current problem set have been addressed, we will open the floor for additional questions.
 -   **Can’t make it?** If you can’t make it to the session, please be sure to post questions in the discussion board. We will post videos of these sessions on the following Saturday morning.
 
@@ -114,14 +114,14 @@ The grading rubric for each problem set will be provided to you within the probl
 
 ### Final problem set {.unnumbered}
 
-At the end of this course you will complete a *final problem set* that will be provided to you as an html document and R script file. The material covered in the problem set will be comprehensive and may draw from any content across the lessons in this course. The final problem set will be made available to you no less than two weeks prior to its due date (**15 Dec**). Students who wish to earn a course certificate must score 70% or higher on final problem set.
+At the end of this course you will complete a *final problem set* that will be provided to you as an html document and R script file. The material covered in the problem set will be comprehensive and may draw from any content across the lessons in this course. The final problem set will be made available to you no less than two weeks prior to its due date (**11 May**). Students who wish to earn a course certificate must score 70% or higher on final problem set.
 
 ## Contacting Us {.unnumbered}
 
 We may only be directly contacted via email. **Do not use the email system within Blackboard, as this sends your messages to an unattended mailbox**. We will answer your emails within 24 hours. You can reach us at:
 
 -   Brian Evans (instructor): [evansbr\@si.edu](mailto:evansbr@si.edu)\
--   Joseph Kolowski (co-instructor/course logistics): [kolowskij\@si.edu](mailto:kolowskij@si.edu)
 -   Tara Snedgen (teaching assistant): [snedgent\@si.edu](mailto:snedgent@si.edu)
+-   Joseph Kolowski (course logistics): [kolowskij\@si.edu](mailto:kolowskij@si.edu)
 
 **Important**! For questions regarding clarification of code or methodology, please consult with your peers using the Blackboard discussion board! This is meant to be a peer-to-peer learning device -- we will monitor the discussion board but will only weigh in if/when we deem it necessary.
