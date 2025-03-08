@@ -32,15 +32,15 @@ knitr::opts_chunk$set(echo = TRUE,
 
 In this lesson, we will cover the basics of interacting with files stored on your hard drive. While the content herein is very introductory, there are many elements that advanced users will find useful. Across this lesson, you will learn:
 
--   Formatting considerations for R scripts and code
+-   Formatting considerations for R scripts and code.
 -   Why you should always work in a project.
--   How to read in data of different file: *This section includes a fairly long video and written review of video content*.
+-   How to read in data of different file types: *This section includes a fairly long video and written review of video content*.
 -   Data exploration steps you should take whenever you read in a file.
 -   How to write different kinds of files to your hard drive (and why you should do so sparingly).
 
 *Note: Don't worry about my mention of the project video -- I have created your project for you for this class*.
 
-[{{< fa exclamation-triangle size=2x >}} **Important!**]{style="color: red;"} This lesson assumes that you have completed the content in [Preliminary Lesson 1: R & RStudio](https://smbc.shinyapps.io/L0-intro_RStudio/#section-overview){target="_blank"} and [Preliminary Lessons 3.1-3.6](https://smbc.shinyapps.io/L2-rObjects/#section-overview){target="_blank"}. As the material covered herein will build on the content in that lesson, please do not proceed until completing that lesson.
+[{{< fa exclamation-triangle size=2x >}} **Important!**]{style="color: red;"} This lesson assumes that you have completed the content in [Preliminary Lesson 1: R & RStudio](https://smbc.shinyapps.io/L0-intro_RStudio/#section-overview){target="_blank"} and [Preliminary Lessons 3.1-3.6](https://smbc.shinyapps.io/L2-rObjects/#section-overview){target="_blank"}. As the material covered herein will build on the content in those lessons, please do not proceed until completing those lessons.
 
 I rely heavily on the *readr* package when reading in data. This is one of the **core tidyverse packages** -- recall that core tidyverse packages are those that are attached with `library(tidyverse)`.
 
@@ -50,7 +50,11 @@ I rely heavily on the *readr* package when reading in data. This is one of the *
 
 ## Data for this lesson
 
-We will use the following real datasets in this lesson:
+Please click on the following button to explore the real datasets we will use in this lesson:
+
+<button class="accordion">Metadata</button>
+
+::: panel
 
 **Global populations and CO~2~ emissions: API_EN.ATM.CO2E...csv**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx) and provides information on the emissions of greenhouse gases and the populations of countries around the world. Neither the tabular data nor the name of the file were modified from the original version.
 
@@ -60,11 +64,29 @@ We will use the following real datasets in this lesson:
 
 **Portal rodents: portal.csv and portal.xlsx**. These data sets provide measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at [this link](https://portal.weecology.org/). I intentionally made the data a good bit messier than the original version.
 
+:::
+
 ## Reading data
 
 The process of reading data describes making outside data (e.g., online data or data on your hard drive) available to your current R session. Please watch and code along with the video below. I review some key concepts that I hope you gathered from our previous lessons and break new ground with a description of the process of reading data into R.
 
+Note: Some videos in this course were recorded a long time ago! The way I format my code has changed a *lot* since then. You will learn about the formatting rules we use for this course in Lesson 1.6: Course style guide introduction and Lesson 2.x: Course style guide.
+
 {{< video https://www.youtube.com/embed/S9sySXd3VYc?si=Fc1FACb57ceIHxXQ >}}
+
+## Setting up your session
+
+An R Studio **session** represents the time spent and operations conducted since opening R (*Note: sessions may be saved and loaded to avoid lost work*). At the beginning of each session, I like to do a series of housekeeping steps. Please do the following before continuing:
+
+1. Open your RStudio project (*Note: Always work from inside of a project!*).
+
+1. If there are any script files open in your source pane. Close them. *Note: If any of your script titles are blue, you might want to save them prior to closing!*
+
+1. In the *Environment* tab of your **workspace pane**, ensure that your **Global Environment** is empty. If it is not, click the *broom* to remove all objects.
+
+1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+
+By completing the steps above, your current session will be dedicated, in its entirety, to the task at hand. That really helps organize your workflow during a given session.
 
 ### Review: Why work in a project?
 
@@ -84,10 +106,10 @@ This project contains a subfolder called `data` and in that folder is a subfolde
 
 *Note: The folder `data` may also be considered a "child" of its parent folder, `data_sci`. Likewise, the folder `raw` is a child of its parent folder, `data`.*
 
-The `raw` data folder contains a *.csv* file called `portal.csv`. The full path to this file is:
+The `raw` data folder contains a *.csv* file called `my_covid_garden.csv`. The full path to this file is:
 
 ```         
-/Volumes/ssd980/gits/datasci_2023/data_sci/data/raw/portal.csv
+/Volumes/ssd980/gits/datasci_2023/data_sci/data/raw/my_covid_garden.csv
 ```
 
 Reading data with a full file path is super cumbersome (**Do not run!**):
@@ -107,7 +129,7 @@ When we work within a project, the folder that contains the *.Rproj* file is the
 read_csv("data/raw/my_covid_garden.csv")
 ```
 
-In Base R, we can set our working directory using the function `setwd()`. Before RStudio came along, this function was on the top of most of our scripts. It might have look something like (**Do not run!**):
+In Base R, we can set our working directory using the function `setwd()`. Before RStudio came along, this function was on the top of most of our scripts. It might have looked something like (**Do not run!**):
 
 ```{r, eval = FALSE}
 # My code for the tutorial: reading, exploring, and writing data
@@ -132,14 +154,14 @@ This certainly helps reduce the amount of writing required to read in files. How
 
 Using `setwd()` in your code is dangerous because shared code will never work out-of-the-box. You will have to communicate to others (and your future self) to modify their working directory to match the location on their file systems. Conversely, if you share a **project** with your collaborators, everything will already be in place for them to execute the code.
 
-Even more importantly, you might change your mind about where you want to put your code or files. If you move your files to a new location, your code will no longer run until you modify the path within the `setwd()` function. Your code will be "broken". When you use projects, you can move your project anywhere you want in your file system and R will still be able to find your files.
+Even more importantly, you might change your mind about where you want to put your code or files. If you move your files to a new location, your code will no longer run until you modify the path within the `setwd` function. Your code will be "broken". When you use projects, you can move your project anywhere you want in your file system and R will still be able to find your files.
 :::
 
 ### Review: Read csv files
 
-Tabular data are most often stored as a **csv file** -- "csv" stands for "comma separated values". Data with this format are stored as a plain text files where commas separate values, and each record (e.g., row in a data frame) is placed on a new line. This is a robust format because it does not contain hidden encoding that can sometimes lead to problems (see Excel, below).
+Tabular data are most often stored as a **csv file** -- "csv" stands for "comma separated values". Data with this format are stored as a plain text file where commas separate values, and each record (e.g., row in a data frame) is placed on a new line. This is a robust format because it does not contain hidden encoding that can sometimes lead to problems (see Excel, below).
 
-It is best to read in *.csv* files with the *readr* function `read_csv` (*Note: Remember that the readr package a part of the core tidyverse!*). If we are working in a project, we supply the relative file path inside of parentheses. Let's read in the file `iris.csv` from the folder `data/raw` and assign the object to the name `my_garden`. 
+It is best to read in *.csv* files with the *readr* function `read_csv()` (*Note: Remember that the readr package a part of the core tidyverse!*). If we are working in a project, we supply the relative file path inside of parentheses. Let's read in the file `my_covid_garden.csv` from the folder `data/raw` and assign the object to the name `my_garden`. 
 
 ```{r}
 my_garden <-
@@ -184,7 +206,8 @@ Additional arguments can be passed to `read_csv()` to address this problem (and 
 read_csv(
   "data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv", 
   skip = 4, 
-  skip_empty_rows = FALSE)
+  skip_empty_rows = FALSE
+)
 ```
 
 ::: mysecret
@@ -197,7 +220,7 @@ Whenever you use a function for the first time, or use a function to address a n
 
 **RDS files** are the most straightforward file type to read in (but see the caveat associated with these files in "Writing data", below). RDS files are data sets that are written in, and written for, program R.
 
-We can read in an RDS file with the function `read_rds`. Let's read in the file `my_covid_garden.rds`:
+We can read in an RDS file with the function `read_rds()`. Let's read in the file `my_covid_garden.rds`:
 
 ```{r}
 read_rds("data/raw/my_covid_garden.rds")
@@ -207,7 +230,9 @@ Notice that the first column, `bed`, is an integer and `light_access` and `speci
 
 ### Review: Read Excel files
 
-Excel files can be challenging to read into R but luckily the package `readxl` has made the process fairly straightforward (*Note: readxl is a tidyverse package, but not a member of the core tidyverse*).
+Excel files can be challenging to read into R but luckily the package `readxl` has made the process fairly straightforward 
+
+*Note: readxl is a tidyverse package, but not a member of the core tidyverse. Therefore, we must either load the package in our current R session with `library(readxl)` or directly call functions from the package using `readxl::`. Directly calling functions from this package is often preferable, since we only need to read in a given file once.*
 
 Each table in an Excel file is typically stored within worksheets (the tabs on the bottom of the Excel window). Before we read in an Excel file, we should check how many worksheets are present. To do so, we use the function `readxl::excel_sheets()`:
 
@@ -228,7 +253,8 @@ If we would like to read in a different worksheet, we can supply the argument `s
 ```{r}
 readxl::read_excel(
   "data/raw/my_covid_garden.xlsx",
-  sheet = "garden_life")
+  sheet = "garden_life"
+)
 ```
 
 In the above, we notice that there are quite a few bad column names and what are most likely the correct column names are printed on the second line of data. We can add a `skip = [number of rows]` argument to skip the first two rows of data:
@@ -237,7 +263,8 @@ In the above, we notice that there are quite a few bad column names and what are
 readxl::read_excel(
   "data/raw/my_covid_garden.xlsx", 
   sheet = "garden_life",
-  skip = 2)
+  skip = 2
+)
 ```
 
 ::: mysecret
@@ -306,7 +333,8 @@ length(
   list(
     nerdy = "hello world",
     southern = "boy howdy",
-    fibo_numbers = c(0, 1, 1, 2))
+    fibo_numbers = c(0, 1, 1, 2)
+  )
 )
 ```
 
@@ -338,9 +366,19 @@ slice_tail(my_garden)
 With the argument `n = [number of rows]`, we can subset to the number of rows of our choosing. For example, to subset the data to just the first two rows of the data frame, we can use:
 
 ```{r}
-slice_head(my_garden, n = 2)
+slice_head(
+  my_garden, 
+  n = 2
+)
+```
 
-slice_tail(my_garden, n = 2)
+... or the last two rows of the data frame:
+
+```
+slice_tail(
+  my_garden, 
+  n = 2
+)
 
 ```
 
@@ -359,7 +397,8 @@ This arranged the rows of the table by the values in the column `bed`. If we wan
 ```{r}
 arrange(
   my_garden, 
-  desc(bed))
+  desc(bed)
+)
 ```
 
 ### Characters & factors
@@ -419,7 +458,7 @@ sd(my_garden$date)
 ::: mysecret
 {{< fa user-secret size=2x >}}  [For God's sake, **do not** use `view()`!]{style="font-size: 20px"}
 
-There is one early exploration step that is commonly used that I *do not recommend* ... the function `view()`. This function allows you to view your data as though it were a spreadsheet. Here is how it is applied (I have not run it here, but you *may* run it on your own).
+There is one early exploration step that is commonly used that I *do not recommend* ... the function `view()`. This function allows you to view your data as though it were a spreadsheet. Here is how it is applied, though it can also be run by clicking on and object name in the environment tab of your workspace pane (I have not run it here, but you *may* run it on your own).
 
 ```{r, eval = FALSE}
 view(my_garden)
@@ -438,18 +477,22 @@ Our final topic of this section is how to write data to a file. This is quite st
 
 There are two preferred ways to write an atomic vector to a file: as a *.txt* file or as an *.RDS* file.
 
-If you intend to share your vector outside of program R, saving the vector as a text file is a great way to do it. To do so, use the `write_lines()` function. The first argument of the function is the data to write and the second argument is the relative file path:
+If you intend to share your vector outside of program R, saving the vector as a text file is a great way to do it. To do so, use the `write_lines` function. The first argument of the function is the data to write and the second argument is the relative file path:
 
 ```{r}
 write_lines(
   unique(my_garden$light_access),
-  file = "data/raw/temp.txt")
+  file = "data/raw/temp.txt"
+)
 ```
 
 We can use the `list.files()` function to see if the file was written:
 
 ```{r}
-list.files("data/raw", pattern = "txt")
+list.files(
+  "data/raw", 
+  pattern = "txt"
+)
 ```
 
 ... and *really* check to see if it worked by reading the data back in:
@@ -467,7 +510,10 @@ file.remove("data/raw/temp.txt")
 ... and check to see if we successfully removed the file:
 
 ```{r}
-list.files("data/raw", pattern = "txt")
+list.files(
+  "data/raw", 
+  pattern = "txt"
+)
 ```
 
 If you do not intend to use or share the data outside of R, your best bet is to save the data as an *.RDS* file. For this, we use the function `write_rds()`. Again, the first argument of the function is the data to write and the second argument is the relative file path:
@@ -477,7 +523,8 @@ If you do not intend to use or share the data outside of R, your best bet is to 
 
 write_rds(
   factor(my_garden$light_access),
-  file = "data/raw/temp.rds")
+  file = "data/raw/temp.rds"
+)
 
 # Did it work?
 
@@ -487,7 +534,10 @@ read_rds("data/raw/temp.rds")
 
 file.remove("data/raw/temp.rds")
 
-list.files("data/raw", pattern = "rds")
+list.files(
+  "data/raw", 
+  pattern = "rds"
+)
 ```
 
 ::: mysecret
@@ -496,7 +546,7 @@ list.files("data/raw", pattern = "rds")
 Reading and writing *.RDS* files is super straightforward in R. As stated previously, you maintain all of the attributes of the data and, frankly, little thought has to be given about the structure of the object. If you are happy with its current structure, you are good to go. That being said, **do not** write the file as an *.RDS* if:
 
 -   You intend to share the file with a non-R-user
--   You plan to work with the file outside of R (hopefully, that will never be the case!)
+-   You plan to work with the file outside of R (hopefully that will never be the case!)
 -   The file is too big to fit in your memory (in such cases, R only maintains a pointer to a temporary file stored on your hard drive)
 :::
 
@@ -508,13 +558,17 @@ The **only** way that I save list-class objects is as an *.RDS* file! Let's make
 my_list <-
   list(
     light_access = factor(my_garden$light_access),
-    my_garden = my_garden)
+    my_garden = my_garden
+  )
 ```
 
 ... save it as an *.RDS* file:
 
 ```{r}
-write_rds(my_list, "data/raw/temp.rds")
+write_rds(
+  my_list, 
+  "data/raw/temp.rds"
+)
 ```
 
 ... check to see if it worked:
@@ -536,13 +590,16 @@ I should note that you can use R to write a list as an Excel file (each list ite
 The last kind of data we will write is a tibble. There are three options for doing so:
 
 -   `write.csv`: Base R version (**do not use!**)
--   `write_csv`: readr version (use this!)
+-   `write_csv`: readr version (**use this!**)
 -   `write_rds`: As above, handy if you do not intend to share the file with a non-R-user!
 
 Let's start with `write.csv()`. Again, we supply the dataset and a path to the file:
 
 ```{r}
-write.csv(my_garden, file = "data/raw/temp.csv")
+write.csv(
+  my_garden, 
+  file = "data/raw/temp.csv"
+)
 ```
 
 ... Let's see what the above returned:
@@ -565,10 +622,13 @@ file.remove("data/raw/temp.csv")
 Avoid writing files with `write.csv()` ... row numbers are rarely useful and there is a better way ...
 :::
 
-Use the *readr* function `write_csv`!
+Use the *readr* function `write_csv()`!
 
 ```{r}
-write_csv(my_garden, file = "data/raw/temp.csv")
+write_csv(
+  my_garden, 
+  file = "data/raw/temp.csv"
+)
 ```
 
 Let's see what the above returned:
@@ -588,7 +648,10 @@ As above, we could have also written the file using `write_rds()` (but see cavea
 ```{r}
 # Write as an rds file:
 
-write_rds(my_garden, "data/raw/temp.rds")
+write_rds(
+  my_garden, 
+  "data/raw/temp.rds"
+)
 
 # Check to see if it worked:
 
