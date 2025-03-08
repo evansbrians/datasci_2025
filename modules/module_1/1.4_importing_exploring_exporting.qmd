@@ -58,7 +58,11 @@ Please click on the following button to explore the real datasets we will use in
 
 **Global populations and CO~2~ emissions: API_EN.ATM.CO2E...csv**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx) and provides information on the emissions of greenhouse gases and the populations of countries around the world. Neither the tabular data nor the name of the file were modified from the original version.
 
+**Iris: iris.csv and iris.rds**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164)!).
+
 **My Covid garden: my_covid_garden.rds, my_covid_garden.csv, and my_covid_garden.xlsx**: This is a tabular data set (in different formats) that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
+
+**Portal rodents: portal.csv and portal.xlsx**. These data sets provide measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at [this link](https://portal.weecology.org/). I intentionally made the data a good bit messier than the original version.
 
 :::
 
@@ -105,7 +109,7 @@ This project contains a subfolder called `data` and in that folder is a subfolde
 The `raw` data folder contains a *.csv* file called `my_covid_garden.csv`. The full path to this file is:
 
 ```         
-/Volumes/ssd980/gits/datasci_2023/data_sci/data/raw/portal.csv
+/Volumes/ssd980/gits/datasci_2023/data_sci/data/raw/my_covid_garden.csv
 ```
 
 Reading data with a full file path is super cumbersome (**Do not run!**):
