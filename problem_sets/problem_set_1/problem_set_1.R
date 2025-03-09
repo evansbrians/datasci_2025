@@ -16,9 +16,11 @@
 
 # question 3 --------------------------------------------------------------
 
-# Read in the worksheet "point_count_observations" from the Microsoft Excel
-# file "data/raw/bird_counts.xlsx" as a data frame and assign the object to
-# the name `bird_counts`.
+# Using the *relative file path*, read in the worksheet
+# "point_count_observations" from the Microsoft Excel file
+# "data/raw/bird_counts.xlsx" as a data frame and assign the object to the name
+# `bird_counts`. Make sure that your column names match the variables described
+# in About the data!
 
 
 

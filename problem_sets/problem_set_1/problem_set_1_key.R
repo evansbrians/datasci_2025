@@ -16,15 +16,18 @@ library(tidyverse)
 
 # question 3 --------------------------------------------------------------
 
-# Read in the worksheet "point_count_observations" from the Microsoft Excel
-# file "data/raw/bird_counts.xlsx" as a data frame and assign the object to
-# the name `bird_counts`.
+# Using the *relative file path*, read in the worksheet
+# "point_count_observations" from the Microsoft Excel file
+# "data/raw/bird_counts.xlsx" as a data frame and assign the object to the name
+# `bird_counts`. Make sure that your column names match the variables described
+# in About the data!
 
 bird_counts <- 
   readxl::read_excel(
     "data/raw/bird_counts.xlsx", 
     sheet = "point_count_observations",
-    skip = 2)
+    skip = 2
+  )
 
 # question 4 --------------------------------------------------------------
 
@@ -87,18 +90,14 @@ bird_counts[bird_counts[["species"]] == "CACH", ]
 # catbird), and "NOCA" (Northern cardinal; see Preliminary lesson 4: 
 # Indexing):
 
-bird_counts[bird_counts[["species"]] %in% c("AMRO", "GRCA", "NOCA"), ]
-
-# Or (a little easier to read):
-
 bird_counts[
-  bird_counts[["species"]] %in% c("AMRO", "GRCA", "NOCA"), ]
-
-# Or even (considerably easier to read):
-
-bird_counts[
-  bird_counts[["species"]] %in%
-    c("AMRO", "GRCA", "NOCA"), ]
+  bird_counts[["species"]] %in% 
+    c(
+      "AMRO", 
+      "GRCA", 
+      "NOCA"
+    ), 
+]
 
 # question 6 --------------------------------------------------------------
 

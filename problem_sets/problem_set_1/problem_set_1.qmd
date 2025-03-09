@@ -54,8 +54,13 @@ The points allotted for each question are provided in highlighted red bold text 
 * [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment"
 * [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question
 * [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`)
+* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 1.6: Course Style Guide, part 1**;
 
 *Note: The maximum deduction is the total points value for a given question*
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Click the blue button below to view the functions that you may use in completing this problem set. Make sure that you know what each function does (use `?[function name]` if you do not). Do not use any functions outside of this list!
+:::
 
 :::: Accordion
 <button class="accordion">Functions that you may use in this assignment</button>
@@ -111,6 +116,7 @@ Variables in the "point_count_observations" worksheet of `bird_counts.xlsx` incl
 * `species` (character): A four-letter code for the species banded;
 * `foraging` (character): Where a given species of bird spends most of its time foraging (aerial, bark, foliage, or ground);
 * `diet` (character): The primary diet of a given species of bird (granivore, insectivore, omnivore, or nectarivore).
+* `count` (numeric): The quantity of a given species observed during each point count. 
 
 :::
 :::
@@ -123,7 +129,7 @@ Variables in the "point_count_observations" worksheet of `bird_counts.xlsx` incl
 <i class="fas fa-user-secret fa-2x" style="padding-right: 6px;"></i>  Hints: 
 
   * I would name my file `problem_set_1_evans_brian.R`.
-  * See ***Preliminary Lesson one: R and RStudio*** for a definition of snake case.
+  * See ***Preliminary Lesson one: R and RStudio*** and "Naming conventions" in **1.5 Assignments** for a definition of snake case.
 :::
 
 2\. [[0.5]]{.score} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
@@ -132,7 +138,7 @@ Variables in the "point_count_observations" worksheet of `bird_counts.xlsx` incl
 <i class="fas fa-user-secret fa-2x" style="padding-right: 6px;"></i>  Hint: See ***1.2 Getting started*** and "Package environments" in ***1.3 R Objects***.
 :::
 
-3\. [[1.0]]{.score} Read in the worksheet "point_count_observations" from the Microsoft Excel file "data/raw/bird_counts.xlsx" as a data frame and assign the object to the name `bird_counts`. 
+3\. [[1.0]]{.score} Using the *relative file path*, read in the worksheet "point_count_observations" from the Microsoft Excel file `data/raw/bird_counts.xlsx` as a data frame and assign the object to the name `bird_counts`. Make sure that your column names match the variables described in *About the data*!
 
 :::{class="mysecret"}
 <i class="fas fa-user-secret fa-2x" style="padding-right: 6px;"></i>  Hints: 
@@ -149,7 +155,7 @@ Variables in the "point_count_observations" worksheet of `bird_counts.xlsx` incl
 * [[0.25]]{.subscore} Write a line of code that generates a one-value character vector that describes how the object assigned to the name `bird_counts` is stored in your computer's memory.
 * [[0.25]]{.subscore} Write a line of code that generates a character vector that describes the class of the object assigned to the name `bird_counts`.
 * [[0.25]]{.subscore} Write a line of code that prints the structure of the object assigned to the name `bird_counts`.
-* [[0.25]]{.subscore} Write a line of code that prints a reference tree for all objects in your global environment (i.e., how the data are stored in your computer's random access memory).
+* [[0.25]]{.subscore} Write a line of code that prints a reference tree for *all objects in your global environment* (i.e., how the data are stored in your computer's random access memory).
 
 :::{class="mysecret"}
 <i class="fas fa-user-secret fa-2x" style="padding-right: 6px;"></i>  Hint: See ***1.3 R Objects*** (bullet points 1-3) and ***1.5 Assignments*** (bullet point 4).
