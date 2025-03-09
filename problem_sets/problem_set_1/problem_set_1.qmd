@@ -51,10 +51,11 @@ The points allotted for each question are provided in highlighted red bold text 
 
 **Points may be deducted from each question's total:** 
 
-* [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment"
-* [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question
-* [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`)
+* [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question;
+* [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
 * [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 1.6: Course Style Guide, part 1**;
+* [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
 
 *Note: The maximum deduction is the total points value for a given question*
 
@@ -122,6 +123,12 @@ Variables in the "point_count_observations" worksheet of `bird_counts.xlsx` incl
 :::
 
 ## Getting started
+
+::: mysecret
+
+<i class="fas fa-user-secret fa-2x"></i>  Remember that it is best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
+
+:::
 
 1\. [[1.0]]{.score} Before opening your script file for this problem set, change the name of the `problem_set_1.R` to "problem_set_1_[last name]_[first name].R" using a snake case naming convention. *Note: You will submit this script file as your assignment*.
 
@@ -208,8 +215,8 @@ diets_factor <-
 typeof(diets_factor)
 ```
 
-* [[0.50]]{.subscore} Modify this operation such that only "Functions that you may use in this assignment" are used and the output is produced with a single, *nested* code block with no global assignments (except `bird_counts`).
-* [[0.50]]{.subscore} Modify this operation such that only "Functions that you may use in this assignment" are used and the output is produced with a single, *piped* code block that contains no global assignments (except `bird_counts`).
+* [[0.50]]{.subscore} Modify this operation such that only "Functions that you may use in this assignment" are used and the output is produced with a single, *nested* code block without assigning any names to your global environment.
+* [[0.50]]{.subscore} Modify this operation such that only "Functions that you may use in this assignment" are used and the output is produced with a single, *piped* code block without assigning any names to your global environment.
 
 8\. [[0.50]]{.score} Modify this operation such that only "Functions that you may use in this assignment" are used, there are no nested functions, and the output is produced with a single, piped code block with no global assignments:
 

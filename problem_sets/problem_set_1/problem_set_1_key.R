@@ -140,7 +140,7 @@ typeof(diets_factor)
 
 # Modify this operation such that only "Functions that you may use in this
 # assignment" are used and the output is produced with a single, *nested*
-# code block with no global assignments (except `bird_counts`):
+# code block without assigning any names to your global environment:
 
 typeof(
   factor(bird_counts[["diet"]])
@@ -148,7 +148,7 @@ typeof(
 
 # Modify this operation such that only "Functions that you may use in this
 # assignment" are used and the output is produced with a single, *piped* 
-# code  block that contains no global assignments (except `bird_counts`):
+# code block without assigning any names to your global environment.:
 
 bird_counts[["diet"]] %>% 
   factor() %>% 
