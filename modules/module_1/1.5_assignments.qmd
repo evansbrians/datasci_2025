@@ -673,7 +673,7 @@ Base R released its own pipe operator in 2021 (R release 4.1.0) -- the `|>` symb
 
 ### Reduce assignments with pipes
 
-Let's consider our reading and re-naming operation with the tabular dataset "data/raw/badNameDataFrame.csv". Previously, we read in the file, assigned the object, and then renamed the columns (not evaluated):
+Let's consider our reading and re-naming operation with the tabular dataset `data/raw/badNameDataFrame.csv`. Previously, we read in the file, assigned the object, and then renamed the columns (not evaluated):
 
 ```{r, eval = FALSE}
 bad_df <-
@@ -685,7 +685,8 @@ rename(
   light_access = LightAccess,
   plant_mushroom = `plant/mushroom`,
   event_date = `Event date`,
-  garden_event = gardenEvent)
+  garden_event = gardenEvent
+)
 ```
 
 Chances are, we will *never* use the version of `bad_df` with the non-standard column names after renaming them. Notice that the first argument of `rename()` is the target data frame. As such, the above could be rewritten as:
@@ -697,10 +698,11 @@ read_csv("data/raw/badNameDataFrame.csv") %>%
     light_access = LightAccess,
     plant_mushroom = `plant/mushroom`,
     event_date = `Event date`,
-    garden_event = gardenEvent)
+    garden_event = gardenEvent
+  )
 ```
 
-Notice in that the first argument was left blank, because the pipe filled in the data for that argument.
+Notice that the first argument was left blank, because the pipe filled in the data for that argument.
 
 This piped version is equivalent to a nested version of the code (not evaluated):
 
@@ -711,12 +713,13 @@ rename(
   light_access = LightAccess,
   plant_mushroom = `plant/mushroom`,
   event_date = `Event date`,
-  garden_event = gardenEvent)
+  garden_event = gardenEvent
+)
 ```
 
 Although the above is not too deeply nested, I prefer the piped version because it allows us to focus our attention on only the renaming process.
 
-Before moving on, let's bring `set_names` back into the picture. Notice that we have changed *all* of the names in our data frame. The `rename` function is great for changing one or two names -- when changing all of the names, `set_names()` is my preference because we can simply provide a vector of new names.
+Before moving on, let's bring `set_names()` back into the picture. Notice that we have changed *all* of the names in our data frame. The `rename` function is great for changing one or two names. When changing all of the names, `set_names()` is my preference because we can simply provide a vector of new names.
 
 Written with the assignment version, this might look like (not evaluated):
 
@@ -725,12 +728,14 @@ my_df <- read_csv("data/raw/badNameDataFrame.csv")
 
 set_names(
   my_df, 
-  c("bed",
+  c(
+    "bed",
     "light_access",
     "plant_mushroom",
     "event_date",
-    "garden_event")
+    "garden_event"
   )
+)
 ```
 
 With the nested version of the process, this would be written as:
@@ -738,11 +743,13 @@ With the nested version of the process, this would be written as:
 ```{r}
 set_names(
   read_csv("data/raw/badNameDataFrame.csv"), 
-  c("bed",
+  c(
+    "bed",
     "light_access",
     "plant_mushroom",
     "event_date",
-    "garden_event")
+    "garden_event"
+  )
 )
 ```
 
@@ -751,11 +758,13 @@ set_names(
 ```{r}
 read_csv("data/raw/badNameDataFrame.csv") %>% 
   set_names(
-    c("bed",
+    c(
+      "bed",
       "light_access",
       "plant_mushroom",
       "event_date",
-      "garden_event")
+      "garden_event"
+    )
   )
 ```
 
@@ -763,21 +772,23 @@ read_csv("data/raw/badNameDataFrame.csv") %>%
 
 The placeholder method, when used with Magrittr's pipe, can offer a lot of flexibility in how we code. For example, perhaps we want to subset the garden to beds that are in full sun. Without pipes (or placeholders), this is a multistep process.
 
-First we'll read in the data and repair the names:
+First, we will read in the data and repair the names:
 
 ```{r}
 garden_names_repaired <-
   read_csv("data/raw/badNameDataFrame.csv") %>% 
   set_names(
-    c("bed",
+    c(
+      "bed",
       "light_access",
       "plant_mushroom",
       "event_date",
-      "garden_event")
+      "garden_event"
+    )
   )
 ```
 
-And then use the extraction operator `[]` to subset the data to just garden beds that are classified as "full sun" (see ***Preliminary lesson 4: Indexing**):
+And then use the extraction operator `[]` to subset the data to just garden beds that are classified as "full sun" (see **Preliminary lesson 4: Indexing**):
 
 ```{r}
 garden_sunny <-
@@ -794,12 +805,17 @@ read_csv("data/raw/badNameDataFrame.csv") %>%
   # Change the variable naming convention:
   
   set_names(
-    c("bed",
+    c(
+      "bed",
       "light_access",
       "plant_mushroom",
       "event_date",
-      "garden_event")
+      "garden_event"
+    )
   ) %>% 
+  
+  # Subset to garden beds in full sun:
+  
   .[.$light_access == "full sun", ]
 ```
 
@@ -813,11 +829,13 @@ read_csv("data/raw/badNameDataFrame.csv") %>%
   # Change the variable naming convention:
   
   set_names(
-    c("bed",
+    c(
+      "bed",
       "light_access",
       "plant_mushroom",
       "event_date",
-      "garden_event")
+      "garden_event"
+    )
   ) %>% 
   .[.$light_access == "full sun", ] %>% 
   
@@ -842,7 +860,7 @@ read_csv("data/raw/badNameDataFrame.csv") %>%
 
 ### Piping around your code
 
-Piped code can be readily explored! In this video, I demonstrate a process that I call "piping around your code":
+Piped code can be readily explored! In this video, I demonstrate a process that I call "piping around your code" (*Note: Some of the formatting that you see in this video will be different than that of your script file. We have changed the formatting of the script file to adhere to our updated style guide!*):
 
 {{< video https://www.youtube.com/embed/ZIeL0lp83rY?si=bnKZgXlk5_Dl04X7 >}}
 
