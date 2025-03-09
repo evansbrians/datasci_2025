@@ -73,7 +73,7 @@ Please ensure that your camera is on during all video meetings.
 
 ### Weekly Review Sessions: {.unnumbered}
 
--   **When**: Mondays from 10:30-11:45 ET. Please note that there will be no Review Session on 11 November (US federal holiday).
+-   **When**: Mondays from 10:30-11:45 ET.
 -   **Review session link** (Zoom): Click [this link](https://smithsonian.zoom.us/j/86480494367?pwd=4aMCwsO09FmJ28KWoO59bb1Ur4eIob.1){target="_blank"} to join the review session.
 -   **Purpose**: We will review the answers to the problem set that was due on the previous night. We will typically go over questions that students had difficulty with and then open the floor for further questions. Please feel free to ask questions throughout! Note: The first weekly review session will be dedicated to introducing the course.
 -   **Can’t make it?** We will post videos of these sessions on the following Tuesday morning
@@ -89,7 +89,7 @@ Please ensure that your camera is on during all video meetings.
 
 Office hours are your opportunity to get one-on-one help from your professors. At least initially, please limit office hours to content relating to the course – we are happy to help you address problems in your personal data sets as we near the end of the course.
 
--   **When**: Office hours are on Thursdays, from 08:00-09:30 ET and Fridays, from 13:30-14:45 ET. Please note that there will be no office hours on 28 November (US federal holiday).
+-   **When**: Office hours are on Thursdays, from 08:00-09:30 ET and Fridays, from 13:30-14:45 ET.
 -   **Signing up for office hours**: Office hours are by appointment only. Please sign up for your appointment at [this link](https://docs.google.com/spreadsheets/d/1_9ze9HufwQtsCzecwMKjJg4RzwoPTpNFPy5d3HtA_OA/edit?usp=sharing){target="_blank"}.
 -   **Office hours link**: Please use the links in the table above or in the office hours spreadsheet to sign into into your office hour session.
 -   **Important notes regarding signing up for office hours**:
@@ -100,13 +100,13 @@ Office hours are your opportunity to get one-on-one help from your professors. A
 
 ## Problem Sets {.unnumbered}
 
-Weekly problem sets will be provided to you as html documents and R script files. Problem sets will be posted by 08:00 ET on Monday mornings and are due at 23:59 ET on the following Sunday night. We will post the answer key to the problem sets at 00:01 ET on Monday mornings – as such, no late work will be accepted.
+Weekly problem sets will be provided to you as html documents and R script files. Problem sets will be posted by 08:00 ET on Monday mornings and are due at 23:59 ET on the following Sunday night. We will post the answer key to the problem sets at 00:01 ET on Monday mornings – as such, no late work will be accepted. Students who wish to earn a course certificate must score 70% or higher on at least three weekly problem sets.
 
 ### Grading: {.unnumbered}
 
 The grading rubric for each problem set will be provided to you within the problem set itself. As this is a coding class, you may lose considerable points even though your code produces the correct answer! To avoid this, please be sure to review the scoring penalties associated with each problem set. Of note:
 
--   You will be given a list of “**functions that you may use in this assignment**” that includes operators (e.g., \[x, …\]), named R functions (e.g., c(x, …)), and functions from community packages (e.g., dplyr::filter(x, …)). This is intended to help you with your problem set, but you will incur a major point deduction for using functions outside of the approved list!
+-   You will be given a list of “**functions that you may use in this assignment**” that includes operators (e.g., `[…]`), named R functions (e.g., `c()`), and functions from community packages (e.g., `dplyr::filter()`). This is intended to help you with your problem set, but you will incur a major point deduction for using functions outside of the approved list!
 -   **Global assignments** are rare in proper tidyverse coding – unless explicitly approved for a given question, assigning objects to the global environment unnecessarily will result in a major point reduction!
 -   **Improper code formatting** (e.g., spacing and indentation) will result in small deductions to the allotted points.
 
