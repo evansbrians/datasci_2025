@@ -102,7 +102,7 @@ library(tidyverse)
 
 ## Data for this lesson
 
-For this lesson, we will use the file [angola_ungulates.rds]{.mono}. This dataset represents all observations of ungulates in Angola by the iNaturalist community science project. I downloaded these data using the R package "rinat". Taxonomic information for the observed species were obtained from the [Integrated Taxonomic Information System (ITIS)](https://www.itis.gov/) and downloaded using the R package "taxize". The data are formatted as a list of two tibble data frames:
+For this lesson, we will use the file [angola_ungulates.rds]{.mono}. This dataset represents all observations of ungulates in Angola by the iNaturalist community science project. I downloaded these data using the R package *rinat*. Taxonomic information for the observed species were obtained from the [Integrated Taxonomic Information System (ITIS)](https://www.itis.gov/) and downloaded using the R package *taxize*. The data are formatted as a list of two tibble data frames:
 
 * [perissodactyla]{.mono}: Observations and taxonomy of odd-toed ungulates in Angola
 * [artiodactyla]{.mono}: Observations and taxonomy of even-toed ungulates in Angola
@@ -118,7 +118,7 @@ The variables in each data frame are equivalent and include the columns:
 * [species]{.mono}: The taxonomic species of the observed animal (ITIS)
 * [common_name]{.mono}: The common name provided by iNaturalist
 
-To read in the file, we'll use the readr (**core** tidyverse) function `read_rds()`. 
+To read in the file, we will use the *readr* (**core** tidyverse) function `read_rds()`. 
 
 ```{r}
 # Read rds file:
@@ -157,7 +157,7 @@ Print the names assigned to your global environment to see the results:
 ls()
 ```
 
-We will not use angola_ungulates_list again, so it is best practice to remove the assignment from the global environment:
+We will not use `angola_ungulates_list` again, so it is best practice to remove the assignment from the global environment:
 
 ```{r}
 # Remove the name angola_ungulates_list from the global environment:
@@ -165,14 +165,15 @@ We will not use angola_ungulates_list again, so it is best practice to remove th
 rm(angola_ungulates_list)
 ```
 
-Alternatively, we could have nested the `read_rds()` function inside of `list2env`:
+Alternatively, we could have nested the `read_rds()` function inside of `list2env()`:
 
 ```{r, results = "hide"}
 # Read and assign names (better!):
 
 list2env(
   read_rds("data/raw/angola_ungulates.rds"),
-  envir = .GlobalEnv)
+  envir = .GlobalEnv
+)
 ```
 
 Because the data associated with the name `angola_ungulates_list` was equivalent to the data obtained with `read_rds("data/raw/angola_ungulates.rds")`, the assignment was really not necessary. Instead, it's much more parsimonious to nest the two functions. Even better, we could have also piped the resultant object from `read_rds()` to the `list2env` function:
@@ -206,12 +207,13 @@ unique(artiodactyla$taxonomy)
 
 Because the data represent the same level of observation (and no data are lost by combining them), it is best practice to combine the two datasets into a single tibble. 
 
-To combine tables by row, we use the *dplyr* function `bind_rows()`. The formals that we'll use for this function are simply the names assigned to the data frames that we would like to combine:
+To combine tables by row, we use the *dplyr* function `bind_rows()`. The formals that we will use for this function are simply the names assigned to the data frames that we would like to combine:
 
 ```{r}
 bind_rows(
   perissodactyla,
-  artiodactyla)
+  artiodactyla
+)
 ```
 
 In the above, `artiodactyla` is bound to `perissodactyla` using `bind_rows()`. We can also use a pipe to complete the operation:
@@ -228,7 +230,7 @@ perissodactyla %>%
   bind_rows(artiodactyla, .)
 ```
 
-The `bind_rows` function can also be used (carefully!) to combine items in a list. Knowing what we do now about each list item in `angola_ungulates.rds`, we could have completed the reading and combining of the two list items in a single step. We'll do so and save the object to our computer's memory by assigning the name `angola_ungulates` to the resultant object:
+The `bind_rows` function can also be used (carefully!) to combine items in a list. Knowing what we do now about each list item in `angola_ungulates.rds`, we could have completed the reading and combining of the two list items in a single step. We will do so and save the object to our computer's memory by assigning the name `angola_ungulates` to the resultant object:
 
 ```{r}
 # Read in the list, bind the list items, and then globally assign to a name
@@ -236,7 +238,8 @@ The `bind_rows` function can also be used (carefully!) to combine items in a lis
 
 angola_ungulates <- 
   bind_rows(
-    read_rds("data/raw/angola_ungulates.rds"))
+    read_rds("data/raw/angola_ungulates.rds")
+  )
 
 angola_ungulates
 ```
@@ -271,7 +274,8 @@ unite(
   angola_ungulates,
   col = "date",
   year:day,
-  sep = "-")
+  sep = "-"
+)
 ```
 
 *Note: This date format is the official international date format, as determined by the International Organization for Standardization (ISO). We will soon cover this in depth!*
@@ -287,7 +291,8 @@ angola_ungulates_date_fix <-
   unite(
     col = "date",
     year:day,
-    sep = "-")
+    sep = "-"
+  )
 ```
 
 The data also has separate columns for `genus` and `species`. While these can be considered two taxonomic variables, by convention they are usually combined to represent the scientific name of a species. Let's combine these two columns, separating the genus and species with a space:
@@ -301,10 +306,11 @@ angola_ungulates_spp_fix <-
   unite(
     col = "sci_name",
     genus:species,
-    sep = " ")
+    sep = " "
+  )
 ```
 
-We will not work with `angola_ungulates` or `angola_ungulates_date_fix` again, so let's remove the assignments from our global environment:
+We will not work with `angola_ungulates_spp_fix` or `angola_ungulates_date_fix` again, so let's remove the assignments from our global environment:
 
 ```{r}
 # Remove the names angola_ungulates_spp_fix and angola_ungulates_date_fix
@@ -317,7 +323,7 @@ rm(angola_ungulates_spp_fix, angola_ungulates_date_fix)
 
 {{< fa user-secret size=2x >}} [Avoid assignments that are only used once!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-Given that we only used `angola_ungulates` and `angola_ungulates_date_fix` once, it makes sense to avoid the preliminary assignments altogether. In the real world, I would have simply chained the above operations together as I read in the data:
+Given that we only used `angola_ungulates_spp_fix` and `angola_ungulates_date_fix` once, it makes sense to avoid the preliminary assignments altogether. In the real world, I would have simply chained the above operations together as I read in the data (run this!):
 
 ```{r}
 # Complete in a single chained analysis and globally assign a name:
@@ -337,14 +343,16 @@ angola_ungulates <-
   unite(
     col = "date",
     year:day,
-    sep = "-") %>% 
+    sep = "-"
+  ) %>% 
   
   # Combine the scientific name columns:
   
   unite(
     col = "sci_name",
     genus:species,
-    sep = " ")
+    sep = " "
+  )
 ```
 
 :::
@@ -363,8 +371,14 @@ Here, we see that the taxonomic information is stored in a single column -- each
 separate(
   angola_ungulates,
   col = "taxonomy",
-  into = c("class", "order", "family"),
-  sep = "-")
+  into = 
+    c(
+      "class", 
+      "order", 
+      "family"
+    ),
+  sep = "-"
+)
 ```
 
 Using a pipe, we can pass the data object to the first argument of the function. Let's do so and assign the name `angola_ungulates_taxonomy_fix` to the resultant object:
@@ -376,8 +390,14 @@ angola_ungulates_taxonomy_fix <-
   angola_ungulates %>% 
   separate(
     col = "taxonomy",
-    into = c("class", "order", "family"),
-    sep = "-")
+    into = 
+      c(
+        "class", 
+        "order", 
+        "family"
+      ),
+    sep = "-"
+  )
 ```
 
 We could have, of course, completed the above operation while reading in *and* exploring the file!
@@ -400,21 +420,29 @@ angola_ungulates <-
   unite(
     col = "date",
     year:day,
-    sep = "-") %>% 
+    sep = "-"
+  ) %>% 
   
   # Combine the scientific name columns:
   
   unite(
     col = "sci_name",
     genus:species,
-    sep = " ") %>% 
+    sep = " "
+  ) %>% 
   
   # Separate the taxonomy into multiple columns:
   
   separate(
     col = "taxonomy",
-    into = c("class", "order", "family"),
-    sep = "-")
+    into = 
+      c(
+        "class", 
+        "order", 
+        "family"
+      ),
+    sep = "-"
+  )
 ```
 
 ::: mysecret
@@ -436,9 +464,9 @@ rm(angola_ungulates_taxonomy_fix)
 
 ## Split table by columns
 
-Looking at the data, it appears that we have a very common tidy data problem -- the table contains more than one level of observation. The levels of observation are the taxonomy of the observed species and the the iNaturalist observations themselves. The biggest clue that we have a "multiple levels of observation" problem is repeated values. Here, for example, we see that one of the species observed is *Hippopotamus amphibius* -- the class, order, and family of any *Hippopotamus amphibius* does not change when more are observed. When this is the case, we must split the data into two tables.
+Looking at the data, it appears that we have a very common tidy data problem -- the table contains more than one level of observation. The levels of observation are the taxonomy of the observed species and the iNaturalist observations themselves. The biggest clue that we have a "multiple levels of observation" problem is repeated values. Here, for example, we see that one of the species observed is *Hippopotamus amphibius* -- the class, order, and family of any *Hippopotamus amphibius* does not change when more are observed. When this is the case, we must split the data into two tables.
 
-We can use the *dplyr* function `select()` for this task. We provide the target dataset and a selection of columns to keep (or remove). For observations, I'll choose date, user, and observed taxa:
+We can use the *dplyr* function `select()` for this task. We provide the target dataset and a selection of columns to keep (or remove). For observations, I will choose date, user, and observed taxa:
 
 ```{r}
 # Subset to observations of ungulates and globally assign the name
@@ -448,7 +476,8 @@ observations <-
   select(
     angola_ungulates,
     date:user_login,
-    sci_name)
+    sci_name
+  )
 
 observations
 ```
@@ -463,7 +492,8 @@ taxonomy <-
     angola_ungulates,
     sci_name,
     class:family,
-    common_name)
+    common_name
+  )
 
 taxonomy
 ```
@@ -473,14 +503,15 @@ Note in the above, that I placed `sci_name` at the start of the taxonomy table. 
 For both of the processes above, I almost always pipe the data frame into the select function. This better communicates your selection of columns:
 
 ```{r}
-# Subset to observations of undulates and globally assign the name
+# Subset to observations of ungulates and globally assign the name
 # observations (preferred):
 
 observations <- 
   angola_ungulates %>% 
   select(
     date:user_login,
-    sci_name)
+    sci_name
+  )
 
 # Subset to taxonomic information and globally assign the name taxonomy
 # (preferred):
@@ -490,7 +521,8 @@ taxonomy <-
   select(
     sci_name,
     class:family,
-    common_name)
+    common_name
+  )
 ```
 
 Let's have a look at our taxonomy table:
@@ -523,7 +555,8 @@ taxonomy <-
   select(
     sci_name,
     order:family,
-    common_name)
+    common_name
+  )
 ```
 
 *Note: In a real coding session, this would be modified in the creation of the* `taxonomy` *dataset, not written subsequent to the assignment.*
@@ -558,7 +591,8 @@ taxonomy_distinct <-
   select(
     sci_name,
     order:family,
-    common_name) %>% 
+    common_name
+  ) %>% 
   distinct()
 ```
 
@@ -589,7 +623,7 @@ observations %>%
   bind_cols(taxonomy)
 ```
 
-Notice that the column `sci_name` has been given an odd notation. That's because it is contained in both datasets. As such, we need to remove it from one of the datasets. Here, I choose to remove it from observations:
+Notice that the column `sci_name` has been given an odd notation. That is because it is contained in both datasets. As such, we need to remove it from one of the datasets. Here, I choose to remove it from observations:
 
 ```{r}
 # The function bind_cols can be used to join if you are super sure that the 
@@ -625,7 +659,8 @@ We can join the two data frames together based on this common column using the *
 left_join(
   observations,
   taxonomy_distinct,
-  by = "sci_name")
+  by = "sci_name"
+)
 ```
 
 Or (better):
@@ -684,7 +719,7 @@ families <-
   )
 ```
 
-While the columns of interest may be subset at the end of the process, you have to wade through a lot of column names to do so. That's time consuming and can sometimes be frustrating. The above version forces you to think of the output that you want *before* you execute the function and can avoid the annoyance of a lot of unnecessary columns.
+While the columns of interest may be subset at the end of the process, you have to wade through a lot of column names to do so. That is time consuming and can sometimes be frustrating. The above version forces you to think of the output that you want *before* you execute the function and can avoid the annoyance of a lot of unnecessary columns.
 
 ### Reshape and summarize
 
@@ -727,7 +762,8 @@ For example, we can reproduce our `count()` operation above with `summarize()` b
 ```{r}
 summarize(
   group_by(families, family),
-  count = n())
+  count = n()
+)
 ```
 
 In a piped statement, this would be written as:
@@ -756,15 +792,16 @@ A recent update of the *dplyr* package allows us to specify a grouping variable 
 families %>% 
   summarize(
     count = n(),
-    .by = family)
+    .by = family
+  )
 ```
 
-Although this requires less coding than `group_by()`, we will predominantly use the `group_by()` workflow in this course (because it is more flexible).
+Although this requires less coding than `group_by()`, we will often use the `group_by()` workflow in this course (because it is more flexible).
 :::
 
 ## Transpose data frames
 
-A *very* common task is to change the shape of our dataset from long form (every row is an observation) to wide form (observations are stored in columns) or from wide to long form. We will discuss reasons for this in-depth in our next lesson. For now, I'll provide the methods for reshaping our data. *Note: In Excel, this operation is known as a transpose.*
+A *very* common task is to change the shape of our dataset from long form (every row is an observation) to wide form (observations are stored in columns) or from wide to long form. We will discuss reasons for this in-depth in our next lesson. For now, I will provide the methods for reshaping our data. *Note: In Excel, this operation is known as a transpose.*
 
 ### Pivot from long to wide form
 
@@ -785,7 +822,8 @@ wide_families <-
   count(family) %>% 
   pivot_wider(
     names_from = family,
-    values_from = n)
+    values_from = n
+  )
 ```
 
 ... and have a look at the output:
@@ -815,7 +853,8 @@ wide_families %>%
   pivot_longer(
   cols = Bovidae:Suidae,
   names_to = "family",
-  values_to = "n")
+  values_to = "n"
+  )
 ```
 
 ## Reference
