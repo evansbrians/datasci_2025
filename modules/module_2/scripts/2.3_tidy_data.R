@@ -32,7 +32,11 @@ badDate %>%
 unite(
   data = really_bad_date,
   col = "date",
-  c(year, month, day),
+  c(
+    year, 
+    month, 
+    day
+  ),
   sep = "-"
 )
 
