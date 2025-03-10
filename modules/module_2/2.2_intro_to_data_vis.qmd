@@ -97,7 +97,7 @@ Trick question. **All** non-data elements!
 </div>
 
 <div>
-<button class="accordion">Which of the elements of the plot are related to scale?</button>
+<button class="accordion">Which elements of the plot are related to scale?</button>
 <div class="panel">
 
 * The range of the x and y axis in data and image space
@@ -137,7 +137,7 @@ Before we begin, please take the following housekeeping steps before continuing:
 
 Ensure that the file `chickadees.csv` is located in your project folder, in the subfolder `data/raw`.
 
-Open up a new script and save the script as "ggplot_worksheet.R" inside your `gis_in_r_2024/scripts` folder.
+Open up a new script and save the script as "ggplot_worksheet.R" inside your `data_sci_2025/scripts` folder.
 
 Please complete the following steps in your ggplot_worksheet script:
 
@@ -153,13 +153,13 @@ library(tidyverse)
 
 ## The data
 
-In your script file, please provide a comment stating that you are reading in a file. Use `read_csv` to read `chickadees.csv` into your Global Environment and assign the key `chickadees` to the resultant object.
+In your script file, please provide a comment stating that you are reading in a file. Use `read_csv()` to read `chickadees.csv` into your Global Environment and assign the key `chickadees` to the resultant object.
 
 ```{r}
 # Read in data
 
 chickadees <- 
-  read_csv('data/raw/chickadees.csv')
+  read_csv("data/raw/chickadees.csv")
 ```
 
 Let's take a quick look at the `chickadees` tibble:
@@ -171,7 +171,7 @@ chickadees
 We are also going to use elements from the tidy dataset `district_birds.rds` for this lesson:
 
 ```{r}
-read_rds('data/raw/district_birds.rds') %>% 
+read_rds("data/raw/district_birds.rds") %>% 
   list2env(.GlobalEnv)
 ```
 
@@ -189,7 +189,8 @@ Please remove the other names from your global environment:
 rm(
   sites,
   visits,
-  counts)
+  counts
+)
 ```
 
 ### Plotting data
@@ -217,7 +218,13 @@ After adding data, we need to decide which aesthetic mappings are appropriate fo
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
-  ggplot(mapping = aes(x = wing, y = mass))
+  ggplot(
+    mapping = 
+      aes(
+        x = wing, 
+        y = mass
+      )
+  )
 ```
 
 Notice that ggplot assigned the scale element to the visualization automatically, It chose the scale based on the limits of the data. By default, ranges of the x and y axes are 5% below and above the upper and lower limits of the data.
@@ -226,17 +233,23 @@ Mapping is the second argument of the function. Because mapping is required for 
 
 ```{r}
 chickadees %>% 
-  ggplot(aes(x = wing, y = mass))
+  ggplot(
+    aes(
+      x = wing, 
+      y = mass
+    )
+  )
 ```
 
-Note that the function `aes()` is an exception to the rule that two named functions should not be placed on the same line -- this is okay, as long as there are only two variables being mapped.
-
-An alternative method (that I often use), is to specify my aesthetics *after* the `ggplot` function:
+An alternative method (that I greatly prefer), is to specify my aesthetics *after* the `ggplot` function:
 
 ```{r}
 chickadees %>% 
   ggplot() +
-  aes(x = wing, y = mass)
+  aes(
+    x = wing, 
+    y = mass
+  )
 ```
 
 ## Layers (geometries)
@@ -245,32 +258,39 @@ With our data mapped to our aesthetics, it is now time to add layers to our plot
 
 ### Scatterplot
 
-Let's create a scatterplot. Therefore, we want to add point geometries to our plot using the function `geom_point`:
+Let's create a scatterplot. Therefore, we want to add point geometries to our plot using the function `geom_point()`:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
   ggplot() +
-  aes(x = wing, y = mass) +
+  aes(
+    x = wing, 
+    y = mass
+  ) +
   geom_point()
 ```
 
-Have a look at the `+` sign. This is actually a pipe, but it is a pipe that can exclusively be used in `ggplot()` functions (and a few other related packages). Here, we are piping the output of the `ggplot()` function into the input of the `geom_point()` function.
+Have a look at the `+` sign. This is actually a pipe, but it is a pipe that can exclusively be used in `ggplot` functions (and a few other related packages). Here, we are piping the output of the `ggplot` function into the input of the `geom_point` function.
 
 We can add a line of best fit through these points using the `geom_smooth` function. I supply the following arguments to my function:
 
-* `formula  = y ~ x` to specify the predictor and response variables
+* `formula = y ~ x` to specify the predictor and response variables
 * `method = "lm"` to specify that we want to use a linear model to compare the association between the variables
 * `se = FALSE` because I am not interested in standard error at the moment
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
   ggplot() +
-  aes(x = wing, y = mass) +
+  aes(
+    x = wing, 
+    y = mass
+  ) +
   geom_point() +
   geom_smooth(
     formula = y ~ x, 
-    method = 'lm',
-    se = FALSE)
+    method = "lm",
+    se = FALSE
+  )
 ```
 
 Note that when we added this line, we added a new geometry to the plot. I am not crazy about that blue line. I only like to use color in a plot to convey meaning. Let's set the color of our line to black:
@@ -278,13 +298,17 @@ Note that when we added this line, we added a new geometry to the plot. I am not
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
   ggplot() +
-  aes(x = wing, y = mass) +
+  aes(
+    x = wing, 
+    y = mass
+  ) +
   geom_point() +
   geom_smooth(
     formula = y ~ x, 
-    method = 'lm',
+    method = "lm",
     se = FALSE, 
-    color = 'black')
+    color = "black"
+  )
 ```
 
 Let's add a new aesthetic mapping to the data. Recall that in the video lecture we found that Black-capped chickadees are larger than Carolina chickadees. Let's color the points by species by adding the new aesthetic mapping argument to our `geom_point` function:
@@ -292,27 +316,39 @@ Let's add a new aesthetic mapping to the data. Recall that in the video lecture 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
   ggplot() +
-  aes(x = wing, y = mass) +
-  geom_point(aes(color = spp)) +
+  aes(
+    x = wing, 
+    y = mass
+  ) +
+  geom_point(
+    aes(color = spp)
+  ) +
   geom_smooth(
     formula = y ~ x, 
-    method = 'lm',
+    method = "lm",
     se = FALSE, 
-    color = 'black')
+    color = "black"
+  )
 ```
 
-Notice that there is still only one black line for both species but the points are colored by species. If we suspected that the slope of the line might be species-dependent, we might want the aesthetic to apply to both geometries. We could so by also adding the aesthetic mapping to the line:
+Notice that there is still only one black line for both species but the points are colored by species. If we suspected that the slope of the line might be species-dependent, we might want the aesthetic to apply to both geometries. We could do so by also adding the aesthetic mapping to the line:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
   ggplot() +
-  aes(x = wing, y = mass) +
-  geom_point(aes(color = spp)) +
+  aes(
+    x = wing, 
+    y = mass
+  ) +
+  geom_point(
+    aes(color = spp)
+  ) +
   geom_smooth(
     aes(color = spp),
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
-    se = FALSE)
+    se = FALSE
+  )
 ```
 
 If we know that we want both the points and the lines mapped to species, we can simplify our argument above by specifying the color aesthetic in our initial mapping.
@@ -323,12 +359,14 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
+    color = spp
+  ) +
   geom_point() +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
-    se = FALSE)
+    se = FALSE
+  )
 ```
 
 We have a lot of control over the style of our geometries. For example, perhaps we want our points to be a little larger, we can specify that in our `geom_point` function using the `size = ` argument:
@@ -339,12 +377,14 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
+    color = spp
+  ) +
   geom_point(size = 2.75) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
-    se = FALSE)
+    se = FALSE
+  )
 ```
 
 Well ... that's pretty crazy looking. We can add transparency using the `alpha =` argument:
@@ -355,12 +395,17 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
-    se = FALSE)
+    se = FALSE
+  )
 ```
 
 That's more reasonable, plots like this say to me "I am more interested in seeing the trends, but I want others to also notice the underlying data." We can enhance that message a bit further by making our line a little wider using the `linewidth =` argument:
@@ -371,12 +416,14 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
+    color = spp
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5)
+    linewidth = 1.5
+  )
 ```
 
 ### Bar plots
@@ -390,7 +437,7 @@ captures %>%
   geom_bar()
 ```
 
-By default, the `geom_bar()` function will generate a bar that represents counts of the x variable. I prefer to pipe around the data going in, though. It is, by far my preference to generate a summary table ... 
+By default, the `geom_bar` function will generate a bar that represents counts of the x variable. I prefer to pipe around the data going in, though. It is, by far, my preference to generate a summary table ... 
 
 ```{r}
 captures %>% 
@@ -405,7 +452,10 @@ captures %>%
   group_by(spp) %>% 
   summarize(n = n()) %>% 
   ggplot() +
-  aes(x = spp, y = n) +
+  aes(
+    x = spp, 
+    y = n
+  ) +
   geom_bar(stat = "identity")
 ```
 
@@ -413,14 +463,15 @@ The two plots above are quite ugly, I know. Let's see why piping data in is a go
 
 ### Why pipe in data?
 
-Only bird nerds know the 4-letter species codes (which aren't really even legible in this plot). These codes are great for storing data, but not very useful for communicated data. The capture data are tidy, so we will need to join the tables to bring in the more meaningful species names:
+Only bird nerds know the 4-letter species codes (which are not really even legible in this plot). These codes are great for storing data, but not very useful for communicating data. The capture data are tidy, so we will need to join the tables to bring in the more meaningful species names:
 
 ```{r}
 captures %>% 
   left_join(
     birds %>% 
       select(species:common_name),
-    by = c("spp" = "species"))
+    by = c("spp" = "species")
+  )
 ```
 
 If we are only interested in the counts and the `common_name` field, we should reduce this further:
@@ -431,7 +482,8 @@ captures %>%
   left_join(
     birds %>% 
       select(species:common_name),
-    by = c("spp" = "species")) %>% 
+    by = c("spp" = "species")
+  ) %>% 
   select(common_name)
 ```
 
@@ -443,7 +495,8 @@ captures %>%
   left_join(
     birds %>% 
       select(species:common_name),
-    by = c("spp" = "species")) %>% 
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name) %>% 
   summarize(n = n())
 ```
@@ -456,11 +509,15 @@ captures %>%
   left_join(
     birds %>% 
       select(species:common_name),
-    by = c("spp" = "species")) %>% 
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name) %>% 
   summarize(n = n()) %>% 
   ggplot() +
-  aes(x = common_name, y = n) +
+  aes(
+    x = common_name, 
+    y = n
+  ) +
   geom_bar(stat = "identity")
 ```
 
@@ -476,16 +533,21 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(diet) %>% 
   summarize(n = n()) %>% 
   ggplot() +
-  aes(x = diet, y = n) +
+  aes(
+    x = diet, 
+    y = n
+  ) +
   geom_bar(stat = "identity")
 ```
 
-Once again proud of your gg-excellence, you show your plot to your advisor (*they are gonna love this ... it is so ecologically meaningful!* ). They like the diet counts, but want to see the species too. Just as we can add a `color` aesthetic to points, we can add color to a bar plot. Notice that, in the below, I now place my aesthetics on their own lines (because there are three or more of them):
+Once again proud of your gg-excellence, you show your plot to your advisor (*they are gonna love this ... it is so ecologically meaningful!* ). They like the diet counts, but want to see the species too. Just as we can add a `color` aesthetic to points, we can add color to a bar plot:
 
 ```{r}
 captures %>% 
@@ -495,17 +557,21 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    color = common_name) +
+    color = common_name
+  ) +
   geom_bar(stat = "identity")
 ```
 
@@ -521,17 +587,21 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(stat = "identity")
 ```
 
@@ -545,19 +615,25 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
-  geom_bar(stat = "identity",
-           color = "black")
+    fill = common_name
+  ) +
+  geom_bar(
+    stat = "identity",
+    color = "black"
+  )
 ```
 
 If you find that a little overbearing (I do), you can change the width of the lines with `linewidth =`
@@ -570,21 +646,26 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "black",
-    linewidth = 0.3)
+    linewidth = 0.3
+  )
 ```
 
 ... or modify the color to something a bit less intense:
@@ -597,21 +678,26 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3)
+    linewidth = 0.3
+  )
 ```
 
 Perhaps you have become less impressed with your plot over time. One option would be to subset the data to just the 10 species with the most observations in the data. With the flexibility afforded to us with piping our data in, we have gained that power:
@@ -624,22 +710,27 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3)
+    linewidth = 0.3
+  )
 ```
 
 Hopefully, it is apparent that the power to play with the data that you are plotting really gives you a lot of control over your plot! Piping the data in really helps you do so.
@@ -656,7 +747,7 @@ Let's start by modifying the range of the x and y axes. Before I scale an axis, 
 summary(chickadees)
 ```
 
-We use the function `scale_y_continuous` to scale the y axis. Based on the results of our function, it looks like 7 and 13 are probably pretty good values for our scaling operation. We will set the following arguments:
+We use the function `scale_y_continuous()` to scale the y axis. Based on the results of our function, it looks like 7 and 13 are probably pretty good values for our scaling operation. We will set the following arguments:
 
 * `limits = c(7, 13)`: This provides a vector representing the lower and upper limits of the values we want to plot.
 * `expand = c(0, 0)`: This ensures that the axis stops at our chosen values.
@@ -667,19 +758,25 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0))
+    expand = c(0, 0)
+  )
 ```
 
-We can do the same with our x axis, using the function `scale_x_continuous`. The results from summarizing our dataset suggested that a minimum wing size of 50 mm and maximum wing size of 70 would fit our needs perfectly.
+We can do the same with our x axis, using the function `scale_x_continuous()`. The results from summarizing our dataset suggested that a minimum wing size of 50 mm and maximum wing size of 70 would fit our needs perfectly.
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -687,19 +784,26 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0))
+    expand = c(0, 0)
+  )
 ```
 
 We can also (and should) modify the scales of our bar plot. Let's look again at our last plot of banded bird counts:
@@ -712,25 +816,30 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3)
+    linewidth = 0.3
+  )
 ```
 
-Given that these are count data, it makes no sense to start with a minimum value of less than zero. To address this, we would first add the `scale_y_continuous()` function and modify the expand argument as above:
+Given that these are count data, it makes no sense to start with a minimum value of less than zero. To address this, we would first add the `scale_y_continuous` function and modify the expand argument as above:
 
 ```{r}
 captures %>% 
@@ -740,24 +849,30 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3) +
+    linewidth = 0.3
+  ) +
   scale_y_continuous(
-    expand = c(0, 0))
+    expand = c(0, 0)
+  )
 ```
 
 That looks a little silly because removing the expansion sets the upper bound to the upper bound of the data. One way to address this is to look at the distribution of the data:
@@ -770,12 +885,15 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>%
+    .groups = "drop"
+  ) %>%
   summary()
 ```
 
@@ -789,12 +907,15 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>%
+    .groups = "drop"
+  ) %>%
   summary()
 ```
 
@@ -808,28 +929,34 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3) +
+    linewidth = 0.3
+  ) +
   scale_y_continuous(
     expand = c(0, 0),
-    limits = c(0, 4000))
+    limits = c(0, 4000)
+  )
 ```
 
-That looks nice (*probably good for the final product!*), but was perhaps a lot of work. Instead, we can use the `expansion()` function inside of `scale_y_continuous()`. This function was released in dplyr 3.3.0 back in 2020. We supply a vector of two numbers with `mult = c(min, max)`. The first number is the proportional expansion at the lower limit, relative to the current distribution of the data, and the second is the proportion to expand relative to upper limit:
+That looks nice (*probably good for the final product!*), but was perhaps a lot of work. Instead, we can use the `expansion` function inside of `scale_y_continuous()`. This function was released in dplyr 3.3.0 back in 2020. We supply a vector of two numbers with `mult = c(min, max)`. The first number is the proportional expansion at the lower limit, relative to the current distribution of the data, and the second is the proportion to expand relative to upper limit:
 
 ```{r}
 captures %>% 
@@ -839,24 +966,33 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3) +
+    linewidth = 0.3
+  ) +
   scale_y_continuous(
-    expand = expansion(mult = c(0, 0.05)))
+    expand = 
+      expansion(
+        mult = c(0, 0.05)
+      )
+  )
 ```
 
 We can also set the expansion by using a number in the same units as the y-axis by using the argument `add =` (rather than `mult = `) as an argument of `expansion()`:
@@ -869,31 +1005,40 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3) +
+    linewidth = 0.3
+  ) +
   scale_y_continuous(
-    expand = expansion(add = c(0, 100)))
+    expand = 
+      expansion(
+        add = c(0, 100)
+      )
+  )
 ```
 
 As I hinted at above, however, for finished plots I usually opt for exploring the data and providing fixed values within the `limits` argument of `scale_y_continuous()`.
 
 ### Scales: Colors
 
-Recall that color is actually a type of scaling, even in this case (where the data are binary). We will use `scale_color_manual` to change the color scale. Following what we did in our video lecture, I could choose colors by name:
+Recall that color is actually a type of scaling, even in this case (where the data are binary). We will use `scale_color_manual()` to change the color scale. Following what we did in our video lecture, I could choose colors by name:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -901,21 +1046,29 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    values = c('orange', 'green'))
+    values = c('orange', 'green')
+  )
 ```
 
 Or we can use a color picker app (I like <a href = "https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg?hl=en" target = "_blank">this one</a>) to find colors that we like online. I am going to use this image from the Fantastic Mr. Fox. 
@@ -933,21 +1086,29 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    values = c('#595B18', '#CA621E'))
+    values = c("#595B18", "#CA621E")
+  )
 ```
 
 This plot is probably great for Wes Anderson fans who do not suffer from red-green color blindness, but not likely optimal otherwise. 
@@ -956,7 +1117,7 @@ I will stay with this version for now, but you give it a try. See if you can fin
 
 #### Brewed colors
 
-One option for generating with colors is using a pre-made palette from the package `RColorBrewer`. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_fill_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
+One option for generating with colors is using a pre-made palette from the package *RColorBrewer*. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_fill_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
 
 ```{r}
 captures %>% 
@@ -966,24 +1127,33 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name, diet) %>% 
   summarize(
     n = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
   aes(
     x = diet, 
     y = n,
-    fill = common_name) +
+    fill = common_name
+  ) +
   geom_bar(
     stat = "identity",
     color = "#424242",
-    linewidth = 0.3) +
+    linewidth = 0.3
+  ) +
   scale_y_continuous(
-    expand = expansion(add = c(0, 100))) +
+    expand = 
+      expansion(
+        add = c(0, 100)
+      )
+  ) +
   scale_fill_brewer(palette = "Spectral")
 ```
 
@@ -1006,16 +1176,25 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name) %>% 
   summarize(n = n()) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
-  aes(x = common_name, y = n) +
+  aes(
+    x = common_name, 
+    y = n
+  ) +
   geom_bar(stat = "identity") +
   scale_y_continuous(
-    expand = expansion(add = c(0, 100)))
+    expand = 
+      expansion(
+        add = c(0, 100)
+      )
+  )
 ```
 
 A handy solution to this problem is to flip the coordinate system with `coord_flip()`. This places the x-axis on the vertical plane and the y-axis on the horizontal plane:
@@ -1028,16 +1207,25 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name) %>% 
   summarize(n = n()) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
-  aes(x = common_name, y = n) +
+  aes(
+    x = common_name, 
+    y = n
+  ) +
   geom_bar(stat = "identity") +
   scale_y_continuous(
-    expand = expansion(add = c(0, 100))) +
+    expand = 
+      expansion(
+        add = c(0, 100)
+      )
+  ) +
   coord_flip()
 ```
 
@@ -1055,25 +1243,34 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    values = c('#595B18', '#CA621E')) +
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length', 
-    y = 'Mass')
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length", 
+    y = "Mass"
+  )
 ```
 
 Of course, the axis titles are not yet complete. We should always include units, when appropriate:
@@ -1084,28 +1281,37 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    values = c('#595B18', '#CA621E')) +
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)')
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  )
 ```
 
-We can change the legend title in our argument for `scale_color_manual`:
+We can change the legend title in our argument for `scale_color_manual()`:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -1113,26 +1319,35 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)')
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  )
 ```
 
 ### Labels and flipped coordinate systems
@@ -1149,21 +1364,31 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(common_name) %>% 
   summarize(n = n()) %>% 
   slice_max(n, n = 10) %>% 
   ggplot() +
-  aes(x = common_name, y = n) +
+  aes(
+    x = common_name, 
+    y = n
+  ) +
   geom_bar(stat = "identity") +
   scale_y_continuous(
-    expand = expansion(add = c(0, 100))) +
+    expand = 
+      expansion(
+        add = c(0, 100)
+      )
+  ) +
   coord_flip() +
   labs(
     title = "Banded birds by species",
     x = "Common name",
-    y = "Number banded")
+    y = "Number banded"
+  )
 ```
 
 Notice in the above that the x-axis label was placed on the vertical axis and the y-axis label was placed on the horizontal axis!
@@ -1182,18 +1407,28 @@ captures %>%
       select(
         species, 
         common_name, 
-        diet),
-    by = c("spp" = "species")) %>% 
+        diet
+      ),
+    by = c("spp" = "species")
+  ) %>% 
   group_by(`Common name` = common_name) %>% 
   summarize(
     `Number banded` = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   slice_max(`Number banded`, n = 10) %>% 
   ggplot() +
-  aes(x = `Common name`, y = `Number banded`) +
+  aes(
+    x = `Common name`, 
+    y = `Number banded`
+  ) +
   geom_bar(stat = "identity") +
   scale_y_continuous(
-    expand = expansion(add = c(0, 100))) +
+    expand = 
+      expansion(
+        add = c(0, 100)
+      )
+  ) +
   coord_flip() +
   labs(title = "Banded birds by species")
 ```
@@ -1214,27 +1449,36 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex)
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex)
 ```
 
 We have not made the most compelling labels for those facets. The way that I normally deal with this is changing the data to a factor and using the factor labels. Let's explore the sex variable:
@@ -1250,7 +1494,8 @@ chickadees$sex <-
   factor(
     chickadees$sex, 
     levels = c('F', 'M'),
-    labels = c('Female', 'Male'))
+    labels = c('Female', 'Male')
+  )
 ```
 
 *We specified levels as one of the arguments of the above `factor()` operation. Why was this not necessary?*
@@ -1263,27 +1508,36 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex)
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex)
 ```
 
 ## Themes
@@ -1298,31 +1552,40 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex) +
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex) +
   theme_bw()
 ```
 
-Now we can modify specific theme elements inside the `theme()` function. We almost always have to modify the size of the axis labels and titles. Text theme elements are modified by passing arguments to `element_text()`. Let's make our axis text larger:
+Now we can modify specific theme elements inside the `theme` function. We almost always have to modify the size of the axis labels and titles. Text theme elements are modified by passing arguments to `element_text()`. Let's make our axis text larger:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -1330,27 +1593,36 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex) +
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex) +
   theme_bw() +
   theme(
     axis.text = element_text(size = 12)
@@ -1365,27 +1637,36 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex) +
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex) +
   theme_bw() +
   theme(
     axis.text = element_text(size = 12),
@@ -1401,27 +1682,36 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex) +
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex) +
   theme_bw() +
   theme(
     axis.text = element_text(size = 12),
@@ -1430,7 +1720,7 @@ chickadees %>%
   )
 ```
 
-**Almost everything** we modify in the `theme()` is done so using `element_[type of element]`. An exception is the `unit()` function. Let's see how it looks by adjusting a major weak point in our plot so far ... the spacing between the panels. Let's add some space with the `panel.spacing =` argument and the function `unit()`:
+**Almost everything** we modify in the `theme()` is done so using `element_[type of element]`. An exception is the `unit` function. Let's see how it looks by adjusting a major weak point in our plot so far ... the spacing between the panels. Let's add some space with the `panel.spacing =` argument and the function `unit()`:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -1438,40 +1728,55 @@ chickadees %>%
   aes(
     x = wing, 
     y = mass,
-    color = spp) +
-  geom_point(size = 2.75, alpha = 0.25) +
+    color = spp
+  ) +
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
-    method = 'lm',
+    method = "lm",
     formula = y ~ x, 
     se = FALSE,
-    linewidth = 1.5) +
+    linewidth = 1.5
+  ) +
   scale_y_continuous(
     limits = c(7, 13),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_x_continuous(
     limits = c(50, 70),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   scale_color_manual(
-    'Species',
-    values = c('#595B18', '#CA621E')) +
+    "Species",
+    values = c("#595B18", "#CA621E")
+  ) +
   labs(
-    title = 'Wing length and mass of Black-capped and Carolina chickadees',
-    x = 'Wing length (mm)', 
-    y = 'Mass (g)') +
-  facet_wrap(~sex) +
+    title = "Wing length and mass of Black-capped and Carolina chickadees",
+    x = "Wing length (mm)", 
+    y = "Mass (g)"
+  ) +
+  facet_wrap(~ sex) +
   theme_bw() +
   theme(
     axis.text = element_text(size = 12),
     strip.background = element_rect(fill = '#F6CD58'),
     axis.line = element_line(linewidth = 1),
-    panel.spacing = unit(2, 'lines'))
+    panel.spacing = 
+      unit(2, 'lines')
+  )
 ```
 
 Be sure to look through the help file (`?theme`) at all of the various options you have for changing the theme of a plot!
 
 <br>
 
+::: mysecret
+
 <i class="fas fa-user-secret" style = "font-size: 36px;"></i> I adjust my themes at the very end of my ggplot code. You typically need to adjust themes iteratively when you save a file. Having `theme()` at the end of your ggplot code section makes it easier to find and modify.
+
+:::
 
 ## Saving plots
 
@@ -1483,10 +1788,11 @@ To save a plot you provide the path to where you are going to save it, the width
 
 ```{r, eval = FALSE}
 ggsave(
-  'output/chickadee_wing_chord.png',
+  "output/chickadee_wing_chord.png",
   height = 5,
   width = 7,
-  units = 'in')
+  units = "in"
+)
 ```
 
 Here's the trick -- save the plot, then open it up in your file system. How did it look? Was the title of the plot, or the axis titles/labels crazy? Were the size of the points gigantic or super small? Go back and adjust the theme until you have an aesthetically pleasing result!
