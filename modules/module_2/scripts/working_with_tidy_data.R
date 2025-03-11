@@ -6,8 +6,9 @@ library(tidyverse)
 # read in the data:
 
 file.path(
-  'data/processed',
-  'weather_tidy.rds') %>% 
+  "data/processed",
+  "weather_tidy.rds"
+) %>% 
   read_rds() %>% 
   list2env(.GlobalEnv)
 
@@ -40,7 +41,9 @@ observations
 
 # But as a warning:
 
-as.numeric(c(1, 2, '3,1'))
+as.numeric(
+  c(1, 2, "3,1")
+)
 
 # mutate in the tidyverse -------------------------------------------------
 
@@ -52,7 +55,8 @@ rm(temp)
 
 mutate(
   stations,
-  elevation = elevation * 3.28)
+  elevation = elevation * 3.28
+)
 
 # Now you! Re-arrange the above as a piped code block:
 
@@ -62,7 +66,8 @@ mutate(
 
 mutate(
   stations,
-  elevation = elevation * 3.28)
+  elevation = elevation * 3.28
+)
 
 # multiple mutations ------------------------------------------------------
 
@@ -152,7 +157,8 @@ stations %>%
   select(
     station,
     name:state,
-    longitude:elevation)
+    longitude:elevation
+  )
 
 # Modify the above with rename(), such that the binding "station" is changed to
 # "station_id":
@@ -161,7 +167,8 @@ stations %>%
   select(
     station,
     name:state,
-    longitude:elevation)
+    longitude:elevation
+  )
 
 # Select with everything() to reorder columns:
 
@@ -217,7 +224,8 @@ observations
 observations %>% 
   mutate(
     temperature_min = 
-      as.numeric(temperature_min)) %>% 
+      as.numeric(temperature_min)
+  ) %>% 
   arrange(temperature_min)
 
 # Arrange data in descending order:
@@ -225,9 +233,11 @@ observations %>%
 observations %>% 
   mutate(
     temperature_max = 
-      as.numeric(temperature_max)) %>% 
+      as.numeric(temperature_max)
+  ) %>% 
   arrange(
-    desc(temperature_max))
+    desc(temperature_max)
+  )
 
 # Now you! Extract a vector of the dates on which the five highest temperatures
 # were observed:
@@ -254,38 +264,44 @@ observations
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Remove NA values with drop_na():
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Remove NA values with na.rm:
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Remove NA values with !is.na():
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Filter based on multiple conditions:
 
 observations %>% 
   filter(
-    lubridate::year(date) == 2010)
+    lubridate::year(date) == 2010
+  )
 
 # Filter based on multiple conditions, a caveat:
 
 observations %>% 
   filter(
     !is.na(precip),
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Now you! subset the data frame to the day in 2015 in which the maximum
 # temperature was observed at weather stations above 40 degrees north:
