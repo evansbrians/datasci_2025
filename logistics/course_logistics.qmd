@@ -90,7 +90,7 @@ Please ensure that your camera is on during all video meetings.
 Office hours are your opportunity to get one-on-one help from your professors. At least initially, please limit office hours to content relating to the course – we are happy to help you address problems in your personal data sets as we near the end of the course.
 
 -   **When**: Office hours are on Thursdays, from 08:00-09:30 ET and Fridays, from 13:30-14:45 ET.
--   **Signing up for office hours**: Office hours are by appointment only. Please sign up for your appointment at [this link](https://docs.google.com/spreadsheets/d/1_9ze9HufwQtsCzecwMKjJg4RzwoPTpNFPy5d3HtA_OA/edit?usp=sharing){target="_blank"}.
+-   **Signing up for office hours**: Office hours are by appointment only. Please sign up for your appointment at [this link](https://docs.google.com/spreadsheets/d/1AhQCLcqe3dG9aBN4dYQkItYkEhdPyCtFIWYg43J2WgY/edit?usp=sharing){target="_blank"}.
 -   **Office hours link**: Please use the links in the table above or in the office hours spreadsheet to sign into into your office hour session.
 -   **Important notes regarding signing up for office hours**:
     -   Please do not sign up for sessions more than 7 days in advance
