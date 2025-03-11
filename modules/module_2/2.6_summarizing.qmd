@@ -117,6 +117,7 @@ Before you begin, some notes on the video content:
 
 * The processes in which I use the `slice()` function could have more parsimoniously been completed with the `slice_max()` function.
 * I am currently much more in favor of running `aes()` outside of the `ggplot()` function (rather than nesting).
+* I do not conform to the course style guide in this video!
 * I made this video in the middle of 2022 -- this is why the number of spotted lanternfly observations decrease a little in that year. It is also why your help file will look differently than mine -- there has been some big changes to the options of the function!
 * For the sake of time, we will not be covering the lubridate package in depth in this course.
 
@@ -183,12 +184,15 @@ measures <-
   select(
     spp:sex,
     wing, 
-    mass:bp_cp) %>% 
+    mass:bp_cp
+  ) %>% 
   
   # Convert `NA` values in `bp_cp` to "-":
   
   mutate(
-    bp_cp = replace_na(bp_cp, "-")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  ) %>% 
   
   # Subset the data to where `bp_cp` does not equal "U":
   
@@ -211,12 +215,15 @@ measures <-
   select(
     spp:sex,
     wing, 
-    mass:bp_cp) %>% 
+    mass:bp_cp
+  ) %>% 
   
   # Convert `NA` values in `bp_cp` to "-":
   
   mutate(
-    bp_cp = replace_na(bp_cp, "-")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  ) %>% 
   
   # Subset the data to where `bp_cp` does not equal "U":
   
@@ -229,7 +236,7 @@ Please the give the above a try and then click the button to see how I answered 
 
 ## Summarize
 
-The `summarize()` function allows you to calculate summary statistics for a grouped dataset.
+The `summarize` function allows you to calculate summary statistics for a grouped dataset.
 
 Let's run the below and think about what occurred:
 
@@ -243,12 +250,14 @@ measures %>%
   # Calculate the average wing length of each group:
   
   summarize(
-    mean_wing = mean(wing, na.rm = TRUE))
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  )
 ```
 
 The above provided the average wing length by species ... but what is summarize doing?
 
-We *could* have used mutate to calculate the mean wing length by species:
+We *could* have used `mutate()` to calculate the mean wing length by species:
 
 ```{r}
 measures %>% 
@@ -260,7 +269,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE))
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  )
 ```
 
 ... then ungroup the data with the *dplyr* `ungroup` function:
@@ -275,7 +286,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  ) %>% 
   
   # Remove the grouping:
   
@@ -296,7 +309,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  ) %>% 
   
   # Remove the grouping:
   
@@ -319,7 +334,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  ) %>% 
   
   # Remove the grouping:
   
@@ -340,7 +357,7 @@ But that is a lot of coding ... summarize saves us loads of time and really enha
 
 ## Multiple groups
 
-I often use the `summarize()` function, in combination with `n()` for calculating the number of observations per group:
+I often use the `summarize` function, in combination with `n()` for calculating the number of observations per group:
 
 ```{r}
 measures %>% 
@@ -356,7 +373,7 @@ measures %>%
 
 *Note: The function `n()` is a row counter. It counts the number of rows per group. Although the above can be produced with `tally()`, I typically use this version, as it is more flexible (because I can add more summary statistics other than simply counts).*
 
-What if we wanted to summarize the number of observations by multiple groups though? We simply separate additional groups in `group_by()` with a comma. In doing so, any function (e.g., split, filter, mutate) will run on each group separately.
+What if we wanted to summarize the number of observations by multiple groups though? We simply separate additional groups in `group_by()` with a comma. In doing so, any function (e.g., `split()`, `filter()`, `mutate()`) will run on each group separately.
 
 In the code below, I summarize the number of observations by species and sex:
 
@@ -392,9 +409,9 @@ measures %>%
   ungroup()
 ```
 
-*Note: Although we received a warning message for the `summarize` function, notice in the output that the resultant data is no longer grouped by `spp`.*
+*Note: Although we received a warning message for the `summarize` function, notice in the output that the resultant data are no longer grouped by `spp`.*
 
-Thanks to a fairly new feature, `.groups = "drop"` (May 2020), we can now remove the grouping structure from the data without the additional `ungroup()` function: 
+Thanks to a fairly new feature, `.groups = "drop"` (May 2020), we can now remove the grouping structure from the data without the additional `ungroup` function: 
 
 ```{r}
 measures %>% 
@@ -407,12 +424,13 @@ measures %>%
   
   summarize(
     n = n(),
-    .groups = "drop")
+    .groups = "drop"
+  )
 ```
 
 ## Rename groups
 
-We can rename a group on the fly right inside of the `group_by()` function. For example, the variable name `spp` might not be very informative for all of our readers. We can change this to `species` with:
+We can rename a group on the fly right inside of the `group_by` function. For example, the variable name `spp` might not be very informative for all of our readers. We can change this to `species` with:
 
 ```{r}
 measures %>% 
@@ -424,7 +442,8 @@ measures %>%
   # Count the number of observations per group:
   
   summarize(
-    n = n()) %>% 
+    n = n()
+  ) %>% 
   
    # Remove the grouping:
   
@@ -446,23 +465,27 @@ measures %>%
   
   # Remove rows where `sex` is NA:
   
-  filter(!is.na(sex)) %>% 
+  filter(
+    !is.na(sex)
+  ) %>% 
   
   # Group the data:
   
-  group_by(spp, sex) %>% 
+  group_by(species = spp, sex) %>% 
   
   # Count the number of observations per group:
   
   summarize(
     n = n(),
-    .groups = 'drop') %>% 
+    .groups = "drop"
+  ) %>% 
   
   # Reshape the data frame to the desired structure:
   
   pivot_wider(
     names_from = sex,
-    values_from = n)
+    values_from = n
+  )
 
 # Or:
 
@@ -474,19 +497,21 @@ measures %>%
   
   # Group the data:
   
-  group_by(spp, sex) %>% 
+  group_by(species = spp, sex) %>% 
   
   # Count the number of observations per group:
   
   summarize(
     n = n(),
-    .groups = 'drop') %>% 
+    .groups = "drop"
+  ) %>% 
   
   # Reshape the data frame to the desired structure:
   
   pivot_wider(
     names_from = sex,
-    values_from = n)
+    values_from = n
+  )
 ```
 
 :::
@@ -506,7 +531,8 @@ measures %>%
   
   summarize(
     n = n(),
-    .by = spp)
+    .by = spp
+  )
 ```
 
 That is very straightforward! A huge advantage to this approach is that the resultant data object is *not* grouped, even when multiple grouping variables are used. To illustrate this, let's again group the data by `spp` and `sex`. We then supply a vector of variables of interest to the `.by = ...` argument:
@@ -518,12 +544,14 @@ measures %>%
   
   summarize(
     n = n(),
-    .by = c(spp, sex))
+    .by = 
+      c(spp, sex)
+  )
 ```
 
 The resultant data frame is not grouped!
 
-So is `group_by()` a relic of the past? No!!! A difference between `group_by()` and `.by = ...` is that we can calculate and assign a new column during the `group_by()` process (thus `group_by()` includes a mutation). We cannot (currently) do so with `.by = ...`. As such, this works ...
+So is `group_by()` a relic of the past? No!!! A difference between `group_by()` and `.by = ...` is that we can calculate and assign a new column during the `group_by()` process (thus `group_by()` includes a mutation). We cannot (currently) do so with `.by = ...`. As such, this works:
 
 ```{r}
 measures %>% 
@@ -536,7 +564,8 @@ measures %>%
   
   summarize(
     n = n(),
-    .groups = "drop")
+    .groups = "drop"
+  )
 ```
 
 ... but we currently cannot do so with `.by = ...`
@@ -548,7 +577,9 @@ measures %>%
   
   summarize(
     n = n(),
-    .by = c(species = spp, sex))
+    .by = 
+      c(species = spp, sex)
+  )
 ```
 
 `group_by()` lives!
