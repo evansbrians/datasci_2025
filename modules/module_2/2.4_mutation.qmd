@@ -259,7 +259,7 @@ measures %>%
   )
 ```
 
-I like to use the *dplyr* function `row_number` for this task. This function generates a sequence of integer values from 1 to the number of rows in a data frame:
+I like to use the *dplyr* function `row_number()` for this task. This function generates a sequence of integer values from 1 to the number of rows in a data frame:
 
 ```{r}
 measures %>% 
@@ -287,7 +287,7 @@ Row numbers should rarely (if ever) be used as primary key values. I use it duri
 
 ## Mutate multiple columns
 
-We often want to modify or add multiple columns in a single step. For example, perhaps we want to change the unit of wing measurement from millimeters to centimeters (1 cm = 10 mm) *and* the unit of mass measurement from grams to ounces (1 gram is ~0.0353 ounces). We *could* chain together multiple mutate statements:
+We often want to modify or add multiple columns in a single step. For example, perhaps we want to change the unit of wing measurement from millimeters to centimeters (1 cm = 10 mm) *and* the unit of mass measurement from grams to ounces (1 gram is ~0.0353 ounces). We *could* chain together multiple `mutate()` statements:
 
 ```{r}
 measures %>% 
@@ -301,7 +301,8 @@ Instead, however, it is more parsimonious to conduct the mutate operations withi
 measures %>% 
   mutate(
     wing = wing / 10,
-    mass = mass * 0.0353)
+    mass = mass * 0.0353
+  )
 ```
 
 If a given mutation is dependent on another operation inside the mutate function, you have to be careful regarding the order of operations. For example, perhaps we want to calculate the ratio of `mass` by `wing` length, with wing length in centimeters and mass in ounces. We *could* conduct the calculation with a new `mutate()` call:
@@ -310,7 +311,8 @@ If a given mutation is dependent on another operation inside the mutate function
 measures %>% 
   mutate(
     wing = wing / 10,
-    mass = mass * 0.0353) %>% 
+    mass = mass * 0.0353
+  ) %>% 
   mutate(mass_wing = mass / wing)
 ```
 
@@ -321,7 +323,8 @@ measures %>%
   mutate(
     wing = wing / 10,
     mass = mass * 0.0353,
-    mass_wing = mass / wing)
+    mass_wing = mass / wing
+  )
 ```
 
 The resultant `mass_wing` value is correct. However, the resultant value would be incorrect if we placed the `wing / mass` mutation *before* our unit conversion:
@@ -331,7 +334,8 @@ measures %>%
   mutate(
     wing_mass = wing / mass,
     wing = wing / 10,
-    mass = mass * 0.0353)
+    mass = mass * 0.0353
+  )
 ```
 
 The above is incorrect because the arguments inside `mutate()` are evaluated in order!
@@ -362,7 +366,9 @@ We can replace [NA]{.mono} values with the *tidyr* function `replace_na()`. Work
 ```{r}
 measures %>% 
   mutate(
-    bp_cp = replace_na(bp_cp, "-"))
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  )
 ```
 
 Below, after our mutation, I extract the column of interest with `.$` and use `table()` again so that we can really see the results:
@@ -370,7 +376,9 @@ Below, after our mutation, I extract the column of interest with `.$` and use `t
 ```{r}
 measures %>% 
   mutate(
-    bp_cp = replace_na(bp_cp, "-")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  ) %>% 
   .$bp_cp %>% 
   table(useNA = "always")
 ```
@@ -395,7 +403,9 @@ We can use the *dplyr* function `na_if()` to convert a value to [NA]{.mono}. Wor
 ```{r}
 measures %>% 
   mutate(
-    bp_cp = na_if(bp_cp, "U")) %>% 
+    bp_cp = 
+      na_if(bp_cp, "U")
+  ) %>% 
   .$bp_cp %>% 
   table(useNA = "always")
 ```
@@ -407,9 +417,12 @@ We *could* pipe the mutate statements together:
 ```{r}
 measures %>% 
   mutate(
-    bp_cp = replace_na(bp_cp, "-")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  ) %>% 
   mutate(
-    bp_cp = na_if(bp_cp, "U")) %>% 
+    bp_cp = na_if(bp_cp, "U")
+  ) %>% 
   .$bp_cp %>% 
   table(useNA = "always")
 ```
@@ -419,8 +432,11 @@ measures %>%
 ```{r}
 measures %>% 
   mutate(
-    bp_cp = replace_na(bp_cp, "-"),
-    bp_cp = na_if(bp_cp, "U")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-"),
+    bp_cp = 
+      na_if(bp_cp, "U")
+  ) %>% 
   .$bp_cp %>% 
   table(useNA = "always")
 ```
@@ -437,10 +453,9 @@ measures %>%
   mutate(
     bp_cp = 
       na_if(
-        replace_na(
-          bp_cp,
-          "-"),
-        "U")
+        replace_na(bp_cp, "-"),
+        "U"
+      )
   )
 ```
 
@@ -473,7 +488,7 @@ measures %>%
 
 ### Add & subset columns
 
-The `transmute()` function works similarly to mutate, but allows us to add and subset columns in a data frame in one step.
+The `transmute` function works similarly to mutate, but allows us to add and subset columns in a data frame in one step.
 
 Let's see what happens when we use `transmute` with our `mass_wing` calculation.
 
@@ -498,7 +513,8 @@ To do this with `transmute()`, we can simply add `spp` as an additional column:
 measures %>% 
   transmute(
     spp,
-    mass_wing = mass / wing)
+    mass_wing = mass / wing
+  )
 ```
 
 We can also rename the column in the same step:
@@ -507,12 +523,13 @@ We can also rename the column in the same step:
 measures %>% 
   transmute(
     species = spp,
-    mass_wing = mass / wing)
+    mass_wing = mass / wing
+  )
 ```
 
 <div class = 'mysecret'>
 <i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i> 
-The `transmute()` function is pretty much just a combination of `mutate()` and `select()`. The decision of when to use `transmute()` vs. `mutate()` should be determined by code parsimony and the ability of your code to communicate the steps taken during data processing. Although the function has been superseded, I still use it often!
+The `transmute` function is pretty much just a combination of `mutate()` and `select()`. The decision of when to use `transmute()` vs. `mutate()` should be determined by code parsimony and the ability of your code to communicate the steps taken during data processing. Although the function has been superseded, I still use it often!
 </div>
 
 ## Reference
