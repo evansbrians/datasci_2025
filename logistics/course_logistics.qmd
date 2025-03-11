@@ -19,13 +19,14 @@ editor_options:
 
 ![](../images/gis_logo.png){.gis_logo}
 
-Welcome to *GIS in R: Fundamentals and applications for ecologists*! Please read this logistics document carefully and often, as this is a handy guide for how to navigate course content.
+Welcome to *Managing	Ecological	Data	in	R:	Introduction	to	Data	
+Science	and	the	Art	of	Wrangling	for	Ecologists*! Please read this logistics document carefully and often, as this is a handy guide for how to navigate course content.
 
 For further detail on course requirements, policies, grading criteria, and logistics, please visit the course syllabus for your section.
 
 ## Course schedule {.unnumbered}
 
-This course is divided into eight learning modules that will first ensure that you have a solid foundation in coding in the tidyverse and then apply that foundation to using R as a GIS (while continuing to enhance your tiydverse skills!). Each module is comprised of a series of html files that contain instructions, links, and videos. Course modules include:
+This course is divided into eight learning modules that will first ensure that you have a solid foundation in basic coding principles and then extend that foundation to more advanced concepts. Each module is comprised of a series of html files that contain instructions, links, and videos. Course modules include:
 
 -   **Module 1: Foundations**  (17 - 23 Mar): We will lay the foundations for your success in this course!
 -   **Module 2: Introduction to the tidyverse** (24 - 30 Mar): Here, you will learn the primary tidyverse tools for managing and visualizing ecological data and we will cover the underlying philosophy that guides the tidyverse (**tidy data**).
