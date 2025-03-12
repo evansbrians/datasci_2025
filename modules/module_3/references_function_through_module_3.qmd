@@ -1,0 +1,248 @@
+---
+title: "3.2 Introduction to mutation"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+## Glossary of terms
+
+* **Aesthetic mappings**: How the data are mapped to visual attributes.
+* **Assignment (noun)**: A reference that R uses to call data from your computer’s memory (also called "name").
+* **Assignment (verb)**: The act of associating a name with an object (typically to the global environment).
+* **Atomic vector**: A one-dimensional homogenous data object.
+* **Child**: An object whose name is stored as a reference in a parent object.
+* **Class**: A blueprint that describes an object's structure.
+* **Code section**:  A portion of an R script file that is delineated by a section header.
+* **Compound key** (or compound primary key): A set of variables in a data frame that, combined, represent the primary key of a table.
+* **Core tidyverse package** or **Core tidyverse**: A subset of the *tidyverse* packages that are attached with `library(tidyverse)`.
+* **Coordinate system**: Projection of data (e.g., x and y Cartesian coordinates).
+* **csv file**: A file stored in the "comma separated values" format. This describes a plain text files where commas separate values and each record (e.g., row in a data frame) is placed on a new line. 
+* **Data** (in the Grammar of Graphics): The information being plotted.
+* **Data frame**: A two-dimensional, and potentially heterogeneous data object (that is a restrictive type of list under-the-hood).
+* **Data object**: Containers for values that structure references in an ordered, predictable way.
+* **Double numeric vector**: An atomic numeric vector where the values are stored as decimal numbers (essentially).
+* **Environment**: A dimensionless container that contains references (names) to data stored in memory.
+* **Experimental** (function): A function currently being tested for permanent distribution in a package (these functions are usually, but not always, safe to use).
+* **Facets**: Subsets of data within a given plots (i.e., plot are broken into subplots based on some grouping variable).
+* **Filter** (verb): Subset data by logical condition.
+* **Filtering join**: Subset a target table to only rows in which key values match (or are absent from) the keys within a source table.
+* **Foreign key**: A variable in a data frame that refers to the primary key of another data frame.
+* **Function**: A set of instructions used to complete a given task.
+* **Global environment**: A collection of names assigned during an R session.
+* **Infix function**: A function in which the name of the function is placed between the function's arguments.
+* **Integer**: A whole number, or an atomic vector of data stored as whole numbers.
+* **Install** (a package): Download the data and functions from a package onto your computer.
+* **Key** (variable): A variable in a data frame (can also be used to refer to names assigned to objects stored in your computer's memory).
+* **Layers (geometries)**: Expression of the data in the plot.
+* **List**: A one dimensional, and potentially heterogeneous, data object.
+* **List item**: A data object contained within a list.
+* **Matrix**: A two-dimensional homogenous data object (that is an atomic vector under-the-hood).
+* **Memory (RAM)**: A temporary storage location for instructions (functions) and data.
+* **Mutating join**: Use matching keys to add columns to a target table from a source table.
+* **Mutation**: The process of adding columns to a data frame and or modifying existing columns (or adding/modifying list items to/in a list).
+* **NA** (value): A missing data value in an atomic vector.
+* **Name**: A reference that R uses to call data from your computer’s memory  (also called "assignment").
+* **Negated selection**: The use of the negative symbol (`-`) or, more recently, the *not* operator (`!`) to select all columns *except* the supplied column or columns.
+* **Normal data**: A data format developed by Edgar Codd that is the basis of the tidy data rules (see below).
+* **Normalize/Normalization** (in data engineering): Conform a dataset to Codd's rules of normal data.
+* **Observation**: A row within a data frame.
+* **Order**: The position of values (or child objects) within a data object.
+* **Package environment**: A collection of variable names associated with objects in a package.
+* **Parent**: An object or environment that contains references to other objects.
+* **Prefix function**: A function in which the name of the function precedes the target of the evaluation.
+* **Primary key**: A variable in a data frame that is used to identify unique records.
+* **Primitive functions**: Functions written in C code and made available to use through the base R package.
+* **Project**: A collection of files that is referenced by a `.RProj` file.
+* **RDS file**: A storage format for data sets that are written in, and written for, program R.
+* **Recursive object**: Objects that are made up of references to other objects (e.g., a list).
+* **Relative file path**: The path to a file on your hard drive relative to the current working directory.
+* **Scales**: Maps from data to aesthetic space.
+* **Session**: The time spent and operations conducted since opening R.
+* **Source table**: In a join, this is the table that is referenced by the target table (in a mutating join, the source table provides the new variables for the target table) -- this is typically the table with the primary key.
+* **Structure**: The dimensionality and homogeneity of a data object (may also be used to describe the class of objects).
+* **Subset** (verb): The process of reducing the number of items in a list (including columns in a data frame!), rows in a data frame, or values in an atomic vector.
+* **Summarize**:  The process of calculating a summary statistic, or multiple summary statistics of a data frame and returning the resultant data as a tibble data frame. 
+* **Superseded** (function): A function for which a new function or argument has been added to a package (these functions should typically be avoided).
+* **Target table**: In a join, the target table is the table that you wish to join data to (usually the table with the foreign key).
+* **Theme**: Styling of non-data elements in a plot.
+* **Tibble**: A type of data frame with great benefits!
+* **Tidy data** (noun): A data format developed by Hadley Wickham (based on Codd's rules) in which every row represents an observation, every column represents a variable, and every level of observation represents a table.
+* **Tidy data** (verb): Conform a dataset to Wickham's rules of tidy data.
+* **Type**: How an object is stored in your computer.
+* **Variable**: A column in a data frame.
+* **Version history**: Changes to a package since its inception.
+
+## Functions used
+
+**Important!** Primitive functions as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`. The functions `rlang::set_names` and `tidyselect::everything` are also attached with `library(tidyverse)`.
+
+**Also note**: I do not include functions that I recommend avoiding.
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ~`: The function operator that specifies that the object right-hand-side (RHS) the LHS is a function of the data supplied on the RHS.
+* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
+* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+* `.Primitive, $`: Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
+* `.Primitive, ==`: Infix relational operator (is equal to)
+* `.Primitive, !=`: Infix relational operator (is not equal to)
+* `.Primitive, &`: Infix logical operator (and)
+* `.Primitive, |`: Infix logical operator (or)
+* `.Primitive, >`: Infix relational operator (greater than)
+* `.Primitive, >=`: Infix relational operator (greater than or equal to)
+* `.Primitive, <`: Infix relational operator (less than)
+* `.Primitive, <=`: Infix relational operator (less than or equal to)
+* `.Primitive, !`: Prefix logical operator (not)
+* `.Primitive, +`: Infix arithmetic operator (add)
+* `.Primitive, -`: Infix arithmetic operator (subtract)
+* `.Primitive, *`: Infix arithmetic operator (multiply)
+* `.Primitive, /`: Infix arithmetic operator (divide)
+* `.Primitive, as.integer`: Transform an atomic vector to an integer vector
+* `.Primitive, as.numeric`: Transform an atomic vector to an double numeric vector (i.e., decimal numbers)
+* `.Primitive, c`: Combine values to form an atomic vector
+* `.Primitive, class`: Print the class of an object as a one-value character vector
+* `.Primitive, dim`: Return the number of dimensions in an object as an integer vector
+* `.Primitive, is.character`: A logical test of whether a vector is of class "character"
+* `.Primitive, is.numeric`: A logical test of whether a vector is of class "numeric" or "integer"
+* `.Primitive, length`: Return the number of values in an atomic vector or the number of list items in a list (or data frame!) as a one-value integer vector
+* `.Primitive, max`: Return the maximum value in a vector
+* `.Primitive, min`: Return the minimum value in a vector
+* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
+* `.Primitive, max`: Return the highest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+* `.Primitive, min`: Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+* `base::%in%`: Infix relational operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
+* `base::[]`: Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+* `base::[[]]`: Extraction operator used to index a single value from a data object (LHS) based on the position or values specified inside the brackets
+* `base::as.character`: Transform an atomic vector to a character vector
+* `base::as.integer`: Transform an atomic vector to an integer vector
+* `base::as.numeric`: Transform an atomic vector to a numeric vector
+* `base::as.vector`: Transform a multi-dimensional object into a one-dimensional object
+* `base::environment`: Print the environment of a given function
+* `base::factor`: Convert a character vector to a factor
+* `base::file.remove`: Delete a file from your hard drive
+* `base::is.na`: A logical test of whether a value is NA
+* `base::length`: Return the number of values (or list items, if recursive) in an object as a one-value integer vector
+* `base::levels`: Generate a character vector of factor levels in a factor variable
+* `base::library`: Attach the package environment for a given package to the current R session
+* `base::list2env`: Assign the items in a list to a specified environment
+* `base::ls`: Generate a character vector of names in a specified environment (default is the global environment)
+* `base::matrix`: Generate a matrix object by adding dimensional attributes to an atomic vector
+* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
+* `base::ncol`: Return the number of columns (i.e., variables or list items) in a data frame as a one-value integer vector
+* `base::nrow`: Return the number of rows (i.e., observations) in a data frame as a one-value integer vector
+* `base::rm`: Remove a name from a specified environment (default is the global environment)
+* `base::search`: Print a character vector of attached objects associated with your current R session
+* `base::summary`: Print summary stats for a data object
+* `base::table`: Count the number of unique observations in an atomic vector
+* `base::typeof`: Print a one-value character vector that represents how a data object is stored on our computer
+* `base::unit`: Set or create a unit object
+* `base::unique`: Subset an atomic vector to the unique values in the set
+* `dplyr::anti_join`: A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
+* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable or variables
+* `dplyr::bind_cols`: Combine two variables or columns of two tibbles to create a new tibble
+* `dplyr::bind_rows`: Combine rows of two tibbles to create a new tibble
+* `dplyr::count`: Tabulate the number of observations of each unique value in a variable and return as a long format tibble
+* `dplyr::desc`: When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order
+* `dplyr::distinct`: Subset a data frame by removing duplicate rows
+* `dplyr::filter`: Subset a data frame by logical condition
+* `dplyr::full_join`: A mutating join that joins a source table to a target table and maintains all records in both tables, regardless of matching key values
+* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
+* `dplyr::inner_join`: A mutating join that joins a source table to a target table and maintains only records with matching key values
+* `dplyr::join_by`: Specify the key columns within a join function
+* `dplyr::left_join`: A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values
+* `dplyr::mutate`: Add or modify a column in a data frame
+* `dplyr::n`: Calculate the number of observations (rows)
+* `dplyr::na_if`: Convert a value in a vector to NA
+* `dplyr::pull`: Extract a column from a data frame as a vector
+* `dplyr::rename`: Change the name assigned to a column in a data frame
+* `dplyr::row_number`: Generate a sequence of integer values from 1 to the number of rows in a data frame
+* `dplyr::select`: Subset columns in a data frame by name
+* `dplyr::semi_join`: A filtering join that joins a source table to a target table and maintains only records with matching key values
+* `dplyr::slice`: Subset a data frame by row or rows using the row position(s)
+* `dplyr::slice_head`: Subset a data frame to the first row (default) or rows
+* `dplyr::slice_tail`: Subset a data frame to the last row (default) or rows
+* `dplyr::slice_min`: Sort a data frame by a variable and subset to the rows associated with the lowest values of that variable
+* `dplyr::slice_max`: Sort a data frame by a variable and subset to the rows associated with the highest values of that variable
+* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+* `dplyr::transmute` (superseded): Mutate a data frame while subsetting the columns to those specified in the function
+* `dplyr::ungroup`: Remove any grouping on a data frame
+* `ggplot2::aes`: Define aesthetics
+* `ggplot2::coord_flip`: Switch the mapping to the horizontal and vertical coordinates
+* `ggplot2::element_line`: Set the theme for a line element
+* `ggplot2::element_rect`: Set the theme for a shape element
+* `ggplot2::element_text`: Set the theme for a text element
+* `ggplot2::expansion`: Set upper and lower values or proportions to expand an axis by
+* `ggplot2::facet_wrap`: Split plot into facets
+* `ggplot2::geom_bar`: Create a bar geometry
+* `ggplot2::geom_line`: Create a line geometry (that connects points)
+* `ggplot2::geom_point`: Create a point geometry
+* `ggplot2::geom_smooth`: Add a line-of-best-fit geometry
+* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
+* `ggplot2::ggsave`: Save a ggplot to your computer
+* `ggplot2::labs`: Add or modify the labels of a  plot
+* `ggplot2::scale_color_manual`: Manually define the colors of a geometry
+* `ggplot2::scale_fill_brewer`: Fill a geometry with colors from a RColorBrewer palette
+* `ggplot2::scale_fill_manual`: Manually define the fill colors of a polygon geometry
+* `ggplot2::scale_x_continuous`: Scale the x axis
+* `ggplot2::scale_y_continuous`: Scale the y axis
+* `ggplot2::theme`: Define the theme elements of a plot
+* `ggplot2::theme_bw`: Generate a pre-packaged light background theme for a plot
+* `lobstr::ref`: View the structure of an object in your computer's memory
+* `lubridate::month`: Extract the month from a properly formatted date value
+* `lubridate::year`: Extract the year from a properly formatted date value
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `purrr::pluck`: Extract a list item from a list
+* `RColorBrewer::display.brewer.all`: Show pre-made palettes from R Color Brewer
+* `readr::read_csv`: Read a tabular csv file into R as a tibble data frame
+* `readr::read_lines`: Read an atomic vector into R
+* `readr::read_rds`: Read an RDS file into R
+* `readr::write_csv`: Write a data frame to your hard drive as a csv file
+* `readr::write_lines`: Write an atomic vector to your hard drive as a txt file
+* `readr::write_rds`: Write an data object to your hard drive as an RDS file
+* `readxl::excel_sheets`: Return the names of worksheets in an Excel file
+* `readxl::read_excel`: Read an Excel worksheet into R
+* `rlang::set_names`: Assign names to values in a vector or items in a list.
+* `stats::median`: Calculate the median value of a numeric vector and return as a one-value double numeric or integer vector
+* `stats::sd`: Calculate the median value of a numeric vector and return as a one-value double numeric vector
+* `stats::var`: Calculate the variance of a numeric vector and return as a one-value double numeric vector
+* `tibble::lst`: Combine objects into a list while maintaining any names assigned to the global environment
+* `tibble::tibble`: Column-wise creation of a tibble data frame
+* `tibble::tribble`: Row-wise creation of a tibble data frame
+* `tidyr::drop_na`: Remove rows that contain NA values
+* `tidyr::pivot_longer`: Convert a data frame from wide to long format
+* `tidyr::pivot_wider`: Convert a data frame from long to wide format
+* `tidyr::replace_na`: Replace an NA value in a vector with a different value
+* `tidyr::separate` (superseded): Separate a single column into multiple columns by a delimiter
+* `tidyr::unite`: Combine columns in a data frame to create a single column
+* `tidyselect::everything`: Used in combination with select, the selects all but the specified columns.
+* `tidyverse::tidyverse_packages`: Generate a character vector of package names in the tidyverse metapackage
+* `tidyverse::tidyverse_update`: Update packages in the tidyverse metapackage
+* `utils::?`: Prefix operator to retrieve the help file for a function
+* `utils::install.packages`: Download a package onto your computer's hard drive
+* `utils::news`: View the version history of a package
+* `utils::str`: View the structure of a data object

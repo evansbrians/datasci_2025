@@ -1,0 +1,1228 @@
+---
+title: WWTD Compendium
+output:
+  html_document:
+    code_folding: show
+    toc: true
+    toc_float: true
+---
+
+<head>
+<link 
+rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link 
+rel="stylesheet" 
+href="www/styles.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+</head>
+
+
+```{r, eval = TRUE, include  = FALSE}
+# Load library
+
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+
+options(knitr.table.format = "html")
+
+read_rds('data/raw/untidy_data.rds') %>% 
+  list2env(.GlobalEnv)
+
+countries <- 
+  read_csv('data/raw/world_bank_countries.csv')
+```
+
+
+
+## Overview
+<hr>
+
+<div class = "row">
+<a title = "Data Science hex">
+<img  src = "www/hex_complex.png"
+alt="Hex sticker for data science class"
+style = "float: right; padding-left: 2em; padding-bottom: 2em; padding-right: 0em; width: 40%; height: auto;">
+</img>
+</a>
+<br>
+This lesson is intended to serve as a reference for early tidyverse users. Instead of focusing on *what's under the hood* (i.e., why functions work the way that they do), the focus of this document is to help users determine which functions to use in different scenarios.
+
+My hope is that this document will help limit the time that users have to ask "*which function do I use for that*?" As such, the material below is arranged by task and (mostly) covered only briefly. There are a couple of exceptions to this (thus the compendium is required reading) -- joins and `NA` values. Because students often have difficulty with these concepts, I cover them more in depth than the other topics.
+
+**Note**: I recognize that this compendium is quite long and that it is being provided to you in a week in which you received a lot of video content! Most is a review of the video material for this week. If you're strapped for time, I recommend predominantly using this document as a reference and focusing most of your attention on the sections:
+
+* Add or modify a column
+* Summarize
+* Join tables
+
+*But see the `measures` assignment at the end of "Changing column names"!*
+
+</div>
+
+
+## Reference material
+<hr>
+
+Below is some handy reference material that you can refer to throughout this lesson. Please click on the menu item to expand it.
+
+<div>
+<button class="accordion">Named R functions used in this lesson</button>
+<div class="panel">
+<br>
+With the exception of operators, the functions used in this lesson include:
+
+Base R: 
+
+* c
+* is.na
+* library
+* list2env
+* max
+* mean
+* min
+* nrow
+* summary
+* table
+
+Tidyverse:
+
+* dplyr::anti_join
+* dplyr::arrange
+* dplyr::bind_cols
+* dplyr::desc
+* dplyr::distinct
+* dplyr::filter
+* dplyr::full_join
+* dplyr::group_by
+* dplyr::inner_join
+* dplyr::left_join
+* dplyr::mutate
+* dplyr::n
+* dplyr::na_if
+* dplyr::pull
+* dplyr::relocate
+* dplyr::rename
+* dplyr::row_number
+* dplyr::select
+* dplyr::semi_join
+* dplyr::slice
+* dplyr::slice_head
+* dplyr::slice_max
+* dplyr::slice_min
+* dplyr::slice_tail
+* dplyr::summarize
+* dplyr::transmute
+* dplyr::ungroup
+* magrittr: %>%
+* readr::read_rds
+* tidyr::pivot_longer
+* tidyr::pivot_wider
+* tidyr::replace_na
+* tidyselect::everything
+
+
+</div>
+</div>
+
+<div>
+<button class="accordion">R Studio panes</button>
+<div class="panel">
+<br>
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<br>
+<img src = 'www/rstudio_panes.png' style = "max-width: 100%; height: auto; margin-top:15px;"></img>
+<br>
+</div>
+</div>
+
+<div>
+<button class="accordion">Keyboard shortcuts</button>
+<div class="panel">
+<br>
+The Keyboard shortcuts we will use in this lesson are listed below for Windows and Mac operating systems.
+
+<hr>
+<div>
+<button class="accordion">Windows</button>
+<div class="panel">
+* Add a pipe operator: Ctrl + Shift + M
+* View all keyboard shortcuts: Ctrl + Alt + K
+* Execute code: Ctrl + Enter
+* Add assignment operator: Alt + dash
+* Add a new code section: Ctrl + shift + R
+* Create a new script file: Command + shift + N
+* Save file: Ctrl + S
+* Copy: Ctrl + C
+* Paste: Ctrl + V
+</div>
+</div>
+
+<div>
+<button class="accordion">Mac</button>
+<div class="panel">
+* Add a pipe operator: Command + Shift + M
+* View all keyboard shortcuts: Command + option + K
+* Execute code: Command + Enter
+* Add assignment operator: Option + dash
+* Add a new code section: Command + shift + R
+* Create a new script file: Command + shift + N
+* Save file: Command + S
+* Copy: Command + C
+* Paste: Command + V
+</div>
+</div>
+
+<hr>
+<div style = "margin-bottom: 5px;">
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp; I strongly suggest using a keyboard shortcut whenever possible. It can be hard to do at first, using your mouse to click a button or typing a few characters is initially **way** easier than remembering the keyboard shortcut. If you force yourself to do it though, you won't regret it -- it saves a lot of time in the end.
+</div>
+</div>
+</div>
+
+<div>
+<button class="accordion">Glossary of terms</button>
+<div class="panel">
+<br>
+Throughout this lesson, I will use terminology (i.e., jargon) that may be new to you. This menu item can be clicked at any point if you an encounter a term that you do not know or understand. Be sure to visit this menu for each lesson, because new items will be added as the course content expands.
+
+* **Chained code/analysis**: Code in which a given process is dependent on the outcome of a previous step
+* **Compound key**: Two or more variables in a table that, when combined, serve as a primary or foreign key
+* **Core package**: A package that is loaded when its parent metapackage is loaded
+* **Experimental**: In the life cycle of a package, this is a package in the development phase
+* **Filter**: Subset the rows of a data frame by logical condition
+* **Filtering join**: A join that subsets the rows in a target table by matching key values in a source table
+* **Foreign key**: A variable or variables in a table that refer to the primary key of another table
+* **Global environment**: The location where objects are stored locally during the current session
+* **Key**: A name assigned to a data object (especially a variable in a table)
+* **Menu bar**: The bar at the top of the RStudio window
+* **Mutating join**: A join that adds columns from the source table to the target table
+* **NA value**: A missing or unmeasured valuable for a given variable
+* **Nested code**: Code in which a function is written inside of another function
+* **Non-nested code**: Code in which a function is not written inside of another function
+* **Pane/Panel**: The RStudio window is divided into four sections, called panes or panels
+* **Partially nested code**: Code in a chained process in which a portion of the code is nested and a portion is non-nested
+* **Pipe operator**: A connector between steps in a chained process in which the information in the previous step is, by default, passed to the first argument of the next step (*i.e., the output of the left-hand side of the pipe is passed as the input to the right-hand side of the pipe*)
+* **Primary key**: A variable or variables in a table that acts as a unique identifier of each observation (row)
+* **Session**: Everything you do in RStudio in a single sitting
+* **Source table**: In a join, this is the table that is being joined to the target table
+* **Superseded**: In the life cycle of a package, this is a package for which a better alternative has been developed.
+* **Tab**: Each pane has a tab on the top of it. For example, I will often refer to the Environment or History tabs of the workspace pane
+* **Target table**: In a join, this is the table that another table is being joined to
+* **Working directory**: The location on your computer's operating system where R will attempt to read or write files
+</div>
+</div>
+
+
+<div>
+<button class="accordion">Bash commands</button>
+<div class="panel">
+<br>
+Throughout this lesson and others there may be several bash commands you will have to use in the Terminal tab of your **Console pane**. These include:
+
+* **mkdir**: Make directory
+* **ls**: List files
+* **cd**: Change directory
+* **cd ..**: Change to parent directory
+* **mv**: Move directory
+* **pwd**: Print working directory
+* **rm**: Remove file
+* **rm -rf**: Remove folder
+
+</div>
+</div>
+
+
+
+
+
+## Setup
+<hr>
+
+1. Open R Studio and a new script file. Remember that it's best practice to start with a clean R Studio session!
+
+1. Add a new code section and call it "setup"
+
+1. After a space between your section break, include and run the following:
+
+```{r results = 'hide', message = FALSE}
+library(tidyverse)
+
+read_rds("data/raw/district_birds.rds") %>% 
+  list2env(.GlobalEnv)
+```
+
+## Subset data frame columns
+<hr>
+
+The `select()` family of functions is used to subset data frame columns. 
+
+Let's take a look at the full `captures` data frame (*Note: You may need to modify the width of your viewer pane to see all of the columns at once*):
+
+```{r}
+captures
+```
+
+### Subset by column name(s)
+
+**Single column:** To select a single column, we can provide a one-value vector with the name of the column (*quotes are not necessary!*):
+
+```{r}
+captures %>% 
+  select(band_number)
+```
+
+**Adjacent columns:** We can select a vector of adjacent columns by adding a colon between the first and last column of interest:
+
+```{r}
+captures %>% 
+  select(band_number:age)
+```
+
+**Non-adjacent columns:** We can select a vector of non-adjacent columns using the combine function `c` to specify our vector of column names:
+
+```{r}
+captures %>% 
+  select(
+    c(band_number, age))
+```
+
+**Sets of columns:** We can select non-adjacent *and* adjacent columns in a single select operation:
+
+```{r}
+captures %>% 
+  select(
+    c(capture_id,
+      band_number:age))
+```
+
+... or multiple sets of adjacent columns:
+
+```{r}
+captures %>% 
+  select(
+    c(capture_id,
+      band_number:color_combo,
+      wing:mass))
+```
+
+The above could have also been written as:
+
+```{r}
+captures %>% 
+  select(
+    c(capture_id,
+      band_number,
+      color_combo,
+      wing:mass))
+```
+
+### Remove columns
+
+**Remove a single column**: A negated selection will return all columns except for those specified by the negation operator, the `!`. Here, we'll remove the column `band_number`:
+
+```{r}
+captures %>% 
+  select(!band_number)
+```
+
+**Remove sets of columns**:  The negation operator can be used with multiple columns as well.
+
+We can remove a set of adjacent columns using `:` to specify a range of columns to remove:
+
+```{r}
+captures %>% 
+  select(!band_number:age)
+```
+
+To remove a set of non-adjacent columns, we have to wrap our column names in the combine function, `c`:
+
+```{r}
+captures %>% 
+  select(!c(band_number, age))
+```
+
+### Changing column names
+
+**Using select**: During the column selection process, we can change the name of a selected column:
+
+```{r}
+captures %>% 
+  select(band_number,
+         color_combo,
+         species = spp)
+```
+
+**Using rename**: If we do not need to subset the columns, we may want to choose the `rename()` function instead:
+
+```{r}
+captures %>% 
+  rename(species = spp)
+```
+
+<blockquote>
+<i class="fas fa-user-circle" style='font-size:36px'></i>&nbsp;&nbsp;<span style = 'font-size: 36px;'>Now you!</span>
+<hr>
+Subset captures to the fields band number, spp, sex, wing, tl (tail length), and mass. Assign the resultant object to your global environment with the key `measures`.
+
+You can see my answer below by clicking the "Code" button. Give this an honest try before you do though!
+
+```{r class.source = 'fold-hide', eval = TRUE}
+measures <-
+  captures %>% 
+  select(band_number, 
+         spp:sex, 
+         wing:mass)
+```
+</blockquote>
+
+<div class = 'mysecret'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i>
+A decision that you'll sometimes have to make when subsetting is whether to subset by providing the names of your columns of interest or with negation. I typically choose the method that requires the least amount of coding.
+</div>
+
+## Reshape data frames
+<hr>
+
+Being able to re-arrange data frames can be super important when exploring tabular data or preparing the data to be plotted.
+
+### Reorder columns
+
+**Reorder columns with select**: We can use the `select()` function to reorder columns while we select them (for `measures` see "Now you!", above):
+
+```{r}
+measures %>% 
+  select(spp, band_number:mass)
+```
+
+If we have a lot of columns, or want to make our code more generalize-able, we can use the `everything()` function. The code below says to select `spp` and then every other column after that.
+
+```{r}
+measures %>% 
+  select(spp, everything())
+```
+
+**Move the location of a column**: We can also just move a column to the front using the `relocate()` function:
+
+```{r}
+measures %>% 
+  relocate(spp)
+```
+
+### Arrange data frames by row
+
+Arranging data frame by row, using the `arrange()` function can provide a powerful tool for data frame exploration. 
+
+**Arrange from lowest to highest values**: By default, `arrange()` sorts a data frame from the lowest to highest value in a specified column. The following arranges `measures` from lowest to highest `mass` measurement:
+
+```{r}
+measures %>%
+  arrange(mass)
+```
+
+**Arrange from highest to lowest values**: We can arrange a data frame in descending order using the `desc()` function nested inside of `arrange()`:
+
+```{r}
+measures %>% 
+  arrange(
+    desc(mass))
+```
+
+### Pivoting: wide to long form
+
+We often want to convert data frames from wide to long format. This is often an important operation in data tidying (because many data frames built in Excel are an untidy wide format). It also can be useful when we want to plot several variables in a single plot (e.g., with variables mapped to different facts of a plot or a color aesthetic mapped to a given variable).
+
+To do so, we use `pivot_longer`. We supply the data frame we are pivoting (here that data frame is piped in), the selection of columns to pivot, the name for the variable classes (from the column names), and the name of the value column.
+
+```{r}
+measures %>% 
+  pivot_longer(
+    wing:mass,
+    names_to = 'measurement',
+    values_to = 'value')
+```
+
+### Pivoting: long to wide form
+
+We can also pivot to a wider data frame. This is sometimes useful in data tidying (when multiple variables are stored in one column), but is most often used when preparing data for analysis or when you need to visually explore tabular data.
+
+To pivot a data frame to a wider format we use the function `pivot_wider()`. Here, we supply the data frame, the name of the column that contains our variables of interest. 
+
+We're going to use the `counts` data frame for this (*the above has a problem that we'll address in the next segment*) to create a wide frame table of counts by visit.
+
+```{r}
+counts %>% 
+  select(!count_id) %>% 
+  pivot_wider(
+    names_from = spp, 
+    values_from = count) %>% 
+  select(visit_id:NOCA)
+```
+
+*Note: I included the `select()` function at the end just so this didn't make a mess when it printed.*
+
+This method can be used to quickly format data for many common community analyses. Of course, all of those `NA` values in there should really be zeros (the species was not observed during the visit). We can add the `values_fill` argument to `pivot_wider()` to replace those values during pivoting.
+
+```{r}
+counts %>% 
+  select(!count_id) %>% 
+  pivot_wider(
+    names_from = spp, 
+    values_from = count,
+    values_fill = 0) %>% 
+  select(visit_id:NOCA)
+```
+
+## Subset by row position
+<hr>
+
+The most straightforward (and *sometimes* useful) way to subset the rows of a data frame is to extract rows by position. 
+
+**Slice a row by position**: Using the function `slice()`, we simply provide the row number that we would like to retrieve:
+
+```{r}
+measures %>% 
+  slice(1)
+```
+
+**Slice adjacent rows by position**: To slice adjacent rows, we provide a vector of row numbers, with lower and upper values separated with a `:` operator:
+
+```{r}
+measures %>% 
+  slice(1:5)
+```
+
+**Slice non-adjacent rows by position**: For non-adjacent rows, we supply our vector of rows using the combine function, `c()`:
+
+```{r}
+measures %>% 
+  slice(
+    c(2, 3, 5))
+```
+
+**Subset the data to the top row(s)**: The function `slice_head()` can be a handy tool for just grabbing the top row: 
+
+```{r}
+measures %>% 
+  slice_head()
+```
+
+... or a specified number of rows from the top of the data frame:
+
+```{r}
+measures %>% 
+  slice_head(n = 5)
+```
+
+**Subset the data to the last row(s)**: The opposite of `slice_head()` is `slice_tail()`, which can be used to grab the last row in a data frame:
+
+```{r}
+measures %>% 
+  slice_tail()
+```
+
+... or the last several rows in a data frame:
+
+```{r}
+measures %>% 
+  slice_tail(n = 5)
+```
+
+**Slice and arrange**: The `slice()` functions becomes a very powerful tool for data exploration and wrangling when used in conjunction with `arrange()`. For example, perhaps we want to see the five lowest mass values in the `measures` data:
+
+```{r}
+measures %>% 
+  arrange(mass) %>% 
+  slice_head(n = 5)
+```
+
+### Slicing by value
+
+The slice family of functions can now be used to slice by value. For example, we can repeat the above operation using `slice_min()` (see `?slice`):
+
+```{r}
+measures %>% 
+  slice_min(mass, n = 5)
+```
+
+If we want to grab the top 5 values, we can use `slice_max()`:
+
+```{r}
+measures %>% 
+  slice_max(mass, n = 5)
+```
+
+## Subset rows by condition
+<hr>
+
+We can subset rows based on whether values satisfy a given condition. This is called **filtering** and is achieved using the `filter()` function.
+
+**Filter by one variable**: To filter based on condition, we provide the name of the target column, a relational operator (see `?Comparison`), and the condition upon which to filter the data.
+
+For example, in the below, I filter `measures` to rows where the wing value is greater than 80 mm:
+
+```{r}
+measures %>% 
+  filter(wing > 80) %>% 
+  arrange(wing)
+```
+
+... and here to where the value is greater than or equal to 80 mm:
+
+```{r}
+measures %>% 
+  filter(wing >= 80) %>% 
+  arrange(wing)
+```
+
+We can also filter based on a character value. Below, I filter to where the value in the species column (`spp`) is "GRCA" (Gray catbird):
+
+```{r}
+measures %>% 
+  filter(spp == "GRCA")
+```
+
+<div class = 'mysecret'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i> 
+**A word of warning**! When you filter a data frame based on a condition, all `NA` values will be dropped! That can lead to unexpected behavior if you're not careful.
+</div>
+
+### Filter & summary statistics
+
+It's often useful to supply a derived summary statistic as a condition. For example, below I filter `measures` to where the value of the `wing` column is equal to the maximum wing length value:
+
+```{r}
+measures %>% 
+  filter(
+    wing == max(wing, na.rm = TRUE))
+```
+
+... and here to where the `wing` value is equal to the minimum wing length value:
+
+```{r}
+measures %>% 
+  filter(
+    wing == min(wing, na.rm = TRUE))
+```
+
+<div class = 'mysecret'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i> 
+It is often necessary to include `na.rm = TRUE` when conducting statistical summaries. Otherwise, summaries of columns that contain missing values will return a value of `NA`.
+</div>
+
+### Logical negation
+
+Negation is a powerful tool for filtering. Using the `!=` operator, we can filter values that are NOT equal to the specified condition:
+
+```{r}
+measures %>% 
+  filter(spp != 'GRCA')
+```
+
+We can also use the logical negation operator itself, `!`, to negate a filtering statement:
+
+```{r}
+measures %>% 
+  filter(!spp == 'GRCA')
+```
+
+### Filter NA values
+
+We sometimes want to remove NA values from our data. Values that are `NA` represent missing data. We can do this with the `is.na()` function. This function is a logical test of whether a given value is NA. Since a logical test returns a value or TRUE or FALSE, it is unnecessary to supply relational operators.
+
+Here, I'll filter `measures` to where `tl` (tail length) values are `NA`:
+
+```{r}
+measures %>% 
+  filter(is.na(tl))
+```
+
+We can filter to values that are not `NA` using the negation operator, `!`:
+
+```{r}
+measures %>% 
+  filter(!is.na(tl))
+```
+
+### Filter by multiple conditions
+
+**AND**: When we want to filter based on whether a given value or values match multiple conditions, we can chain together sets of filtering statements:
+
+```{r}
+measures %>% 
+  filter(wing > 80) %>% 
+  filter(wing < 90)
+```
+
+... or **much more parsimoniously**, separate filtering statements with the logical operator `&` (see `?base::Logic`):
+
+```{r}
+measures %>% 
+  filter(wing > 80 & wing < 90)
+```
+
+... or, **even more parsimoniously**, simply separate the two filters with a comma:
+
+```{r}
+measures %>% 
+  filter(wing > 80,
+         wing < 90)
+```
+
+<div class = 'mysecret'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i> 
+While less parsimonious, chained filter statements can be less memory-intensive than using `&` or `,`. You won't recognize a difference until your data are **very** large (like millions of records).
+</div>
+
+**OR**: In the above, each of the conditions of the filter must be met. While that's often our goal, sometimes we want to filter the data to where either conditions are met.
+
+Let's see what happens when we try to filter the data to Gray catbird (GRCA) **AND** Northern cardinal (NOCA):
+
+```{r}
+measures %>% 
+  filter(spp == 'GRCA',
+         spp == 'NOCA')
+```
+
+This returns no rows, because no species is both Gray catbird **AND** Northern cardinal!
+
+To address this, we can use the **OR** operator, `|`:
+
+```{r}
+measures %>% 
+  filter(spp == 'GRCA'|spp == 'NOCA')
+```
+
+... or, more parsimoniously, use the `%in%` operator. This will extract a value that's within a vector of provided values:
+
+```{r}
+measures %>% 
+  filter(spp %in% c('GRCA', 'NOCA'))
+```
+
+*Note: For a more in-depth discussion of the use of `%in%` versus `==`, see ["Preliminary lesson two: Values; Section 4. Logical values (4.2.4 Logic and sets)"](https://smbc.shinyapps.io/L1-rValues/#section-logical-values)*
+
+### Filter multiple variables
+
+You can continue to add filtering statements using a single variable, or multiple variables. For example, we can filter by wing length and subset the data to where the species is Gray catbird (GRCA) with this chained analysis:
+
+```{r}
+measures %>% 
+  filter(wing > 80) %>% 
+  filter(wing < 90) %>% 
+  filter(spp == 'GRCA')
+```
+
+... or within a single function (*way more parsimonious*):
+
+```{r}
+measures %>% 
+  filter(wing > 80,
+         wing < 90,
+         spp == 'GRCA')
+```
+
+## Summarize
+<hr>
+
+The `summarize()` function allows you to calculate summary statistics for a grouped dataset.
+
+Let's run the below and think about what occurred:
+
+```{r}
+measures %>% 
+  group_by(spp) %>% 
+  summarize(
+    mean_wing = mean(wing, na.rm = TRUE))
+```
+
+The above provided the average wing length by species ... but what is summarize doing?
+
+We *could* have used mutate to calculate the mean wing length by species:
+
+```{r}
+measures %>% 
+  group_by(spp) %>% 
+  mutate(
+    mean_wing = mean(wing, na.rm = TRUE))
+```
+
+... then ungrouped the data:
+
+```{r}
+measures %>% 
+  group_by(spp) %>% 
+  mutate(
+    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+  ungroup()
+```
+
+... then selected our columns of interest with `select()`:
+
+```{r}
+measures %>% 
+  group_by(spp) %>% 
+  mutate(
+    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  select(spp, mean_wing)
+```
+
+... then subset the data to unique rows with `distinct()`:
+
+```{r}
+measures %>% 
+  group_by(spp) %>% 
+  mutate(
+    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  select(spp, mean_wing) %>% 
+  distinct()
+```
+
+But that's a lot of coding ... summarize saves us loads of time and really enhances code parsimony!
+
+*Note: We will cover grouping data in more depth in the near future!*
+
+### Multiple groups
+
+I often use the `summarize()` function, in combination with `n()` for calculating the number of observations per group:
+
+```{r}
+measures %>% 
+  group_by(spp) %>% 
+  summarize(n = n())
+```
+
+What if we wanted to summarize the number of observations by multiple groups though? We simply separate additional groups in `group_by()` by a comma. In doing so, any function (e.g., split, filter, mutate) will run on each group separately.
+
+In the code below, I summarize the number of observations by species and sex:
+
+```{r}
+measures %>% 
+  group_by(spp, sex) %>% 
+  summarize(n = n())
+```
+
+But notice the message we received ... the data are still grouped. By default, `summarize()` will drop the last group used. If we summarize based on a single group, we don't have to think about it. When we summarize based on multiple groups, however, we need to specify `.groups = 'drop'` to remove the grouping structure from the data: 
+
+```{r}
+measures %>% 
+  group_by(spp, sex) %>% 
+  summarize(n = n(),
+            .groups = 'drop')
+```
+
+### Rename groups
+
+We can rename a group on the fly right inside of the `group_by()` function. For example, the variable name `spp` might not be very informative for all of our readers. We can change this to `species` with:
+
+```{r}
+measures %>% 
+  group_by(species = spp, sex) %>% 
+  summarize(
+    n = n(),
+    .groups = 'drop')
+```
+
+<blockquote>
+<i class="fas fa-user-circle" style='font-size:36px'></i>&nbsp;&nbsp;<span style = 'font-size: 36px;'>Now you!</span>
+<hr>
+Modify the above such that the NA values in sex are removed and the resultant object is a four column tibble with the names spp, F (female), M (male), and U (unknown).
+
+```{r, class.source = 'fold-hide'}
+measures %>% 
+  filter(!is.na(sex)) %>% 
+  group_by(spp, sex) %>% 
+  summarize(
+    n = n(),
+    .groups = 'drop') %>% 
+  pivot_wider(
+    names_from = sex,
+    values_from = n)
+```
+
+## Join tables
+<hr>
+
+Once data are tidy they can often be difficult to use unless we are able to join information across tables.
+
+As I've stated throughout this course, a *key* is used to reference a set of values. When we store data in our global environment, the name of the data object is actually a **key** that R (and you) uses to retrieve the data. If you overwrite a key, R can no longer retrieve the data.
+
+With tidy tabular data, two types of keys are of particular interest: primary and foreign keys. A **primary key** is a column that provides a unique identifier for each row of a dataset. A **foreign key** is a column that provides a reference to the primary key of another dataset. When we conduct a join, we are joining tables based on these two sets of keys.
+
+Below, we see how tables in a relational database are interconnected. Each connection is defined by primary and foreign keys (from Wickham and Grolemund):
+
+<div class = "row">
+<a title = "Data Science hex">
+<img  src = "https://d33wubrfki0l68.cloudfront.net/245292d1ea724f6c3fd8a92063dcd7bfb9758d02/5751b/diagrams/relational-nycflights.png"
+alt="Hadley's relational database diagram"
+style = "float: right; margin-top: 1em; margin-bottom: 1em; width: 100%; height: auto;">
+</img>
+</a>
+</div>
+
+For this exercise, we'll use the tibbles `visits`, `counts`, and `birds` (all of which are in your global environment). 
+
+Each row in the `visits` table represents the date that a site was visited. It contains a primary key, `visit_id`. Let's take a look:
+
+```{r}
+visits
+```
+
+The `counts` table, which we've use previously, represents the counts of birds, by species, during a visit. This table contains a primary key, `count_id`, a foreign key to the visits table, `visit_id`, and a foreign key to the `birds` table, `spp`. 
+
+```{r}
+counts
+```
+
+The `birds` table contains natural history information for each of the birds observed. The primary key of this table is `species` and there are no foreign keys.
+
+```{r}
+birds
+```
+
+### Source to target table
+
+Joins connect two tables, joining information based on matching key values.
+
+**Left joins**: The join that I use most often is a **`left_join()`**. Optimally (but not always), a `left_join()` is conducted by joining the table with the *primary key*, which is called the **source table**, to the table with the *foreign key*, the **target table**. In a left join, all records in the target table and only matching records from the source table are maintained. Source table columns, other than the column or columns that represent matching keys, are added to the target table. Any join in which a column is added to the target table is known as a **mutating join**.
+
+Let's join the source table `visits` (primary key: `count_id`) to the target table `counts` (foreign key to `visits`:  `visit_id`). We supply the name assigned to the target table, then the function `left_join()`, the name assigned to the source table, and then the argument `by = `, which specifies the name of the key column upon which the join is based:
+
+```{r}
+counts %>% 
+  left_join(visits, by = "visit_id")
+```
+
+#### Joining and subsetting columns
+
+If we're not interested in *all* of the columns of the source table, it's best practice to subset the columns being joined. For example, perhaps we're only interested in knowing the date in which a count occurred. We can address this by subsetting the columns of `visits` with `select()`:
+
+```{r}
+counts %>% 
+  left_join(
+    visits %>% 
+      select(visit_id, date),
+    by = "visit_id")
+```
+
+Notice that we had to maintain the `visit_id` column because it was the key column for the join. If we no longer need the column, this should be removed *after the join* using negated column selection.
+
+```{r}
+counts %>% 
+  left_join(
+    visits %>% 
+      select(visit_id, date),
+    by = "visit_id") %>% 
+  select(!visit_id)
+```
+
+What if we aren't interested in the primary key for `counts`, `count_id`? This should be removed using negated column select `prior to the join`:
+
+```{r}
+counts %>% 
+  select(!count_id) %>% 
+  left_join(
+    visits %>% 
+      select(visit_id, date),
+    by = "visit_id") %>% 
+  select(!visit_id)
+```
+
+Of course, we could have just selected our columns of interest *after the join* (but I **do not recommend this**):
+
+```{r}
+counts %>% 
+  left_join(visits, by = "visit_id") %>% 
+  select(spp:count, date)
+```
+
+Given that the code above is much more parsimonious, why would I not choose this version? There are a few reasons for this:
+
+* The version in which you are selecting at the end forces you to make the decision about which columns to maintain after the data are joined -- this often involves wading through a lot of columns.
+* By subsetting the columns in each step, and highlighting and running the portions of the code that subset the data, you have a stronger understanding of the data being joined. This care gives you more control over the joining process.
+* You reduce the size of the data being piped into subsequent steps (which can sometimes yield benefits in memory management).
+
+#### Joining when key columns do not share a name
+
+Sometimes the primary key and foreign key columns share values, but do not share the same name. 
+
+Let's join the source table `birds` (primary key: `spp`) to the target table `counts` (foreign key to `birds`: `species`). We address the different names assigned to the foreign and primary keys by supplying a named character vector -- the name assigned to the character value is the foreign key and the value is the primary key.
+
+```{r}
+c("spp" = "species")
+```
+
+This is provided within the `by = ` argument of our join:
+
+```{r}
+counts %>% 
+  left_join(
+    birds, 
+    by = c('spp' = 'species'))
+```
+
+### Same observational level
+
+The third tidy data rule states that "Every level of observation forms a table". The most frequent violation of this rule occurs when multiple levels of observation are in the same table. It is sometimes the case, however, that multiple tables represent the same level of observation.
+
+Let's fake the issue. I'll generate two tables that are both represent the "species" level of observation. I'll arrange the columns of each dataset by life history guild and then species within the guild:
+
+```{r}
+foraging <-
+  birds %>% 
+  select(species, foraging) %>% 
+  arrange(foraging, species)
+
+foraging
+
+diet <-
+  birds %>% 
+  select(species, diet) %>% 
+  arrange(diet, species)
+
+diet
+```
+
+Because these two tables are at the same level of observation, we *might be* tempted to simply bind the columns together with `bind_cols()`:
+
+```{r}
+bind_cols(foraging, diet)
+```
+
+Of course, it's easy to see that this didn't work because the values are arranged in different orders. We also need to have a really solid understanding of each value in the dataset to ensure that they match.
+
+A join is a much safer option. In this case, the primary key of `foraging` is also primary key of `diet`. As such, the foreign key of `foraging` is, of course, also the foreign key of `diet`. In this scenario, the order of tables to supply to the join (target and source) don't really matter:
+
+```{r}
+# Join diet to foraging:
+
+foraging %>% 
+  left_join(diet, by = "species")
+```
+
+```{r}
+# Join foraging to diet:
+
+diet %>% 
+  left_join(foraging, by = "species")
+```
+
+The only difference in the above is the order of the columns.
+
+#### Tidy data at the same level of observation
+
+Sometimes we construct tables at the same level of observation just for the purpose of subsetting and sharing data across tables. For example, perhaps we want to construct a table that includes the common name of bird species and the number of birds observed for each species.
+
+We can use summarize to summarize counts by species:
+
+```{r}
+counts %>% 
+  group_by(spp) %>% 
+  summarize(count = n())
+```
+
+... and use `left_join()` to just the above to our `birds` table:
+
+```{r}
+counts %>% 
+  group_by(spp) %>% 
+  summarize(count = n()) %>% 
+  left_join(
+    birds %>% 
+      select(species, common_name),
+    by = c("spp" = "species")) %>% 
+  select(common_name, count)
+```
+
+As an extra step, let's subset the table to the 5 species with the highest count:
+
+```{r}
+counts %>% 
+  group_by(spp) %>% 
+  summarize(count = n()) %>% 
+  left_join(
+    birds %>% 
+      select(species, common_name),
+    by = c("spp" = "species")) %>% 
+  select(common_name, count) %>% 
+  slice_max(count, n = 5)
+```
+
+Maybe we're ready to share information like this in a web page, we can use `knitr::kable()` to make an html table:
+
+```{r}
+counts %>% 
+  group_by(spp) %>% 
+  summarize(count = n()) %>% 
+  left_join(
+    birds %>% 
+      select(species, common_name),
+    by = c("spp" = "species")) %>% 
+  select(common_name, count) %>% 
+  slice_max(count, n = 5) %>% 
+  knitr::kable()
+```
+
+### Compound keys
+
+One all-too-common issue that we face when joining tables on the same level of observation is keys that are comprised of more than one column. Such keys are known as **compound keys**.
+
+I'll fake the issue again by making two tables of counts, one for "GRCA" (Gray catbirds) and the other for "NOCA" (Northern cardinals). For each table, I'll include the `site_id`, `date`, `spp`, and `count`:
+
+```{r}
+# Gray catbird counts:
+
+counts_grca <- 
+  counts %>% 
+  filter(spp == "GRCA") %>% 
+  select(visit_id, n_grca = count) %>% 
+  left_join(
+    visits, 
+    by = "visit_id") %>% 
+  select(site_id:date, n_grca)
+
+counts_grca
+
+# Northern cardinal counts:
+
+counts_noca <- 
+  counts %>% 
+  filter(spp == "NOCA") %>% 
+  select(visit_id, n_noca = count) %>% 
+  left_join(
+    visits, 
+    by = "visit_id") %>% 
+  select(site_id:date, n_noca)
+
+counts_noca
+```
+
+We can see in the above that each observation (row) is defined by the site where the observation occurred and the date when the observation occurred. The primary key therefore must include both `site_id` and `date`. We can address this in a join by supplying a character vector of column names upon which to base the join:
+
+```{r}
+# Cardinals joined to catbirds:
+
+counts_grca %>% 
+  left_join(
+    counts_noca,
+    by = c("site_id", "date"))
+
+# Catbirds joined to cardinals:
+
+counts_noca %>% 
+  left_join(
+    counts_grca,
+    by = c("site_id", "date"))
+```
+
+Notice that the two joins produced very different results. The number of observations (rows) is determined by the target table. When there was no match in the source table, an `NA` (missing value) is returned. I'm not overly concerned with the `NA` values, but the different number of rows are a major issue given that the level of observation is equivalent for the tables. This is the sort of situation in which we might face data loss. To address this ...
+
+### Maintain all rows
+
+**Full join**: The function `full_join()` will maintain all rows in the target and source tables, regardless of whether there is a match. Non-matching values are replaced with an `NA`:
+
+```{r}
+# Cardinals joined to catbirds, all rows maintained:
+
+counts_grca %>% 
+  full_join(
+    counts_noca,
+    by = c("site_id", "date"))
+
+# Catbirds joined to cardinals, all rows maintained:
+
+counts_noca %>% 
+  full_join(
+    counts_grca,
+    by = c("site_id", "date"))
+```
+
+With the exception of the order of the rows and columns, the above datasets are equivalent.
+
+Let's take a moment to think about those `NA` values. If no attempt was made to observe the value of a given variable, such values are appropriate. If, however, attempts were made to observe both variables, then the `NA` values should be replaced. Here, the value `NA` represents the value `0`. Modifying the above (see Add or modify a column; Special case: NA values):
+
+```{r}
+counts_noca %>% 
+  full_join(
+    counts_grca,
+    by = c("site_id", "date")) %>% 
+  mutate(
+    n_noca = replace_na(n_noca, 0),
+    n_grca = replace_na(n_grca, 0))
+```
+
+### Maintain matching rows
+
+**Inner join**: What if we wanted to conduct a mutating join that only maintains matching rows. For example, perhaps we want to subset and join the data across sites in which Northern cardinals *and* Gray catbirds were observed. For this, we use an `inner_join()`:
+
+```{r}
+counts_noca %>% 
+  inner_join(
+    counts_grca,
+    by = c("site_id", "date"))
+```
+
+We can look at the summary statistics to ensure that there are no `NA` values in the output:
+
+```{r}
+counts_noca %>% 
+  inner_join(
+    counts_grca,
+    by = c("site_id", "date")) %>% 
+  summary()
+```
+
+### Filtering joins
+
+We can use joins to filter data based on matching (or non-matching) key-values. These are called **filtering joins**. In a filtering join, no columns are added to the target data frame.
+
+**Semi-joins**: Semi-joins subset data in the target table by matching key values between the target and joining tables.
+
+Let's filter the `count` data to counts of species observed with a insectivorous diet (`diet == insectivore`).
+
+```{r}
+counts %>% 
+  semi_join(
+    birds %>% 
+      filter(diet == 'insectivore'),
+    by = c('spp' = 'species'))
+```
+
+**Anti-joins**: The `anti_join()` function subsets data in the target table by the key values that are **not** present in the joining table.
+
+For example, we can subset the `count` data to counts of species observed who do not have an insectivorous diet:
+
+```{r}
+counts %>% 
+  anti_join(
+    birds %>% 
+      filter(diet == 'insectivore'),
+    by = c('spp' = 'species'))
+```
+
+To better understand joins, I **strongly**  recommend reading the R for Data Science chapter (<a href = "https://r4ds.had.co.nz/relational-data.html#relational-data" target = "_blank">link</a>) on joining data. It's one of the most important skills for working with data!
+
+<hr>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function () {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
