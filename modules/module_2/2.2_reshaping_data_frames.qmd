@@ -56,7 +56,7 @@ In this lesson, you will learn how to:
 
 * Combine and split columns with `unite()` and `separate()`
 * Combine data frames with `bind_rows()`, `bind_cols()`, and `left_join()`
-* Transpose data frames with `pivot_longer()`, `pivot_wider()`, `count()`, `group_by()`, and `summarize()`
+* Transpose data frames with `pivot_longer()`, `pivot_wider()`, and `count()`
 * Subset columns with `select()`
 * Remove duplicated rows with `distinct()`
 
@@ -720,84 +720,6 @@ families <-
 ```
 
 While the columns of interest may be subset at the end of the process, you have to wade through a lot of column names to do so. That is time consuming and can sometimes be frustrating. The above version forces you to think of the output that you want *before* you execute the function and can avoid the annoyance of a lot of unnecessary columns.
-
-### Reshape and summarize
-
-We sometimes want to reshape a data object while calculating a summary statistic of the data. For example, in Module 1, we used `table()` to count the number of observations associated with unique character values:
-
-```{r}
-table(families$family)
-```
-
-This is useful for data exploration, but notice the class of object produced by this function:
-
-```{r}
-table(families$family) %>% 
-  class()
-```
-
-Tables are great for visualizing data, but do not have the same flexibility that a data frame does.
-
-Instead, we can use the *dplyr* function `count()` to count the number of observations for each `family`:
-
-```{r}
-families %>% 
-  count(family)
-```
-
-The above produced a long form tibble data frame of the number of observations per family.
-
-Another option, which offers us a *ton* of flexibility, is the *dplyr* functions `group_by` and `summarize`. This requires a three-step process:
-
-1. Specify the variable that you wish to summarize with `group_by()` (*Note: We will learn an alternate method!* ). After invoking this function, subsequent steps in a chained analysis are grouped by the values in the specified variable.
-2. Apply the `summarize` function to the grouped data.
-3. Apply a statistical summary function 
-
-For example, we can reproduce our `count()` operation above with `summarize()` by:
-
-1. Grouping the `families` by `family` with `group_by(families, family)`
-2. Applying `summarize()` to the above
-3. Using the statistical summary function `n()` to calculate the number of unique character values in `family`
-
-```{r}
-summarize(
-  group_by(families, family),
-  count = n()
-)
-```
-
-In a piped statement, this would be written as:
-
-```{r}
-# `summarize()` is a great (and flexible) way to summarize the data by some
-# data grouping:
-
-families %>% 
-  group_by(family) %>% 
-  summarize(count = n())
-```
-
-Although the use of `summarize()` requires more steps than `count()`, it can be used in a much broader range of applications than simply tallying counts of unique values. As such, we will use this workflow much more often in this course than `count()`.
-
-::: mysecret
-
-{{< fa user-secret size=2x >}} [New options are available!]{style="font-size: 1.25em; padding-left: 0.5em;"}
-
-A recent update of the *dplyr* package allows us to specify a grouping variable with a new argument, `.by = ...`:
-
-```{r}
-# With a new(ish) update to the tidyverse, this can be accomplished without
-# `group_by()`:
-
-families %>% 
-  summarize(
-    count = n(),
-    .by = family
-  )
-```
-
-Although this requires less coding than `group_by()`, we will often use the `group_by()` workflow in this course (because it is more flexible).
-:::
 
 ## Transpose data frames
 
