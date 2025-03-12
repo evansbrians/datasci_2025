@@ -229,9 +229,9 @@ chickadees %>%
 
 Notice that ggplot assigned the scale element to the visualization automatically, It chose the scale based on the limits of the data. By default, ranges of the x and y axes are 5% below and above the upper and lower limits of the data.
 
-Mapping is the second argument of the function. Because mapping is required for every plot, we do not need to specify the argument each time (as long as we understand what it does). Let's remove `mapping =` from the code:
+Mapping is the second argument of the function. Because mapping is required for every plot, we do not need to specify the argument each time (as long as we understand what it does). We *could* just remove `mapping =` from the code...
 
-```{r}
+```{r eval = FALSE}
 chickadees %>% 
   ggplot(
     aes(
@@ -241,9 +241,9 @@ chickadees %>%
   )
 ```
 
-An alternative method (that I greatly prefer), is to specify my aesthetics *after* the `ggplot` function:
+... but an alternative method (that I greatly prefer), is to specify my aesthetics *after* the `ggplot` function:
 
-```{r}
+```{r = FALSE}
 chickadees %>% 
   ggplot() +
   aes(
@@ -258,7 +258,7 @@ With our data mapped to our aesthetics, it is now time to add layers to our plot
 
 ### Scatterplot
 
-Let's create a scatterplot. Therefore, we want to add point geometries to our plot using the function `geom_point()`:
+To create a scatterplot, we want to add point geometries to our plot using the function `geom_point()`:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -272,7 +272,7 @@ chickadees %>%
 
 Have a look at the `+` sign. This is actually a pipe, but it is a pipe that can exclusively be used in `ggplot` functions (and a few other related packages). Here, we are piping the output of the `ggplot` function into the input of the `geom_point` function.
 
-We can add a line of best fit through these points using the `geom_smooth` function. I supply the following arguments to my function:
+We can add another geometry to the plot, a line of best fit, using the `geom_smooth` function. I supply the following arguments to my function:
 
 * `formula = y ~ x` to specify the predictor and response variables
 * `method = "lm"` to specify that we want to use a linear model to compare the association between the variables
@@ -293,45 +293,7 @@ chickadees %>%
   )
 ```
 
-Note that when we added this line, we added a new geometry to the plot. I am not crazy about that blue line. I only like to use color in a plot to convey meaning. Let's set the color of our line to black:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot() +
-  aes(
-    x = wing, 
-    y = mass
-  ) +
-  geom_point() +
-  geom_smooth(
-    formula = y ~ x, 
-    method = "lm",
-    se = FALSE, 
-    color = "black"
-  )
-```
-
-Let's add a new aesthetic mapping to the data. Recall that in the video lecture we found that Black-capped chickadees are larger than Carolina chickadees. Let's color the points by species by adding the new aesthetic mapping argument to our `geom_point` function:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot() +
-  aes(
-    x = wing, 
-    y = mass
-  ) +
-  geom_point(
-    aes(color = spp)
-  ) +
-  geom_smooth(
-    formula = y ~ x, 
-    method = "lm",
-    se = FALSE, 
-    color = "black"
-  )
-```
-
-Notice that there is still only one black line for both species but the points are colored by species. If we suspected that the slope of the line might be species-dependent, we might want the aesthetic to apply to both geometries. We could do so by also adding the aesthetic mapping to the line:
+Recall that in the video lecture we found that Black-capped chickadees are larger than Carolina chickadees. Let's add a new aesthetic mapping to the data that applies to both geometries. We could color the points and the line by species by adding individual aesthetic mapping arguments to both `geom_point()` and `geom_smooth()`...
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -351,7 +313,7 @@ chickadees %>%
   )
 ```
 
-If we know that we want both the points and the lines mapped to species, we can simplify our argument above by specifying the color aesthetic in our initial mapping.
+... Or we can simplify our argument above by specifying the color aesthetic in our initial mapping.
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -369,25 +331,7 @@ chickadees %>%
   )
 ```
 
-We have a lot of control over the style of our geometries. For example, perhaps we want our points to be a little larger, we can specify that in our `geom_point` function using the `size = ` argument:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot() +
-  aes(
-    x = wing, 
-    y = mass,
-    color = spp
-  ) +
-  geom_point(size = 2.75) +
-  geom_smooth(
-    method = "lm",
-    formula = y ~ x, 
-    se = FALSE
-  )
-```
-
-Well ... that's pretty crazy looking. We can add transparency using the `alpha =` argument:
+We have a lot of control over the style of our geometries. For example, perhaps we want our points to be a little larger, we can specify that in our `geom_point` function using the `size = ` argument. To avoid a crazy looking plot, we can also add transparency using the `alpha =` argument:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -418,6 +362,10 @@ chickadees %>%
     y = mass,
     color = spp
   ) +
+    geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
   geom_smooth(
     method = "lm",
     formula = y ~ x, 
@@ -426,322 +374,13 @@ chickadees %>%
   )
 ```
 
-### Bar plots
-
-Bar plots are a great way to display count data (or quantities of some values). Let's try to make a bar plot:
-
-```{r}
-captures %>% 
-  ggplot() +
-  aes(x = spp) +
-  geom_bar()
-```
-
-By default, the `geom_bar` function will generate a bar that represents counts of the x variable. I prefer to pipe around the data going in, though. It is, by far, my preference to generate a summary table ... 
-
-```{r}
-captures %>% 
-  group_by(spp) %>% 
-  summarize(n = n())
-```
-
-... and then pipe those data into the bar plot. To do so, we need to specify the argument `stat = "identity"` inside the `geom_bar()` function:
-
-```{r}
-captures %>% 
-  group_by(spp) %>% 
-  summarize(n = n()) %>% 
-  ggplot() +
-  aes(
-    x = spp, 
-    y = n
-  ) +
-  geom_bar(stat = "identity")
-```
-
-The two plots above are quite ugly, I know. Let's see why piping data in is a good idea ...
-
-### Why pipe in data?
-
-Only bird nerds know the 4-letter species codes (which are not really even legible in this plot). These codes are great for storing data, but not very useful for communicating data. The capture data are tidy, so we will need to join the tables to bring in the more meaningful species names:
-
-```{r}
-captures %>% 
-  left_join(
-    birds %>% 
-      select(species:common_name),
-    by = c("spp" = "species")
-  )
-```
-
-If we are only interested in the counts and the `common_name` field, we should reduce this further:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(species:common_name),
-    by = c("spp" = "species")
-  ) %>% 
-  select(common_name)
-```
-
-... and then calculate our counts again:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(species:common_name),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name) %>% 
-  summarize(n = n())
-```
-
-Let's try to plot it and bask in our ggplot glory:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(species:common_name),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name) %>% 
-  summarize(n = n()) %>% 
-  ggplot() +
-  aes(
-    x = common_name, 
-    y = n
-  ) +
-  geom_bar(stat = "identity")
-```
-
-We did it! However, after rewarding yourself with a beer and bragging about your plot to your friends, you recognize that your plot has not successfully communicated anything. It ... is ... completely ... illegible. Alas.
-
-Maybe it would be better to just plot counts of dietary guilds?
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(diet) %>% 
-  summarize(n = n()) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n
-  ) +
-  geom_bar(stat = "identity")
-```
-
-Once again proud of your gg-excellence, you show your plot to your advisor (*they are gonna love this ... it is so ecologically meaningful!* ). They like the diet counts, but want to see the species too. Just as we can add a `color` aesthetic to points, we can add color to a bar plot:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    color = common_name
-  ) +
-  geom_bar(stat = "identity")
-```
-
-*Note: It is best to drop any grouping in the data prior to piping the output of summarize into the next function.*
-
-... well, that didn't work as expected. Why? For polygon aesthetics (like bars), the color of the bars is defined by `fill = `, the color argument just represents the borders:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(stat = "identity")
-```
-
-That's better ... but what does `color = ` do for bars? The color argument adds a line color to the bars. We can add it inside of our layer:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "black"
-  )
-```
-
-If you find that a little overbearing (I do), you can change the width of the lines with `linewidth =`
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "black",
-    linewidth = 0.3
-  )
-```
-
-... or modify the color to something a bit less intense:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  )
-```
-
-Perhaps you have become less impressed with your plot over time. One option would be to subset the data to just the 10 species with the most observations in the data. With the flexibility afforded to us with piping our data in, we have gained that power:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  )
-```
-
-Hopefully, it is apparent that the power to play with the data that you are plotting really gives you a lot of control over your plot! Piping the data in really helps you do so.
-
 ## Modifying scales
 
-We have thus far created reasonable plots that perhaps convey the information we would like to communicate. Our plots are not very pretty yet though.
+We have thus far created a reasonable plot that perhaps conveys the information we would like to communicate. Our plot is not very pretty yet though.
 
 ### Scales: Numeric range
 
-Let's start by modifying the range of the x and y axes. Before I scale an axis, I usually like be sure what the limits of my data actually are. We can use `summary()` to figure that out.
+Let's start by modifying the range of the x and y axes. Before I scale an axis, I usually like to be sure what the limits of my data actually are. We can use `summary()` to figure that out.
 
 ```{r eval = TRUE, message=FALSE}
 summary(chickadees)
@@ -776,7 +415,7 @@ chickadees %>%
   )
 ```
 
-We can do the same with our x axis, using the function `scale_x_continuous()`. The results from summarizing our dataset suggested that a minimum wing size of 50 mm and maximum wing size of 70 would fit our needs perfectly.
+We can do the same with our x axis, using the function `scale_x_continuous()`. The results from summarizing our dataset suggested that a minimum wing size of 50 mm and maximum wing size of 70 mm would fit our needs perfectly.
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -805,236 +444,6 @@ chickadees %>%
     expand = c(0, 0)
   )
 ```
-
-We can also (and should) modify the scales of our bar plot. Let's look again at our last plot of banded bird counts:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  )
-```
-
-Given that these are count data, it makes no sense to start with a minimum value of less than zero. To address this, we would first add the `scale_y_continuous` function and modify the expand argument as above:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  ) +
-  scale_y_continuous(
-    expand = c(0, 0)
-  )
-```
-
-That looks a little silly because removing the expansion sets the upper bound to the upper bound of the data. One way to address this is to look at the distribution of the data:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>%
-  summary()
-```
-
-But each bar in this instance represents the total of common names and diets. As such, we have to simplify our data grouping so we can calculate the height of the bars:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>%
-  summary()
-```
-
-We can use the returned values to specify the limits of the y-axis:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  ) +
-  scale_y_continuous(
-    expand = c(0, 0),
-    limits = c(0, 4000)
-  )
-```
-
-That looks nice (*probably good for the final product!*), but was perhaps a lot of work. Instead, we can use the `expansion` function inside of `scale_y_continuous()`. This function was released in dplyr 3.3.0 back in 2020. We supply a vector of two numbers with `mult = c(min, max)`. The first number is the proportional expansion at the lower limit, relative to the current distribution of the data, and the second is the proportion to expand relative to upper limit:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  ) +
-  scale_y_continuous(
-    expand = 
-      expansion(
-        mult = c(0, 0.05)
-      )
-  )
-```
-
-We can also set the expansion by using a number in the same units as the y-axis by using the argument `add =` (rather than `mult = `) as an argument of `expansion()`:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
-  ) +
-  scale_y_continuous(
-    expand = 
-      expansion(
-        add = c(0, 100)
-      )
-  )
-```
-
-As I hinted at above, however, for finished plots I usually opt for exploring the data and providing fixed values within the `limits` argument of `scale_y_continuous()`.
 
 ### Scales: Colors
 
@@ -1071,7 +480,7 @@ chickadees %>%
   )
 ```
 
-Or we can use a color picker app (I like <a href = "https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg?hl=en" target = "_blank">this one</a>) to find colors that we like online. I am going to use this image from the Fantastic Mr. Fox. 
+Or we can use hexadecimal color codes. One way we can do this is by using a color picker app (I like <a href = "https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg?hl=en" target = "_blank">this one</a>) to find colors that we like online. I am going to use this image from the Fantastic Mr. Fox. 
 
 <img src = 'www/fantastic_fox.jpeg' style = 'display: block;
 margin-left: auto;
@@ -1117,44 +526,35 @@ I will stay with this version for now, but you give it a try. See if you can fin
 
 #### Brewed colors
 
-One option for generating with colors is using a pre-made palette from the package *RColorBrewer*. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_fill_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
+One option for generating with colors is using a pre-made palette from the package *RColorBrewer*. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_color_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
 
 ```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
+chickadees %>% 
   ggplot() +
   aes(
-    x = diet, 
-    y = n,
-    fill = common_name
+    x = wing, 
+    y = mass,
+    color = spp
   ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
+  geom_point(
+    size = 2.75, 
+    alpha = 0.25
+  ) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x, 
+    se = FALSE,
+    linewidth = 1.5
   ) +
   scale_y_continuous(
-    expand = 
-      expansion(
-        add = c(0, 100)
-      )
+    limits = c(7, 13),
+    expand = c(0, 0)
   ) +
-  scale_fill_brewer(palette = "Spectral")
+  scale_x_continuous(
+    limits = c(50, 70),
+    expand = c(0, 0)
+  ) +
+  scale_color_brewer(palette = "Dark2")
 ```
 
 *Note: I typically like to generate my own palettes though!*
