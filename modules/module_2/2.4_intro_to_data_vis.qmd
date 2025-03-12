@@ -168,31 +168,6 @@ Let's take a quick look at the `chickadees` tibble:
 chickadees
 ```
 
-We are also going to use elements from the tidy dataset `district_birds.rds` for this lesson:
-
-```{r}
-read_rds("data/raw/district_birds.rds") %>% 
-  list2env(.GlobalEnv)
-```
-
-From the data we loaded above, which are arranged as the tables in a database, we will use the captures and the birds datasets:
-
-```{r}
-captures
-
-birds
-```
-
-Please remove the other names from your global environment:
-
-```{r}
-rm(
-  sites,
-  visits,
-  counts
-)
-```
-
 ### Plotting data
 
 We begin a plot by adding the grammar of graphics data element. The resultant plot isn't meaningful, but it is a good place to start.
@@ -480,7 +455,7 @@ chickadees %>%
   )
 ```
 
-Or we can use hexadecimal color codes. One way we can do this is by using a color picker app (I like <a href = "https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg?hl=en" target = "_blank">this one</a>) to find colors that we like online. I am going to use this image from the Fantastic Mr. Fox. 
+Or we can use hexadecimal color codes. One way to do this is by using a color picker app (I like <a href = "https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg?hl=en" target = "_blank">this one</a>) to find colors that we like online. I am going to use this image from the Fantastic Mr. Fox. 
 
 <img src = 'www/fantastic_fox.jpeg' style = 'display: block;
 margin-left: auto;
@@ -526,7 +501,7 @@ I will stay with this version for now, but you give it a try. See if you can fin
 
 #### Brewed colors
 
-One option for generating with colors is using a pre-made palette from the package *RColorBrewer*. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_color_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
+One option for generating plots with colors is using a pre-made palette from the package *RColorBrewer*. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_color_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
 
 ```{r}
 chickadees %>% 
@@ -559,121 +534,11 @@ chickadees %>%
 
 *Note: I typically like to generate my own palettes though!*
 
-## The coordinate system
-
-
-The role of the coordinate system is to generate a 2-dimensional surface upon which the x and y aesthetics are placed. The coordinate system we typically use when plotting data is Cartesian -- there is a horizontal and vertical axis. The x-variable (predictor | independent variable) is typically reserved for the horizontal plane and the y-variable (response | dependent variable) is generally used on the vertical axis. This is often not the best option for viewing the data though ...
-
-### Flipping the coordinate system
-
-You have brought your plot (now with better colors!) to your advisor and sure enough, they do not like the grouped bars! They want each bar to represent a species. Well, we know what that will look like:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name) %>% 
-  summarize(n = n()) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = common_name, 
-    y = n
-  ) +
-  geom_bar(stat = "identity") +
-  scale_y_continuous(
-    expand = 
-      expansion(
-        add = c(0, 100)
-      )
-  )
-```
-
-A handy solution to this problem is to flip the coordinate system with `coord_flip()`. This places the x-axis on the vertical plane and the y-axis on the horizontal plane:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name) %>% 
-  summarize(n = n()) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = common_name, 
-    y = n
-  ) +
-  geom_bar(stat = "identity") +
-  scale_y_continuous(
-    expand = 
-      expansion(
-        add = c(0, 100)
-      )
-  ) +
-  coord_flip()
-```
-
-This is worlds better! The challenge that we face, however, is in remembering that the x- and y-axes have not changed, just the coordinate system has! This will become all-too-apparent in the next section of this document.
-
 ## Labels
 
 Now we will add some labels to our plot. In my data frames, I always use lowercase as my convention. It makes it easier on my fingers to call columns (no extra shift button to hit) and does not really affect the readability of the table. When it comes time to plot the data, however, it is pretty suboptimal.
 
-Let's use `labs()` to add a title and x- and y-axis labels:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot() +
-  aes(
-    x = wing, 
-    y = mass,
-    color = spp
-  ) +
-  geom_point(
-    size = 2.75, 
-    alpha = 0.25
-  ) +
-  geom_smooth(
-    method = "lm",
-    formula = y ~ x, 
-    se = FALSE,
-    linewidth = 1.5
-  ) +
-  scale_y_continuous(
-    limits = c(7, 13),
-    expand = c(0, 0)
-  ) +
-  scale_x_continuous(
-    limits = c(50, 70),
-    expand = c(0, 0)
-  ) +
-  scale_color_manual(
-    values = c("#595B18", "#CA621E")
-  ) +
-  labs(
-    title = "Wing length and mass of Black-capped and Carolina chickadees",
-    x = "Wing length", 
-    y = "Mass"
-  )
-```
-
-Of course, the axis titles are not yet complete. We should always include units, when appropriate:
+Let's use `labs()` to add a title and x- and y-axis (with units!) labels:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
@@ -750,93 +615,6 @@ chickadees %>%
   )
 ```
 
-### Labels and flipped coordinate systems
-
-As I stated above, when you flip your coordinate system, you have to be sure to remember that this has no effect on your x and y aesthetics.
-
-Excited that you now have a readable bar plot of banded species, you bring it to your (surprisingly plot-savvy) advisor. They like it ... but ... those axis titles are terrible. Let's change them to "Common name" and "Number banded":
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(common_name) %>% 
-  summarize(n = n()) %>% 
-  slice_max(n, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = common_name, 
-    y = n
-  ) +
-  geom_bar(stat = "identity") +
-  scale_y_continuous(
-    expand = 
-      expansion(
-        add = c(0, 100)
-      )
-  ) +
-  coord_flip() +
-  labs(
-    title = "Banded birds by species",
-    x = "Common name",
-    y = "Number banded"
-  )
-```
-
-Notice in the above that the x-axis label was placed on the vertical axis and the y-axis label was placed on the horizontal axis!
-
-### Why pipe in data? The sequel.
-
-Another option of specifying x- and y-axis labels is to modify the names in the data being piped into ggplot. I actually much prefer this version ... and it is the only time I am totally comfortable with breaking best practices in variable naming conventions! Publication-ready ggplot scripts can get monstrously long and the data going into the ggplot analysis is almost certainly the lightest load on script real estate for such scripts. Moreover, having your data "plot-ready" is great for necessary exploration steps on the way in.
-
-Notice, for our bar plots, that our axis labels break two naming conventions -- there is a space between the words and the first word is capitalized. We can generate axis labels with these otherwise-loathsome names by using backtick quotes in our piped data code block:
-
-```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
-  ) %>% 
-  group_by(`Common name` = common_name) %>% 
-  summarize(
-    `Number banded` = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(`Number banded`, n = 10) %>% 
-  ggplot() +
-  aes(
-    x = `Common name`, 
-    y = `Number banded`
-  ) +
-  geom_bar(stat = "identity") +
-  scale_y_continuous(
-    expand = 
-      expansion(
-        add = c(0, 100)
-      )
-  ) +
-  coord_flip() +
-  labs(title = "Banded birds by species")
-```
-
-Notice in the above that this actually tightened up our code a bit. Although we would not want to use names like these in a typical coding session, it actually made the plotting code more parsimonious. Moreover, we no longer had to solve the logic puzzle of which label goes to which axis after the `coord_flip()`!
-
-We will leave this plot behind for now, but I recommend using this plot as an example for the modifications that we will continue to make in this document.
-
 ## Facets
 
 Facets separate a single plot into subplots. They can really help us visualize data.
@@ -893,8 +671,8 @@ We can use `factor()` to change this variable to a factor (*Note: there will soo
 chickadees$sex <-
   factor(
     chickadees$sex, 
-    levels = c('F', 'M'),
-    labels = c('Female', 'Male')
+    levels = c("F", "M"),
+    labels = c("Female", "Male")
   )
 ```
 
@@ -1070,7 +848,7 @@ chickadees %>%
   theme_bw() +
   theme(
     axis.text = element_text(size = 12),
-    strip.background = element_rect(fill = '#F6CD58')
+    strip.background = element_rect(fill = "#F6CD58")
   )
 ```
 
@@ -1184,7 +962,7 @@ Our final step is fairly straightforward.
 
 To save a plot, we will always use `ggsave()`. Doing so allows you to re-create your plot under almost any circumstance (e.g., a change in the underlying data). The buttons are easy. I do it sometimes too. But they should be avoided.
 
-To save a plot you provide the path to where you are going to save it, the width and height of the plot, and the units. The dpi (dots per inch) are set to 300, which is a common requirement for journals.
+To save a plot, you provide the path to where you are going to save it, the width and height of the plot, and the units. The dpi (dots per inch) are set to 300, which is a common requirement for journals.
 
 ```{r, eval = FALSE}
 ggsave(
