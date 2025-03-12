@@ -46,6 +46,47 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:-2em;"}
 
+-   **Commas** should be followed by one trailing space, but not a leading space.
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c(1,1 , 2, 3 , 5)
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c(1, 1, 2, 3, 5)
+    ```
+    :::
+    ::::
+
+    - **Exception**: More than one space *can* be added after a comma if it improves the alignment within a code block.
+    
+      :::: indent_code_bb
+      <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
+      ::: panel
+      
+      ```{r}
+      tribble(
+        ~ x, ~ y,
+         11,   2,
+          3,   5
+      )
+      ```
+      *Note: Also see "square brackets" section, below.*
+      :::
+      
+      ::::
+      
+:::
+
+:::{style="margin-bottom:-2em;"}
+
 -   **Infix functions** (e.g., `%in%`, `+`, `<-`, `=`) should be separated from surrounding code with a single leading and trailing space.
 
     ::: indent_code_bb
@@ -483,6 +524,38 @@ Each of the first three modules in this course contain style guides that gradual
     # Remove object from the global environment:
     
     rm(sayings) 
+    ```
+    :::
+    ::::
+    
+:::
+
+:::{style="margin-bottom:0em;"}
+
+-   **Code within a single code block**: Should not be separated by blank lines unless it is separated by a comment.
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    c(1, 1, 2, 3, 5) %>% 
+      
+      factor()
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c(1, 1, 2, 3, 5) %>% 
+      factor()
+    
+    c(1, 1, 2, 3, 5) %>% 
+      
+      # Convert to a factor:
+      
+      factor() 
     ```
     :::
     ::::
