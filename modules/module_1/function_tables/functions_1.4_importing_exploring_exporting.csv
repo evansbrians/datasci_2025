@@ -31,7 +31,7 @@ readr,read_lines,Read an atomic vector into R
 readr,read_rds,Read an RDS file into R
 readr,write_csv,Write a data frame to your hard drive as a csv file
 readr,write_lines,Write an atomic vector to your hard drive as a txt file
-readr,write_rds,Write an data object to your hard drive as an RDS file
+readr,write_rds,Write a data object to your hard drive as an RDS file
 readxl,excel_sheets,Return the names of worksheets in an Excel file
 readxl,read_excel,Read an Excel worksheet into R
 stats,median,Calculate the median value of a numeric vector and return as a one-value double numeric or integer vector
