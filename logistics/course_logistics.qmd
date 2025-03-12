@@ -17,7 +17,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-![](../images/gis_logo.png){.gis_logo}
+![](../images/hex_complex.png){.intro_image}
 
 Welcome to *Managing	Ecological	Data	in	R:	Introduction	to	Data	
 Science	and	the	Art	of	Wrangling	for	Ecologists*! Please read this logistics document carefully and often, as this is a handy guide for how to navigate course content.

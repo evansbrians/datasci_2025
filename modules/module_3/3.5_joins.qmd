@@ -1,5 +1,5 @@
 ---
-title: "3.5. Introduction to joining data frames"
+title: "3.5 Introduction to joining data frames"
 format:
   html:
     embed-resouces: true
@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -42,16 +42,16 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-Once data are tidy, they can often be difficult to use unless we are able to join information across tables. The keys that are shared between tables that give us the power to do so. As I have stated throughout this course, a *key* is used to reference a set of values. When we store data in our global environment, the name of the data object is actually a **key** that R (and you) uses to retrieve the data. With tidy tabular data, two types of keys are of particular interest: primary and foreign keys. A **primary key** is a column that provides a unique identifier for each row of a dataset. A **foreign key** is a column that provides a reference to the primary key of another dataset. When we conduct a join, we are joining tables based on these two sets of keys.
+Once data are tidy, they can often be difficult to use unless we are able to join information across tables. The keys that are shared between tables give us the power to do so. As I have stated throughout this course, a *key* is used to reference a set of values. When we store data in our global environment, the name of the data object is actually a **key** that R (and you) uses to retrieve the data. With tidy tabular data, two types of keys are of particular interest: primary and foreign keys. A **primary key** is a column that provides a unique identifier for each row of a dataset. A **foreign key** is a column that provides a reference to the primary key of another dataset. When we conduct a join, we are joining tables based on these two sets of keys.
 
 In this lesson, we will review our **tidy data** rules (every row represents an observation, every column represents a variable, and every level of observation represents a table) and you will learn how to:
 
-* Conduct mutating joins with `full_join()`, `inner_join()`, `left_join()`
+* Conduct mutating joins with `full_join()`, `inner_join()`, and `left_join()`
 * Conduct filtering joins with `anti_join()` and `semi_join()`
-* Joining tables with **compound keys**
-* Joining tables that are at the same level of observation
+* Join tables with **compound keys**
+* Join tables that are at the same level of observation
 
 **Important!** Before starting this tutorial, be sure that you have completed all preliminary and  previous lessons!
 
@@ -63,9 +63,9 @@ Please click on the buttons below to explore the metadata for this lesson!
 
 <button class="accordion">Metadata: Video lesson</button>
 ::: panel
-In the video portion of this lesson, we will explore two files -- [weather_tidy.rds]{.mono} and [weather_tidy.rds]{.mono}. 
+In the video portion of this lesson, we will explore two files -- [weather_tidy.rds]{.mono} and [messy_birds.rds]{.mono}. 
 
-**[tidy_weather.rds]{.mono}**: These data are formatted as a list object comprised of the following tibble data frames and variables:
+**[weather_tidy.rds]{.mono}**: These data are formatted as a list object comprised of the following tibble data frames and variables:
 
 [stations]{.mono}
 
@@ -85,12 +85,12 @@ In the video portion of this lesson, we will explore two files -- [weather_tidy.
 * [temperature_min]{.mono}, character: The daily minimum temperature ($^\circ$C) at a weather station.
 * [temperature_max]{.mono}, character: The daily maximum temperature ($^\circ$C) at a weather station.
 
-**[messy_birds.rds]{.mono}**: These data are a toy dataset of bird bading data and represent an untidy tibble. Variables include:
+**[messy_birds.rds]{.mono}**: These data are a toy dataset of bird banding data and represent an untidy tibble. Variables include:
 
 * [capture_id]{.mono}, character: The primary key for a unique capture record.
 * [band_number]{.mono}, character: The numbers assigned to an aluminum band that has been placed on a bird.
 * [spp]{.mono}, character: A species code for the captured bird.
-* [scientific_name]{.mono}, character: The common names for each species, as used in the United States.
+* [scientific_name]{.mono}, character: The scientific names for each species.
 * [common_name]{.mono}, character: The common names for each species, as used in the United States.
 * [foraging]{.mono}, character: The foraging strategy of each species.
 * [diet]{.mono}, character: The dietary niche of each species.
@@ -112,10 +112,16 @@ In the written portion of this lesson, we will explore the file [district_birds.
 
 [counts]{.mono}
 
-* [count_id]{.mono}, character: The primary key for a unique capture record.
+* [count_id]{.mono}, character: The primary key for a unique count record.
 * [visit_id]{.mono}, character: A foreign key to the [visits]{.mono} table.
 * [spp]{.mono}, character: A species code that acts as a foreign key to the [birds]{.mono} table.
 * [count]{.mono}, double: The number of birds counted of a given species over a 10-minute time period.
+
+[visits]{.mono}
+
+* [visit_id]{.mono}, character: The primary key for a unique visit record.
+* [site_id]{.mono}, character: A foreign key to the [sites]{.mono} table.
+* [date]{.mono}, character: The date in which a visit occurred.
 :::
 
 ## Introductory video
@@ -126,7 +132,9 @@ Please do the following to ensure that you are working in a clean session:
 
 1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
-3. Open the script file [summarize_lanternfly.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+3. Open the script file [joins.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+
+*Note: This video is from my course on managing ecological data, so there may be some references to past lessons that do not apply to this class!*
 
 {{< video https://www.youtube.com/embed/wr4mzkZpq50 >}}
 
@@ -157,7 +165,7 @@ At this point, your script should look something like:
 library(tidyverse)
 ```
 
-Now we are going to add our data for this lesson ... let's do this again as a two "Now you!" challenges:
+Now we are going to add our data for this lesson ... let's do this again as two "Now you!" challenges:
 
 :::{.now_you}
 <button class="accordion">{{< fa user-circle size=2x >}}&nbsp; In a single piped statement:
@@ -178,7 +186,7 @@ read_rds("data/raw/district_birds.rds") %>%
 
 :::
 
-<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; In a single line of code, please remove the names `counts` and `sites` from your global environment.
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; In a single line of code, please remove the names `captures` and `sites` from your global environment.
 
 </button>
 ::: panel
@@ -206,12 +214,12 @@ style = "float: right; margin-top: 1em; margin-bottom: 1em; width: 100%; height:
 </a>
 </div>
 
-The connections above represent common columns that are use to connect information across data frames. When establishing connections between tables, it is important to consider which table is the target of the join and which table is the source of joining information. We can consider these two tables as:
+The connections above represent common columns that are used to connect information across data frames. When establishing connections between tables, it is important to consider which table is the target of the join and which table is the source of joining information. We can consider these two tables as:
 
 * **Source table**: A data frame that is referenced by the target table. 
 * **Target table**: A data frame that you wish to join data to.
 
-A join is typically conducted by joining the table with the *primary key* (the *source table*), to the table with the *foreign key*, the *target table*. In this course, we will explore two different methods for joining data:
+A join is typically conducted by joining the table with the *primary key* (the *source table*), to the table with the *foreign key* (the *target table*). In this course, we will explore two different methods for joining data:
 
 * A **mutating join** adds variables to a table;
 * A **filtering join** subsets a table based on the values in another table.
@@ -245,12 +253,12 @@ Any join in which a column is added to the target table is known as a **mutating
 
 The mutating join that I use most often (and the one that we have used previously) is a `left_join()`. In a left join, all records in the target table and only matching records from the source table are maintained. Source table columns, other than the column or columns that represent matching keys, are added to the target table. 
 
-Let's join the source table `visits` (primary key: `count_id`) to the target table `counts` (foreign key to `visits`:  `visit_id`). We supply:
+Let's join the source table `visits` (primary key: `visit_id`) to the target table `counts` (primary key: `count_id`; foreign key to `visits`:  `visit_id`). We supply:
 
 * The name assigned to the target table;
 * The function `left_join()`;
 * The name assigned to the source table;
-* The argument `by = `, which specifies the name of the key column upon which the join is based.
+* The argument `by = `, which specifies the name of the key column (in quotes) upon which the join is based.
 
 ```{r}
 counts %>% 
@@ -282,7 +290,7 @@ counts %>%
 
 {{< fa user-secret size=2x >}} [Introducing ... `join_by()`!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-A new feature to the join functions in *dplyr* is the `join_by()` function (introduced in January 2023). It is supplied in the `by = ...` argument argument and, within the parentheses of `join_by()` we provide a logical test to define the joining variables:
+A new feature to the join functions in *dplyr* is the `join_by()` function (introduced in January 2023). It is supplied in the `by = ...` argument and, within the parentheses of `join_by()`, we provide a logical test to define the joining variables:
 
 ```{r}
 counts %>% 
@@ -296,7 +304,7 @@ counts %>%
 
 It can often be challenging to wade through all of the columns that a join generates. For example, do we really need all of the columns that we generated above?
 
-If we are not interested in *all* of the columns of the source table, it is best practice to subset the columns being joined. For example, perhaps we're only interested in knowing the date in which a count occurred. We can address this by subsetting the columns during the join process:
+If we are not interested in *all* of the columns of the source table, it is best practice to subset the columns being joined. For example, perhaps we are only interested in knowing the number of each species counted in each observation and their common name. We can address this by subsetting the columns during the join process:
 
 ```{r}
 counts %>% 
@@ -339,7 +347,7 @@ Given that the code above is much more parsimonious, why would I not choose this
 
 The third tidy data rule states that "Every level of observation forms a table". The most frequent violation of this rule occurs when multiple levels of observation are in the same table. It is sometimes the case, however, that multiple tables represent the same level of observation.
 
-Let's fake the issue. Below, I generate two tables that are both represent the "species" level of observation. I arrange the columns of each dataset by life history guild and then species within the guild:
+Let's fake the issue. Below, I generate two tables that both represent the "species" level of observation. I arrange the columns of each dataset by life history guild and then species within the guild:
 
 ```{r}
 foraging <-
@@ -357,7 +365,7 @@ diet <-
 diet
 ```
 
-A join is a (fairly) safe option for addressing this problem. In this case, the primary key of `foraging` is also primary key of `diet`. As such, the foreign key of `foraging` is, of course, also the foreign key of `diet`. As such, the order of tables to supply to the join (target and source) do not really matter:
+A join is a (fairly) safe option for addressing this problem. In this case, the primary key of `foraging` is also the primary key of `diet`. As such, the foreign key of `foraging` is, of course, also the foreign key of `diet`. Because of this, the order of tables to supply to the join (target and source) do not really matter:
 
 ```{r}
 # Join diet to foraging:
@@ -386,7 +394,7 @@ counts %>%
     .by = spp)
 ```
 
-... and use `left_join()` to just the above to our `birds` table:
+... and use `left_join()` to join the above to our `birds` table:
 
 ```{r}
 counts %>% 
@@ -418,7 +426,7 @@ counts %>%
 
 One all-too-common issue that we face when joining tables on the same level of observation is primary keys that may be comprised of more than one column. Such keys are known as **compound keys**.
 
-I will fake the issue again by making two tables of counts, one for "GRCA" (Gray catbirds) and the other for "NOCA" (Northern cardinals). For each table, I'll include the `site_id`, `date`, `spp`, and `count`:
+I will fake the issue again by making two tables of counts, one for "GRCA" (Gray catbirds) and the other for "NOCA" (Northern cardinals). For each table, I will include the `site_id`, `date`, and `count`:
 
 ```{r}
 # Gray catbird counts:
@@ -466,7 +474,7 @@ counts_noca %>%
     by = c("site_id", "date"))
 ```
 
-Notice that the two joins produced very different results. The number of observations (rows) is determined by the target table. When there was no match in the source table, an `NA` (missing value) is returned. I'm not overly concerned with the `NA` values, but the different number of rows are a major issue given that the level of observation is equivalent for the tables. This is the sort of situation in which we might face data loss. To address this, let's return to our classes of mutating joins ...
+Notice that the two joins produced very different results. The number of observations (rows) is determined by the target table. When there was no match in the source table, an `NA` (missing value) is returned. I am not overly concerned with the `NA` values, but the different number of rows is a major issue given that the level of observation is equivalent for the tables. This is the sort of situation in which we might face data loss. To address this, let's return to our classes of mutating joins ...
 
 ### Full joins
 
@@ -490,7 +498,7 @@ counts_noca %>%
 
 With the exception of the order of the rows and columns, the above datasets are equivalent.
 
-Let's take a moment to think about those `NA` values. If no attempt was made to observe the value of a given variable, such values are appropriate. If, however, attempts were made to observe both variables, then the `NA` values should be replaced. Here, the value `NA` represents the value `0`. Modifying the above (see Add or modify a column; Special case: NA values):
+Let's take a moment to think about those `NA` values. If no attempt was made to observe the value of a given variable, such values are appropriate. If, however, attempts were made to observe both variables, then the `NA` values should be replaced. Here, the value `NA` represents the value `0`. Modifying the above (see Module 2.4; Special case: NA values):
 
 ```{r}
 counts_noca %>% 
@@ -531,7 +539,7 @@ We can use joins to filter data based on matching (or non-matching) key-values. 
 
 Semi-joins subset data in the target table by matching key values between the target and joining tables.
 
-Let's filter the `count` data to counts of species observed with a insectivorous diet (`diet == insectivore`).
+Let's filter the `counts` data to counts of species observed with a insectivorous diet (`diet == insectivore`).
 
 ```{r}
 counts %>% 
@@ -557,7 +565,7 @@ counts %>%
 
 An `anti_join()` subsets the data in the target table by the key values that are *not* present in the joining table.
 
-For example, we can subset the `count` data to counts of species observed who do not have an insectivorous diet:
+For example, we can subset the `counts` data to counts of species observed who do not have an insectivorous diet:
 
 ```{r}
 counts %>% 
@@ -600,66 +608,26 @@ To better understand joins, I **strongly**  recommend reading the R for Data Sci
 
 <button class="accordion">Functions</button>
 ::: panel
-**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *tibble*, *purrr*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
 
-**Also note**: I do not include functions that I recommend avoiding.
+::: function_table
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, ==`: Infix relational operator (is equal to)
-* `.Primitive, !=`: Infix relational operator (is not equal to)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::list2env`: Assign the items in a list to a specified environment
-* `base::ls`: Generate a character vector of names in a specified environment (default is the global environment)
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `base::summary`: Print summary stats for a data object
-* `dplyr::anti_join`: A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
-* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable or variables
-* `dplyr::distinct`: Subset a data frame by removing duplicate rows
-* `dplyr::filter`: Subset a data frame by logical condition
-* `dplyr::full_join`: A mutating join that joins a source table to a target table and maintains all records in both tables, regardless of matching key values
-* `dplyr::inner_join`: A mutating join that joins a source table to a target table and maintains only records with matching key values
-* `dplyr::join_by`: Specify the key columns within a join function
-* `dplyr::left_join`: A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `dplyr::n`: Calculate the number of observations (rows)
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::semi_join`: A filtering join that joins a source table to a target table and maintains only records with matching key values
-* `dplyr::slice_max`: Sort a data frame by a variable and subset to the rows associated with the highest values of that variable
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `readr::read_rds`: Read an RDS file into R
-* `tidyr::replace_na`: Replace an NA value in a vector with a different value
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_3.5_joins.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
 
+:::
 
-* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
-* `.Primitive, $`: Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
-* `.Primitive, ==`: Infix relational operator (is equal to)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, class`: Print the class of an object as a one-value character vector
-* `base::library`: Attach the package environment for a given package to the current R session
-
-* `base::table`: Count the number of unique observations in an atomic vector
-* `base::unique`: Subset an atomic vector to the unique values in the set
-* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable
-* `dplyr::bind_cols`: Combine two variables or columns of two tibbles to create a new tibble
-* `dplyr::bind_rows`: Combine rows of two tibbles to create a new tibble
-* `dplyr::count`: Tabulate the number of observations of each unique value in a variable and return as a long format tibble
-* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
-* `dplyr::left_join`: Join a table on the left to a table on the right by a common variable (typically called a **key**)
-* `dplyr::slice_head`: Subset a data frame to the first row (default) or rows
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `lobstr::ref`: View the structure of an object in your computer's memory
-* `readr::read_rds`: Read an RDS file into R
-* `tidyr::pivot_longer`: Convert a data frame from wide to long format
-* `tidyr::pivot_wider`: Convert a data frame from long to wide format
-* `tidyr::unite`: Combine columns in a data frame to create a single column
-* `tidyr::separate` (superseded): Separate a single column into multiple columns by a delimiter
 :::
 
 

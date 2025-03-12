@@ -1,5 +1,5 @@
 ---
-title: "3.3 Introduction to subsetting"
+title: "2.5 Introduction to subsetting"
 format:
   html:
     embed-resouces: true
@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -42,13 +42,13 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-**Subsetting** describes the process of reducing the number of items in a list (including columns in a data frame!), rows in a data frame, or values in an atomic vector. This is almost certainly the most common process that we do when managing or exploring data. Thus far, we have used a mix of tidyverse (e.g., `select()`) and base R (e.g. `$`) functions to subset data. It is now time that we more fully integrate (or even *embrace* ) tidyverse code styling and functionality into our coding process! Much of this lesson will be a review of functions that you have already used (diving a bit more deeply), but my goal is to place all of our subsetting operations in one place. In completing this lesson, you will learn how to use tidyverse tools to:
+**Subsetting** describes the process of reducing the number of items in a list (including columns in a data frame!), rows in a data frame, or values in an atomic vector. This is almost certainly the most common process that we do when managing or exploring data. Thus far, we have used a mix of tidyverse (e.g., `select()`) and base R (e.g., `$`) functions to subset data. It is now time that we more fully integrate (or even *embrace* ) tidyverse code styling and functionality into our coding process! Much of this lesson will be a review of functions that you have already used (diving a bit more deeply), but my goal is to place all of our subsetting operations in one place. In completing this lesson, you will learn how to use tidyverse tools to:
 
 * Subset columns by index and name with `select()`
 * Change column names with `select()` and `rename()`
-* Enhancing column selection with `everything()` and `where()`
+* Enhance column selection with `everything()` and `where()`
 * Extract a variable from a data frame as a vector with `pull()`
 * Subset rows with the `slice()` family of functions
 * Subset rows by condition with `filter()`
@@ -65,7 +65,7 @@ Please click on the buttons below to explore the metadata for this lesson!
 
 <button class="accordion">Metadata: Video lesson</button>
 ::: panel
-In the video portion of this lesson, we will explore the [*.rds]{.mono} file [weather_tidy.rds]{.mono} that you wrote to your hard drive at the end of ***3.1 Tidy data review***. The data are formatted as a list object  comprised of the following tibble data frames and variables:
+In the video portion of this lesson, we will explore the [*.rds]{.mono} file [weather_tidy.rds]{.mono}. The data are formatted as a list object  comprised of the following tibble data frames and variables:
 
 [stations]{.mono}
 
@@ -88,7 +88,7 @@ In the video portion of this lesson, we will explore the [*.rds]{.mono} file [we
 
 <button class="accordion">Metadata: Written tutorial</button>
 ::: panel
-In the written portion of this lesson, we will explore the file [district_birds.rds]{.mono}. We have already used this dataset *a lot*, so I will spare you the details of how and why these data were collected (but see the introduction to this module if you missed it). The data are a formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
+In the written portion of this lesson, we will explore the file [district_birds.rds]{.mono}. This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's participatory science project, [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch). The data are formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
 
 [birds]{.mono}
 
@@ -109,8 +109,8 @@ In the written portion of this lesson, we will explore the file [district_birds.
 * [wing]{.mono}, numeric: The length of a bird's wing (unflattened wing chord), in millimeters.
 * [tl]{.mono}, numeric: The length of a bird's tail, in millimeters.
 * [mass]{.mono}, numeric: The weight of a bird, in grams.
-* [bp_cp]{.mono}, chr: The breeding condition of a bird, where: "-" stands for a bird that is not in breeding condition, "BP" is a brood patch, "CP" is a cloacal protuberance, "U" is unknown, and [NA]{.mono} represents missing data.
-* [fat]{.mono}, chr: The fat measured on a bird, that ranges from "0" for no fat, "T" for trace fat, and up to "5" for the maximum amount of fat. [NA]{.mono} values represent missing data.
+* [bp_cp]{.mono}, character: The breeding condition of a bird, where: "-" stands for a bird that is not in breeding condition, "BP" is a brood patch, "CP" is a cloacal protuberance, "U" is unknown, and [NA]{.mono} represents missing data.
+* [fat]{.mono}, character: The fat measured on a bird, that ranges from "0" for no fat, "T" for trace fat, and up to "5" for the maximum amount of fat. [NA]{.mono} values represent missing data.
 
 [visits]{.mono}
 
@@ -139,10 +139,9 @@ Before you begin, some notes on the video content:
 
 * I created this video before the package *lubridate* was elevated to a **core tidyverse** package (February 2023). As such, if you have attached the *tidyverse* library, you no longer have to explicitly load `library(lubridate)` nor use `lubridate::`.
 * I demonstrate the use of the `-` operator for negated selection ... I do not recommend using `-` for this purpose!
-* I do not fully conform to the course style guide in this video. The biggest violations are:
-* My placement of the `where()` function -- it should be placed on its own line.
-* My indentation was off for some of the multi-line functions. I should have hit enter after the opening parentheses to ensure that the arguments are indented to spaces relative to the function call.
+* I do not conform to the course style guide in this video!
 * Since making this video, I have changed my mind on the use of `drop_na()` and offer an alternate version in the written portion of this tutorial.
+* Your [working_with_tidy_data.R]{.mono} file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
 
 
 {{< video https://www.youtube.com/embed/E8SDseOmmhk >}}
@@ -174,7 +173,7 @@ At this point, your script should look something like:
 library(tidyverse)
 ```
 
-Now we are going to add our data for this lesson ... let's do this as a two "Now you!" challenges:
+Now we are going to add our data for this lesson ... let's do this as two "Now you!" challenges:
 
 :::{.now_you}
 <button class="accordion">{{< fa user-circle size=2x >}}&nbsp; In a single piped statement:
@@ -220,7 +219,7 @@ Let's take a look at the full `captures` data frame (*Note: You may need to modi
 captures
 ```
 
-### Subset by column name(s)
+### Subset by column name
 
 **Single column:** To select a single column, we can provide a one-value character vector with the name of the column (*quotes are not necessary!*):
 
@@ -233,7 +232,7 @@ captures %>%
 
 {{< fa user-secret size=2x >}} [What about extracting columns with a number?]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-In the video, I demonstrated that you can also use the column number to extract a column. I do not recommend doing so because:
+In the video, I demonstrated that you can also use the column number to extract a column. I do **not** recommend doing so because:
 
 * The order of columns in a data frame may change;
 * It does a poor job of communicating which column or columns are being selected.
@@ -259,7 +258,8 @@ captures %>%
 captures %>% 
   select(
     capture_id,
-    band_number:age)
+    band_number:age
+  )
 ```
 
 ... or multiple sets of adjacent columns:
@@ -269,7 +269,8 @@ captures %>%
   select(
     capture_id,
     band_number:color_combo,
-    wing:mass)
+    wing:mass
+  )
 ```
 
 The above could have also been written as:
@@ -280,13 +281,14 @@ captures %>%
     capture_id,
     band_number,
     color_combo,
-    wing:mass)
+    wing:mass
+  )
 ```
 
 
 ### Remove columns
 
-**Remove a single column**: A negated selection will return all columns except for those specified by the negation operator, the `!`. Here, we will remove the column `band_number`:
+**Remove a single column**: A negated selection will return all columns except for those specified by the negation operator, the `!`. Here, we will remove the column `capture_id`:
 
 ```{r}
 captures %>% 
@@ -306,7 +308,12 @@ To remove a set of non-adjacent columns, we have to wrap our column names in the
 
 ```{r}
 captures %>% 
-  select(!c(capture_id:visit_id, color_combo))
+  select(
+    !c(
+      capture_id:visit_id, 
+      color_combo
+    )
+  )
 ```
 
 ### Select columns that satisfy a condition
@@ -318,7 +325,8 @@ For example, we can subset `captures` to all variables that are numeric with:
 ```{r}
 captures %>% 
   select(
-    where(is.numeric))
+    where(is.numeric)
+  )
 ```
 
 ... or to all variables that are characters with:
@@ -326,21 +334,30 @@ captures %>%
 ```{r}
 captures %>% 
   select(
-    where(is.character))
+    where(is.character)
+  )
 ```
 
 *Note: We will soon learn even more powerful ways to select variables in a data frame!*
 
 ### Rearrange columns during selection
 
-We can use `select()` in conjunction with the *tidyselect* function `everything` to change the order of columns.
+We can use `select()` in conjunction with the *tidyselect* function `everything()` to change the order of columns.
 
 For example, perhaps we want to continue the selection above and make `spp` the first column:
 
 ```{r}
 captures %>% 
-  select(!c(capture_id:visit_id, color_combo)) %>% 
-  select(spp, everything())
+  select(
+    !c(
+      capture_id:visit_id, 
+      color_combo
+    )
+  ) %>% 
+  select(
+    spp, 
+    everything()
+  )
 ```
 
 In the above, I removed the columns that I was not interested in and then specified that I wanted to position `spp` before all of the other remaining columns.
@@ -356,7 +373,8 @@ captures %>%
   select(
     band_number,
     color_combo,
-    species = spp)
+    species = spp
+  )
 ```
 
 **Using rename**: If we do not need to subset the columns, we may want to choose the `rename()` function instead:
@@ -367,7 +385,7 @@ captures %>%
 ```
 
 :::{.now_you}
-<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Subset captures to the fields band number, spp, sex, wing, tl (tail length), and mass. Globally assign the resultant object to the name `measures`.
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Subset captures to the fields `band number`, `spp`, `sex`, `wing`, `tl` (tail length), and `mass`. Globally assign the resultant object to the name `measures`.
 
 </button>
 ::: panel
@@ -378,7 +396,8 @@ measures <-
   select(
     band_number, 
     spp:sex, 
-    wing:mass)
+    wing:mass
+  )
 ```
 
 :::
@@ -396,7 +415,7 @@ A decision that you will sometimes have to make when subsetting is whether to su
 
 ## Extract a list item
 
-Up to this point, we have used the extraction operator, `$`, to extract a list item from a recursive objects (lists and data frames). For example, in the below, I extract the character vector assigned to `foraging` and subset the vector to unique values:
+Up to this point, we have used the extraction operator, `$`, to extract a list item from a recursive object (lists and data frames). For example, in the below, I extract the character vector assigned to `foraging` and subset the vector to unique values:
 
 ```{r}
 unique(birds$foraging)
@@ -410,7 +429,7 @@ birds %>%
   unique()
 ```
 
-If the **parent** object is a data frame, we can use the function `pull` to extract a vector:
+If the **parent** object is a data frame, we can use the function `pull()` to extract a vector:
 
 ```{r}
 birds %>% 
@@ -427,7 +446,7 @@ read_rds("data/raw/district_birds.rds") %>%
   pull(birds)
 ```
 
-A more widely applicable extraction option is the function `pluck` from the *purrr** package (part of the core tidyverse). We can use `pluck()` to extract a column from a data frame:
+A more widely applicable extraction option is the function `pluck()` from the *purrr* package (part of the core tidyverse). We can use `pluck()` to extract a column from a data frame:
 
 ```{r}
 birds %>% 
@@ -469,7 +488,8 @@ For non-adjacent rows, we supply a vector of rows using the combine function, `c
 ```{r}
 measures %>% 
   slice(
-    c(2, 3, 5))
+    c(2, 3, 5)
+  )
 ```
 
 ### Subset to first or last rows
@@ -504,7 +524,7 @@ measures %>%
 
 ### Slice and arrange
 
-The `slice()` functions becomes a very powerful tool for data exploration and wrangling when used in conjunction with `arrange()`. For example, perhaps we want to see the five lowest mass values in the `measures` data:
+The `slice` functions become a very powerful tool for data exploration and wrangling when used in conjunction with `arrange()`. For example, perhaps we want to see the five lowest mass values in the `measures` data:
 
 ```{r}
 measures %>% 
@@ -528,7 +548,7 @@ measures %>%
 
 ## Subset rows by condition
 
-We can subset rows based on whether values satisfy a given condition. This is called **filtering** and is most often achieved using the `filter()` function.
+We can subset rows based on whether values satisfy a given condition. This is called **filtering** and is most often achieved using the `filter` function.
 
 **Filter by one variable**: To filter based on condition, we provide the name of the target column, a logical operator and the condition upon which to filter the data.
 
@@ -546,7 +566,7 @@ measures %>%
   filter(wing >= 80)
 ```
 
-We can also filter based on a character value. Below, I filter `birds` to where the value in the `species` column (`birds`) is "GRCA" (Gray catbird):
+We can also filter based on a character value. Below, I filter `birds` to where the value in the `species` column is "GRCA" (Gray catbird):
 
 ```{r}
 birds %>% 
@@ -568,7 +588,9 @@ It is often useful to supply a derived summary statistic as a condition. For exa
 ```{r}
 measures %>% 
   filter(
-    wing == max(wing, na.rm = TRUE))
+    wing == 
+      max(wing, na.rm = TRUE)
+  )
 ```
 
 ... and here to where the `wing` value is equal to the minimum wing length value:
@@ -576,7 +598,9 @@ measures %>%
 ```{r}
 measures %>% 
   filter(
-    wing == min(wing, na.rm = TRUE))
+    wing == 
+      min(wing, na.rm = TRUE)
+  )
 ```
 
 ::: mysecret
@@ -630,7 +654,8 @@ Below, I use `is.na()` and `filter()` to subset `measures` to where `tl` (tail l
 ```{r}
 measures %>% 
   filter(
-    is.na(tl))
+    is.na(tl)
+  )
 ```
 
 We can filter to values that are not [NA]{.mono} using the negation operator, `!`:
@@ -638,10 +663,11 @@ We can filter to values that are not [NA]{.mono} using the negation operator, `!
 ```{r}
 measures %>% 
   filter(
-    !is.na(tl))
+    !is.na(tl)
+  )
 ```
 
-We can use *tidyr* (core tidyverse) function `drop_na`, with no arguments, to remove all rows that contain an [NA]{.mono} in any variable (use carefully!):
+We can use the *tidyr* (core tidyverse) function `drop_na()`, with no arguments, to remove all rows that contain an [NA]{.mono} in any variable (**use carefully!**):
 
 ```{r}
 measures %>% 
@@ -669,7 +695,10 @@ measures %>%
 
 ```{r}
 measures %>% 
-  filter(wing > 80 & wing < 90)
+  filter(
+    wing > 80 & 
+      wing < 90
+  )
 ```
 
 ... or, *even more parsimoniously*, simply separate the two filters with a comma:
@@ -678,14 +707,15 @@ measures %>%
 measures %>% 
   filter(
     wing > 80,
-    wing < 90)
+    wing < 90
+  )
 ```
 
 ::: mysecret
 
 {{< fa user-secret size=2x >}} [Sometimes chained filters are better ...]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-While less parsimonious, chained filter statements can sometimes be less memory-intensive than using `&` or `,`. You won't recognize a difference until your data are *very* large (like millions of records).
+While less parsimonious, chained filter statements can sometimes be less memory-intensive than using `&` or `,`. You will not recognize a difference until your data are *very* large (like millions of records).
 :::
 
 In the above, each of the conditions of the filter must be met. While that is often our goal, sometimes we want to filter the data to where either condition is met.
@@ -696,7 +726,8 @@ Let's see what happens when we try to filter the data to Gray catbird (GRCA) *AN
 birds %>% 
   filter(
     species == "GRCA",
-    species == "NOCA")
+    species == "NOCA"
+  )
 ```
 
 This returns no rows, because no species is both Gray catbird *and* Northern cardinal!
@@ -705,14 +736,20 @@ To address this, we can use the *or* operator, `|`:
 
 ```{r}
 birds %>% 
-  filter(species == "GRCA" | species == "NOCA")
+  filter(
+    species == "GRCA" | 
+      species == "NOCA"
+  )
 ```
 
 ... or, more parsimoniously, use the `%in%` operator. This will extract a value that is within a vector of provided values:
 
 ```{r}
 birds %>% 
-  filter(species %in% c("GRCA", "NOCA"))
+  filter(
+    species %in% 
+      c("GRCA", "NOCA")
+  )
 ```
 
 *Note: For a more in-depth discussion of the use of `%in%` versus `==`, see ["Preliminary lesson two: Values; Section 4. Logical values (4.2.4 Logic and sets)"](https://smbc.shinyapps.io/L1-rValues/#section-logical-values){target="_blank"}*
@@ -728,7 +765,8 @@ We can use the *lubridate* (core tidyverse) function `year` to subset the visits
 ```{r}
 visits %>% 
   filter(
-    year(date) == 2018)
+    year(date) == 2018
+  )
 ```
 
 ... we can use `pull()` to extract a vector of dates and assign a name to the vector in our global environment:
@@ -737,7 +775,8 @@ visits %>%
 visit_ids_2018 <-
   visits %>% 
   filter(
-    year(date) == 2018) %>% 
+    year(date) == 2018
+  ) %>% 
   pull(visit_id)
 ```
 
@@ -783,12 +822,13 @@ measures %>%
   filter(
     wing > 80,
     wing < 90,
-    spp == "GRCA")
+    spp == "GRCA"
+  )
 ```
 
 ### Subset to unique rows
 
-Our final subsetting operation of this lesson (we will go in-depth into subsetting in ***Module 4: Focus on subsetting***) is the function `distinct()`. Distinct is used to subset the data to unique rows -- in other words, any rows that are duplicates will be removed.
+Our final subsetting operation of this lesson is the function `distinct()`. Distinct is used to subset the data to unique rows -- in other words, any rows that are duplicates will be removed.
 
 For example, we can subset our `measures` data to just the field `spp` with `select()` and then remove duplicate rows with `distinct()`:
 
@@ -798,7 +838,7 @@ measures %>%
   distinct()
 ```
 
-You can also avoid the `select()` function altogether by specifying your columns of interest inside `distinct()`:
+You can also avoid the `select` function altogether by specifying your columns of interest inside `distinct()`:
 
 ```{r}
 measures %>% 
@@ -821,7 +861,7 @@ You can also specify multiple columns with `distinct()`, which can be super usef
 
 We can explore this using `distinct()`:
 
-```{r, echo = FALSE}
+```{r}
 captures %>% 
   drop_na(sex, bp_cp) %>% 
   distinct(sex, bp_cp) %>% 
@@ -848,49 +888,24 @@ A quick look at the data with `distinct()` (and some helper functions) has revea
 ::: panel
 **Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *purrr*, *readr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`. The functions `rlang::set_names` and `tidyselect::everything` are also attached with `library(tidyverse)`.
 
-**Also note**: I do not include functions that I recommend avoiding.
+::: function_table
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, $`: Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
-* `.Primitive, ==`: Prefix relational operator (is equal to)
-* `.Primitive, !=`: Infix relational operator (is not equal to)
-* `.Primitive, >`: Infix relational operator (greater than)
-* `.Primitive, >=`: Infix relational operator (greater than or equal to)
-* `.Primitive, <`: Infix relational operator (less than)
-* `.Primitive, &`: Infix logical operator (and)
-* `.Primitive, |`: Infix logical operator (or)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, is.character`: A logical test of whether a vector is of class "character"
-* `Primitive::is.na`: A logical test of whether a value is NA
-* `.Primitive, is.numeric`: A logical test of whether a vector is of class "numeric" or "integer"
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::%in%`: Infix logical operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
-* `base::list2env`: Assign the items in a list to a specified environment
-* `base::ls`: Generate a character vector of names in a specified environment (default is the global environment)
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `base::unique`: Subset an atomic vector to the unique values in the set
-* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable or variables
-* `dplyr::distinct`: Subset a data frame by removing duplicate rows
-* `dplyr::filter`: Subset a data frame by logical condition
-* `dplyr::pull`: Extract a column from a data frame as a vector
-* `dplyr::rename`: Change the name assigned to a column in a data frame
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::slice`: Subset a data frame by row or rows using the row position(s)
-* `dplyr::slice_head`: Subset a data frame to the first row (default) or rows
-* `dplyr::slice_min`: Sort a data frame by a variable and subset to the rows associated with the lowest values of that variable
-* `dplyr::slice_max`: Sort a data frame by a variable and subset to the rows associated with the highest values of that variable
-* `dplyr::slice_tail`: Subset a data frame to the last row (default) or rows
-* `lubridate::year`: Extract the year from a properly formatted date value
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
-* `tidyr::drop_na`: Remove rows that contain NA values
-* `tidyselect::everything`: Used in combination with select, the selects all but the specified columns.
-* `tidyselect::where`: Used in combination with select, this selects columns that satisfy a condition
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_2.5_subsetting.csv"
+) %>% 
+  read_csv() %>% 
+kableExtra::kable(
+  align = c("c", "c", "l")
+) %>%
+kableExtra::kable_styling(
+  font_size = 12,
+  bootstrap_options = "hover")
+```
+
+:::
+
 :::
 
 
@@ -919,7 +934,7 @@ The most common keyboard shortcuts are provided below for Windows and Mac operat
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 

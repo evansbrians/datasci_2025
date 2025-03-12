@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -20,7 +20,7 @@ editor_options:
 
 <div>
 
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 Welcome to **Module 3: Working with tidy data**! This set of lessons introduce the primary functions that we will use for working with data frames (especially tidy data frames). We have covered *some* of these functions already, but I include them again here to help you build a mental model of when to use a given function for a given task. You will learn:
 
@@ -39,13 +39,12 @@ Before continuing, please be sure that you have completed all of the preliminary
 In this set of lessons, I try to organize a variety of data frame operations into common applications. A word of warning as we proceed -- we are starting to accumulate a lot of functions! As you learn a new function, or a new argument for a function that you have already learned, I *strongly* suggest taking time to develop your own mental model for organizing these functions (I do not presume that my organizational system fits all learners). This module is divided into the following sections:
 
 -   **3.1. Review of tidy data**: Here, I will review the rules that govern tidy data and we will practice transitioning from assignments to piped code while we tidy a very messy dataset. *Do not skip this lesson, as you will write the data to your hard drive and use those data for many of the lessons below!*
--   **3.2. Introduction to mutation**: Mutation is the process of adding columns to a data frame or modifying existing column. In this lesson, that includes a video (runtime: 18:01), you will learn the basics of mutation with *dplyr* functions.
--   **3.3. Introduction to subsetting**:  In this video (runtime: 21:59) and written lesson, we will bid adieu to indexing with logic and gain incredible strength in subsetting data frames!  You will learn a variety of *dplyr* methods for subsetting columns and rows by position, name, and logic.
--   **3.4. Introduction to summarizing**:  In this video (runtime: 23:46) and written lesson, we will cover `summarize()` -- an amazing tool for exploring and communicating data! The *dplyr* function performs `mutate()`, `select()`, and `distinct()` in a single step -- we will use `summarize()` a lot in this course!
+-   **3.2 Introduction to mutation**: Mutation is the process of adding columns to a data frame or modifying an existing column. In this tutorial, that includes a video (runtime: 18:01), you will learn the basics of mutation with dplyr functions.
+-   **3.3 Introduction to subsetting**: In this video (runtime: 21:59) and written tutorial, you will learn a variety of dplyr methods for subsetting columns and rows by position, name, and logic.  
+-   **3.4 Introduction to summarizing**: In this video (runtime: 23:46) and written tutorial, we will cover summarize() – an amazing tool for exploring and communicating data! This dplyr function performs mutate(), select(), and distinct() in a single step – we will use summarize() a lot in this course!
 -   **3.5. Introduction to joining data frames**:  Joining data gives us the power to apply database like power when referencing data stored in multiple data frames. In this lesson, that includes a video (from my GIS in R course; runtime: 28:57), you will learn the basics of joining data with *dplyr*.
--   **Addendum: Glossary of terms and functions, Modules 1-3**: Because the number of terms and our list of functions used has grown considerably by this point in the course, I include this document that lists all of the terminology and functions in one place. 
 
-Modules 2-5 above are provided as video and written content. The written material predominantly provides you with additional practice/examples, but also highlights recent changes in the tidyverse and some elements of the content that you may have missed in a frantic attempt to code along.
+Lessons 3.2-3.5 above are provided as video and written content. The written material predominantly provides you with additional practice/examples, but also highlights recent changes in the tidyverse and some elements of the content that you may have missed while coding along.
 
 ## Getting started
 

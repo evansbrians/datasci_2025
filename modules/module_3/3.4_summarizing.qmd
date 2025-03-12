@@ -1,5 +1,5 @@
 ---
-title: "3.4 Introduction to summarizing"
+title: "2.6 Introduction to summarizing"
 format:
   html:
     embed-resouces: true
@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -21,7 +21,7 @@ editor_options:
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <link rel="icon" 
 type="image/png" 
-href = "www/hex_icon.png" />
+href = "../../images/hex_icon.png" />
 <script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
 <link rel="icon" 
 type="image/png" 
@@ -42,7 +42,7 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 **Summarizing** in the tidyverse describes the process of calculating a summary statistic, or multiple summary statistics of a data frame and returning the resultant data as a tibble data frame. Fundamentally, the summarize process is actually three processes in one:
 
@@ -50,7 +50,7 @@ rm(has_annotations)
 * Summarizing reduces the columns in a tibble, like `select()`
 * Summarizing removes duplicate rows, like `distinct()`
 
-This lesson includes a video introduction to summarizing (from my course on GIS in R) and a written tutorial that reviews and adds to the video content. If you are a little exhausted from the *super* long subsetting lesson (I know I am!), this one is much shorter because summarizing is very straightforward! In completing this lesson, you will learn how to:
+This lesson includes a video introduction to summarizing and a written tutorial that reviews and adds to the video content. If you are a little exhausted from the *super* long subsetting lesson (I know I am!), this one is much shorter because summarizing is very straightforward! In completing this lesson, you will learn how to:
 
 * Use `summarize()`, with and without `group_by()` to summarize data frames by a variable or variables
 * Count the number of observations with `n()`
@@ -61,7 +61,6 @@ This lesson includes a video introduction to summarizing (from my course on GIS 
 **Important!** Before starting this tutorial, be sure that you have completed all preliminary and  previous lessons!
 
 </div>
-
 
 ## Data for this lesson
 
@@ -79,6 +78,7 @@ In the video portion of this lesson, we will explore the file [spotted_lanternfl
 * [latitude]{.mono}, numeric: The latitudinal coordinates of an observation, in decimal degrees.
 * [image_url]{.mono}, character: The web address of the picture submitted with an observation.
 * [quality_grade]{.mono}, character: Whether the observation was verified by experts ("research" grade) or has not been able to be verified ("casual" grade).
+* [description]{.mono}, character: A notes column where users can input comments about their observation
 
 :::
 
@@ -96,8 +96,8 @@ In the written portion of this lesson, we will explore the file [district_birds.
 * [wing]{.mono}, numeric: The length of a bird's wing (unflattened wing chord), in millimeters.
 * [tl]{.mono}, numeric: The length of a bird's tail, in millimeters.
 * [mass]{.mono}, numeric: The weight of a bird, in grams.
-* [bp_cp]{.mono}, chr: The breeding condition of a bird, where: "-" stands for a bird that is not in breeding condition, "BP" is a brood patch, "CP" is a cloacal protuberance, "U" is unknown, and [NA]{.mono} represents missing data.
-* [fat]{.mono}, chr: The fat measured on a bird, that ranges from "0" for no fat, "T" for trace fat, and up to "5" for the maximum amount of fat. [NA]{.mono} values represent missing data.
+* [bp_cp]{.mono}, character: The breeding condition of a bird, where: "-" stands for a bird that is not in breeding condition, "BP" is a brood patch, "CP" is a cloacal protuberance, "U" is unknown, and [NA]{.mono} represents missing data.
+* [fat]{.mono}, character: The fat measured on a bird, that ranges from "0" for no fat, "T" for trace fat, and up to "5" for the maximum amount of fat. [NA]{.mono} values represent missing data.
 
 :::
 
@@ -117,7 +117,9 @@ Before you begin, some notes on the video content:
 
 * The processes in which I use the `slice()` function could have more parsimoniously been completed with the `slice_max()` function.
 * I am currently much more in favor of running `aes()` outside of the `ggplot()` function (rather than nesting).
+* I do not conform to the course style guide in this video!
 * I made this video in the middle of 2022 -- this is why the number of spotted lanternfly observations decrease a little in that year. It is also why your help file will look differently than mine -- there has been some big changes to the options of the function!
+* For the sake of time, we will not be covering the lubridate package in depth in this course.
 
 {{< video https://www.youtube.com/embed/1ngdQKVTO7o >}}
 
@@ -182,12 +184,15 @@ measures <-
   select(
     spp:sex,
     wing, 
-    mass:bp_cp) %>% 
+    mass:bp_cp
+  ) %>% 
   
   # Convert `NA` values in `bp_cp` to "-":
   
   mutate(
-    bp_cp = replace_na(bp_cp, "-")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  ) %>% 
   
   # Subset the data to where `bp_cp` does not equal "U":
   
@@ -210,12 +215,15 @@ measures <-
   select(
     spp:sex,
     wing, 
-    mass:bp_cp) %>% 
+    mass:bp_cp
+  ) %>% 
   
   # Convert `NA` values in `bp_cp` to "-":
   
   mutate(
-    bp_cp = replace_na(bp_cp, "-")) %>% 
+    bp_cp = 
+      replace_na(bp_cp, "-")
+  ) %>% 
   
   # Subset the data to where `bp_cp` does not equal "U":
   
@@ -228,7 +236,7 @@ Please the give the above a try and then click the button to see how I answered 
 
 ## Summarize
 
-The `summarize()` function allows you to calculate summary statistics for a grouped dataset.
+The `summarize` function allows you to calculate summary statistics for a grouped dataset.
 
 Let's run the below and think about what occurred:
 
@@ -242,12 +250,14 @@ measures %>%
   # Calculate the average wing length of each group:
   
   summarize(
-    mean_wing = mean(wing, na.rm = TRUE))
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  )
 ```
 
 The above provided the average wing length by species ... but what is summarize doing?
 
-We *could* have used mutate to calculate the mean wing length by species:
+We *could* have used `mutate()` to calculate the mean wing length by species:
 
 ```{r}
 measures %>% 
@@ -259,7 +269,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE))
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  )
 ```
 
 ... then ungroup the data with the *dplyr* `ungroup` function:
@@ -274,14 +286,16 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  ) %>% 
   
   # Remove the grouping:
   
   ungroup()
 ```
 
-*Note: Leaving data grouped is VERY dangerous! I always suggest removing an grouping after the grouping is no longer necessary.*
+*Note: Leaving data grouped is VERY dangerous! I always suggest removing a grouping after the grouping is no longer necessary.*
 
 ... then selected our columns of interest with `select()`:
 
@@ -295,7 +309,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  ) %>% 
   
   # Remove the grouping:
   
@@ -318,7 +334,9 @@ measures %>%
   # Calculate the average wing length of each group:
   
   mutate(
-    mean_wing = mean(wing, na.rm = TRUE)) %>% 
+    mean_wing = 
+      mean(wing, na.rm = TRUE)
+  ) %>% 
   
   # Remove the grouping:
   
@@ -339,7 +357,7 @@ But that is a lot of coding ... summarize saves us loads of time and really enha
 
 ## Multiple groups
 
-I often use the `summarize()` function, in combination with `n()` for calculating the number of observations per group:
+I often use the `summarize` function, in combination with `n()` for calculating the number of observations per group:
 
 ```{r}
 measures %>% 
@@ -353,9 +371,9 @@ measures %>%
   summarize(n = n())
 ```
 
-*Note: Although the above can be produced with `tally()`, I typically use this version, as it is more flexible (because I can add more summary statistics other than simply counts).*
+*Note: The function `n()` is a row counter. It counts the number of rows per group. Although the above can be produced with `tally()`, I typically use this version, as it is more flexible (because I can add more summary statistics other than simply counts).*
 
-What if we wanted to summarize the number of observations by multiple groups though? We simply separate additional groups in `group_by()` by a comma. In doing so, any function (e.g., split, filter, mutate) will run on each group separately.
+What if we wanted to summarize the number of observations by multiple groups though? We simply separate additional groups in `group_by()` with a comma. In doing so, any function (e.g., `split()`, `filter()`, `mutate()`) will run on each group separately.
 
 In the code below, I summarize the number of observations by species and sex:
 
@@ -371,7 +389,7 @@ measures %>%
   summarize(n = n())
 ```
 
-But notice the warning message we received ... the data are still grouped! By default, `summarize()` will drop the last group used -- when we supply two or more groups, the resultant data will be grouped by default. If we summarize based on a single group, we do not have to think about it. 
+But notice the warning message we received ... the data are still grouped by `spp`! By default, `summarize()` will only drop the last group used (in this case, `sex` was dropped) -- when we supply two or more groups, the resultant data will be grouped by default. If we summarize based on a single group, we do not have to think about it. 
 
 Historically, we had to use `ungroup()` to remove the grouping from the resultant data:
 
@@ -391,7 +409,9 @@ measures %>%
   ungroup()
 ```
 
-Thanks to a fairly new **experimental** feature, `.groups = "drop"` (May 2020), we can now remove the grouping structure from the data without the additional `ungroup()` function: 
+*Note: Although we received a warning message for the `summarize` function, notice in the output that the resultant data are no longer grouped by `spp`.*
+
+Thanks to a fairly new feature, `.groups = "drop"` (May 2020), we can now remove the grouping structure from the data without the additional `ungroup` function: 
 
 ```{r}
 measures %>% 
@@ -404,12 +424,13 @@ measures %>%
   
   summarize(
     n = n(),
-    .groups = "drop")
+    .groups = "drop"
+  )
 ```
 
 ## Rename groups
 
-We can rename a group on the fly right inside of the `group_by()` function. For example, the variable name `spp` might not be very informative for all of our readers. We can change this to `species` with:
+We can rename a group on the fly right inside of the `group_by` function. For example, the variable name `spp` might not be very informative for all of our readers. We can change this to `species` with:
 
 ```{r}
 measures %>% 
@@ -421,7 +442,8 @@ measures %>%
   # Count the number of observations per group:
   
   summarize(
-    n = n()) %>% 
+    n = n()
+  ) %>% 
   
    # Remove the grouping:
   
@@ -443,23 +465,27 @@ measures %>%
   
   # Remove rows where `sex` is NA:
   
-  filter(!is.na(sex)) %>% 
+  filter(
+    !is.na(sex)
+  ) %>% 
   
   # Group the data:
   
-  group_by(spp, sex) %>% 
+  group_by(species = spp, sex) %>% 
   
   # Count the number of observations per group:
   
   summarize(
     n = n(),
-    .groups = 'drop') %>% 
+    .groups = "drop"
+  ) %>% 
   
   # Reshape the data frame to the desired structure:
   
   pivot_wider(
     names_from = sex,
-    values_from = n)
+    values_from = n
+  )
 
 # Or:
 
@@ -471,19 +497,21 @@ measures %>%
   
   # Group the data:
   
-  group_by(spp, sex) %>% 
+  group_by(species = spp, sex) %>% 
   
   # Count the number of observations per group:
   
   summarize(
     n = n(),
-    .groups = 'drop') %>% 
+    .groups = "drop"
+  ) %>% 
   
   # Reshape the data frame to the desired structure:
   
   pivot_wider(
     names_from = sex,
-    values_from = n)
+    values_from = n
+  )
 ```
 
 :::
@@ -503,7 +531,8 @@ measures %>%
   
   summarize(
     n = n(),
-    .by = spp)
+    .by = spp
+  )
 ```
 
 That is very straightforward! A huge advantage to this approach is that the resultant data object is *not* grouped, even when multiple grouping variables are used. To illustrate this, let's again group the data by `spp` and `sex`. We then supply a vector of variables of interest to the `.by = ...` argument:
@@ -515,12 +544,14 @@ measures %>%
   
   summarize(
     n = n(),
-    .by = c(spp, sex))
+    .by = 
+      c(spp, sex)
+  )
 ```
 
 The resultant data frame is not grouped!
 
-So is `group_by()` a relic of the past? No!!! A difference between `group_by()` a `.by = ...` is that we can calculate and assign a new column during the `group_by()` process (thus `group_by()` includes a mutation). We cannot (currently) do so with `.by = ...`. As such, this works ...
+So is `group_by()` a relic of the past? No!!! A difference between `group_by()` and `.by = ...` is that we can calculate and assign a new column during the `group_by()` process (thus `group_by()` includes a mutation). We cannot (currently) do so with `.by = ...`. As such, this works:
 
 ```{r}
 measures %>% 
@@ -533,10 +564,11 @@ measures %>%
   
   summarize(
     n = n(),
-    .groups = "drop")
+    .groups = "drop"
+  )
 ```
 
-... but this does not we currently cannot do so with `.by = ...`
+... but we currently cannot do so with `.by = ...`
 
 ```{r, error = TRUE}
 measures %>% 
@@ -545,7 +577,9 @@ measures %>%
   
   summarize(
     n = n(),
-    .by = c(species = spp, sex))
+    .by = 
+      c(species = spp, sex)
+  )
 ```
 
 `group_by()` lives!
@@ -568,46 +602,24 @@ measures %>%
 ::: panel
 **Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
 
-**Also note**: I do not include functions that I recommend avoiding.
+::: function_table
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, ==`: Infix relational operator (is equal to)
-* `.Primitive, !=`: Infix relational operator (is not equal to)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, max`: Return the maximum value in a vector
-* `.Primitive, min`: Return the minimum value in a vector
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::ls`: Generate a character vector of names in a specified environment (default is the global environment)
-* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable or variables
-* `dplyr::desc`: When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order
-* `dplyr::distinct`: Subset a data frame by removing duplicate rows
-* `dplyr::filter`: Subset a data frame by logical condition
-* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `dplyr::n`: Calculate the number of observations (rows)
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::slice`: Subset a data frame by row or rows using the row position(s)
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `dplyr::ungroup`: Remove any grouping on a data frame
-* `ggplot2::aes`: Define aesthetics
-* `ggplot2::facet_wrap`: Split plot into facets
-* `ggplot2::geom_bar`: Create a bar geometry
-* `ggplot2::geom_line`: Create a line geometry (that connects points)
-* `ggplot2::geom_point`: Create a point geometry
-* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
-* `ggplot2::theme_bw`: Generate a pre-packaged light background theme for a plot
-* `lubridate::month`: Extract the month from a properly formatted date value
-* `lubridate::year`: Extract the year from a properly formatted date value
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
-* `tidyr::drop_na`: Remove rows that contain NA values
-* `tidyr::pivot_wider`: Convert a data frame from long to wide format
-* `tidyr::replace_na`: Replace an NA value in a vector with a different value
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_2.6_summarizing.csv"
+) %>% 
+  read_csv() %>% 
+kableExtra::kable(
+  align = c("c", "c", "l")
+) %>%
+kableExtra::kable_styling(
+  font_size = 12,
+  bootstrap_options = "hover")
+```
+
+:::
+
 :::
 
 
@@ -636,7 +648,7 @@ The most common keyboard shortcuts are provided below for Windows and Mac operat
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
