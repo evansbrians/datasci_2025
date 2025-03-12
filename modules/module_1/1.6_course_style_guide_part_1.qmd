@@ -46,48 +46,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Commas** should be followed by one trailing space, but not a leading space.
-
-    :::: indent_code_bb
-    <button class="accordion" style="margin-bottom:1em;">Example</button>
-    ::: panel
-    [Bad:]{.bad}
-    
-    ```{r}
-    c(1,1 , 2, 3 , 5)
-    ```
-    
-    [Good:]{.good}
-    
-    ```{r}
-    c(1, 1, 2, 3, 5)
-    ```
-    :::
-    ::::
-
-    - **Exception**: More than one space *can* be added after a comma if it improves the alignment within a code block.
-    
-      :::: indent_code_bb
-      <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
-      ::: panel
-      
-      ```{r}
-      tribble(
-        ~ x, ~ y,
-         11,   2,
-          3,   5
-      )
-      ```
-      *Note: Also see "square brackets" section, below.*
-      :::
-      
-      ::::
-      
-:::
-
-:::{style="margin-bottom:-2em;"}
-
--   **Infix functions** (e.g., `%in%`, `+`, `<-`, `=`): Should be separated from surrounding code with a single leading and trailing space.
+-   **Infix functions** (e.g., `%in%`, `+`, `<-`, `=`) should be separated from surrounding code with a single leading and trailing space.
 
     ::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -103,7 +62,7 @@ This lesson provides the code formatting rules that we will follow in this cours
     
     my_list <- 
       list(
-        country= "boy howdy", 
+        country="boy howdy", 
         nerdy ="hello world", 
         formal= "warm wishes"
       )
@@ -176,29 +135,11 @@ This lesson provides the code formatting rules that we will follow in this cours
         
         ::::
 
-    -   **Exception**: You can add more than one space before or after the = operator if it improves code block alignment.
-    
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Exception</button>
-        ::: panel
-        
-        ```{r}
-        sayings <-
-          tibble(
-            country = c("boy", "howdy"),
-            nerdy   = c("hello", "world"),
-            formal  = c("warm", "wishes")
-          )
-        ```
-        :::
-        
-        ::::
-        
 :::
 
 :::{style="margin-bottom:-2em;"}
 
--   **Prefix** **functions** (e.g., `c()`, `tibble()`): Should not be followed by a space.
+-   **Prefix** **functions** (e.g., `c()`, `tibble()`) should not be followed by a space.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -221,7 +162,7 @@ This lesson provides the code formatting rules that we will follow in this cours
     :::
     ::::
     
-    -   **Exception**: Include a trailing space after \~ if it is used as a prefix function.
+    -   **Exception**: Include a trailing space after `~` if it is used as a prefix function.
 
         :::: indent_code_bb
         <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
@@ -230,9 +171,6 @@ This lesson provides the code formatting rules that we will follow in this cours
         [Bad:]{.bad}
         
         ```{r}
-        c(1, 2) %>% 
-          map_dbl(~1 + .x)
-        
         tribble(
           ~x, ~y,
           11,  2,
@@ -243,9 +181,6 @@ This lesson provides the code formatting rules that we will follow in this cours
         [Good:]{.good}
         
         ```{r}
-        c(1, 2) %>% 
-          map_dbl(~ 1 + .x)
-        
         tribble(
           ~ x, ~ y,
            11,   2,
@@ -497,19 +432,6 @@ This lesson provides the code formatting rules that we will follow in this cours
     ```
     :::
     ::::
-    
-    -   **Exception**: Do not separate adjacent `library()` functions with a blank line.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
-        ::: panel
-        
-        ```{r}
-        library(lobstr)
-        library(tidyverse)
-        ```
-        :::
-        ::::
         
 :::
 
@@ -544,7 +466,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Code and comments**: Should not be on the same line.
+-   **Code and comments** should not be on the same line.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -561,38 +483,6 @@ This lesson provides the code formatting rules that we will follow in this cours
     # Remove object from the global environment:
     
     rm(sayings) 
-    ```
-    :::
-    ::::
-    
-:::
-
-:::{style="margin-bottom:0em;"}
-
--   **Code within a single code block**: Should not be separated by blank lines unless it is separated by a comment.
-
-    :::: indent_code_bb
-    <button class="accordion" style="margin-bottom:1em;">Example</button>
-    ::: panel
-    [Bad:]{.bad}
-    
-    ```{r}
-    c(1, 1, 2, 3, 5) %>% 
-      
-      factor()
-    ```
-    
-    [Good:]{.good}
-    
-    ```{r}
-    c(1, 1, 2, 3, 5) %>% 
-      factor()
-    
-    c(1, 1, 2, 3, 5) %>% 
-      
-      # Convert to a factor:
-      
-      factor() 
     ```
     :::
     ::::
@@ -639,15 +529,14 @@ This lesson provides the code formatting rules that we will follow in this cours
     [Bad:]{.bad}
     
     ```{r}
-    tibble(a = factor(1:2), b = 1:2)
+    typeof(as.numeric(1:4))
     ```
     
     [Good:]{.good}
     
     ```{r}
-    tibble(
-      a = factor(1:2), 
-      b = 1:2
+    typeof(
+      as.numeric(1:4)
     )
     ```
     :::
@@ -701,7 +590,7 @@ This lesson provides the code formatting rules that we will follow in this cours
         :::
         ::::
         
-        -   **Exception**: When using the `c()` or `list()` functions, you may include up to five numeric values.
+        -   **Exception**: When using the `c()` or `list()` functions, you may include up to **five numeric** values.
 
             :::: indent_code_bb
             <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
@@ -714,108 +603,6 @@ This lesson provides the code formatting rules that we will follow in this cours
             ::::
             
     :::
-
-    -   If a function is on the same line as another function, and the number of arguments across functions is three or more, place each argument of the parent function on its own line.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        summarize(mean(howdy, na.rm = TRUE), .by = boy)
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        summarize(
-          mean(howdy, na.rm = TRUE), 
-          .by = boy
-        )
-        ```
-        :::
-        ::::
-
-    -   If you have more than one `=` in a function, place each argument on its own line.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        ggplot() +
-          aes(x = boy, y = howdy)
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        ggplot() +
-          aes(
-            x = boy, 
-            y = howdy
-          )
-        ```
-        :::
-        ::::
-
-    -   If a filtering operation (`filter()`) has more than one logical test, place each test on its own line.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        filter(boy < 3, howdy == "hello")
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        filter(
-          boy < 3, 
-          howdy == "hello"
-        )
-        ```
-        :::
-        ::::
-
-    -   If a newly assigned column requires more than one line to create (given the rules above), add a new line after `=`.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        mutate(
-          boy = c(
-            "roger",
-            "pete",
-            "john",
-            "keith"
-          )
-        )
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        mutate(
-          boy = 
-            c(
-              "roger",
-              "pete",
-              "john",
-              "keith"
-            )
-        )
-        ```
-        :::
-        ::::
         
 :::
 
@@ -1001,35 +788,6 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Nested functions** should not be nested deeper than two levels (use a pipe instead!)^†^.
-
-    :::: indent_code_bb
-    <button class="accordion" style="margin-bottom:1em;">Example</button>
-    ::: panel
-    [Bad:]{.bad}
-    
-    ```{r}
-    mean(
-      as.numeric(
-        factor(1:2)
-      )
-    )
-    ```
-    
-    [Good:]{.good}
-    
-    ```{r}
-    factor(1:2) %>%
-      as.numeric() %>% 
-      mean()
-    ```
-    :::
-    ::::
-    
-:::
-
-:::{style="margin-bottom:-2em;"}
-
 -   **Logicals**: Spell out `TRUE` and `FALSE` in a function's argument.
 
     :::: indent_code_bb
@@ -1050,56 +808,6 @@ This lesson provides the code formatting rules that we will follow in this cours
     mean(
       c(1, NA, 3), 
       na.rm = TRUE
-    )
-    ```
-    :::
-    ::::
-    
-:::
-
-:::{style="margin-bottom:-2em;"}
-
--   **Named arguments**: If you modify the default behavior of a function's argument, include the name of the argument.
-
-    :::: indent_code_bb
-    <button class="accordion" style="margin-bottom:1em;">Example</button>
-    ::: panel
-    [Bad:]{.bad}
-    
-    ```{r}
-    factor(
-      c(
-        "roger",
-        "pete",
-        "john",
-        "keith"
-      ),
-      c(
-        "keith",
-        "john",
-        "pete",
-        "roger"
-      )
-    )
-    ```
-    
-    [Good:]{.good}
-    
-    ```{r}
-    factor(
-      c(
-        "roger",
-        "pete",
-        "john",
-        "keith"
-      ),
-      levels =
-        c(
-          "keith",
-          "john",
-          "pete",
-          "roger"
-        )
     )
     ```
     :::
@@ -1134,34 +842,11 @@ This lesson provides the code formatting rules that we will follow in this cours
     
 :::
 
-### Grab bag
+### Other
 
 :::{style="margin-bottom:-2em;"}
 
--   **Negated selection**: Avoid using `-` for negated selection.
-
-    :::: indent_code_bb
-    <button class="accordion" style="margin-bottom:1em;">Example</button>
-    ::: panel
-    [Bad:]{.bad}
-    
-    ```{r}
-    select(-howdy)
-    ```
-    
-    [Good:]{.good}
-    
-    ```{r}
-    select(!howdy)
-    ```
-    :::
-    ::::
-    
-:::
-
-:::{style="margin-bottom:-2em;"}
-
--   **Single quotes**: Avoid using single quotes when referring to character values -- only use them when necessary (see preliminary lesson BOY HOWDY).
+-   **Single quotes**: Avoid using single quotes when referring to character values -- only use them when necessary (see **Preliminary lesson 2: Values**).
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
