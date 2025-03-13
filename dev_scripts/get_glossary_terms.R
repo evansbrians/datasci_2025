@@ -49,8 +49,24 @@ get_module_terms <-
 
 # Glossary terms across module 1:
 
-get_module_terms(1)
-  
+get_module_terms(1) %>% 
+  unlist() %>% 
+  unname() %>% 
+  unique() %>% 
+  sort() %>% 
+  str_sub(
+    start = 3,
+    end = -3) %>% 
+  map(
+    \(x) {
+      read_csv("dev_scripts/big_glossary.csv") %>% 
+        filter(
+          str_detect(Term, x)
+        )
+    }
+  ) %>% 
+  bind_rows()
+
 # Glossary terms across module 2:
 
 get_module_terms(2)
