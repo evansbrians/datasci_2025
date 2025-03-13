@@ -1,5 +1,5 @@
 ---
-title: "1.6 Course style guide"
+title: "2.5 Course style guide, part 2"
 format:
   html:
     embed-resouces: true
@@ -968,7 +968,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:0em;"}
 
--   **Assigned names**: Should be written in snake_case.
+-   **Assigned names**: Global assignments and variable names should be written in snake_case.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -981,6 +981,11 @@ This lesson provides the code formatting rules that we will follow in this cours
     boyHowdy
     
     HelloWorld
+    
+    list(
+      boyHowdy = 1,
+      HelloWorld = 2
+    )
     ```
     
     [Good:]{.good}
@@ -991,6 +996,11 @@ This lesson provides the code formatting rules that we will follow in this cours
     boy_howdy
     
     hello_world
+    
+    list(
+      boy_howdy = 1,
+      hello_world = 2
+    )
     ```
     :::
     ::::

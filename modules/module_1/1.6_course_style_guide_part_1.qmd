@@ -828,7 +828,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:0em;"}
 
--   **Assigned names**: Should be written in snake_case.
+-   **Assigned names**: Global assignments and variable names should be written in snake_case.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
