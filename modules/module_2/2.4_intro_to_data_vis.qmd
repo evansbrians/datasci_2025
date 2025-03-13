@@ -997,7 +997,7 @@ Here's the trick -- save the plot, then open it up in your file system. How did 
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_2.2_intro_to_data_vis.csv"
+  "functions_2.4_intro_to_data_vis.csv"
 ) %>% 
   read_csv() %>% 
   kableExtra::kable(
