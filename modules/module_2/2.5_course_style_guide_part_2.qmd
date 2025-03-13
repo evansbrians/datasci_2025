@@ -30,15 +30,137 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ![](../../images/hex_complex.png){.intro_image}
 
-This document represents a style guide for the script files in our course and is intended to help you develop a consistent syntax for creating communicable, readable code. Well-formatted code is not just an end product though -- recommendations in this document will help you explore and debug your code *as you write it*. Moreover, a portion of your grade will be based on adhering to this style guide (up to 10% per problem set)!
+Welcome to the second style guide of this course! Now that your coding knowledge has expanded, we have the opportunity to improve our coding syntax even further in our quest to create communicable, readable code. Well-formatted code is not just an end product though -- recommendations in this document will help you explore and debug your code *as you write it*. Moreover, a portion of your grade for problem set 2 will be based on adhering to this style guide (up to 10% per problem set)!
 
 Style guides, such as this one, are common across many computer languages and organizations. Although "style" represents a preference (i.e., it does not influence code output), using a style guide does make collaboration easier! Herein, I borrow heavily from the [tidyverse style guide](https://style.tidyverse.org/){target="_blank"}, from which most of the formatting rules below were derived. I include only elements from the tidyverse style guide that are relevant to the content in this course and have included additional or modified elements that, in my opinion, provide added utility or enhanced code readability.
 
-This lesson provides the code formatting rules that we will follow in this course. I suggest returning to this *often* and comparing your problem set answers with this guide prior to submission. I provide a description of the code formatting rules, examples of each, and any exceptions to the rules. Recommendations that vary between this document and the tidyverse style guide are annotated with a superscript † symbol and are described, on a case-by-case basis.
+This lesson provides more code formatting rules that we will follow in this course. I suggest returning to this *often* and comparing your problem set 2 answers with this guide prior to submission. I provide a description of the code formatting rules, examples of each, and any exceptions to the rules.
 
 *Note: I have often gotten the question of whether my own code uses our course style guide -- it does not. My personal style guide is much more strict! The course style guide is greatly simplified to make it easy to adhere to.*
 
+The "Additions" section, below, only includes new formatting rules that were not present in **Lesson 1.6: Course style guide, part 1**. The "Style guide" section is a comprehensive list of all our formatting rules thus far.
+
 </div>
+
+## Additions
+
+:::{style="margin-bottom:-2em;"}
+
+-   If you have **more than one `=`** in a function, place each argument on its own line.
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+
+    ```{r}
+    ggplot() +
+      aes(x = boy, y = howdy)
+    ```
+
+    [Good:]{.good}
+
+    ```{r}
+    ggplot() +
+      aes(
+        x = boy, 
+        y = howdy
+      )
+    ```
+    :::
+    ::::
+        
+-   **Nested functions** should not be nested deeper than two levels (use a pipe instead!).
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    mean(
+      as.numeric(
+        factor(1:2)
+      )
+    )
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    factor(1:2) %>%
+      as.numeric() %>% 
+      mean()
+    ```
+    :::
+    ::::
+    
+-   **Named arguments**: If you modify the default behavior of a function's argument, include the name of the argument.
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    factor(
+      c(
+        "roger",
+        "pete",
+        "john",
+        "keith"
+      ),
+      c(
+        "keith",
+        "john",
+        "pete",
+        "roger"
+      )
+    )
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    factor(
+      c(
+        "roger",
+        "pete",
+        "john",
+        "keith"
+      ),
+      levels =
+        c(
+          "keith",
+          "john",
+          "pete",
+          "roger"
+        )
+    )
+    ```
+    :::
+    ::::
+    
+-   **Negated selection**: Avoid using `-` for negated selection.
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    select(-howdy)
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    select(!howdy)
+    ```
+    :::
+    ::::
+        
+:::
 
 ## Style guide
 
@@ -230,9 +352,6 @@ This lesson provides the code formatting rules that we will follow in this cours
         [Bad:]{.bad}
         
         ```{r}
-        c(1, 2) %>% 
-          map_dbl(~1 + .x)
-        
         tribble(
           ~x, ~y,
           11,  2,
@@ -243,9 +362,6 @@ This lesson provides the code formatting rules that we will follow in this cours
         [Good:]{.good}
         
         ```{r}
-        c(1, 2) %>% 
-          map_dbl(~ 1 + .x)
-        
         tribble(
           ~ x, ~ y,
            11,   2,
@@ -259,7 +375,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Parentheses** (...)†: 
+-   **Parentheses** (...): 
 
     -   Opening and closing parentheses should not be preceded by a space.
 
@@ -476,7 +592,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Code blocks**: Maintain *one* blank line between code blocks^†^.
+-   **Code blocks**: Maintain *one* blank line between code blocks.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -515,7 +631,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Comments**: Maintain *one* blank line between code blocks and comments^†^.
+-   **Comments**: Maintain *one* blank line between code blocks and comments.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -631,7 +747,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Prefix functions**: Include no more than *one* prefix function per line of code^†^.
+-   **Prefix functions**: Include no more than *one* prefix function per line of code.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -639,15 +755,14 @@ This lesson provides the code formatting rules that we will follow in this cours
     [Bad:]{.bad}
     
     ```{r}
-    tibble(a = factor(1:2), b = 1:2)
+    typeof(as.numeric(1:4))
     ```
     
     [Good:]{.good}
     
     ```{r}
-    tibble(
-      a = factor(1:2), 
-      b = 1:2
+    typeof(
+      as.numeric(1:4)
     )
     ```
     :::
@@ -677,7 +792,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
     :::{style="margin-bottom:-2em;"}
 
-    -   If you provide three or more arguments to a function, place each argument on its own line^†^.
+    -   If you provide three or more arguments to a function, place each argument on its own line.
 
         :::: indent_code_bb
         <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -715,28 +830,6 @@ This lesson provides the code formatting rules that we will follow in this cours
             
     :::
 
-    -   If a function is on the same line as another function, and the number of arguments across functions is three or more, place each argument of the parent function on its own line.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        summarize(mean(howdy, na.rm = TRUE), .by = boy)
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        summarize(
-          mean(howdy, na.rm = TRUE), 
-          .by = boy
-        )
-        ```
-        :::
-        ::::
-
     -   If you have more than one `=` in a function, place each argument on its own line.
 
         :::: indent_code_bb
@@ -757,62 +850,6 @@ This lesson provides the code formatting rules that we will follow in this cours
             x = boy, 
             y = howdy
           )
-        ```
-        :::
-        ::::
-
-    -   If a filtering operation (`filter()`) has more than one logical test, place each test on its own line.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        filter(boy < 3, howdy == "hello")
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        filter(
-          boy < 3, 
-          howdy == "hello"
-        )
-        ```
-        :::
-        ::::
-
-    -   If a newly assigned column requires more than one line to create (given the rules above), add a new line after `=`.
-
-        :::: indent_code_bb
-        <button class="accordion" style="margin-bottom:1em;">Example</button>
-        ::: panel
-        [Bad:]{.bad}
-    
-        ```{r}
-        mutate(
-          boy = c(
-            "roger",
-            "pete",
-            "john",
-            "keith"
-          )
-        )
-        ```
-    
-        [Good:]{.good}
-    
-        ```{r}
-        mutate(
-          boy = 
-            c(
-              "roger",
-              "pete",
-              "john",
-              "keith"
-            )
-        )
         ```
         :::
         ::::
@@ -887,7 +924,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator ^†^.
+-   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator .
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -919,7 +956,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:0em;"}
 
--   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line^†^.
+-   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -1011,7 +1048,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Nested functions** should not be nested deeper than two levels (use a pipe instead!)^†^.
+-   **Nested functions** should not be nested deeper than two levels (use a pipe instead!).
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -1144,7 +1181,7 @@ This lesson provides the code formatting rules that we will follow in this cours
     
 :::
 
-### Grab bag
+### Other
 
 :::{style="margin-bottom:-2em;"}
 
@@ -1171,7 +1208,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Single quotes**: Avoid using single quotes when referring to character values -- only use them when necessary (see preliminary lesson BOY HOWDY).
+-   **Single quotes**: Avoid using single quotes when referring to character values -- only use them when necessary (see **Preliminary lesson 2: Values**).
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>

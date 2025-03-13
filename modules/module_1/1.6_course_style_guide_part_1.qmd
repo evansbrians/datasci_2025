@@ -473,6 +473,19 @@ Each of the first three modules in this course contain style guides that gradual
     ```
     :::
     ::::
+    
+    -   **Exception**: Do not separate adjacent `library()` functions with a blank line.
+
+        :::: indent_code_bb
+        <button class="accordion" style="margin-bottom:1em;">Exceptions</button>
+        ::: panel
+        
+        ```{r}
+        library(lobstr)
+        library(tidyverse)
+        ```
+        :::
+        ::::
         
 :::
 
