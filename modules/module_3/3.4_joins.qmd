@@ -1,5 +1,5 @@
 ---
-title: "3.5 Introduction to joining data frames"
+title: "3.4 Introduction to joining data frames"
 format:
   html:
     embed-resouces: true
@@ -134,8 +134,6 @@ Please do the following to ensure that you are working in a clean session:
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
 3. Open the script file [joins.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
-*Note: This video is from my course on managing ecological data, so there may be some references to past lessons that do not apply to this class!*
-
 {{< video https://www.youtube.com/embed/wr4mzkZpq50 >}}
 
 ## Set up your session (tutorial)
@@ -251,7 +249,7 @@ Any join in which a column is added to the target table is known as a **mutating
 
 ### Left join
 
-The mutating join that I use most often (and the one that we have used previously) is a `left_join()`. In a left join, all records in the target table and only matching records from the source table are maintained. Source table columns, other than the column or columns that represent matching keys, are added to the target table. 
+The mutating join that I use most often (and the one that we have used previously) is `left_join()`. In a left join, all records in the target table and only matching records from the source table are maintained. Source table columns, other than the column or columns that represent matching keys, are added to the target table. 
 
 Let's join the source table `visits` (primary key: `visit_id`) to the target table `counts` (primary key: `count_id`; foreign key to `visits`:  `visit_id`). We supply:
 
@@ -262,7 +260,10 @@ Let's join the source table `visits` (primary key: `visit_id`) to the target tab
 
 ```{r}
 counts %>% 
-  left_join(visits, by = "visit_id")
+  left_join(
+    visits, 
+    by = "visit_id"
+  )
 ```
 
 ### Interlude: Joining issues
@@ -283,20 +284,24 @@ c("spp" = "species")
 counts %>% 
   left_join(
     birds, 
-    by = c("spp" = "species"))
+    by = 
+      c("spp" = "species")
+  )
 ```
 
 ::: mysecret
 
 {{< fa user-secret size=2x >}} [Introducing ... `join_by()`!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-A new feature to the join functions in *dplyr* is the `join_by()` function (introduced in January 2023). It is supplied in the `by = ...` argument and, within the parentheses of `join_by()`, we provide a logical test to define the joining variables:
+A new feature to the join functions in *dplyr* is the `join_by` function (introduced in January 2023). It is supplied in the `by = ...` argument and, within the parentheses of `join_by()`, we provide a logical test to define the joining variables:
 
 ```{r}
 counts %>% 
   left_join(
     birds, 
-    by = join_by(spp == species))
+    by = 
+      join_by(spp == species)
+  )
 ```
 :::
 
@@ -312,7 +317,9 @@ counts %>%
   left_join(
     birds %>% 
       select(species, common_name), 
-    by = join_by(spp == species))
+    by = 
+      join_by(spp == species)
+  )
 ```
 
 Notice that we had to maintain the `spp` and `species` columns because they represented the key columns for the join. If we no longer need the `spp` column, this should be removed *after the join* using negated column selection.
@@ -323,7 +330,9 @@ counts %>%
   left_join(
     birds %>% 
       select(species, common_name), 
-    by = join_by(spp == species)) %>% 
+    by = 
+      join_by(spp == species)
+  ) %>% 
   select(!spp)
 ```
 
@@ -333,7 +342,9 @@ Of course, we could have just selected our columns of interest *after the join* 
 counts %>% 
   left_join(
     birds, 
-    by = join_by(spp == species)) %>% 
+    by = 
+      join_by(spp == species)
+  ) %>% 
   select(count, common_name)
 ```
 
@@ -371,14 +382,20 @@ A join is a (fairly) safe option for addressing this problem. In this case, the 
 # Join diet to foraging:
 
 foraging %>% 
-  left_join(diet, by = "species")
+  left_join(
+    diet, 
+    by = "species"
+  )
 ```
 
 ```{r}
 # Join foraging to diet:
 
 diet %>% 
-  left_join(foraging, by = "species")
+  left_join(
+    foraging, 
+    by = "species"
+  )
 ```
 
 *Note: The only difference in the above is the order of the columns.*
@@ -391,7 +408,8 @@ We can use summarize to summarize counts by species:
 counts %>% 
   summarize(
     count = n(),
-    .by = spp)
+    .by = spp
+  )
 ```
 
 ... and use `left_join()` to join the above to our `birds` table:
@@ -400,11 +418,14 @@ counts %>%
 counts %>% 
   summarize(
     count = n(),
-    .by = spp) %>% 
+    .by = spp
+  ) %>% 
   left_join(
     birds %>% 
       select(species, common_name),
-    by = c("spp" = "species")) %>% 
+    by = 
+      c("spp" = "species")
+  ) %>% 
   select(!spp)
 ```
 
@@ -417,9 +438,14 @@ counts %>%
   left_join(
     birds %>% 
       select(species, common_name),
-    by = c("spp" = "species")) %>% 
+    by = 
+      c("spp" = "species")
+  ) %>% 
   select(common_name, count) %>% 
-  slice_max(count, n = 5)
+  slice_max(
+    count, 
+    n = 5
+  )
 ```
 
 #### Compound keys
@@ -434,10 +460,14 @@ I will fake the issue again by making two tables of counts, one for "GRCA" (Gray
 counts_grca <- 
   counts %>% 
   filter(spp == "GRCA") %>% 
-  select(visit_id, n_grca = count) %>% 
+  select(
+    visit_id, 
+    n_grca = count
+  ) %>% 
   left_join(
     visits, 
-    by = "visit_id") %>% 
+    by = "visit_id"
+  ) %>% 
   select(site_id:date, n_grca)
 
 counts_grca
@@ -447,10 +477,14 @@ counts_grca
 counts_noca <- 
   counts %>% 
   filter(spp == "NOCA") %>% 
-  select(visit_id, n_noca = count) %>% 
+  select(
+    visit_id, 
+    n_noca = count
+  ) %>% 
   left_join(
     visits, 
-    by = "visit_id") %>% 
+    by = "visit_id"
+  ) %>% 
   select(site_id:date, n_noca)
 
 counts_noca
@@ -464,14 +498,18 @@ We can see in the above that each observation (row) is defined by the site in wh
 counts_grca %>% 
   left_join(
     counts_noca,
-    by = c("site_id", "date"))
+    by = 
+      c("site_id", "date")
+  )
 
 # Catbirds joined to cardinals:
 
 counts_noca %>% 
   left_join(
     counts_grca,
-    by = c("site_id", "date"))
+    by = 
+      c("site_id", "date")
+  )
 ```
 
 Notice that the two joins produced very different results. The number of observations (rows) is determined by the target table. When there was no match in the source table, an `NA` (missing value) is returned. I am not overly concerned with the `NA` values, but the different number of rows is a major issue given that the level of observation is equivalent for the tables. This is the sort of situation in which we might face data loss. To address this, let's return to our classes of mutating joins ...
@@ -486,14 +524,18 @@ A `full_join()` maintains all rows in the target *and* source tables, regardless
 counts_grca %>% 
   full_join(
     counts_noca,
-    by = c("site_id", "date"))
+    by = 
+      c("site_id", "date")
+  )
 
 # Catbirds joined to cardinals, all rows maintained:
 
 counts_noca %>% 
   full_join(
     counts_grca,
-    by = c("site_id", "date"))
+    by = 
+      c("site_id", "date")
+  )
 ```
 
 With the exception of the order of the rows and columns, the above datasets are equivalent.
@@ -504,21 +546,28 @@ Let's take a moment to think about those `NA` values. If no attempt was made to 
 counts_noca %>% 
   full_join(
     counts_grca,
-    by = c("site_id", "date")) %>% 
+    by = 
+      c("site_id", "date")
+  ) %>% 
   mutate(
-    n_noca = replace_na(n_noca, 0),
-    n_grca = replace_na(n_grca, 0))
+    n_noca = 
+      replace_na(n_noca, 0),
+    n_grca = 
+      replace_na(n_grca, 0)
+  )
 ```
 
 ### Inner joins
 
-What if we wanted to conduct a mutating join that only maintains matching rows? For example, perhaps we want to subset and join the data across sites in which Northern cardinals *and* Gray catbirds were observed. For this, we use an `inner_join()`:
+What if we wanted to conduct a mutating join that only maintains matching rows? For example, perhaps we want to subset and join the data across sites in which both Northern cardinals *and* Gray catbirds were observed. For this, we use an `inner_join()`:
 
 ```{r}
 counts_noca %>% 
   inner_join(
     counts_grca,
-    by = c("site_id", "date"))
+    by = 
+      c("site_id", "date")
+  )
 ```
 
 We can look at the summary statistics to ensure that there are no `NA` values in the output:
@@ -527,7 +576,9 @@ We can look at the summary statistics to ensure that there are no `NA` values in
 counts_noca %>% 
   inner_join(
     counts_grca,
-    by = c("site_id", "date")) %>% 
+    by = 
+      c("site_id", "date")
+  ) %>% 
   summary()
 ```
 
@@ -546,7 +597,9 @@ counts %>%
   semi_join(
     birds %>% 
       filter(diet == "insectivore"),
-    by = c("spp" = "species"))
+    by = 
+      c("spp" = "species")
+  )
 ```
 
 Note: The above operation is a (much more parsimonious!) version of:
@@ -565,14 +618,16 @@ counts %>%
 
 An `anti_join()` subsets the data in the target table by the key values that are *not* present in the joining table.
 
-For example, we can subset the `counts` data to counts of species observed who do not have an insectivorous diet:
+For example, we can subset the `counts` data to counts of species observed who do **not** have an insectivorous diet:
 
 ```{r}
 counts %>% 
   anti_join(
     birds %>% 
       filter(diet == "insectivore"),
-    by = c("spp" = "species"))
+    by = 
+      c("spp" = "species")
+  )
 ```
 
 Note: The above operation is a (much more parsimonious!) version of:

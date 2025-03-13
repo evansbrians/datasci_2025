@@ -1,5 +1,5 @@
 ---
-title: "2.6 Introduction to summarizing"
+title: "3.3 Introduction to summarizing"
 format:
   html:
     embed-resouces: true
