@@ -32,7 +32,8 @@ bird_info <-
 measures %>% 
   left_join(
     bird_info,
-    by = "spp")
+    by = "spp"
+  )
 
 # What if they were switched? In the current version of dplyr, this throws a
 # warning message!
@@ -40,7 +41,8 @@ measures %>%
 bird_info %>% 
   left_join(
     measures,
-    by = "spp")
+    by = "spp"
+  )
 
 # Duplicates are a big deal! Why?
 
@@ -48,14 +50,16 @@ measures %>%
   left_join(
     messy_birds %>% 
       select(spp:diet),
-    by = "spp")
+    by = "spp"
+  )
 
 # Just grab your columns of interest from the source table:
 
 measures %>% 
   left_join(
     bird_info,
-    by = "spp")
+    by = "spp"
+  )
 
 # Now you! Join the observations and stations data frames such that the
 # observations include the state and name of the weather station:
@@ -70,7 +74,8 @@ measures %>%
       select(
         spp_code = spp, 
         common_name),
-    by = "spp")
+    by = "spp"
+  )
 
 # What happens when there are values in the target table that do not match?
 
@@ -79,7 +84,8 @@ measures %>%
   left_join(
     bird_info %>% 
       select(spp, common_name),
-    by = "spp")
+    by = "spp"
+  )
 
 # What happens when there are values in the source table that do not match?
 
@@ -88,7 +94,8 @@ measures %>%
     bird_info %>% 
       filter(spp != "NOCA") %>% 
       select(spp, common_name),
-    by = "spp")
+    by = "spp"
+  )
 
 # Full joins maintain non-matching records:
 
@@ -97,7 +104,8 @@ measures %>%
   full_join(
     bird_info %>% 
       select(spp, common_name),
-    by = "spp")
+    by = "spp"
+  )
 
 # Inner joins join the data across tables, but only maintain matching columns:
 
@@ -106,14 +114,16 @@ measures %>%
   inner_join(
     bird_info %>% 
       select(spp, common_name),
-    by = "spp")
+    by = "spp"
+  )
 
 measures %>% 
   inner_join(
     bird_info %>% 
       filter(spp != "NOCA") %>% 
       select(spp, common_name),
-    by = "spp")
+    by = "spp"
+  )
 
 # Now you! Join the observations and stations data frames such that the
 # observations include the name of weather stations in New York (NY):
@@ -140,7 +150,8 @@ measures %>%
   semi_join(
     bird_info %>% 
       filter(diet == "omnivore"),
-    by = "spp")
+    by = "spp"
+  )
 
 # ... and, it's opposite, the anti_join!
 
@@ -148,7 +159,8 @@ measures %>%
   anti_join(
     bird_info %>% 
       filter(diet == "omnivore"),
-    by = "spp")
+    by = "spp"
+  )
 
 # Now you! Use a filtering join to subset the stations data frame to just those
 # that did NOT received snow in the month of March:
