@@ -167,7 +167,7 @@ chickadees
 
 ### Plotting data
 
-We begin a plot by adding the grammar of graphics data element. The resultant plot isn't meaningful, but it is a good place to start.
+We begin a plot by adding the grammar of graphics data element. The resultant plot is not meaningful, but it is a good place to start.
 
 ```{r eval = TRUE, message=FALSE}
 ggplot(data = chickadees)
@@ -694,7 +694,7 @@ chickadees %>%
 
 Now that we have a plot that we like (maybe ... my color choices were questionable at best ... hopefully you found better ones?), it is time to specify the **themes**. Recall that themes determine how the non-data elements look.
 
-One trick that I didn't show in the lecture is my preferred theme, `theme_bw()`. I usually use this as a starting point for my plots:
+One trick that I did not show in the lecture is my preferred theme, `theme_bw()`. I usually use this as a starting point for my plots:
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
