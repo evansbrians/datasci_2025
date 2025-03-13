@@ -1,5 +1,5 @@
 ---
-title: "2.1 Reshaping data frames"
+title: "2.2 Reshaping data frames"
 format:
   html:
     embed-resouces: true
@@ -98,7 +98,7 @@ At this point, your script should look something like:
 library(tidyverse)
 ```
 
-*Note: This is already done for you in the script file for this lesson, "2.1_reshaping_data_frames.R"*
+*Note: This is already done for you in the script file for this lesson, "2.2_reshaping_data_frames.R"*
 
 ## Data for this lesson
 
@@ -561,7 +561,7 @@ taxonomy <-
 
 *Note: In a real coding session, this would be modified in the creation of the* `taxonomy` *dataset, not written subsequent to the assignment.*
 
-*Note: The* `select()` *function will be covered in more depth later this module!*
+*Note: The* `select()` *function will be covered in more depth later in the course!*
 
 ## Remove duplicates
 
@@ -723,7 +723,7 @@ While the columns of interest may be subset at the end of the process, you have 
 
 ## Transpose data frames
 
-A *very* common task is to change the shape of our dataset from long form (every row is an observation) to wide form (observations are stored in columns) or from wide to long form. We will discuss reasons for this in-depth in our next lesson. For now, I will provide the methods for reshaping our data. *Note: In Excel, this operation is known as a transpose.*
+A *very* common task is to change the shape of our dataset from long form (every row is an observation) to wide form (observations are stored in columns) or from wide to long form. *Note: In Excel, this operation is known as a transpose.*
 
 ### Pivot from long to wide form
 
@@ -760,7 +760,7 @@ wide_families
 
 Many data frames built in Excel are provided in an untidy wide format. Because of this, we often need to convert data frames from wide to long format. Even when the data are tidy, it can also be useful when we want to plot several variables in a single plot (e.g., with variables mapped to different facets of a plot or a color aesthetic mapped to a given variable).
 
-For this, we'll return our `wide_families` data frame to its original long format using the *tidyr* function `pivot_longer()`. We provide (at a minimum):
+For this, we will return our `wide_families` data frame to its original long format using the *tidyr* function `pivot_longer()`. We provide (at a minimum):
 
 * The dataset to pivot (first argument)
 * `cols = `: The columns that we would like to pivot from wide to long form
@@ -773,9 +773,9 @@ For this, we'll return our `wide_families` data frame to its original long forma
 
 wide_families %>% 
   pivot_longer(
-  cols = Bovidae:Suidae,
-  names_to = "family",
-  values_to = "n"
+    cols = Bovidae:Suidae,
+    names_to = "family",
+    values_to = "n"
   )
 ```
 
