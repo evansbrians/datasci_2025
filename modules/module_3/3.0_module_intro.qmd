@@ -22,12 +22,11 @@ editor_options:
 
 ![](../../images/hex_complex.png){.intro_image}
 
-Welcome to **Module 3: Working with tidy data**! This set of lessons introduce the primary functions that we will use for working with data frames (especially tidy data frames). We have covered *some* of these functions already, but I include them again here to help you build a mental model of when to use a given function for a given task. You will learn:
+Welcome to **Module 3: Working with tidy data**! This set of lessons introduces the primary functions that we will use for working with data frames (especially tidy data frames). We have covered *some* of these functions already, but I include them again here to help you build a mental model of when to use a given function for a given task. You will learn:
 
--   How to apply the **tidy data** rules to "normalize" a real dataset;
 -   How to add and modify columns;
 -   A variety of methods for subsetting data;
--   A few more details on the process of summarizing data;
+-   The process of summarizing data;
 -   How to join data between data frames.
 
 Before continuing, please be sure that you have completed all of the preliminary course content (Preliminary lessons 1-4) and all of the content from Modules 1 and 2.
@@ -38,22 +37,25 @@ Before continuing, please be sure that you have completed all of the preliminary
 
 In this set of lessons, I try to organize a variety of data frame operations into common applications. A word of warning as we proceed -- we are starting to accumulate a lot of functions! As you learn a new function, or a new argument for a function that you have already learned, I *strongly* suggest taking time to develop your own mental model for organizing these functions (I do not presume that my organizational system fits all learners). This module is divided into the following sections:
 
--   **3.1. Review of tidy data**: Here, I will review the rules that govern tidy data and we will practice transitioning from assignments to piped code while we tidy a very messy dataset. *Do not skip this lesson, as you will write the data to your hard drive and use those data for many of the lessons below!*
--   **3.2 Introduction to mutation**: Mutation is the process of adding columns to a data frame or modifying an existing column. In this tutorial, that includes a video (runtime: 18:01), you will learn the basics of mutation with dplyr functions.
--   **3.3 Introduction to subsetting**: In this video (runtime: 21:59) and written tutorial, you will learn a variety of dplyr methods for subsetting columns and rows by position, name, and logic.  
--   **3.4 Introduction to summarizing**: In this video (runtime: 23:46) and written tutorial, we will cover summarize() – an amazing tool for exploring and communicating data! This dplyr function performs mutate(), select(), and distinct() in a single step – we will use summarize() a lot in this course!
--   **3.5. Introduction to joining data frames**:  Joining data gives us the power to apply database like power when referencing data stored in multiple data frames. In this lesson, that includes a video (from my GIS in R course; runtime: 28:57), you will learn the basics of joining data with *dplyr*.
+-   **3.1 Introduction to mutation**: Mutation is the process of adding columns to a data frame or modifying an existing column. In this tutorial, that includes a video (runtime: 18:01), you will learn the basics of mutation with dplyr functions.
+-   **3.2 Introduction to subsetting**: In this video (runtime: 21:59) and written tutorial, you will learn a variety of dplyr methods for subsetting columns and rows by position, name, and logic.  
+-   **3.3 Introduction to summarizing**: In this video (runtime: 23:46) and written tutorial, we will cover summarize() – an amazing tool for exploring and communicating data! This dplyr function performs mutate(), select(), and distinct() in a single step – we will use summarize() a lot in this course!
+-   **3.4 Introduction to joining data frames**:  Joining data gives us the power to apply database like techniques when referencing data stored in multiple data frames. In this lesson, that includes a video (from my GIS in R course; runtime: 28:57), you will learn the basics of joining data with *dplyr*.
+-   **3.5 Course style guide, part 3**: The complete set of code formatting rules that I ask you to follow in the course. The provided rules are closely aligned with the [tidyverse style guide](https://style.tidyverse.org/){target="_blank"}.
 
-Lessons 3.2-3.5 above are provided as video and written content. The written material predominantly provides you with additional practice/examples, but also highlights recent changes in the tidyverse and some elements of the content that you may have missed while coding along.
+Lessons 3.1-3.4 above are provided as video and written content. The written material predominantly provides you with additional practice/examples, but also highlights recent changes in the tidyverse and some elements of the content that you may have missed while coding along.
 
 ## Getting started
 
 Please download the attached zip file [module_3_files.zip]{.mono} and:
 
-* Place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have (e.g., [source_script.R]{.mono} ), please overwrite the previous file.
-* Place any data files ([*.csv]{.mono} and [*.rds]{.mono}) in the [data_sci/data/raw]{.mono} folder. If there are any data files you already have, please overwrite the previous file.
-
-*Note: As you code along with the video content in Modules 2-3, you will modify and build upon a single script file, [working_with_tidy_data.R]{.mono}.*
+* Place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have, please overwrite the previous file.
+* Place any data files ([*.csv]{.mono} and [*.rds]{.mono}) in the correct folder. If there are any data files you already have, please overwrite the previous file.
+    * Place the following data files in the folder [data/raw]{.mono}:
+        * [district_birds.rds]{.mono}
+        * [messy_birds.rds]{.mono}
+        * [spotted_lanternfly.rds]{.mono}
+    * Place [weather_tidy.rds]{.mono} in the folder [data/processed]{.mono}.
 
 ## About this week's data
 
@@ -63,9 +65,9 @@ This week we will use the following data files in our exercises:
 
 **[messy_birds.rds]{.mono}**: This is an intentionally messy version of a subset of the Neighborhood Nestwatch data in `district_birds.rds`. 
 
-**[messy_weather.csv]{.mono}**: This is an intentionally messied NOAA weather dataset (messied by Brian). The data were collected from 2010-2020 at five NOAA weather stations located in California, North Carolina, New York, and Wisconsin. The file contains measures of preciptiation, snow, and temperatures during the month of March. These data were messied as a teaching tool -- while it's painful to look at this table, I have interacted with many weather files that were formatted similarly!
-
 **[spotted_lanternfly.rds]{.mono}**: This is a tabular dataset of iNaturalist observations of spotted lanternfly (*Lycorma delicatula*), an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application. I downloaded these data using the *rinat* package in R.
+
+**[weather_tidy.rds]{.mono}**: The data were collected from 2010-2020 at five NOAA weather stations located in California, North Carolina, New York, and Wisconsin. The file contains measures of precipitation, snow, and temperatures during the month of March.
 
 ## Readings and resources
 
