@@ -1,5 +1,5 @@
 ---
-title: "2.5 Introduction to subsetting"
+title: "3.2 Introduction to subsetting"
 format:
   html:
     embed-resouces: true
