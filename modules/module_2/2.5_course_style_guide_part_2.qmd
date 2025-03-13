@@ -34,7 +34,7 @@ This document represents a style guide for the script files in our course and is
 
 Style guides, such as this one, are common across many computer languages and organizations. Although "style" represents a preference (i.e., it does not influence code output), using a style guide does make collaboration easier! Herein, I borrow heavily from the [tidyverse style guide](https://style.tidyverse.org/){target="_blank"}, from which most of the formatting rules below were derived. I include only elements from the tidyverse style guide that are relevant to the content in this course and have included additional or modified elements that, in my opinion, provide added utility or enhanced code readability.
 
-This lesson provides the code formatting rules that we will follow in this course. I suggest returning to this *often* and comparing your problem set answers with this guide prior to submission. I provide a description of the code formatting rules, examples of each, and any exceptions to the rules. Recommendations that vary between this document and the tidyverse style guide are annotated with a superscript † symbol and are described, on a case-by-case basis.
+This lesson provides the code formatting rules that we will follow in this course. I suggest returning to this *often* and comparing your problem set answers with this guide prior to submission. I provide a description of the code formatting rules, examples of each, and any exceptions to the rules.
 
 *Note: I have often gotten the question of whether my own code uses our course style guide -- it does not. My personal style guide is much more strict! The course style guide is greatly simplified to make it easy to adhere to.*
 
@@ -259,7 +259,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Parentheses** (...)†: 
+-   **Parentheses** (...): 
 
     -   Opening and closing parentheses should not be preceded by a space.
 
@@ -476,7 +476,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Code blocks**: Maintain *one* blank line between code blocks^†^.
+-   **Code blocks**: Maintain *one* blank line between code blocks.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -515,7 +515,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Comments**: Maintain *one* blank line between code blocks and comments^†^.
+-   **Comments**: Maintain *one* blank line between code blocks and comments.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -631,7 +631,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Prefix functions**: Include no more than *one* prefix function per line of code^†^.
+-   **Prefix functions**: Include no more than *one* prefix function per line of code.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -677,7 +677,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
     :::{style="margin-bottom:-2em;"}
 
-    -   If you provide three or more arguments to a function, place each argument on its own line^†^.
+    -   If you provide three or more arguments to a function, place each argument on its own line.
 
         :::: indent_code_bb
         <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -887,7 +887,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator ^†^.
+-   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator .
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -919,7 +919,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:0em;"}
 
--   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line^†^.
+-   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -1011,7 +1011,7 @@ This lesson provides the code formatting rules that we will follow in this cours
 
 :::{style="margin-bottom:-2em;"}
 
--   **Nested functions** should not be nested deeper than two levels (use a pipe instead!)^†^.
+-   **Nested functions** should not be nested deeper than two levels (use a pipe instead!).
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
