@@ -8,7 +8,31 @@ source("dev_scripts/function_finder/function_finder_source.R")
 # Module 0. Introductory material (all functions in the module):
 
 fun_introductory_material <- 
-  get_module_functions("introductory_material")
+  list.files(
+    "introductory_material",
+    pattern = "Rmd$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    \(x) {
+      funs_used <- 
+        get_functions_used(x)
+      
+      if(nrow(funs_used) > 0) {
+        funs_used %>% 
+          mutate(
+            lesson = 
+              str_split_1(x, "\\/")[[2]] %>% 
+              str_remove("\\.(qmd|Rmd)$"),
+            lesson_numeric = 
+              str_extract(lesson, "[0-9]\\.[0-9]") %>% 
+              as.numeric(),
+            .before = fun
+          )
+      }
+    }
+  ) %>% 
+  bind_rows()
 
 # Get new functions learned in each lesson:
 
