@@ -163,17 +163,15 @@ mean(chickadee_counts)
 
 # question 10 -------------------------------------------------------------
 
-# The code below contains five violations of the "Course Style Guide". 
+# The code below contains ten violations of the "Course Style Guide". 
 # Without removing comments or changing the code output, modify the code 
 # block such that it follows the conventions of the style guide. 
 
 # Poorly formatted version (given):
 
-birdCountsSorted =
-  bird_counts%>% 
-  
-  # Arrange by site and species, alphabetically:
-  arrange(site,species)
+#Arrange by site, diet, and species, alphabetically:
+birdCountsSorted= bird_counts%>% 
+  arrange(site, diet,species) # Sort rows
 
 # Answer:
 
