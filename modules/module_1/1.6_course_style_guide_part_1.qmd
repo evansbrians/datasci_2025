@@ -30,11 +30,11 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ![](../../images/hex_complex.png){.intro_image}
 
-The **Course style guide** documents represent a formatting guide for the script files in our course and is intended to help you develop a consistent syntax for creating communicable, readable code. Well-formatted code is not just an end product though -- recommendations in these documents will help you explore and debug your code *as you write it*. Moreover, a portion of your grade will be based on adhering to these style guides (up to 10% per problem set)!
+Our **Course style guide** represent is a formatting guide for the script files in our course and is intended to help you develop a consistent syntax for creating communicable, readable code. We will provide this style guide in three separate documents. Well-formatted code is not just an end product though -- recommendations in these documents will help you explore and debug your code *as you write it*. Moreover, a portion of your grade will be based on adhering to these style guides (up to 10% per problem set)!
 
-Style guides, such as this one, are common across many computer languages and organizations. Although "style" represents a preference (i.e., it does not influence code output), using a style guide does make collaboration easier! Herein, I borrow heavily from the [tidyverse style guide](https://style.tidyverse.org/){target="_blank"}, from which most of the formatting rules below were derived. I include only elements from the tidyverse style guide that are relevant to the content in this course and have included additional or modified elements that, in my opinion, provide added utility or enhanced code readability.
+Style guides, such as this one, are common across many computer languages and organizations. Although "style" represents a preference (i.e., it does not influence code output), using a style guide does make collaboration easier! Herein, we borrow heavily from the [tidyverse style guide](https://style.tidyverse.org/){target="_blank"}, from which most of the formatting rules below were derived. We include only elements from the tidyverse style guide that are relevant to the content in this course and have included additional or modified elements that, in my opinion, provide added utility or enhanced code readability.
 
-Each of the first three modules in this course contain style guides that gradually get more detailed as your coding repertoire grows. This lesson provides an introduction to the code formatting rules that we will follow in this course. I strongly suggest returning to this *often* and comparing your Problem set 1 answers with this guide prior to submission. I provide a description of the code formatting rules, examples of each, and any exceptions to the rules. Recommendations that vary between this document and the tidyverse style guide are annotated with a superscript † symbol and are described, on a case-by-case basis.
+Each of the first three modules in this course contain style guides that gradually get more detailed as your coding repertoire grows. This lesson provides an introduction to the code formatting rules that we will follow in this course. I strongly suggest returning to this *often* and comparing your Problem set 1 answers with this guide prior to submission. I provide a description of the code formatting rules, examples of each, and any exceptions to the rules.
 
 *Note: I have often gotten the question of whether my own code uses our course style guide -- it does not. My personal style guide is much more strict! The course style guide is greatly simplified to make it easy to adhere to.*
 
@@ -235,7 +235,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:-2em;"}
 
--   **Parentheses** (...)†: 
+-   **Parentheses** (...): 
 
     -   Opening and closing parentheses should not be preceded by a space.
 
@@ -452,7 +452,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:-2em;"}
 
--   **Code blocks**: Maintain *one* blank line between code blocks^†^.
+-   **Code blocks**: Maintain *one* blank line between code blocks.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -478,7 +478,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:-2em;"}
 
--   **Comments**: Maintain *one* blank line between code blocks and comments^†^.
+-   **Comments**: Maintain *one* blank line between code blocks and comments.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -594,7 +594,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:-2em;"}
 
--   **Prefix functions**: Include no more than *one* prefix function per line of code^†^.
+-   **Prefix functions**: Include no more than *one* prefix function per line of code.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -639,7 +639,7 @@ Each of the first three modules in this course contain style guides that gradual
 
     :::{style="margin-bottom:-2em;"}
 
-    -   If you provide three or more arguments to a function, place each argument on its own line^†^.
+    -   If you provide three or more arguments to a function, place each argument on its own line.
 
         :::: indent_code_bb
         <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -747,7 +747,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:-2em;"}
 
--   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator ^†^.
+-   **Assignment**: If a code block spans more than one line of code, add a new line after the assignment operator.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -779,7 +779,7 @@ Each of the first three modules in this course contain style guides that gradual
 
 :::{style="margin-bottom:0em;"}
 
--   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line^†^.
+-   **Pipe operators** (`%>%` or `%>%`): Code that follows a pipe operator should be placed on a new line.
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -841,6 +841,11 @@ Each of the first three modules in this course contain style guides that gradual
     boyHowdy
     
     HelloWorld
+    
+    list(
+      boyHowdy = 1,
+      HelloWorld = 2
+    )
     ```
     
     [Good:]{.good}
@@ -851,6 +856,11 @@ Each of the first three modules in this course contain style guides that gradual
     boy_howdy
     
     hello_world
+    
+    list(
+      boy_howdy = 1,
+      hello_world = 2
+    )
     ```
     :::
     ::::
