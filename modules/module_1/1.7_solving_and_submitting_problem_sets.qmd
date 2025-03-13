@@ -1,5 +1,5 @@
 ---
-title: "2.5 Solving and submitting problem sets"
+title: "1.7 Solving and submitting problem sets"
 format:
   html:
     embed-resouces: true
