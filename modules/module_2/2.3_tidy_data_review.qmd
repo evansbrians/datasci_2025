@@ -1,5 +1,5 @@
 ---
-title: "3.1 Tidy data review"
+title: "2.3 Tidy data review"
 format:
   html:
     embed-resouces: true
@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -42,9 +42,9 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-The rules that govern **tidy data** (every variable forms a column, each observation forms a row, and each level of observation forms a table) are so important to ecological data management that I decided to dedicate another lesson to the subject. In this lesson, you will have the opportunity to practice applying **tidy data** rules (i.e. *normalizing a data set*) by using *tidyr* and *dplyr* tools to reformat a very messy weather dataset ([messy_weather.csv]{.mono}). Although I have personally made these data much (infinitely?) less tidy than the original version, the format of these data closely reflects many of the problems that I have observed with environmental and ecological data. While pre-processing these data, you will how to:
+The rules that govern **tidy data** (each variable forms a column, each observation forms a row, and each level of observation forms a table) are so important to ecological data management that I decided to dedicate another lesson to the subject. In this lesson, you will have the opportunity to practice applying **tidy data** rules (i.e. *normalizing a data set*) by using *tidyr* and *dplyr* tools to reformat a very messy weather dataset ([messy_weather.csv]{.mono}). Although I have personally made these data much (infinitely?) less tidy than the original version, the format of these data closely reflects many of the problems that I have observed with environmental and ecological data. While pre-processing these data, you will how to:
 
 * Build pre-processing into your scripts;
 * Utilize piping in your pre-processing steps;
@@ -67,14 +67,14 @@ Now that we are working in a clean session:
 
 1. Create a script file (Windows: [Ctrl + Shift + N]{.mono}; Mac: [Cmd + Shift + N]{.mono}).
 2. Save your script file as "[scripts/tidy_data_review.R]{.mono}".
-3. Add metadata as a comment on the top of the file (e.g., `# My code for the tidying the messy weather data`).
+3. Add metadata as a comment on the top of the file (e.g., `# My code for tidying the messy weather data`).
 4. Following your metadata, create a new **code section** (Windows: [Ctrl + Shift + R]{.mono}; Mac: [Cmd + Shift + R]{.mono}) and call it "`setup`".
 5. Following your section header, load the tidyverse library (`library(tidyverse)`)
 
 At this point, your script should look something like:
 
 ```{r eval = FALSE}
-# My code for the tidying the messy weather data
+# My code for tidying the messy weather data
 
 # setup --------------------------------------------------------
 
@@ -83,7 +83,7 @@ library(tidyverse)
 
 ## Read in and explore the data
 
-The data for this lesson should be stored in your project as "[data/raw/messy_weather.csv]{.mono}". Please read in the file:
+The data for this lesson should be stored in your project as `data/raw/messy_weather.csv`. Please read in the file:
 
 ```{r}
 read_csv("data/raw/messy_weather.csv")
@@ -108,7 +108,7 @@ This clearly not a tidy dataset!
 
 Given the reference tree above, probably the most apparent problem is that each date is a column. This is a massive violation of "Every observation forms a row" (and can also be considered a violation of "Every variable forms a column" in some ways). We can address this by pivoting the data from wide-format to long-format.
 
-This can be accomplished by assigning the raw data to a name and then pivoting the resultant object with the `pivot_longer()`:
+This can be accomplished by assigning the raw data to a name and then pivoting the resultant object with `pivot_longer()`:
 
 ```{r, message = FALSE}
 # Read in and assign the data:
@@ -122,7 +122,8 @@ pivot_longer(
   data = weather_raw,
   cols = march_1:march_31,
   names_to = "day",
-  values_to = "value")
+  values_to = "value"
+)
 ```
 
 We have reduced the data from a data frame that had 40 columns to one that has 11. That will be much easier to work with!
@@ -139,7 +140,8 @@ pivot_longer(
   data = read_csv("data/raw/messy_weather.csv"),
   cols = march_1:march_31,
   names_to = "day",
-  values_to = "value")
+  values_to = "value"
+)
 ```
 
 My comments make it clear that the order of operations is not reflected in the code -- it looks like I am reshaping the data before I read it in! A better option is read in the data and then pipe the resultant object into `pivot_longer()`:
@@ -149,12 +151,13 @@ My comments make it clear that the order of operations is not reflected in the c
 
 read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row:
+  # Pivot the data such that days (observations) form rows:
   
   pivot_longer(
     cols = march_1:march_31,
     names_to = "day",
-    values_to = "value")
+    values_to = "value"
+  )
 ```
 
 That is much clearer!
@@ -166,14 +169,15 @@ Although we have fixed the big observations-as-columns problem, we might notice 
 
 read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row and remove the
+  # Pivot the data such that days (observations) form rows and remove the
   # date prefix:
   
   pivot_longer(
     cols = march_1:march_31,
     names_to = "day",
     values_to = "value",
-    names_prefix = "march_")
+    names_prefix = "march_"
+  )
 ```
 
 Let's assign these data to the name `messy_weather_long`:
@@ -185,7 +189,7 @@ messy_weather_long <-
   
   read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row and remove the
+  # Pivot the data such that days (observations) form rows and remove the
   # date prefix:
   
   pivot_longer(
@@ -197,13 +201,13 @@ messy_weather_long <-
 
 ## Every variable forms a column
 
-Let's have another look at our data at the stage:
+Let's have another look at our data at this stage:
 
 ```{r}
 messy_weather_long
 ```
 
-The next glaring problem that I am seeing is that there is a column called "variable". If there are multiple variables stored in that column, that would be a violation of Hadley's tidy data rule that "Every variable forms a column". We can find out by using the functions `unique` and `$` to generate a unique vector of values within the column:
+The next glaring problem that I am seeing is that there is a column called "variable". If there are multiple variables stored in that column, that would be a violation of Hadley's tidy data rule that "Every variable forms a column". We can find out by generating a unique vector of values within the column using the functions `unique()` and `$`:
 
 ```{r}
 unique(messy_weather_long$variable)
@@ -216,7 +220,8 @@ Here, we see clear evidence that variables are stored as rows! We can modify thi
 
 pivot_wider(
   data = messy_weather_long,
-  names_from = variable)
+  names_from = variable
+)
 ```
 
 ... of course, we could have done this using a pipe:
@@ -226,11 +231,10 @@ messy_weather_long %>%
   
   # Pivot wider such that variables stored in rows are arranged as columns:
   
-  pivot_wider(
-    names_from = variable)
+  pivot_wider(names_from = variable)
 ```
 
-... and, even better, while we read in the data:
+... or, even better, while we read in the data:
 
 ```{r, message = FALSE}
 weather_variable_fix <-
@@ -239,50 +243,52 @@ weather_variable_fix <-
   
   read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row and remove the
+  # Pivot the data such that days (observations) form rows and remove the
   # date prefix:
   
   pivot_longer(
     cols = march_1:march_31,
     names_to = "day",
     values_to = "value",
-    names_prefix = "march_") %>% 
+    names_prefix = "march_"
+  ) %>% 
   
   # Pivot wider such that variables stored in rows are arranged as columns:
   
-  pivot_wider(
-    names_from = variable)
+  pivot_wider(names_from = variable)
 
 weather_variable_fix
 ```
 
-I am noticing another violation of "Every variable forms a column", but one that is perhaps not quite as straightforward. The columns `year`, `month`, and `day` are all really representative of a single variable, the date of a given observation.
+I am noticing another violation of "Every variable forms a column", but one that is perhaps not quite as straightforward. The columns `year`, `month`, and `day` are all really representative of a single variable -- the date of a given observation.
 
 To address this, we can combine the data with `unite()`:
 
 ```{r}
-# Unite date columns:
+# Combine date columns:
 
 unite(
   data = weather_variable_fix,
   col = "date",
   year:day,
-  sep = "-")
+  sep = "-"
+)
 ```
 
-*Note: I have chosen `sep = "-"` because this mirrors the intenational date standard ... we will discuss this in the future!*
+*Note: I have chosen `sep = "-"` because this mirrors the international date standard ... we will discuss this in the future!*
 
 ... because the pipe sends the object on the left-hand-side (LHS) of the operator to the function on the right (RHS), this could have been piped in as:
 
 ```{r}
 weather_variable_fix %>% 
   
-  # Unite date columns:
+  # Combine date columns:
   
   unite(
     col = "date",
     year:day,
-    sep = "-")
+    sep = "-"
+  )
 ```
 
 We can (and should!) do this as we read in the data with:
@@ -294,26 +300,27 @@ weather_date_fix <-
   
   read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row and remove the
+  # Pivot the data such that days (observations) form rows and remove the
   # date prefix:
   
   pivot_longer(
     cols = march_1:march_31,
     names_to = "day",
     values_to = "value",
-    names_prefix = "march_") %>% 
+    names_prefix = "march_"
+  ) %>% 
   
   # Pivot wider such that variables stored in rows are arranged as columns:
   
-  pivot_wider(
-    names_from = variable) %>% 
+  pivot_wider(names_from = variable) %>% 
   
-  # Unite date columns:
+  # Combine date columns:
   
   unite(
     col = "date",
     year:day,
-    sep = "-")
+    sep = "-"
+  )
 ```
 
 Let's have a look at that last column (`temperature_min_max`; we cannot see the values because of print limits on the width of the tibble). Based on the name of the column, I am suspecting that there may be two variables present:
@@ -334,7 +341,8 @@ weather_date_fix %>%
   separate(
     temperature_min_max,
     into = c("temperature_min", "temperature_max"),
-    sep = ":")
+    sep = ":"
+  )
 ```
 
 ... if we are comfortable with what we have accomplished, we can modify our data reading script:
@@ -346,38 +354,40 @@ weather_temp <-
   
   read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row and remove the
+  # Pivot the data such that days (observations) form rows and remove the
   # date prefix:
   
   pivot_longer(
     cols = march_1:march_31,
     names_to = "day",
     values_to = "value",
-    names_prefix = "march_") %>% 
+    names_prefix = "march_"
+  ) %>% 
   
   # Pivot wider such that variables stored in rows are arranged as columns:
   
-  pivot_wider(
-    names_from = variable) %>% 
+  pivot_wider(names_from = variable) %>% 
   
-  # Unite date columns:
+  # Combine date columns:
   
   unite(
     col = "date",
     year:day,
-    sep = "-") %>% 
+    sep = "-"
+  ) %>% 
   
   # Separate minimum and maximum temperature into two variables:
   
   separate(
     temperature_min_max,
     into = c("temperature_min", "temperature_max"),
-    sep = ":")
+    sep = ":"
+  )
 ```
 
 ## Every level of observation forms a table
 
-In my experience, the last tidy data rule, that "every level of observation forms a table", is the most challenging for students to wrap their heads around. As consequence, violations of this rule represent one of the most common problems that I find in data management.
+In my experience, the last tidy data rule ("every level of observation forms a table") is the most challenging for students to wrap their heads around. As consequence, violations of this rule represent one of the most common problems that I find in data management.
 
 To address this conceptually, we might consider what each column describes. Let's look at our current dataset:
 
@@ -385,7 +395,7 @@ To address this conceptually, we might consider what each column describes. Let'
 weather_temp
 ```
 
-We can see that `station` is repeated multiple times for at least one of the stations (and we know that there are multiple dates present in the data):
+We can see that `station` is repeated multiple times for at least one of the stations (and we know that there are multiple stations present in the data):
 
 ```{r}
 unique(weather_temp$station)
@@ -403,7 +413,8 @@ weather_temp %>%
     latitude, 
     elevation, 
     state, 
-    name)
+    name
+  )
 ```
 
 ... or, perhaps more parsimoniously:
@@ -442,15 +453,15 @@ Sometimes identifying the primary key can be a bit of a challenge. For example, 
 
 Our next task is to generate a data frame of weather observations. To do so, we have to determine which variables are associated with this level of observation. Clearly the weather variables (`precip`, `snow`, `temperature_min`, and `temperature_max`) belong represent this level of observation. We now have to determine which of the other variables define the observation (i.e., what is the primary key)?
 
-Conceptually, each of the weather observations describe an observation at a given station on a given date. The primary key for these observations therefore must include two columns, `station` and `date`. When a given observation is defined by more than one variable, the variables comprise what is known as a **compound key** (or sometimes "compound primary key").
+Conceptually, each of the weather observations describe an observation at a given station on a given date. The primary key for these observations therefore must include two columns, `station` and `date`. When a given observation is defined by more than one variable, the variables comprise what is known as a **compound key** (or sometimes "**compound primary key**").
 
-To make this table tidy (reflecting one of Codd's rules that can be paraphrased as "all variables describe characteristics of the primary key"), we need to remove the variables that describe characteristics of the station, not the weather conditions at given station, on a given date.
+To make this table tidy (reflecting one of Codd's rules that can be paraphrased as "all variables describe characteristics of the primary key"), we need to remove the variables that describe characteristics of the station and keep the weather conditions at a given station on a given date.
 
 Below, I subset the data with `select()` and the negated selection function (`!`) and assign the resultant data to the name `observations`:
 
 ```{r}
 
-# Generate a observation-level data frame and assign to the name
+# Generate an observation-level data frame and assign to the name
 # `observations`:
 
 observations <-
@@ -462,12 +473,12 @@ observations
 
 You might recognize that our two data frames, which can be considered tidy at this point, both contain the variable `station`. This might seem redundant, but it is by design. The `station` column provides a variable that connects the information between the two tables. In the `observations` data frame, the `station` variable is considered to be a **foreign key** -- a foreign key is a variable in a data frame (or database table) that refers to the primary key of another table. 
 
-If this all sounds like a lot to wrap your head around, we will cover primary, compound, and foreign keys in some depth later in this Module (***Lesson 3.5 Introduction to joins***)!
+If this all sounds like a lot to wrap your head around, we will cover primary, compound, and foreign keys in some depth in the next Module (***Lesson 3.4 Introduction to joins***)!
 
 ::: mysecret
 {{< fa user-secret size=2x >}} [Tidy data are not necessarily clean data!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-Our data, at this point, can now be considered "tidy". In the above, however, you may notice that the class of the columns are not ideal for the data that they represent (e.g., the weather variables are character vectors but should almost certainly be numeric). The term "tidy data" refers only to data that adhere to the three tidy data rules:
+At this point, our data can now be considered "tidy". In the above, however, you may notice that the class of the columns are not ideal for the data that they represent (e.g., the weather variables are character vectors but should almost certainly be numeric). The term "tidy data" refers only to data that adhere to the three tidy data rules:
 
 * Every variable forms a column
 * Each observation forms a row 
@@ -478,7 +489,7 @@ We will address data cleaning steps that are not associated with data tidying in
 
 ## Assemble and write
 
-Our final task is to save the output for future use. You have to primary options for this:
+Our final task is to save the output for future use. You have two primary options for this:
 
 * Maintain the steps above as a data wrangling script: This option should be chosen *if* more untidy data will be added to the dataset in the future and you have no control over how the raw data are structured. 
 * Write the tidy version of the data to a file: If you *do* have control over the structuring of the raw data and/or no data will be modified or added to the raw version of the data, your best option is to write the data to a file.
@@ -500,10 +511,11 @@ The names are not maintained in our list! We can address this by explicitly assi
 ```{r}
 list(
   stations = stations,
-  observations = observations)
+  observations = observations
+)
 ```
 
-... or assign names to each list item *after* the list is generated with the *rlang* (tidyverse) function `set_names`:
+... or assign names to each list item *after* the list is generated with the *rlang* (tidyverse) function `set_names()`:
 
 ```{r}
 list(stations, observations) %>% 
@@ -528,12 +540,13 @@ list(
     select(station:name) %>% 
     distinct(),
   
-  # Generate a observation-level data frame and assign to the name
+  # Generate an observation-level data frame and assign to the name
   # `observations`:
   
   observations = 
     weather_temp %>% 
-    select(!longitude:name))
+    select(!longitude:name)
+)
 ```
 
 No matter which method that you choose, these data can now be safely stored on your hard drive as a single, tidy dataset with:
@@ -572,7 +585,7 @@ Up to this point, my script includes a lot of redundancy because I was illustrat
 
 library(tidyverse)
 
-# Initial data tidying --------------------------------------------------
+# initial data tidying --------------------------------------------------
 
 weather_temp <-
   
@@ -580,35 +593,37 @@ weather_temp <-
   
   read_csv("data/raw/messy_weather.csv") %>% 
   
-  # Pivot the data such that days (observations) form a row and remove the
+  # Pivot the data such that days (observations) form rows and remove the
   # date prefix:
   
   pivot_longer(
     cols = march_1:march_31,
     names_to = "day",
     values_to = "value",
-    names_prefix = "march_") %>% 
+    names_prefix = "march_"
+  ) %>% 
   
   # Pivot wider such that variables stored in rows are arranged as columns:
   
-  pivot_wider(
-    names_from = variable) %>% 
+  pivot_wider(names_from = variable) %>% 
   
-  # Unite date columns:
+  # Combine date columns:
   
   unite(
     col = "date",
     year:day,
-    sep = "-") %>% 
+    sep = "-"
+  ) %>% 
   
   # Separate minimum and maximum temperature into two variables:
   
   separate(
     temperature_min_max,
     into = c("temperature_min", "temperature_max"),
-    sep = ":")
+    sep = ":"
+  )
 
-# Assemble tidy data and write to file ----------------------------------
+# assemble tidy data and write to file ----------------------------------
 
 list(
   
@@ -619,12 +634,13 @@ list(
     select(station:name) %>% 
     distinct(),
   
-  # Generate a observation-level data frame and assign to the name
+  # Generate an observation-level data frame and assign to the name
   # `observations`:
   
   observations = 
     weather_temp %>% 
-    select(!longitude:name)) %>% 
+    select(!longitude:name)
+) %>% 
   
   # Write to file:
   
