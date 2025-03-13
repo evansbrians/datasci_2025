@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -42,12 +42,12 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 I have said it before, but filtering is one of the most important tasks that we do when managing our data. Tidyverse tools for filtering data give us amazing flexibility to conduct filters that are powerful and easy to read. This lesson includes a video tutorial (runtime -- 31:16) that describes advanced filtering techniques (applied as we plot data) and a *compendium* intended to serve predominantly as a reference (just so you do not have to watch the video multiple times ... but *do not* skip the video!). In completing this lesson, you will learn how to:
 
 * Filter data by date with `filter()` and the *lubridate* package;
-* Filter strings (a gently introduction to regular expressions);
+* Filter strings (a gentle introduction to regular expressions);
 * Filter grouped data with `group_by()` and `filter()`;
 * Apply a filter to multiple columns with `if_any()` and `if_all()`
 
@@ -89,6 +89,7 @@ Please do the following to ensure that you are working in a clean session:
 Before you begin, some notes on the video content:
 
 * I again use *key* to describe variable names ... that makes sense, but I think simply using "name" is much more clear in this context.
+* I do not follow the course style guide in this video *at all* (but you should!).
 * In `aes()`, I should have placed `reorder()` on its own line (based on the course style guide). Likewise, for `filter(year(...) == ...)`, `year()` should have been placed on its own line.
 * I do not typically use `reorder()` within `aes()` but we will not find a better way to address this until ***Module 4: Focus on mutation***.
 * When using `filter()`, if the number of arguments is greater than or equal to two, each argument should be place on their own line and should be indented two spaces.
