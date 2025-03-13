@@ -28,9 +28,9 @@ href = "www/hex_icon.png" />
 
 ![](../../images/hex_complex.png){.intro_image}
 
-In this lesson we will explore, create, and modify a plot using the core tidyverse package *ggplot* -- an extraordinarily powerful and well-designed plotting system. This lesson is broken into two primary sections:
+In this lesson we will explore, create, and modify a plot using the core tidyverse package *ggplot* -- an extraordinarily powerful and well-designed plotting system. This lesson provides 
 
-* A video introduction to ggplot (runtime: 33:24). Please be sure to watch that video prior to moving forward with the tutorial!
+* A video introduction to ggplot (runtime: XX:XX). Please be sure to watch that video prior to moving forward with the tutorial!
 * A written guide that will serve as a reference for using ggplot and includes incorporating pipes into your plotting scripts. Although much of this content is a review of the introductory video, there will be new content sprinkled throughout. 
 
 You will learn:
@@ -42,7 +42,6 @@ You will learn:
 * The coordinate system
 * Labels
 * Themes
-* Saving plots
 
 ## Introductory video
 
@@ -121,8 +120,6 @@ Boxplots
 </div>
 </div>
 
-
-
 ## Getting started
 
 Please open the `data_sci_2025` project in R Studio.
@@ -189,34 +186,7 @@ One of my goals of this lesson will be to demonstrate why piping your data is *m
 
 ## Aesthetic mappings
 
-After adding data, we need to decide which aesthetic mappings are appropriate for our question. It entirely depends on what we want to explore or visualize with our dataset. In this case, let's create a plot that compares wing length with mass. The body size to mass ratio is a common measurement in ecological studies of birds and other wildlife. We will visualize wing as the predictor variable (x axis) and mass as the response variable (y axis).  
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot(
-    mapping = 
-      aes(
-        x = wing, 
-        y = mass
-      )
-  )
-```
-
-Notice that ggplot assigned the scale element to the visualization automatically, It chose the scale based on the limits of the data. By default, ranges of the x and y axes are 5% below and above the upper and lower limits of the data.
-
-Mapping is the second argument of the function. Because mapping is required for every plot, we do not need to specify the argument each time (as long as we understand what it does). We *could* just remove `mapping =` from the code...
-
-```{r eval = FALSE}
-chickadees %>% 
-  ggplot(
-    aes(
-      x = wing, 
-      y = mass
-    )
-  )
-```
-
-... but an alternative method (that I greatly prefer), is to specify my aesthetics *after* the `ggplot` function:
+After piping our data into ggplot, we need to decide which aesthetic mappings are appropriate for our question. It entirely depends on what we want to explore or visualize with our dataset. In this case, let's create a plot that compares wing length with mass. The body size to mass ratio is a common measurement in ecological studies of birds and other wildlife. We will visualize wing as the predictor variable (x axis) and mass as the response variable (y axis).  
 
 ```{r = FALSE}
 chickadees %>% 
@@ -226,6 +196,8 @@ chickadees %>%
     y = mass
   )
 ```
+
+Notice that ggplot assigned the scale element to the visualization automatically, It chose the scale based on the limits of the data. By default, ranges of the x and y axes are 5% below and above the upper and lower limits of the data.
 
 ## Layers (geometries)
 
@@ -807,146 +779,7 @@ chickadees %>%
   )
 ```
 
-Perhaps we do not want the dull gray boxes on top of our facets. We could spice them up by adding the yellow from Mrs. Felicity Fox's dress (#F6CD58) with the theme argument `strip.background =` with `element_rect()`:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot() +
-  aes(
-    x = wing, 
-    y = mass,
-    color = spp
-  ) +
-  geom_point(
-    size = 2.75, 
-    alpha = 0.25
-  ) +
-  geom_smooth(
-    method = "lm",
-    formula = y ~ x, 
-    se = FALSE,
-    linewidth = 1.5
-  ) +
-  scale_y_continuous(
-    limits = c(7, 13),
-    expand = c(0, 0)
-  ) +
-  scale_x_continuous(
-    limits = c(50, 70),
-    expand = c(0, 0)
-  ) +
-  scale_color_manual(
-    "Species",
-    values = c("#595B18", "#CA621E")
-  ) +
-  labs(
-    title = "Wing length and mass of Black-capped and Carolina chickadees",
-    x = "Wing length (mm)", 
-    y = "Mass (g)"
-  ) +
-  facet_wrap(~ sex) +
-  theme_bw() +
-  theme(
-    axis.text = element_text(size = 12),
-    strip.background = element_rect(fill = "#F6CD58")
-  )
-```
-
-We can make our axis lines stronger using the argument `axis.line = ` and `element_line()`:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
-  ggplot() +
-  aes(
-    x = wing, 
-    y = mass,
-    color = spp
-  ) +
-  geom_point(
-    size = 2.75, 
-    alpha = 0.25
-  ) +
-  geom_smooth(
-    method = "lm",
-    formula = y ~ x, 
-    se = FALSE,
-    linewidth = 1.5
-  ) +
-  scale_y_continuous(
-    limits = c(7, 13),
-    expand = c(0, 0)
-  ) +
-  scale_x_continuous(
-    limits = c(50, 70),
-    expand = c(0, 0)
-  ) +
-  scale_color_manual(
-    "Species",
-    values = c("#595B18", "#CA621E")
-  ) +
-  labs(
-    title = "Wing length and mass of Black-capped and Carolina chickadees",
-    x = "Wing length (mm)", 
-    y = "Mass (g)"
-  ) +
-  facet_wrap(~ sex) +
-  theme_bw() +
-  theme(
-    axis.text = element_text(size = 12),
-    strip.background = element_rect(fill = '#F6CD58'),
-    axis.line = element_line(linewidth = 1)
-  )
-```
-
-**Almost everything** we modify in the `theme()` is done so using `element_[type of element]`. An exception is the `unit` function. Let's see how it looks by adjusting a major weak point in our plot so far ... the spacing between the panels. Let's add some space with the `panel.spacing =` argument and the function `unit()`:
-
-```{r eval = TRUE, message=FALSE}
-chickadees %>% 
- ggplot() +
-  aes(
-    x = wing, 
-    y = mass,
-    color = spp
-  ) +
-  geom_point(
-    size = 2.75, 
-    alpha = 0.25
-  ) +
-  geom_smooth(
-    method = "lm",
-    formula = y ~ x, 
-    se = FALSE,
-    linewidth = 1.5
-  ) +
-  scale_y_continuous(
-    limits = c(7, 13),
-    expand = c(0, 0)
-  ) +
-  scale_x_continuous(
-    limits = c(50, 70),
-    expand = c(0, 0)
-  ) +
-  scale_color_manual(
-    "Species",
-    values = c("#595B18", "#CA621E")
-  ) +
-  labs(
-    title = "Wing length and mass of Black-capped and Carolina chickadees",
-    x = "Wing length (mm)", 
-    y = "Mass (g)"
-  ) +
-  facet_wrap(~ sex) +
-  theme_bw() +
-  theme(
-    axis.text = element_text(size = 12),
-    strip.background = element_rect(fill = '#F6CD58'),
-    axis.line = element_line(linewidth = 1),
-    panel.spacing = 
-      unit(2, 'lines')
-  )
-```
-
-Be sure to look through the help file (`?theme`) at all of the various options you have for changing the theme of a plot!
+Be sure to look through the help file (`?theme`) at all of the various options you have for changing the theme of a plot. We will discuss ggplot themes much more in depth in our next ggplot lesson!
 
 <br>
 
@@ -955,25 +788,6 @@ Be sure to look through the help file (`?theme`) at all of the various options y
 <i class="fas fa-user-secret" style = "font-size: 36px;"></i> I adjust my themes at the very end of my ggplot code. You typically need to adjust themes iteratively when you save a file. Having `theme()` at the end of your ggplot code section makes it easier to find and modify.
 
 :::
-
-## Saving plots
-
-Our final step is fairly straightforward.
-
-To save a plot, we will always use `ggsave()`. Doing so allows you to re-create your plot under almost any circumstance (e.g., a change in the underlying data). The buttons are easy. I do it sometimes too. But they should be avoided.
-
-To save a plot, you provide the path to where you are going to save it, the width and height of the plot, and the units. The dpi (dots per inch) are set to 300, which is a common requirement for journals.
-
-```{r, eval = FALSE}
-ggsave(
-  "output/chickadee_wing_chord.png",
-  height = 5,
-  width = 7,
-  units = "in"
-)
-```
-
-Here's the trick -- save the plot, then open it up in your file system. How did it look? Was the title of the plot, or the axis titles/labels crazy? Were the size of the points gigantic or super small? Go back and adjust the theme until you have an aesthetically pleasing result!
 
 ## Reference
 
