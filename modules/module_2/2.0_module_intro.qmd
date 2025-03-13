@@ -24,10 +24,9 @@ editor_options:
 
 Welcome to **Module 2: Introduction to the tidyverse**! In this set of lessons, we will explore the primary tidyverse tools for pre-processing and visualizing ecological data. You will learn:
 
+-   What tidy data are;
+-   How to "tidy" data;
 -   Tools for reshaping data with the core tidyverse packages *dplyr* and *tidyr*;
--   Tools for adding columns to a data frame;
--   Tools for subsetting data frames;
--   Tools for summarizing data frames;
 -   How to visualize data with *ggplot*;
 -   More tools to ensure your success in this course!
 
@@ -49,17 +48,13 @@ This module is divided into the following sections:
 
 Before you begin this week's lessons, please download the attached zip file [module_2_files.zip]{.mono} and:
 
-* Place the following R script files in the [scripts]{.mono} folder:
-    * [2.1_reshaping_data_frames.R]{.mono}
-    * [2.3_tidy_data.R]{.mono}
-    * [summarize_lanternfly.R]{.mono}
-    * [working_with_tidy_data.R]{.mono}
+* Place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder.
     
 * Place the following data files in the folder [data/raw]{.mono}:
-    * [angola_undulates.rds]{.mono}
+    * [angola_ungulates.rds]{.mono}
     * [chickadees.csv]{.mono}
     * [district_birds.rds]{.mono}
-    * [spotted_lanternfly.rds]{.mono}
+    * [messy_weather.rds]{.mono}
     * [untidy_data.rds]{.mono}
 * Place [weather_tidy.rds]{.mono} in the folder [data/processed]{.mono}
 
@@ -73,9 +68,7 @@ This week we will use the following data files in our exercises:
 
 **[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visit backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
 
-**[weather_tidy.rds]{.mono}**: The data were collected from 2010-2020 at five NOAA weather stations located in California, North Carolina, New York, and Wisconsin. The file contains measures of precipitation, snow, and temperatures during the month of March.
-
-**[spotted_lanternfly.rds]{.mono}**: This is a tabular dataset of [iNaturalist observations of spotted lanternfly (*Lycorma delicatula*)](https://www.inaturalist.org/projects/spotted-lanternfly), an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application.
+**[messy_weather.csv]{.mono}**: This is an intentionally messied NOAA weather dataset (messied by Brian). The data were collected from 2010-2020 at five NOAA weather stations located in California, North Carolina, New York, and Wisconsin. The file contains measures of preciptiation, snow, and temperatures during the month of March. These data were messied as a teaching tool -- while it's painful to look at this table, I have interacted with many weather files that were formatted similarly!
 
 **[untidy_data.rds]{.mono}**: These are "fake" data (though subsets of "real" data!) that I am using for illustration purposes in the tidy data lecture.
 

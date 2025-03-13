@@ -50,7 +50,12 @@ Lessons 3.1-3.4 above are provided as video and written content. The written mat
 Please download the attached zip file [module_3_files.zip]{.mono} and:
 
 * Place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have, please overwrite the previous file.
-* Place any data files ([*.csv]{.mono} and [*.rds]{.mono}) in the [data_sci/data/raw]{.mono} folder. If there are any data files you already have, please overwrite the previous file.
+* Place any data files ([*.csv]{.mono} and [*.rds]{.mono}) in the correct folder. If there are any data files you already have, please overwrite the previous file.
+    * Place the following data files in the folder [data/raw]{.mono}:
+        * [district_birds.rds]{.mono}
+        * [messy_birds.rds]{.mono}
+        * [spotted_lanternfly.rds]{.mono}
+    * Place [weather_tidy.rds]{.mono} in the folder [data/processed]{.mono}.
 
 ## About this week's data
 
@@ -59,8 +64,6 @@ This week we will use the following data files in our exercises:
 **[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
 
 **[messy_birds.rds]{.mono}**: This is an intentionally messy version of a subset of the Neighborhood Nestwatch data in `district_birds.rds`. 
-
-**[messy_weather.csv]{.mono}**: This is an intentionally messied NOAA weather dataset (messied by Brian). The data were collected from 2010-2020 at five NOAA weather stations located in California, North Carolina, New York, and Wisconsin. The file contains measures of preciptiation, snow, and temperatures during the month of March. These data were messied as a teaching tool -- while it's painful to look at this table, I have interacted with many weather files that were formatted similarly!
 
 **[spotted_lanternfly.rds]{.mono}**: This is a tabular dataset of iNaturalist observations of spotted lanternfly (*Lycorma delicatula*), an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application. I downloaded these data using the *rinat* package in R.
 
