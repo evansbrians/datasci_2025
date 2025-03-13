@@ -1,0 +1,534 @@
+---
+title: "4.1 Advanced filtering"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../images/hex_complex.png){.intro_image}
+
+I have said it before, but filtering is one of the most important tasks that we do when managing our data. Tidyverse tools for filtering data give us amazing flexibility to conduct filters that are powerful and easy to read. This lesson includes a video tutorial (runtime -- 31:16) that describes advanced filtering techniques (applied as we plot data) and a *compendium* intended to serve predominantly as a reference (just so you do not have to watch the video multiple times ... but *do not* skip the video!). In completing this lesson, you will learn how to:
+
+* Filter data by date with `filter()` and the *lubridate* package;
+* Filter strings (a gently introduction to regular expressions);
+* Filter grouped data with `group_by()` and `filter()`;
+* Apply a filter to multiple columns with `if_any()` and `if_all()`
+
+*Note: The video lesson also demonstrates how to use filtering, ggplot, string matching, and a knowledge of the natural history of your study system to explore and interpret your data!*
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
+
+</div>
+
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+In this lesson, we will explore the file [spotted_lanternfly.rds]{.mono}. The data are formatted as a tibble data frame object comprised of the following variables:
+
+* [datetime]{.mono}, datetime: The date and time in which an observation took place.
+* [user]{.mono}, character: The user id for a given iNaturalist user (*Note: In combination with `datetime`, this variable represents the **compound key** for this table -- a compound key is a set of variables in a data frame that, combined, represent the primary key of the data frame.*).
+* [state]{.mono}, character: The state in which an observation was made.
+* [place_guess]{.mono}, character: The location in which an observation was made (based on the coordinates of the observation).
+* [longitude]{.mono}, numeric: The longitudinal coordinates of an observation, in decimal degrees.
+* [latitude]{.mono}, numeric: The latitudinal coordinates of an observation, in decimal degrees.
+* [image_url]{.mono}, character: The web address of the picture submitted with an observation.
+* [quality_grade]{.mono}, character: Whether the observation was verified by experts ("research" grade) or has not been able to be verified ("casual" grade).
+
+:::
+
+## Set up your video session
+
+Please do the following to ensure that you are working in a clean session:
+
+1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
+2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+3. Open the script file [filter_lanternfly.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+
+## Video content
+
+Before you begin, some notes on the video content:
+
+* I again use *key* to describe variable names ... that makes sense, but I think simply using "name" is much more clear in this context.
+* In `aes()`, I should have placed `reorder()` on its own line (based on the course style guide). Likewise, for `filter(year(...) == ...)`, `year()` should have been placed on its own line.
+* I do not typically use `reorder()` within `aes()` but we will not find a better way to address this until ***Module 4: Focus on mutation***.
+* When using `filter()`, if the number of arguments is greater than or equal to two, each argument should be place on their own line and should be indented two spaces.
+
+{{< video https://www.youtube.com/embed/knemDJegTgo >}}
+
+## Compendium tutorial
+
+For this compendium, we will continue to use the data we assigned in the video, `spotted_lanternfly`. We read in, subset, and globally assigned these data with:
+
+```{r}
+spotted_lanternfly <- 
+  read_rds("data/raw/spotted_lanternfly.rds") %>% 
+  filter(quality_grade == "research") %>% 
+  select(!c(place_guess, quality_grade))
+```
+
+### Review: Basic filtering
+
+To filter a subset the rows of a data frame, you supply a logical test inside of `filter()`. 
+
+To filter a data frame to where the vector on the left-hand-side (LHS) is equal to a single value on the right (RHS), you can use the `==` logical operator:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(state == "Virginia")
+```
+
+To filter a data frame to where the LHS vector is among the values in the RHS vector, use the `%in%` operator:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(state %in% c("Maryland", "Virginia"))
+```
+
+If we wish to filter based on multiple variables, we separate each logical test with a comma:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    state %in% c("Maryland", "Virginia"),
+    user %in% c("crayshack", "corinne-swdc"))
+```
+
+We can also filter a single variable based on multiple conditions:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    latitude > 39,
+    latitude < 41)
+```
+
+### Filter without logical operators
+
+We have primary used filtering with logical operators thus far in the course. However, *any* function that produces a logical vector can be used in filtering. For example, `is.na()` returns `TRUE` if a value in a vector is [NA]{.mono} and `FALSE` if a value is *not* [NA]{.mono}.
+
+```{r}
+is.na(
+  c(1, NA, 2)
+)
+```
+
+Filter works by maintaining rows where the filtering statement evaluates to `TRUE` and removing rows where it evaluates to `FALSE`. Because the output of `is.na()` *is* a logical vector, we can apply this directly to `spotted_lanternfly` with:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    is.na(description))
+```
+
+### Filter with the negation operator
+
+Notice that the negation operator, `!` simply turns `TRUE` values to `FALSE` and vice-versa:
+
+```{r}
+!is.na(
+  c(1, NA, 2)
+)
+```
+
+Because of this behavior, we can use the negation operator in conjunction with a logical statement.
+
+For example, to filter to where the `description` values are *not* [NA]{.mono}, we can use:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    !is.na(description))
+```
+
+Likewise, we can use `!` to subset the rows to LHS values that are not equal to the value on the RHS:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(!state == "Virginia")
+```
+
+... or to subset rows to where the LHS values are not contained within a *set* of RHS values:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(!state %in% c("Maryland", "Virginia"))
+```
+
+### Filter with derived variables
+
+Sometimes, we are interested in filtering our data by a variable we have derived. For example, in the code below, I calculate the year of observation inside of mutate and filter the data to where the year is `2018`:
+
+```{r}
+spotted_lanternfly %>% 
+  mutate(
+    year = year(datetime)) %>% 
+  filter(year == 2018)
+```
+
+Because `year` is simply an assignment referencing the numeric vector generated with `year(datetime)`, we can replace `year` in our filtering statement with the function used to generate those data:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    year(datetime) == 2018)
+```
+
+*The above is much more parsimonious!*
+
+### Filtering strings
+
+It is often useful to test whether character values are contained in *part of a string*. To address this, we employ a search algorithm called **regular expressions**, or "regex". Regular expressions are comprised of:
+
+* **Literal character**: In regex, this is used to search for exact character matches in the case (i.e., lower vs. upper) and order of characters.
+* **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string).
+
+For example, the word "Train" appears in each of the values of the following character vector except "Monkey and the Engineer", but only the value "Train" evaluates to `TRUE`:
+
+```{r}
+c("South Bound Train",
+  "Freight Train",
+  "Train",
+  "Monkey and the Engineer",
+  "Hear My Train A-Comin'") == "Train"
+```
+
+If we apply string matching with regex, however, we can test whether symbols "Train" are *in* each string value:
+
+```{r}
+c("South Bound Train",
+  "Freight Train",
+  "Train",
+  "Monkey and the Engineer",
+  "Hear My Train A-Comin'") %>% 
+  str_detect("Train")
+```
+
+The above are examples of using literal characters for searching strings. The limitation of literal characters is that they refer to the exact character being used (and in the exact order of appearance). For example, "Freight train" evaluates to `FALSE` below because the search string is searching for a pattern that starts with an uppercase "T":
+
+```{r}
+c("South Bound Train",
+  "Freight train",
+  "Train",
+  "Monkey and the Engineer",
+  "Hear My Train A-Comin'") %>% 
+  str_detect("Train")
+```
+
+We can use metacharacters if we want to include more matches in our search. For example, the "character set" metacharacter, `[]` (also called the "character class" metacharacter), can be used to detect a symbol within a set of symbols.
+
+In the code that follows, "Freight train" evaluates to `TRUE` because we have specified that the first value is either a "T" or "t":
+
+```{r}
+c("South Bound Train",
+  "Freight train",
+  "Train",
+  "Monkey and the Engineer",
+  "Hear My Train A-Comin'") %>% 
+  str_detect("[Tt]rain")
+```
+*Note: metacharacters may act like functions, but they are not R functions ... they are their own language!*
+
+We applied regex, with literal characters and metacharacters, in our video lesson while searching for the pattern "Egg" or "egg" in the `description` field:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    str_detect(description, "[Ee]gg"))
+```
+
+It is important to recognize that you can also use regex with the negation operator to search for strings that do not contain the specified pattern:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    !str_detect(description, "[Ee]gg"))
+```
+
+*Note: Use of regular expressions is super powerful for examining poorly formatted character vectors (e.g., "notes" fields). We will explore regex much more in-depth in our next lesson!*
+
+### Grouped filters
+
+We can apply filters to grouped data -- this is a *super* powerful tool for exploring your data.
+
+For example, let's subset the data to the first observation in each state in `spotted_lanternfly`. We will:
+
+1. Use `group_by()` to group the data by `state`;
+2. Use `filter()` and `min(datetime)` to subset the data to the first observation to the first `datetime` in each state;
+3. Use `ungroup()` to ensure that the resultant data are not grouped.
+
+```{r}
+spotted_lanternfly %>% 
+  group_by(datetime) %>% 
+  filter(
+    datetime == min(datetime)) %>% 
+  ungroup()
+```
+
+With a recent (but still experimental) update of the *dplyr* package, we can use the `.by = ...` argument to group the data in one step.
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    datetime == min(datetime),
+    .by = state)
+```
+
+This is more parsimonious and the resultant data are not grouped, which is much safer! That being said, we cannot perform any calculations (yet) with `.by = ...`. For example, we get an error if we try to calculate the first observation in each year with `.by = ...`:
+
+```{r}
+spotted_lanternfly %>% 
+  filter(
+    datetime == min(datetime),
+    .by = year(datetime))
+```
+
+But `group_by()` is much more flexible:
+
+```{r}
+spotted_lanternfly %>% 
+  group_by(year(datetime)) %>% 
+  filter(
+    datetime == min(datetime)) %>% 
+  ungroup()
+```
+
+### Applying the same filter to multiple variables
+
+We can apply the same filtering operation to multiple variables at once with two helper functions -- `if_all()` and `if_any()`. 
+
+To make this a little easier to understand than the video (perhaps), let's create an example data frame and globally assign it to the name `temp`:
+
+```{r}
+temp <- 
+  tribble(
+    ~ x, ~ y,
+      1,  NA,
+     NA,   2,
+     NA,  NA,
+      4,   4)
+
+temp
+```
+
+
+The `if_all` function can be used with `filter()` to subset a dataset to where *all* of the variables satisfy a given condition. Inside of `filter()` and `if_all(), we supply:
+
+* The selection of columns that we wish to subset;
+* A formula specifying how we wish to subset the data.
+
+```{r}
+temp %>% 
+  filter(
+    if_all(
+      x:y,
+      ~ is.na(.x)
+    )
+  )
+```
+
+In the above formula, `~ is.na(.x)`:
+
+* You are defining a formula object with `~`;
+* You are running the function `is.na()` for each variable;
+* The `.x` value is a placeholder for the variable of interest.
+
+Applying the above returned *only* the rows in which the condition has been met for each of the selected variables.
+
+If we wanted to negate this selection, we can place the negation operator, `!`, before `is.na(.x)`:
+
+```{r}
+temp %>% 
+  filter(
+    if_all(
+      x:y,
+      ~ !is.na(.x)
+    )
+  )
+```
+
+The above returned the row where `x = 4` and `y = 4` because that was the only row in which there were no [NA]{.mono} values in the selected columns.
+
+Let's turn our attention to `if_any()`. This will return the rows in which the condition has been met for *any* of the selected variables:
+
+```{r}
+temp %>% 
+  filter(
+    if_any(
+      x:y,
+      ~ is.na(.x)
+    )
+  )
+```
+
+Here, only the row in which *both* values are *not* [NA]{.mono} is returned. Likewise:
+
+```{r}
+temp %>% 
+  filter(
+    if_any(
+      x:y,
+      ~ !is.na(.x)
+    )
+  )
+```
+
+... in the above, when using negated selection, only the row in which *both* values *are* [NA]{.mono} is returned>
+
+When conducting repetitive filtering tasks, the use of `if_all()` and `if_any()` can greatly simplify your code! We will learn more applications of this in ***Module 5: Focus on mutation*** and learn a new syntax for specifying formalas in ***Module 6: Programming***.
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Literal character**: In regex, this is used to search for exact character matches in the case (i.e., lower vs. upper) and order of characters.
+* **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string). Note: Metacharacters are not R functions!
+* **Regular expressions (regex)**: An algorithm used to search strings (character values).
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ~`: The function operator that specifies that the object right-hand-side (RHS) the LHS is a function of the data supplied on the RHS.
+* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
+* `.Primitive, ==`: Infix relational operator (is equal to)
+* `.Primitive, !`: Prefix logical operator (not)
+* `.Primitive, >`: Infix relational operator (greater than)
+* `.Primitive, >=`: Infix relational operator (greater than or equal to)
+* `.Primitive, <`: Infix relational operator (less than)
+* `.Primitive, <=`: Infix relational operator (less than or equal to)
+* `.Primitive, -`: Infix arithmetic operator (subtract)
+* `.Primitive, c`: Combine values to form an atomic vector
+* `base::%in%`: Infix relational operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
+* `base::factor`: Convert a character vector to a factor
+* `base::is.na`: A logical test of whether a value is NA
+* `base::library`: Attach the package environment for a given package to the current R session
+* `.Primitive, min`: Return the minimum value in a vector
+* `dplyr::filter`: Subset a data frame by logical condition
+* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
+* `dplyr::if_all`: Run a function for all of the columns that satisfy a given condition
+* `dplyr::if_any`: Run a function for any of the columns that satisfy a given condition
+* `dplyr::ungroup`: Remove any grouping on a data frame
+* `.Primitive, is.na`: A logical test of whether a value in a vector is [NA]{.mono}
+* `dplyr::mutate`: Add or modify a column in a data frame
+* `dplyr::n`: Calculate the number of observations (rows)
+* `dplyr::select`: Subset columns in a data frame by name
+* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+* `ggplot2::aes`: Define aesthetics
+* `ggplot2::theme_classic`: Generate a pre-packaged theme that displays the x and y axis that contains no plot grid
+* `ggplot2::coord_flip`: Switch the mapping to the horizontal and vertical coordinates
+* `ggplot2::facet_wrap`: Split plot into facets
+* `ggplot2::geom_bar`: Create a bar geometry
+* `ggplot2::geom_density`: Create a (statistical) density geometry
+* `ggplot2::geom_point`: Create a point geometry
+* `ggplot2::geom_segment`: Create a line geometry between points
+* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
+* `ggplot2::labs`: Add or modify the labels of a plot
+* `ggplot2::scale_y_continuous`: Set the scale of the y axis
+* `lubridate::month`: Extract the month from a properly formatted date value
+* `lubridate::year`: Extract the year from a properly formatted date value
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `readr::read_rds`: Read an RDS file into R
+* `stats::reorder`: Order a variable by another variable (as used in ggplot aesthetics)
+* `stringr::str_detect`: Logical test of whether a pattern (string) is contained within a character value
+* `tibble::tribble`: Row-wise creation of a tibble data frame
+* `tidyr::pivot_longer`: Convert a data frame from wide to long format
+:::
+
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+|Task                         | Windows          | Mac
+|:----------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
+| Open an existing script     | Ctrl + O         | command + O
+| Create a new script         | Ctrl + shift + N | command + shift + N
+| Save script file            | Ctrl + S         | command + S
+| Execute code                | Ctrl + Enter     | command + return
+| Copy                        | Ctrl + C         | command + C
+| Paste                       | Ctrl + V         | command + V
+| Add a pipe operator         | Ctrl + shift + M | command + shift + M
+| Add an assignment operator  | Alt + dash       | option + dash
+| Add a new code section      | Ctrl + shift + R | command + shift + R
+| Indent code                 | Ctrl + I         | command + I
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
