@@ -1,0 +1,329 @@
+---
+title: "Problem set 3: Global CO~2~"
+author: "Your name here"
+date: "today's date here"
+output: html_document
+---
+
+<!--- head ------->
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--- link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" / -->
+<!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src = 'https://kit.fontawesome.com/03064bdd6c.js' crossorigin='anonymous'></script>
+<!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" -->
+</head>
+
+<hr>
+
+```{css, echo = FALSE}
+/* I can add custom classes with a period symbol. See usage of this class below */
+.score {
+  font-weight: bold;
+  font-size: 16px;
+  color: red;
+  background-color: #ffff80;
+}
+
+.subscore {
+  font-size: 14px;
+  color: red;
+}
+
+/* Accordion style, the accordion is the section "Functions that you may use in this assignment" */
+  
+.accordion {
+  background-color: #e6f0ff;
+  color: #000000;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ffffff;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+/* When you hover your mouse over the accordion button, it changes color. */
+
+.active, .accordion:hover {
+  background-color: #80b3ff; 
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* This is where the content of the accordion is placed. */
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: #eeffff;
+  overflow: hidden;
+}
+```
+
+## Overview
+
+In this exercise, you will explore data compiled by the <a href = "https://databank.worldbank.org/home.aspx" target = "_blank">World Bank DataBank</a> that provides information on the emissions of greenhouse gases and the populations of countries around the world.
+
+Please start by knitting this file. You can use the html file that is generated as a handy reference (it's much easier to read than the markdown file).
+
+<span style = "color: red; font-size: 18px"><i class="fas fa-exclamation-triangle"></i> **Important!**</span> For R Markdown to work properly this file must be placed in the top level of your data_sci folder.
+
+You will be working in two files as you complete this problem_set, your own new script file, and this R Markdown file. I strongly suggest working in your R script file and copying-and-pasting your code into this R Markdown file, where prompted. 
+
+<hr>
+
+## Grading
+
+The points allotted for each question are provided in highlighted red bold text (e.g., <span class = "score">[1.0]</span>) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., <span class = "subscore">[1.0]</span>).
+
+Points may be deducted from each question's total: 
+
+* Use only functions listed in "Functions that you may use in this assignment" [50%]
+* Include only assignments specified in the question [50%]
+* Unless specified otherwise, each question must be answered in a single piped statement [50%]
+* Include a comment at the start of each code block [25%]
+* Include a comment for each line of code that modifies a dataset [10% per violation]
+* Ensure that all code is properly indented [10% per violation]
+* Ensure that your code follows modern coding conventions (see *Best practices in modern R coding*) [10% per violation]
+
+*Note: The maximum deduction is the total points value for a given question*
+
+You must ensure that your R Markdown document **runs out-of-the-box** -- in other words, the document will knit without error. Some tips for doing so:
+
+* Do not maintain your project folder in a location that is backed up by an online directory (e.g., Dropbox, iCloud)
+* Ensure that all file paths are equivalent to those in this document (e.g., in `source()` or `read_csv()`)
+* Do not use `setwd()` in your code (***Never** use `setwd()`!*)
+* If one of your code chunks contains an error, include `eval = FALSE` in the options for that chunk
+* Prior to submission, clear all objects from your global environment prior to knitting your R Markdown document
+<hr>
+
+<!-- Note, the below is an accordion, which was styled in the css section -->
+
+<div>
+<button class="accordion">Functions that you may use in this assignment</button>
+<div class="panel">
+
+In this assignment, you may use **only** the following R functions (*Note: If you are unclear on what a given function does, use `?` to view the help file!*):
+
+* %>%
+* %in%
+* aes
+* arrange
+* as.numeric
+* bind_cols
+* c
+* desc
+* element_line
+* element_rect
+* facet_wrap
+* filter
+* geom_line
+* geom_point
+* ggplot
+* kable
+* labs
+* inner_join
+* left_join
+* library
+* mutate
+* pivot_longer
+* pull
+* read_csv
+* rename
+* scale_x_continuous
+* scale_y_continuous
+* select
+* semi_join
+* slice
+* slice_head
+* slice_max
+* slice_min
+* source
+* theme
+
+</div>
+</div>
+
+<hr>
+
+## Getting started
+
+Open R Studio. Remember that it's best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
+
+1\. <span class = "score">[0.5 points]</span> Save and knit this document:
+
+* <span class = "subscore">[0.1 points]</span> Replace my name in the YAML header with yours
+* <span class = "subscore">[0.1 points]</span> Add the current date in the YAML header
+* <span class = "subscore">[0.3 points]</span> Save the *.rmd* in the **top level of your project folder** as (*but replace my name with yours*): `problem_set_week_2_Evans_Brian.rmd` 
+
+<hr>
+
+## Read in and tidy the data
+
+I've provided three data sets:
+
+* Country-level information: `world_bank_countries.csv`
+* Population data, by country, from 1960 through 2020: `API_SP.POP.TOTL_DS2_en_csv_v2_2763937.csv`
+* CO~2~ emission data, by country, from 1960 through 2020: `API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv`
+
+*Note: The data set `world_bank_countries.csv` has been cleaned for you. The population and CO~2~ datasets are in their raw form (including the names).*
+
+2\. <span class = "score">[0.5 points]</span> Load the tidyverse library:
+
+```{r q02, message = FALSE, warning = FALSE}
+# Paste your code in here!
+```
+
+
+3\. <span class = "score">[1 point]</span>  The following code reads in `world_bank_countries.csv` and assigns the name `countries` to your global environment. Please modify this code such that it follows best management practices in code formatting.
+
+```{r q03, message = FALSE, warning = FALSE}
+countries=read_csv("data/raw/world_bank_countries.csv")%>%select(!country_region)
+```
+
+4\. <span class = "score">[1 point]</span> The code below reads in and wrangles the data successfully, but not parsimoniously. Modify the code chunk such that the process below is completed in a chained analysis and only the final object, `world_pop`, is assigned to your global environment.
+
+```{r q04, message = FALSE, warning = FALSE}
+# Read in population data:
+
+world_pop_raw <-
+  read_csv(
+    'data/raw/API_SP.POP.TOTL_DS2_en_csv_v2_2763937.csv', 
+    skip = 3)
+
+# Subset to columns of interest:
+
+world_pop_column_subset <-
+  select(
+    world_pop_raw,
+    
+    # Rename Country Code column to remove space:
+    
+    country_code = `Country Code`,
+    
+    # Subset to other columns of interest:
+    
+    `1960`:`2020`)
+
+
+# Make the data tidy by pivoting to a long form table:
+
+world_pop_long <-
+  pivot_longer(
+    world_pop_column_subset,
+    names_to = 'year',
+    values_to = 'population',
+    `1960`:`2020`)
+
+# Finally, convert the year column to numeric:
+
+world_pop <-
+  mutate(
+    world_pop_long,
+    year = as.numeric(year))
+```
+
+*Note: Why did I include "skip = 3" as one of my arguments? You might want to look at what happens when you don't include a skip argument. If this is confusing, please revisit the video lecture and tutorial on reading and writing data.*
+
+*Also note: Back ticks (e.g.,* `1960`*) are needed when columns start with a number or contain a space.*
+
+5\. <span class = "score">[1 point]</span> In a single chained analysis:
+
+* Read in the CO~2~ data (`API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv`) <span class = "subscore">[0.2 points]</span>
+* Wrangle the data such that the resultant tibble contains (only) the variables `country_code`, `year`, and `co2` (as above) <span class = "subscore">[0.2 points]</span>
+* Convert the class of the year variable to numeric <span class = "subscore">[0.2 points]</span>
+* Assign the data frame to your global environment with the name `co2` <span class = "subscore">[0.2 points]</span>
+* Include comments describing each step <span class = "subscore">[0.2 points]</span>
+
+```{r q05, message = FALSE, warning = FALSE}
+# Paste your code in here!
+```
+
+We can see that the data are not tidy. Recall the tidy rule that every level of observation forms a table. The population table and the CO~2~ table are the same level of observation -- each characterize some attribute of the country on a given year. As such, the data should be stored in the same table.  We'll need to join the tables together.
+
+6\. <span class = "score">[1.5 points]</span> Join the population and CO~2~ tibbles. Assign the name, `population_co2` to the resultant object. In the code chunk below, paste the code section that you used to complete this process. *Hint: You’ll have to be careful here, because the two tibbles contain two common columns that define the observation! This is what is known as a **compound key**. See `?join` for how to address this.*
+
+```{r q06, message = FALSE, warning = FALSE}
+# Paste your code in here!
+```
+
+<hr>
+
+## Data output
+
+Our final goal will be to visualize the change in per capita CO~2~ emissions from 1960-2018 for the countries that emitted the most total CO~2~ in 2018 (the last year for which we have emissions data). *Note: CO~2~ data are provided in per capita emissions -- metric tons of CO~2~ per person.* 
+
+7\. <span class = "score">[2 points]</span> The code below calculates the total CO~2~ emissions for each country in the `populations_co2` data frame. Modify this code such that the resultant table:
+
+* <span class = "subscore">[0.4 points]</span> Is arranged from the highest to lowest CO~2~ total emissions in 2018 
+* <span class = "subscore">[0.4 points]</span> Contains **only** countries with records in the `countries` data frame
+* <span class = "subscore">[0.4 points]</span> Contains **only** the 5 countries with the most CO~2~ emissions (and also satisfy the condition above)
+* <span class = "subscore">[0.4 points]</span> Contains **only** the fields `country_code`, `country_name`, and `total_co2`
+* <span class = "subscore">[0.3 points]</span> Is returned as a `kable` (*Note: `kable()` is a function in the `knitr` package*)
+* <span class = "subscore">[0.1 points]</span> In the chunk options, change `eval = FALSE` to `eval = TRUE`
+
+```{r q07, message = FALSE, warning = FALSE, eval = FALSE}
+population_co2 %>%
+  
+  # Subset to 2018:
+  
+  filter(year == 2018) %>% 
+  
+  # Calculate the total co2 emissions, per country, in 2018:
+  
+  mutate(total_co2 = population*co2)
+```
+
+8\. <span class = "score">[3 points]</span>  Using the code you generated above (except for the `kable`) generate a ggplot that shows the **per capita** CO~2~ emissions from 1960 to 2018 for the five countries with the highest **total** CO~2~ emissions (*Hint: If you were able to solve Question 9, your data are **almost** ready to be plotted, but not quite!*). Plot the data such that:
+
+* <span class = "subscore">[0.3 points]</span> The data being plotted are the per capita emissions from 1960-2018 for the top five emitting countries
+* <span class = "subscore">[0.3 points]</span> Your x-aesthetic is year and is labeled "Year"
+* <span class = "subscore">[0.3 points]</span> Your y-aesthetic is co_2 and is labeled "Carbon dioxide emissions (metric tons/person)"
+* <span class = "subscore">[0.3 points]</span> Your color aesthetic is country_name and is labeled "Country" (*Hint: It's often easier to modify the data going into a `ggplot` than inside of a `ggplot` function*)
+* <span class = "subscore">[0.3 points]</span> Your plot includes point and line geometries
+* <span class = "subscore">[0.3 points]</span> The x-axis ranges from 1960 to 2020
+* <span class = "subscore">[0.3 points]</span> The y-axis ranges from 0 to 30
+* <span class = "subscore">[0.3 points]</span> The plot includes a descriptive title
+* <span class = "subscore">[0.3 points]</span> The background of the plot is white and contains no grid lines
+* <span class = "subscore">[0.3 points]</span> The axis lines are black
+
+
+```{r q08, message = FALSE, warning = FALSE}
+# Paste your code in here!
+```
+
+<hr>
+
+## Submission
+
+Please save your R markdown (.Rmd) and submit (only) your R markdown (.Rmd) file to Blackboard. *Do not submit the html file!*. After submitting, save the R Markdown file and knitted html to your `output` folder.
+
+<hr>
+
+<!-- Note: The below is the javascript that I use to make the accordion button work -->
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
