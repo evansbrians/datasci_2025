@@ -22,8 +22,6 @@ glossary_table <-
 get_lesson_terms <-
   function(module, lesson) {
     file.path(
-      "modules",
-      str_c("module_", module),
       lesson
     ) %>% 
       read_lines() %>% 
@@ -48,8 +46,7 @@ get_lesson_terms <-
 
 get_module_terms <-
   function(module) {
-    str_c("modules/module_", module) %>% 
-      list.files(pattern = "qmd$") %>% 
+    list.files(pattern = "qmd$") %>% 
       set_names(., .) %>% 
       map(
         ~ get_lesson_terms(module, .x)
@@ -64,19 +61,19 @@ get_module_terms <-
 
 get_glossary_table_lesson <- 
   function(
-    module = mod,
-    lesson = less
+    module,
+    lesson
   ) {
-    get_lesson_terms(mod, less) %>% 
+    get_lesson_terms(module, lesson) %>% 
       map_dfr(
         ~ glossary_table %>% 
           filter(
             str_detect(
               tolower(Term), 
               tolower(.x),
-              ),
+            ),
             !str_detect(.x, "^R$|Rstudio|Projected|Projection|CRS|[Dd]istance")
-            )
+          )
       ) %>% 
       distinct()
   }
@@ -84,9 +81,9 @@ get_glossary_table_lesson <-
 # Function to get new glossary table for a module:
 
 get_glossary_table_module <-
-  function(module = mod) {
+  function(module) {
     list.files(
-      str_c("modules/module_", mod), 
+      str_c("modules/module_", module), 
       pattern = "qmd$"
     ) %>% 
       keep(

@@ -51,49 +51,23 @@ This week we will use the following data files in our exercises (*Note: You will
 ## Readings and resources
 
 <button class="accordion">Glossary of terms (I am a button ... click me!)</button>
-
 ::: panel
--   **Assignment (noun)**: A reference that R uses to call data from your computer’s memory (also called "name").
--   **Assignment (verb)**: The act of associating a name with an object (typically to the global environment).
--   **Atomic vector**: A one-dimensional homogenous data object.
--   **Child**: An object whose name is stored as a reference in a parent object.
--   **Class**: A blueprint that describes an object's structure.
--   **Code section**: A portion of an R script file that is delineated by a section header.
--   **Core tidyverse package** or **Core tidyverse**: Packages that are attached with `library(tidyverse)`.
--   **csv file**: A file stored in the "comma separated values" format. This describes a plain text file where commas separate values and each record (e.g., row in a data frame) is placed on a new line.
--   **Data frame**: A two-dimensional, and potentially heterogeneous data object (that is a restrictive type of list under-the-hood).
--   **Data object**: Containers for values that structure references in an ordered, predictable way.
--   **Double numeric vector**: An atomic numeric vector where the values are stored as decimal numbers (essentially).
--   **Environment**: A dimensionless container that contains references (names) to data stored in memory.
--   **Environment** (of a function): The location of a function's variables.
--   **Experimental** (function): A function currently being tested for permanent distribution in a package (these functions are usually, but not always, safe to use).
--   **Formals**: Arguments within a function.
--   **Function**: A set of instructions used to complete a given task.
--   **Infix function**: A function in which the name of the function is placed between the function's arguments.
--   **Install (a package)**: Download the data and functions from a package onto your computer.
--   **Integer**: A whole number, or an atomic vector of data stored as whole numbers.
--   **List**: A one dimensional, and potentially heterogeneous, data object.
--   **List item**: A data object contained within a list.
--   **Matrix**: A two-dimensional homogeneous data object (that is an atomic vector under-the-hood).
--   **Memory (RAM)**: A temporary storage location for instructions (functions) and data.
--   **Metadata**: Descriptive information that provides crucial summary details about a data object.
--   **Name**: A reference that R uses to call data from your computer’s memory (also called "assignment").
--   **Observation**: A row within a data frame.
--   **Order**: The position of values (or child objects) within a data object.
--   **Package environment**: A collection of variable names associated with objects in a package.
--   **Parent**: An object or environment that contains references to other objects.
--   **Primitive function**: A function written in C code and made available to use through the base R package.
--   **Project**: A collection of files that is referenced by a `.RProj` file.
--   **RDS file**: A storage format for data sets that are written in, and written for, program R.
--   **Recursive object**: Objects that are made up of references to other objects (e.g., a list).
--   **Relative file path**: The path to a file on your hard drive relative to the current working directory.
--   **Session**: The time spent and operations conducted since opening R.
--   **Superseded** (function): A function for which a new function or argument has been added to a package (these functions should typically be avoided).
--   **Tab**: Each pane has a tab on the top of it. For example, I will often refer to the Environment or History tabs of the workspace pane.
--   **Tibble**: A type of data frame with great benefits!
--   **Type**: How an object is stored in your computer.
--   **Variable**: A column in a data frame.
--   **Version history**: Changes to a package since its inception.
+
+::: glossary_table
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+source("glossary_source.R")
+
+get_glossary_table_module(module = 1) %>% 
+  kableExtra::kable(
+    align = c("c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
 :::
 
 <button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>

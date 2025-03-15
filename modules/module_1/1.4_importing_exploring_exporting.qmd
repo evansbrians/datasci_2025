@@ -218,7 +218,7 @@ Whenever you use a function for the first time, or use a function to address a n
 
 ### Review: Read RDS files
 
-**RDS files** are the most straightforward file type to read in (but see the caveat associated with these files in "Writing data", below). RDS files are data sets that are written in, and written for, program R.
+An **RDS file** is the most straightforward file type to read in data (but see the caveat associated with these files in "Writing data", below). RDS files are data sets that are written in, and written for, program R.
 
 We can read in an RDS file with the function `read_rds()`. Let's read in the file `my_covid_garden.rds`:
 
@@ -670,16 +670,27 @@ It is important to consider when a file should be written to your hard drive. De
 
 ## Reference
 
-<button class="accordion">Glossary</button>
+<button class="accordion">Glossary of terms (I am a button ... click me!)</button>
 ::: panel
-* **Atomic vector**: A one-dimensional homogenous data object.
-* **Core tidyverse package** or **Core tidyverse**: Packages that are attached with `library(tidyverse)`.
-* **csv file**: A file stored in the "comma separated values" format. This describes a plain text file where commas separate values and each record (e.g., row in a data frame) is placed on a new line. 
-* **Data frame**: A two-dimensional, and potentially heterogeneous data object (that is a restrictive type of list under-the-hood).
-* **Environment**: A dimensionless container that contains references (names) to data stored in memory.
-* **List**: A one dimensional, and potentially heterogeneous, data object.
-* **RDS file**: A storage format for data sets that are written in, and written for, program R.
-* **Relative file path**: The path to a file on your hard drive relative to the current working directory.
+
+::: glossary_table
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+source("glossary_source.R")
+
+get_glossary_table_lesson(
+  module = 1, 
+  lesson = "1.4_importing_exploring_exporting.qmd"
+) %>% 
+  kableExtra::kable(
+    align = c("c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
 :::
 
 <button class="accordion">Functions</button>

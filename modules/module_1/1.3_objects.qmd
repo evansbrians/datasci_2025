@@ -310,7 +310,7 @@ The value "2" in the above vector is the third value in the vector. Because the 
 c(1, 1, 2, 3)[[3]]
 ```
 
-The **structure** of a data object primarily describes the **dimensionality** of the enclosing container (typically in one or two dimensions), whether the data are **homogeneous** (one class of values) or **heterogeneous** (two or more value classes), and sometimes the class of the values that the object contains (for atomic vectors).
+The **structure** of a data object primarily describes the **dimensionality** of the enclosing container (typically in one or two dimensions), whether the data are **homogeneous** (one class of values) or **heterogeneous** (two or more value classes), and sometimes the class of the values that the object contains (for **atomic vectors**).
 
 The primary classes of objects that we will work with in this course are atomic vectors, lists, matrices, and data frames. These classes determine *how* we work with them. 
 
@@ -622,7 +622,7 @@ Have a look at the values in the resultant object:
 my_list
 ```
 
-The class of each list item was maintained because lists are not atomic. Instead lists are what is known as **recursive objects** -- recursive objects are data objects that are made up of references to component objects. In other words, unlike an atomic vector, the list itself is simply a type of container for holding other objects (and, really, just the references to other objects ... we will see why in ***Lesson 1.5: Assignments***). As such, both the class and type of a list is simply a list:
+The class of each list item was maintained because lists are not atomic. Instead a list are what is known as a **recursive object** -- recursive objects are data objects that are made up of references to component objects. In other words, unlike an atomic vector, the list itself is simply a type of container for holding other objects (and, really, just the references to other objects ... we will see why in ***Lesson 1.5: Assignments***). As such, both the class and type of a list is simply a list:
 
 ```{r}
 class(my_list)
@@ -1034,38 +1034,27 @@ my_vector %in% c("apple", "banana")
 
 ## Reference
 
-<button class="accordion">Glossary</button>
+<button class="accordion">Glossary of terms (I am a button ... click me!)</button>
 ::: panel
-* **Assignment (noun)**: A reference that R uses to call data from your computer’s memory (also called "name").
-* **Assignment (verb)**: The act of associating a name with an object (typically to the global environment).
-* **Atomic vector**: A one-dimensional homogenous data object.
-* **Child**: An object whose name is stored as a reference in a parent object.
-* **Class**: A blueprint that describes an object's structure.
-* **Core tidyverse package** or **Core tidyverse**: Packages that are attached with `library(tidyverse)`.
-* **Data frame**: A two-dimensional, and potentially heterogeneous data object (that is a restrictive type of list under-the-hood).
-* **Data object**: Containers for values that structure references in an ordered, predictable way.
-* **Double numeric vector**: An atomic numeric vector where the values are stored as decimal numbers (essentially).
-* **Environment**: A dimensionless container that contains references (names) to data stored in memory.
-* **Function**: A set of instructions used to complete a given task.
-* **Global environment**: A collection of names assigned during an R session.
-* **Infix function**: A function in which the name of the function is placed between the function's arguments.
-* **Integer**: A whole number, or an atomic vector of data stored as whole numbers.
-* **List**: A one dimensional, and potentially heterogeneous, data object.
-* **List item**: A data object contained within a list.
-* **Matrix**: A two-dimensional homogenous data object (that is an atomic vector under-the-hood).
-* **Memory (RAM)**: A temporary storage location for instructions (functions) and data.
-* **Name**: A reference that R uses to call data from your computer’s memory  (also called "assignment").
-* **Observation**: A row within a data frame.
-* **Order**: The position of values (or child objects) within a data object.
-* **Package environment**: A collection of variable names associated with objects in a package.
-* **Parent**: An object or environment that contains references to other objects.
-* **Prefix function**: A function in which the name of the function precedes the target of the evaluation.
-* **Primitive functions**: Functions written in C code and made available to use through the base R package.
-* **Recursive object**: Objects that are made up of references to other objects (e.g., a list).
-* **Structure**: The dimensionality and homogeneity of a data object (may also be used to describe the class of objects).
-* **Tibble**: A type of data frame with great benefits!
-* **Type**: How an object is stored in your computer.
-* **Variable**: A column in a data frame.
+
+::: glossary_table
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+source("glossary_source.R")
+
+get_glossary_table_lesson(
+  module = 1, 
+  lesson = "1.3_objects.qmd"
+) %>% 
+  kableExtra::kable(
+    align = c("c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
 :::
 
 <button class="accordion">Functions</button>

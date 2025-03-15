@@ -1,0 +1,171 @@
+---
+title: "Problem set 1: R foundations"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- knitr setup --> 
+
+```{r knitr_setup, include = FALSE}
+options(knitr.table.format = "html")
+
+knitr::opts_chunk$set(eval = FALSE)
+
+library(tidyverse)
+```
+
+<hr>
+
+## Overview
+
+![](../images/amro.jpeg){.intro_image}
+
+The Smithsonian Migratory Bird Center's Neighborhood Nestwatch program is a particapatory science project associated with residential landscapes in the Eastern United States. Technicians visit a number of households, schools, and local parks to count birds, band birds, survey habitat features, and train participants on how to search for bird nests and marked individuals. In this exercise, we will explore point count data collected at Washington DC sites in 2018. I (Brian) am a principle investigator for this project, so we will be exploring Neighborhood Nestwatch a good bit throughout this course!
+
+This exercise is an evaluation of your comprehension of preliminary course material and Module 1.
+
+## Grading
+
+The points allotted for each question are provided in highlighted red bold text (e.g., <span class = "score">[1.0]</span>) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., <span class = "subscore">[1.0]</span>).
+
+**Points may be deducted from each question's total:** 
+
+* Use only functions other than those listed in "Functions that you may use in this assignment" [50%]
+* Do not include any assignments other than those specified in a question [50%]
+
+*Note: The maximum deduction is the total points value for a given question*
+
+:::: Accordion
+<button class="accordion">Functions that you may use in this assignment</button>
+
+:::: {.panel}
+<br>
+In this assignment, you may use **only** the following R functions (*Note: If you are unclear on what a given function does, use `?` to view the help file!*):
+
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *tibble* and *tidyverse* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+* `.Primitive, <-`
+* `.Primitive, =`
+* `.Primitive, ()`
+* `.Primitive, []`
+* `.Primitive, $`
+* `.Primitive, c`
+* `base::%in%`
+* `base::class`
+* `base::factor`
+* `base::levels`
+* `base::library`
+* `base::mean`
+* `base::summary`
+* `base::typeof`
+* `base::unique`
+* `dplyr::arrange`
+* `dplyr::desc`
+* `dplyr::rename`
+* `dplyr::slice_head`
+* `dplyr::slice_tail`
+* `lobstr::ref`
+* `magrittr::%>%`
+* `readxl::read_excel`
+* `utils::str`
+::::
+
+::::
+
+## Getting started
+
+1\. [[1.0]]{.score} Before opening your script file for this problem set, change the name of the `problem_set_1.R` to "problem_set_1_[last name]_[first name].R" (use snake_case). In other words, I would name my file `problem_set_1_evans_brian.R`. *Note: You will submit this script file as your assignment*.
+
+2\. [[0.5]]{.score} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
+
+3\. [[1.0]]{.score} Read in the worksheet "point_count_observations" from the Microsoft Excel file "data/raw/bird_counts.xlsx" as a data frame and assign the object to the name `bird_counts`:
+
+## Exploring your data
+
+4\. [[1.0]]{.score} Explore the structure of `bird_counts`:
+
+* [[0.25]]{.subscore} Write a line of code that generates a one-value character vector that describes how the object assigned to the name`bird_counts` is stored in your computer's memory.
+* [[0.25]]{.subscore} Write a line of code that generates a one-value character vector that describes the class of the object assigned to the name`bird_counts`.
+* [[0.25]]{.subscore} Write a line of code that prints the structure of the object assigned to the name `bird_counts`.
+* [[0.25]]{.subscore} Write a line of code that prints a reference tree for all objects in your global environment.
+
+5\. [[1.5]]{.score} Subset and arrange `bird_counts`:
+
+* [[0.25]]{.subscore} Subset `bird_counts` to the first five rows.
+* [[0.25]]{.subscore} Subset `bird_counts` to the last three rows.
+* [[0.50]]{.subscore} Arrange the rows of `bird_counts` by the variable `count` in descending order.
+* [[0.50]]{.subscore} Using only the "Functions that you may use in this lesson" subset `bird_counts` to the species "AMRO" (American robin), "GRCA" (Gray catbird), and "NOCA" (Northern cardinal; see ***Preliminary lesson 4: Indexing***).
+
+6\. [[1.0]]{.score} Describe and modify the variables assigned to `bird_counts`:
+
+* [[0.50]]{.subscore} The variable `diet` represents a character vector. Subset the data to a character vector of unique `diet` values:
+* [[0.25]]{.subscore} In a single line of code, generate a statistical summary for all of the variables in `bird_counts`:
+* [[0.25]]{.subscore} Without the use of the `<-` function, change of the name of the variable `species` to `species_code`:
+
+## Assignments
+
+7\. [[1.0]]{.score} The code below represents a chained analysis — each step in the process is dependent on the output of a previous step. This is accomplished here by assigning the object generated at each step of the chain to a name.
+
+```{r}
+diets <- bird_counts$diet
+
+diets_factor <- factor(diets)
+
+typeof(diets_factor)
+```
+
+* [[0.50]]{.subscore} Modify this operation such that the output is produced with a single, nested code block with no global assignments (except `bird_counts`).
+* [[0.50]]{.subscore} Modify this operation such that the output is produced with a piped block that contains no global assignments (except `bird_counts`).
+
+8\. [[1.0]]{.score} The code below represents a chained analysis that uses nested functions to connect steps in the process.
+
+```{r}
+levels(
+  factor(bird_counts$foraging)
+)
+```
+
+* [[0.50]]{.subscore} Modify this operation such that there are no nested functions and the object produced at each step in the chain is assigned to a name.
+* [[0.50]]{.subscore} Modify this operation such that the output is produced with a piped block that contains no global assignments (except `bird_counts`).
+
+9\. [[2.0]]{.score} The code below represents a chained analysis where the object produced at each step in the chain is assigned to a name. Modify this operation such that no names are assigned to the global environment and each step in the chain is connected by a pipe.
+
+```{r}
+
+bird_counts_chickadee <-
+  bird_counts[bird_counts$species == "CACH", ]
+
+chickadee_counts <- bird_counts_chickadee$count
+
+mean(chickadee_counts)
+```
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
+
