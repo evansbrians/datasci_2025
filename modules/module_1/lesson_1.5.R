@@ -63,7 +63,8 @@ str_c(
 
 c(0, 1, 1, 2)[[3]]
 
-fibo_numbers <- c(0, 1, 1, 2)
+fibo_numbers <- 
+  c(0, 1, 1, 2)
 
 fibo_numbers[[3]]
 
@@ -259,9 +260,11 @@ tolower(
 
 # Assignment version of the name-changing operation for my_list_add_names:
 
-original_names <- names(my_list_add_names)
+original_names <- 
+  names(my_list_add_names)
 
-lowercase_names <- tolower(original_names)
+lowercase_names <- 
+  tolower(original_names)
 
 set_names(my_list_add_names, lowercase_names)
 
