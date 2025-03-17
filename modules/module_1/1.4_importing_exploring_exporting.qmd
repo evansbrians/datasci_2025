@@ -70,7 +70,7 @@ Please click on the following button to explore the real datasets we will use in
 
 The process of reading data describes making outside data (e.g., online data or data on your hard drive) available to your current R session. Please watch and code along with the video below. I review some key concepts that I hope you gathered from our previous lessons and break new ground with a description of the process of reading data into R.
 
-Note: Some videos in this course were recorded a long time ago! The way I format my code has changed a *lot* since then. You will learn about the formatting rules we use for this course in Lesson 1.6: Course style guide introduction and Lesson 2.x: Course style guide.
+Note: Some videos in this course were recorded a long time ago! The way I format my code has changed a *lot* since then. You will learn about the formatting rules we use for this course in Lesson 1.6: Course style guide introduction and Lesson 2.5: Course style guide.
 
 {{< video https://www.youtube.com/embed/S9sySXd3VYc?si=Fc1FACb57ceIHxXQ >}}
 
