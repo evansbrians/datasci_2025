@@ -39,7 +39,7 @@ I have created an RStudio project for you. We will use the same project througho
 ::: now_you
 {{< fa user-circle size=2x >}} [Please complete the following steps to set up your project for this course:]{style="padding-left: 0.5em;"}
 
-1. **Download** the attached file "data_sci_2025.zip". 
+1. **Download** the attached file "data_sci.zip". 
 2. **Save** the file to a location on your computer that is: 
 * Easy to find: For Windows users, I suggest saving the file to your Desktop. Mac users, I suggest saving the file to the top level of your user folder (this level can be accessed in Finder with Command+Shift+H). 
 * Not in a folder with a space in the name: R abhors spaces in names (e.g., "My documents") -- and you should too!

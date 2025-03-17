@@ -122,7 +122,7 @@ Boxplots
 
 ## Getting started
 
-Please open the `data_sci_2025` project in R Studio.
+Please open the `data_sci` project in R Studio.
 
 Before we begin, please take the following housekeeping steps before continuing:
 
