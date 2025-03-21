@@ -1,4 +1,6 @@
 
+# Plot for the new (2025) ggplot video
+
 # setup -------------------------------------------------------------------
 
 library(tidyverse)
