@@ -7,7 +7,7 @@ library(tidyverse)
 
 co2_df <- 
   read_csv(
-    "data/row/co2_mm_mlo.csv", 
+    "data/raw/co2_mm_mlo.csv", 
     skip = 40
   ) %>% 
   select(
@@ -17,7 +17,11 @@ co2_df <-
   mutate(day = 1) %>% 
   unite(
     "date",
-    c(year, month, day),
+    c(
+      year, 
+      month, 
+      day
+    ),
     sep = "-",
     remove = FALSE
   ) %>% 
