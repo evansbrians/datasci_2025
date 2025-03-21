@@ -1,179 +1,115 @@
-# Script file for Problem Set 2.
 
-# question 1 --------------------------------------------------------------
+# Problem set 2
+
+# 1 -----------------------------------------------------------------------
 
 # Before opening your script file for this problem set, change the name of
 # the `problem_set_2.R` to "problem_set_2_[last name]_[first name].R" using
-# a snake case naming convention. *Note: You will submit this script file
+# a snake case naming convention. *Note: You will submit this script file 
 # as your assignment*.
 
-# question 2 --------------------------------------------------------------
+# 2 -----------------------------------------------------------------------
 
-# Open the script file in RStudio and attach the tidyverse metapackage to
+# Open the script file in RStudio and attach the tidyverse metapackage to 
 # your current R session:
 
 
 
-# question 3 --------------------------------------------------------------
+# 3 -----------------------------------------------------------------------
 
-# The data file `district_birds.rds` is structured as a list object. The
-# following code:
-
-# * Reads in the list object
-# * Globally assigns the list object to the name `my_list`
-# * Globally assigns each list item to a name
-# * Ensures that the name `my_list` is not stored in the global environment
-
-my_list <-
-  read_rds("data/raw/district_birds.rds")
-
-sites <- my_list$sites
-
-visits <- my_list$visits
-
-counts <- my_list$counts
-
-captures <- my_list$captures
-
-birds <- my_list$birds
-
-rm(my_list)
-
-# As parsimoniously as possible, modify the above by reading in the data
-# and assigning the names of each of the individual list items to the
-# global environment in a single code block (*Note: `my_list` should not be
-# added to the global environment*):
+# Using the *relative file path*, read in the worksheet "coqui_counts.rds" 
+# and globally assign the object to the name `coqui`. 
 
 
 
-# question 4 --------------------------------------------------------------
+# 4 -----------------------------------------------------------------------
 
-# The code block below uses a nested coding structure to calculate the
-# average mass of American robins ("AMRO"):
+# The location of a point on the Earth's surface is represented by two
+# variables -- a point's longitudinal and latitudinal position. Because of
+# this, the column `coordinates` violates Codd's first normal rule that all
+# values are atomic and Hadley Wickham's tidy data rule that each variable
+# forms a column.
 
-mean(
-  captures[captures$spp == "AMRO", ]$mass,
-  na.rm = TRUE)
-
-# Please replace the above with a code block in which each step in the
-# process is connected by a pipe and only "Functions that you may use in
-# this assignment" are used (of course, this is required for each question
-# in this problem set!):
+# Please split the column `coordinates` into the columns `longitude` and
+# `latitude` and globally assign the resultant object to the name
+# `coqui_coords`.
 
 
 
-# question 5 --------------------------------------------------------------
-
-# The code block below generates a box plot to visualize the distribution
-# of bird mass by species. The code works as expected, but is inconsistent
-# and sloppy. Without removing comments or changing the output, modify the
-# code block such that it follows the conventions our course style guide.
-
-captures %>% 
-  filter(spp%in% c("CACH", "CARW", "GRCA", "NOCA", "SOSP")) %>%
-  drop_na(mass) %>% 
-  # Initiate plot:
-  ggplot() +
-  
-  # Define aesthetics and geometry:
-  
-  aes(x=spp, y = mass) + geom_boxplot(fill = "#88ccee") +
-  
-  # Define scale:
-  
-  scale_y_continuous(
-    limits = c(0,75), 
-    expand = c(0, 0))+
-  
-  # Flip axes:
-  
-  coord_flip() +
-  
-  # Define theme:
-  
-  theme(panel.background = element_blank(), axis.line = element_line(color = "black"), 
-        panel.grid.major.x = element_line(color = "#dcdcdc"))
-
-# Answer:
+# Please remove the name `coqui` from your global environment:
 
 
 
-# question 6 --------------------------------------------------------------
+# 5 -----------------------------------------------------------------------
 
-# The code block below uses some pretty dated coding methods to:
-# 
-# * Subset the data to Carolina chickadees
-# * Convert the wing length from millimeters to inches (1 inch = 25.4 mm)
-# * Filter the data frame to wing lengths that are greater than or equal to
-#   2.3 inches and less than or equal to 2.5 inches
-# * Subset the variables to `capture_id`, `sex`, `age`, and `wing`
-# * Ensure that the name `cach` is not stored in the global environment
-
-# Subset data to Carolina chickadees:
-
-cach <-
-  captures[captures$spp == "CACH", ]
-
-# Extract the mass variable from the data:
-
-cach$wing <- cach$wing/25.4
-
-# Subset the data:
-
-cach[
-  cach$wing >= 2.3 & 
-    cach$wing <= 2.5 & 
-    !is.na(cach$wing),
-  c("capture_id",
-    "sex",
-    "age",
-    "wing")]
-
-rm(cach)
-
-# Using `captures` as your starting point, please complete all of the steps
-# in the operation above in a single code block:
+# The column habitat_class is transitively dependent on habitat. Please
+# remove this column and globally assign the resultant object to the name
+# `coqui_no_class`:
 
 
 
-# question 7 --------------------------------------------------------------
-
-# The code block below attempts to provide a summary data frame that
-# describes the number of captures and average mass of three bird species
-# (Gray catbird: "GRCA", Northern Cardinal: "NOCA", Song sparrow: "SOSP").
-# Unfortunately, there are four operational errors (i.e., not styling
-# errors) in the code. Without adding any additional functions, please
-# fix the errors in the code!
-
-# Given:
-
-captures %>% 
-  filter(
-    spp == 
-      c("GRCA",
-        "NOCA",
-        "SOSP")) %>% 
-  summarize(
-    captures,
-    n_birds = n(),
-    mass = mean(mass)
-  )
-
-# Answer:
+# Please remove the name `coqui_coord_fix` from your global environment:
 
 
 
-# question 8 --------------------------------------------------------------
+# 6 -----------------------------------------------------------------------
 
-# Without assigning any names to the global environment, generate a box plot
-# (`geom_boxplot()`) that describes the distribution of mass *and* tail
-# measurements of American robins (spp: "AMRO"). For full credit:
+# As described in the metadata, this data frame represents counts of coqui 
+# frogs and each observation is a count at a given distance on a given 
+# transect. Currently, `coqui_no_class` violates two of Codd's First Normal
+# rules and the tidy data rules that each row represents an observation and
+# every column represents a variable. Please fix this such that the 
+# resultant object contains the variables `distance_class` and `count` then 
+# globally assign the object to the name `coqui_long`.
 
-# * Remove the gray plot background 
-# * Add gray axis lines
-# * Ensure that there are no warning messages when plotting the data
-# * Label the measured variables `Mass` and `Tail`
 
-# Answer (nicer plots are better, but not required!):
+
+# Please remove the name `coqui_no_class` from your global environment:
+
+
+
+# 7 -----------------------------------------------------------------------
+
+# Write a code block that produces a data frame that displays the number
+# of transects that were sampled within each habitat type:
+
+
+
+# 8 -----------------------------------------------------------------------
+
+# Generate a plot that displays the number of observations per habitat type
+# and site, with habitat on the x-axis and the fill color of the bars 
+# determined by site:
+
+
+
+# 9 -----------------------------------------------------------------------
+
+# Determining levels of observation ...
+
+# * Write a code block that subsets the data to site, longitude, and latitude
+#   and removes duplicate rows:
+
+
+
+# * Write a code block that subsets the data to site, longitude, latitude, and
+#   transect_id and removes duplicate rows:
+
+
+
+# * Write a code block that subsets the data to transect_id and habitat and
+#   removes duplicate rows:
+
+
+
+# * Write a code block that subsets the data to transect_id, habitat, and date
+#   and removes duplicate rows:
+
+
+
+# 10 ----------------------------------------------------------------------
+
+# Please write a brief comment that describes which tidy data rule is being 
+# violated in `coqui_long` and how you were able to determine that.
 
 
