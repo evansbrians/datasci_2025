@@ -26,14 +26,14 @@ coqui <-
 # 4 -----------------------------------------------------------------------
 
 # The location of a point on the Earth's surface is represented by two
-# variables -- a point's longitudinal and latitudinal position. Because of
-# this, the column `coordinates` violates Codd's first normal rule that all
-# values are atomic and Hadley Wickham's tidy data rule that each variable
-# forms a column.
+# variables on different axes -- a point's longitudinal and latitudinal
+# position. Because of this, the column `coordinates` violates Codd's 
+# first normal rule that all values are atomic and Hadley Wickham's tidy 
+# data rule that each variable forms a column.
 
 # Split the column `coordinates` into the columns `longitude` and
 # `latitude` and globally assign the resultant object to the name
-# `coqui_coord_fix`.
+# `coqui_coord_fix`:
 
 coqui_coord_fix <- 
   coqui %>% 
@@ -49,9 +49,11 @@ rm(coqui)
 
 # 5 -----------------------------------------------------------------------
 
-# The column habitat_class is transitively dependent on habitat. Please
-# remove this column and globally assign the resultant object to the name
-# `coqui_no_class`:
+# The column `habitat_class` is derived from, and therefore transitively
+# dependent on, the column `habitat`. 
+
+# Remove the `habitat_class` column and globally assign the resultant 
+# object to the name`coqui_no_class`:
 
 coqui_no_class <- 
   coqui_coord_fix %>% 
@@ -65,12 +67,12 @@ rm(coqui_coord_fix)
 
 # As described in the metadata, this data frame represents counts of coqui 
 # frogs. Each observation is a count at a given distance on a given 
-# transect. Currently, `coqui_no_class` violates two of Codd's First Normal
-# rules and the tidy data rules that each row represents an observation and
-# every column represents a variable. 
+# transect. Currently, `coqui_no_class` violates two aspects of Codd's 
+# first normal rule and the tidy data rules that each row represents an
+# observation and every column represents a variable. 
 
-# Please fix this such that the resultant object contains the variables
-# `distance_class` and `count` then globally assign the object to the 
+# Fix this such that the resultant object contains the variables
+# `distance_class` and `count`, then globally assign the object to the 
 # name `coqui_long`.
 
 coqui_long <- 
@@ -81,7 +83,7 @@ coqui_long <-
     values_to = "count"
   )
 
-# Please remove the name `coqui_no_class` from your global environment:
+# Remove the name `coqui_no_class` from your global environment:
 
 rm(coqui_no_class)
 
@@ -105,11 +107,27 @@ coqui_long %>%
     x = habitat,
     fill = site
   ) +
-  geom_bar()
+  geom_bar() +
+  scale_y_continuous(
+    limits = c(0, 170),
+    expand = c(0, 0)
+  ) +
+  scale_fill_manual(
+    values = 
+      c(
+        "#427359", 
+        "#7ba2d1"
+      )
+  ) +
+  labs(
+    title = "Coqui observations by habitat type and site",
+    x = "Habitat",
+    y = "Count"
+  )
 
 # 9 -----------------------------------------------------------------------
 
-# Determining levels of observation ...
+# Exploring duplicate rows among subsets of variables ...
 
 # * Write a code block that subsets the data to site, longitude, and latitude
 #   and removes duplicate rows:

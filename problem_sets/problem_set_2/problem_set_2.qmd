@@ -51,7 +51,7 @@ Points may be deducted from each question's total:
 * [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment";
 * [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question;
 * [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
-* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 2.6: Course Style Guide, part 1**;
+* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 2.6: Course Style Guide, part 2**;
 * [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
 
 *Note: The maximum deduction is the total points value for a given question*
@@ -110,7 +110,7 @@ In answering the questions for this assignment, you may **only** use the followi
 
 ## About the data 
 
-This problem set will use `coqui_counts.rds`, an untidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's <a href="https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch">Neighborhood Nestwatch</a> (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants. 
+This problem set will use `coqui_counts.rds`, an untidy dataset that contains a subset of coqui frog transect data from the [Luquillo LTER](https://luquillo.lter.network/){target="_blank"} that contains counts of coqui frogs at a given distance on a given transect. The full original dataset and metadata can be accessed [here](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-luq.25.1115151){target="_blank"}.
 
 ::: Accordion
 <button class="accordion">Click this button to learn more!</button>
@@ -139,27 +139,26 @@ In this lesson, we will explore the file `coqui_counts.rds`. The data are format
 :::
 
 :::{class="now_you"}
-1\. [[1.0]]{class="score"} Before opening your script file for this problem set, change the name of
+1\. [[0.50]]{class="score"} Before opening your script file for this problem set, change the name of
 the `problem_set_2.R` to "problem_set_2_[last name]_[first name].R" using a snake case naming convention. For example, Tara would name her file `problem_set_3_snedgen_tara.R`. *Note: You will submit this script file as your assignment*.
 
 :::
 
 :::{class="now_you"}
-2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to
-your current R session.
+2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
 
 :::
 
 :::{class="now_you"}
-3\. [[0.50]]{class="score"} Using the *relative file path*, read in the file `coqui_counts.rds` and globally assign the object to the name `coqui`.
+3\. [[1.0]]{class="score"} Using the *relative file path*, read in the file `coqui_counts.rds` and globally assign the object to the name `coqui`.
 
 :::
 
 ## Data tidying
 
-Taking a look at this dataset, we can see that it is obviously in need of some tidying. We will do some data exploration later on, but I always highly recommend exploring your data first! Remember, data exploration should almost always occur in the console pane -- you will only be evaluated on the code provided in your submitted script file. 
+Taking a look at this dataset, we can see that it is obviously in need of tidying. We will do some data exploration later on, but I always highly recommend exploring your data first! Remember, data exploration should almost always occur in the console pane -- you will only be evaluated on the code provided in your submitted script file. 
 
-For now, let's take care of some of the more obvious issues in this data:
+For now, let's take care of some of the more obvious issues with these data:
 
 :::{class="now_you"}
 4\. [[1.0]]{class="score"} The location of a point on the Earth's surface is represented by two variables on different axes -- a point's longitudinal and latitudinal position. Because of this, the column `coordinates` violates Codd's first normal rule that all values are atomic and Hadley Wickham's tidy data rule that each variable forms a column. To fix this, please:
@@ -170,7 +169,7 @@ For now, let's take care of some of the more obvious issues in this data:
 :::
 
 :::{class="now_you"}
-5\. [[2.0]]{class="score"} The column `habitat_class` is transitively dependent on `habitat`. Please:
+5\. [[1.0]]{class="score"} The column `habitat_class` is derived from, and therefore transitively dependent on, the column `habitat`. Please:
 
 * Remove the `habitat_class` column and globally assign the resultant object to the name `coqui_no_class`.
 * Remove the name `coqui_coord_fix` from your global environment:
@@ -178,43 +177,40 @@ For now, let's take care of some of the more obvious issues in this data:
 :::
 
 :::{class="now_you"}
-6\. [[1.0]]{class="score"} As described in the metadata, this data frame represents counts of coqui frogs. Each observation is a count at a given distance on a given transect. Currently, `coqui_no_class` violates two of Codd's First Normal rules and the tidy data rules that each row represents an observation and every column represents a variable. Please: 
+6\. [[1.5]]{class="score"} As described in the metadata, this data frame represents counts of coqui frogs. Each observation is a count at a given distance on a given transect. Currently, `coqui_no_class` violates two aspects of Codd's first normal rule and the tidy data rules that each row represents an observation and every column represents a variable. Please: 
 
-* Fix this such that the resultant object contains the variables `distance_class` and `count` then globally assign the object to the name `coqui_long`.
+* Fix this such that the resultant object contains the variables `distance_class` and `count`, then globally assign the object to the name `coqui_long`.
 * Remove the name `coqui_no_class` from your global environment.
 
 :::
 
 ## Data exploration
 
+We have taken care of some of the clearer issues, but it is still not tidy. Let's explore this dataset a bit further to figure out which of Codd's normal rules or Wickham's tidy data rules are still being violated.
+
+Let's say we wanted to look at the number of observations per habitat type.
+
 :::{class="now_you"}
-7\. [[1.5]]{class="score"} Write a code block that produces a data frame that displays the number of transects that were sampled within each habitat type.
+7\. [[0.50]]{class="score"} Write a code block that produces a data frame that displays the number of transects that were sampled within each habitat type.
 
 :::
 
+As always, we should visualize our data early and often!
+
 :::{class="now_you"}
 
-8\. [[2.5]]{class="score"} Generate a plot that displays the number of observations per habitat type and site, with habitat on the x-axis and the fill color of the bars determined by site.
+8\. [[1.5]]{class="score"} Generate a bar plot that displays the number of observations per habitat type and site, with habitat on the x-axis and the fill color of the bars determined by site.
 
-* [[0.25]]{class="subscore"} Remove the gray plot background 
-* [[0.25]]{class="subscore"} Add gray axis lines
-* [[0.25]]{class="subscore"} Ensure that there are no warning messages when plotting the data
-* [[0.25]]{class="subscore"} Label the measured variables `Mass` and `Tail`
-
-:::{class="mysecret"}
-<i class="fas fa-user-secret fa-2x"></i> To address this question, I suggest the following work flow (in brief):
-
-1. First try to visualize how the answer will look. 
-2. After considering what the answer will look like, I write out or draw a schema (on a whiteboard or with pencil and paper) that outlines the steps needed to achieve that result. For example, how must your data be structured such that the both `wing` and `mass` are treated as a single variable?
-3. Append your schema with the functions that can be used for each step.
-4. Convert your appended schema to code.
-5. Test to see that it worked!
-:::
+* Scale the y-axis such that it begins at 0 and ends at 170;
+* Change the title of the x-axis to `Habitat`, the y-axis to `Count`, and the plot to `Coqui observations by habitat type and site`;
+* Change the fill colors of the bars.
 
 :::
 
+Knowing the number of observations per habitat type, the data tidying process now requires us to understand the distribution of unique values across variables.
+
 :::{class="now_you"}
-9\. [[1.5]]{class="score"} Determining levels of observation:
+9\. [[1.0]]{class="score"} Exploring duplicate rows among subsets of variables:
 
 * Write a code block that subsets the data to site, longitude, and latitude and removes duplicate rows.
 * Write a code block that subsets the data to site, longitude, latitude, and transect_id and removes duplicate rows.
@@ -223,8 +219,12 @@ For now, let's take care of some of the more obvious issues in this data:
 
 :::
 
+## Solving the mystery
+
+Hopefully the exploration steps above helped you to see how these data are still untidy.
+
 :::{class="now_you"}
-9\. [[1.5]]{class="score"} Please write a brief comment that describes which tidy data rule is being violated in `coqui_long`and how you were able to determine that.
+10\. [[1.50]]{class="score"} Please write a brief comment that describes which tidy data rule is being violated in `coqui_long`and how you were able to determine that.
 
 :::
 
