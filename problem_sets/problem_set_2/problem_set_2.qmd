@@ -38,9 +38,9 @@ library(tidyverse)
 ```
 
 <hr>
-![](https://i.pinimg.com/originals/cf/1a/48/cf1a4890987a1a2475caee9a858c8601.jpg){.intro_image}
+  ![](https://www.floridamuseum.ufl.edu/wp-content/uploads/sites/23/2020/04/Common-Coqui1-web-sized.jpg){.intro_image}
 
-My problem sets have a reputation for being pretty difficult. Here, I intend to train you on how to complete them with as little pain as possible (and with minimal points taken off). "Training" tips and tricks will be shared in a [yellow box]{style="border: 1px solid #999999; background-color: #FFF8DC; padding: 2px;"} with a spy icon (<i class="fas fa-user-secret fa-1x"></i>). Portions of this problem set in which user input is required are highlighted in a [&nbsp;blue box with a dark blue border on the left]{style="border-left: 8px solid #292093; background-color: #e6ffff; padding: 2px;"}.
+Long-Term Ecological Research (LTER) datasets are incredibly valuable as they provide a wide variety of ecological data for a system, but they are also often incredibly untidy. This week we will be exploring (and tidying) a modified version of a Coqui frog abundance dataset from the  [Luquillo LTER](https://luquillo.lter.network/){target="_blank"} in Puerto Rico. Coqui frogs are well known for their mating calls -- I highly recommend looking into it!
 
 ### Grading
 
@@ -48,9 +48,10 @@ The points allotted for each question are provided in highlighted red bold text 
 
 Points may be deducted from each question's total: 
 
-* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
-* [[50%]]{class="subscore"} Include only assignments specified in the question;
-* [[10%]]{class="subscore"} Ensure that all code is properly indented;
+* [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question;
+* [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
+* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 2.6: Course Style Guide, part 1**;
 * [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
 
 *Note: The maximum deduction is the total points value for a given question*
@@ -109,204 +110,91 @@ In answering the questions for this assignment, you may **only** use the followi
 
 ## About the data 
 
-This problem set will use `district_birds.rds`, a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's <a href="https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch">Neighborhood Nestwatch</a> (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants. 
+This problem set will use `coqui_counts.rds`, an untidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's <a href="https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch">Neighborhood Nestwatch</a> (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants. 
 
 ::: Accordion
 <button class="accordion">Click this button to learn more!</button>
 
 ::: {.panel}
 
-In this lesson, we will only be working with the `capture` dataset. These data describe information collected when a wild bird has been captured and released. Variables in this table include:
+In this lesson, we will explore the file `coqui_counts.rds`. The data are formatted as a tibble data frame object comprised of the following variables:
 
-* `capture_id` (character): The primary key of the table;
-* `visit_id` (character): A foreign key to the `visits` table;
-* `band_number` (character): A unique numeric identifier for an aluminum band placed on a bird;
-* `color_combo` (character): A combination of color bands that are added to some birds for quick identification of individuals;
-* `spp` (character): A four-letter code for the species banded (see the `birds` table)
-* `sex` (character): The sex of the bird (F = female, M = male, U = unknown);
-* `age` (character): A code for the age class of the bird (e.g., HY = "Hatch year", AHY = "After hatch year");
-* `wing` (numeric, double): The length of a bird's wing, in millimeters;
-* `tl` (numeric, double): The length of a bird's tail, in millimeters;
-* `mass` (numeric, double): The mass of the bird, in grams;
-* `bp_cp` (character): A code for the breeding condition of a bird (bp = "brood patch", cp = "cloacal protuberance");
-* `fat` (character): An ordinal code for how much fat the bird is carrying.
+* `site` (character): The study area where an observation occurred;
+* `coordinates` (character): The longitudinal and latitudinal coordinates of the site, in decimal degrees;
+* `transect_id` (numeric, integer): A numeric identifier for the transects that were sampled;
+* `habitat_class` (character): A code for the type of habitat where a transect occurred (e.g., G = "gap", G-E = "gap edge", F = "forest", E = "edge");
+* `habitat` (character): The type of habitat where the transect occurred;
+* `date` (character): The date of a given sampling event;
+* `count_0-10m` (numeric, double): The number of coquies observed in the first 10 meters of the transect;
+* `count_10-20m` (numeric, double): The number of coquies observed in the second 10 meters of the transect;
+* `count_20-30m` (numeric, double): The number of coquies observed in the third 10 meters of the transect;
 
 :::
 :::
 
-## Getting started (gimme questions)
+## Setup
 
 :::{class="mysecret"}
 <i class="fas fa-user-secret fa-2x"></i>  Remember that it is best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
 :::
 
-I always start my assignments off with some easy points for naming your file, providing your name and the date, and loading any necessary libraries.
-
 :::{class="now_you"}
 1\. [[1.0]]{class="score"} Before opening your script file for this problem set, change the name of
-the `problem_set_2.R` to "problem_set_2_[last name]_[first name].R" using a snake case naming convention. *Note: You will submit this script file as your assignment*.
+the `problem_set_2.R` to "problem_set_2_[last name]_[first name].R" using a snake case naming convention. For example, Tara would name her file `problem_set_3_snedgen_tara.R`. *Note: You will submit this script file as your assignment*.
 
-:::{class="mysecret"}
-<i class="fas fa-user-secret fa-2x"></i> Be very careful with the naming convention of your file and follow the instructions to-the-letter!
 :::
 
+:::{class="now_you"}
 2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to
 your current R session.
 
 :::
 
-## Straightforward questions
-
-After you have completed the first round of gimme questions, the next set of questions that you will address are pretty straightforward -- they are *nearly* identical to coding steps that you have taken when completing the videos or tutorials. These will make up the bulk of the questions in most problem sets.
-
-For example ...
-
 :::{class="now_you"}
-3\. [[0.50]]{class="score"}The data file `district_birds.rds` is structured as a list object. The following code:
-
-* Reads in the list object
-* Globally assigns the list object to the name `my_list`
-* Globally assigns each list item to a name
-* Ensures that the name `my_list` is not stored in the global environment
-
-```{r q4_read_assign, eval = FALSE}
-my_list <-
-  read_rds("data/raw/district_birds.rds")
-
-sites <- my_list$sites
-
-visits <- my_list$visits
-
-counts <- my_list$counts
-
-captures <- my_list$captures
-
-birds <- my_list$birds
-
-rm(my_list)
-```
-
-As parsimoniously as possible, modify the above by reading in the data and assigning the names of each of the individual list items to the global environment in a single code block (*Note: `my_list` should not be added to the global environment*).
+3\. [[0.50]]{class="score"} Using the *relative file path*, read in the file `coqui_counts.rds` and globally assign the object to the name `coqui`.
 
 :::
 
-You can typically recognize a straightforward question, because they will almost directly reflect a process that you completed in one of the lessons!
+## Data tidying
 
-:::{class="mysecret"}
-<i class="fas fa-user-secret fa-2x"></i> It pays to keep track of when a function was first used (or used elsewhere in new ways). The answer to the above question was covered in the tutorial "Reshaping data frames" and in the video lesson "Tidy data".
-:::
+Taking a look at this dataset, we can see that it is obviously in need of some tidying. We will do some data exploration later on, but I always highly recommend exploring your data first! Remember, data exploration should almost always occur in the console pane -- you will only be evaluated on the code provided in your submitted script file. 
+
+For now, let's take care of some of the more obvious issues in this data:
 
 :::{class="now_you"}
-4\. [[1.0]]{class="score"} The code block below uses a nested coding structure to calculate the average mass of American robins ("AMRO"):
+4\. [[1.0]]{class="score"} The location of a point on the Earth's surface is represented by two variables on different axes -- a point's longitudinal and latitudinal position. Because of this, the column `coordinates` violates Codd's first normal rule that all values are atomic and Hadley Wickham's tidy data rule that each variable forms a column. To fix this, please:
  
-```{r q5_nested_to_pipe, eval = FALSE}
-mean(
-  captures[captures$spp == "AMRO", ]$mass,
-  na.rm = TRUE)
-```
+* Split the column `coordinates` into the columns `longitude` and `latitude` and globally assign the resultant object to the name `coqui_coord_fix`.
+* Remove the name `coqui` from your global environment.
 
-*Note: `na.rm = TRUE` is an argument of `mean()` that removes `NA` values from the calculation.*
-
-Please replace the above with a code block in which each step in the process is connected by a pipe and only "Functions that you may use in this assignment" are used (of course, this is required for each question in this problem set!).
 :::
-
-The "straightforward questions" typically ask you to dig into the material that you have been provided. The goal of these questions is largely for you to be able to self-assess your understanding of the material that we perceive to be especially important. For example, I’m really a fan of adhering to “best practices in R coding” …
 
 :::{class="now_you"}
-5\. [[2.0]]{class="score"} The code block below generates a box plot to visualize the distribution of bird mass by species. The code works as expected, but is inconsistent and sloppy. Without removing comments or changing the output, modify the code block such that it follows the conventions our course style guide.
+5\. [[2.0]]{class="score"} The column `habitat_class` is transitively dependent on `habitat`. Please:
 
-```{r q6_best_practices, eval = FALSE}
-captures %>% 
-  filter(spp%in% c("CACH", "CARW", "GRCA", "NOCA", "SOSP")) %>%
-  drop_na(mass) %>% 
-  # Initiate plot:
-  ggplot() +
-  
-  # Define aesthetics and geometry:
-  
-  aes(x=spp, y = mass) + geom_boxplot(fill = "#88ccee") +
-  
-  # Define scale:
-  
-  scale_y_continuous(
-    limits = c(0,75), 
-    expand = c(0, 0))+
-  
-  # Flip axes:
-  
-  coord_flip() +
-  
-  # Define theme:
-  
-  theme(panel.background = element_blank(), axis.line = element_line(color = "black"), 
-        panel.grid.major.x = element_line(color = "#dcdcdc"))
-```
+* Remove the `habitat_class` column and globally assign the resultant object to the name `coqui_no_class`.
+* Remove the name `coqui_coord_fix` from your global environment:
+
 :::
-
-"Straightforward questions" may, however, ask you to conduct operations that are similar to those that you have done before but in new ways! For example ...
 
 :::{class="now_you"}
-6\. [[1.0]]{class="score"} The code block below uses some pretty dated coding methods to:
+6\. [[1.0]]{class="score"} As described in the metadata, this data frame represents counts of coqui frogs. Each observation is a count at a given distance on a given transect. Currently, `coqui_no_class` violates two of Codd's First Normal rules and the tidy data rules that each row represents an observation and every column represents a variable. Please: 
 
-* Subset the data to Carolina chickadees
-* Convert the wing length from millimeters to inches (1 inch = 25.4 mm)
-* Filter the data frame to wing lengths that are greater than or equal to
-  2.3 inches and less than or equal to 2.5 inches
-* Subset the variables to `capture_id`, `sex`, `age`, and `wing`
-* Ensure that the name `cach` is not stored in the global environment
+* Fix this such that the resultant object contains the variables `distance_class` and `count` then globally assign the object to the name `coqui_long`.
+* Remove the name `coqui_no_class` from your global environment.
 
-```{r q6}
-# Subset data to Carolina chickadees:
-
-cach <-
-  captures[captures$spp == "CACH", ]
-
-# Extract the mass variable from the data:
-
-cach$wing <- cach$wing/25.4
-
-# Subset the data:
-
-cach[
-  cach$wing >= 2.3 & 
-    cach$wing <= 2.5 & 
-    !is.na(cach$wing),
-  c("capture_id",
-    "sex",
-    "age",
-    "wing")]
-
-rm(cach)
-```
-
-Using `captures` as your starting point, please complete all of the steps in the operation above in a single code block.
 :::
 
-## Integrated questions
-
-While the goals of the "straightforward questions" are to get you to read the material carefully and examine your ability to understand the material as it was presented, the goal of the integrated questions goes a bit further. Here, we seek to assess whether you are able to *integrate* content that you have learned across multiple lessons.
-
-For example, the following draws on content from ***Preliminary lesson 1.4*** and lesson ***2.1. Reshaping data frames***. 
+## Data exploration
 
 :::{class="now_you"}
-7\. [[1.5]]{class="score"} The code block below attempts to provide a summary data frame that describes the number of captures and average mass of three bird species (Gray catbird: "GRCA", Northern Cardinal: "NOCA", Song sparrow: "SOSP"). Unfortunately, there are four operational errors (i.e., not styling errors) in the code. Without adding any additional functions, please fix the errors in the code!
+7\. [[1.5]]{class="score"} Write a code block that produces a data frame that displays the number of transects that were sampled within each habitat type.
 
-```{r q7_fixing_problems, eval = FALSE}
-captures %>% 
-  filter(spp == c("GRCA" , "NOCA", "SOSP")) %>% 
-  summarize(
-    captures,
-    n_birds = n(),
-    mass = mean(mass)
-  )
-```
 :::
-
-More typically, integrated questions are meant to mirror real-world scenarios that we often experience when working with data in R. The wording of such questions may be a bit vague (or at least less paint-by-numbers). For example ...
 
 :::{class="now_you"}
 
-8\. [[2.5]]{class="score"} Without assigning any names to the global environment, generate a box plot (`geom_boxplot()`) that describes the distribution of mass *and* tail measurements of American robins (spp: "AMRO"). For full credit:
+8\. [[2.5]]{class="score"} Generate a plot that displays the number of observations per habitat type and site, with habitat on the x-axis and the fill color of the bars determined by site.
 
 * [[0.25]]{class="subscore"} Remove the gray plot background 
 * [[0.25]]{class="subscore"} Add gray axis lines
@@ -322,6 +210,21 @@ More typically, integrated questions are meant to mirror real-world scenarios th
 4. Convert your appended schema to code.
 5. Test to see that it worked!
 :::
+
+:::
+
+:::{class="now_you"}
+9\. [[1.5]]{class="score"} Determining levels of observation:
+
+* Write a code block that subsets the data to site, longitude, and latitude and removes duplicate rows.
+* Write a code block that subsets the data to site, longitude, latitude, and transect_id and removes duplicate rows.
+* Write a code block that subsets the data to transect_id and habitat and removes duplicate rows.
+* Write a code block that subsets the data to transect_id, habitat, and date and removes duplicate rows.
+
+:::
+
+:::{class="now_you"}
+9\. [[1.5]]{class="score"} Please write a brief comment that describes which tidy data rule is being violated in `coqui_long`and how you were able to determine that.
 
 :::
 

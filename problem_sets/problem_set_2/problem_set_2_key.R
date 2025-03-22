@@ -31,9 +31,9 @@ coqui <-
 # values are atomic and Hadley Wickham's tidy data rule that each variable
 # forms a column.
 
-# Please split the column `coordinates` into the columns `longitude` and
+# Split the column `coordinates` into the columns `longitude` and
 # `latitude` and globally assign the resultant object to the name
-# `coqui_coords`.
+# `coqui_coord_fix`.
 
 coqui_coord_fix <- 
   coqui %>% 
@@ -43,7 +43,7 @@ coqui_coord_fix <-
     sep = ","
   )
 
-# Please remove the name `coqui` from your global environment:
+# Remove the name `coqui` from your global environment:
 
 rm(coqui)
 
@@ -57,19 +57,21 @@ coqui_no_class <-
   coqui_coord_fix %>% 
   select(!habitat_class)
 
-# Please remove the name `coqui_coord_fix` from your global environment:
+# Remove the name `coqui_coord_fix` from your global environment:
 
 rm(coqui_coord_fix)
 
 # 6 -----------------------------------------------------------------------
 
 # As described in the metadata, this data frame represents counts of coqui 
-# frogs and each observation is a count at a given distance on a given 
+# frogs. Each observation is a count at a given distance on a given 
 # transect. Currently, `coqui_no_class` violates two of Codd's First Normal
 # rules and the tidy data rules that each row represents an observation and
-# every column represents a variable. Please fix this such that the 
-# resultant object contains the variables `distance_class` and `count` then 
-# globally assign the object to the name `coqui_long`.
+# every column represents a variable. 
+
+# Please fix this such that the resultant object contains the variables
+# `distance_class` and `count` then globally assign the object to the 
+# name `coqui_long`.
 
 coqui_long <- 
   coqui_no_class %>% 
@@ -94,7 +96,7 @@ coqui_long %>%
 # 8 -----------------------------------------------------------------------
 
 # Generate a plot that displays the number of observations per habitat type
-# and site, with habitat on the x-axis and the fill color of the bars 
+# and site, with habitat on the x-axis and the fill color of the bars
 # determined by site:
 
 coqui_long %>%
