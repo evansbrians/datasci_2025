@@ -1,5 +1,5 @@
 ---
-title: "2.2 Introduction to data visualization with ggplot"
+title: "2.4 Introduction to data visualization with ggplot"
 format:
   html:
     embed-resouces: true
@@ -44,8 +44,6 @@ You will learn:
 * Themes
 
 ## Introductory video
-
-*Please note: I made this video quite a long time ago (and it used to come before the lesson on using pipes). The code in the written portion of this tutorial is much more closely aligned with modern code styling principles!*
 
 {{< video https://www.youtube.com/embed/przzfGihKSY?si=f_oZbXcPiyKTCqhl >}}
 
@@ -100,7 +98,7 @@ Trick question. **All** non-data elements!
 <div class="panel">
 
 * The range of the x and y axis in data and image space
-* The colors
+* The fill colors
 
 </div>
 </div>
@@ -116,7 +114,7 @@ Cartesian (x and y axes)
 <div>
 <button class="accordion">What geometries are present in this plot?</button>
 <div class="panel">
-Boxplots
+Barplot
 </div>
 </div>
 
@@ -423,7 +421,7 @@ chickadees %>%
     expand = c(0, 0)
   ) +
   scale_color_manual(
-    values = c('orange', 'green')
+    values = c("orange", "green")
   )
 ```
 
