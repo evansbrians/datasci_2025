@@ -800,7 +800,7 @@ wide_families %>%
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_2.1_reshaping_data_frames.csv"
+  "functions_2.2_reshaping_data_frames.csv"
 ) %>% 
   read_csv() %>% 
   kableExtra::kable(
