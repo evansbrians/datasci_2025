@@ -17,7 +17,7 @@
 
 # 3 -----------------------------------------------------------------------
 
-# Using the *relative file path*, read in the worksheet "coqui_counts.rds" 
+# Using the *relative file path*, read in the file "coqui_counts.rds" 
 # and globally assign the object to the name `coqui`. 
 
 
@@ -25,46 +25,50 @@
 # 4 -----------------------------------------------------------------------
 
 # The location of a point on the Earth's surface is represented by two
-# variables -- a point's longitudinal and latitudinal position. Because of
-# this, the column `coordinates` violates Codd's first normal rule that all
-# values are atomic and Hadley Wickham's tidy data rule that each variable
-# forms a column.
+# variables on different axes -- a point's longitudinal and latitudinal
+# position. Because of this, the column `coordinates` violates Codd's 
+# first normal rule that all values are atomic and Hadley Wickham's tidy 
+# data rule that each variable forms a column.
 
-# Please split the column `coordinates` into the columns `longitude` and
+# Split the column `coordinates` into the columns `longitude` and
 # `latitude` and globally assign the resultant object to the name
-# `coqui_coords`.
+# `coqui_coord_fix`:
 
 
 
-# Please remove the name `coqui` from your global environment:
+# Remove the name `coqui` from your global environment:
 
 
 
 # 5 -----------------------------------------------------------------------
 
-# The column habitat_class is transitively dependent on habitat. Please
-# remove this column and globally assign the resultant object to the name
-# `coqui_no_class`:
+# The column `habitat_class` is derived from, and therefore transitively
+# dependent on, the column `habitat`. 
+
+# Remove the `habitat_class` column and globally assign the resultant 
+# object to the name`coqui_no_class`:
 
 
 
-# Please remove the name `coqui_coord_fix` from your global environment:
+# Remove the name `coqui_coord_fix` from your global environment:
 
 
 
 # 6 -----------------------------------------------------------------------
 
 # As described in the metadata, this data frame represents counts of coqui 
-# frogs and each observation is a count at a given distance on a given 
-# transect. Currently, `coqui_no_class` violates two of Codd's First Normal
-# rules and the tidy data rules that each row represents an observation and
-# every column represents a variable. Please fix this such that the 
-# resultant object contains the variables `distance_class` and `count` then 
-# globally assign the object to the name `coqui_long`.
+# frogs. Each observation is a count at a given distance on a given 
+# transect. Currently, `coqui_no_class` violates two aspects of Codd's 
+# first normal rule and the tidy data rules that each row represents an
+# observation and every column represents a variable. 
+
+# Fix this such that the resultant object contains the variables
+# `distance_class` and `count`, then globally assign the object to the 
+# name `coqui_long`.
 
 
 
-# Please remove the name `coqui_no_class` from your global environment:
+# Remove the name `coqui_no_class` from your global environment:
 
 
 
@@ -78,14 +82,14 @@
 # 8 -----------------------------------------------------------------------
 
 # Generate a plot that displays the number of observations per habitat type
-# and site, with habitat on the x-axis and the fill color of the bars 
+# and site, with habitat on the x-axis and the fill color of the bars
 # determined by site:
 
 
 
 # 9 -----------------------------------------------------------------------
 
-# Determining levels of observation ...
+# Exploring duplicate rows among subsets of variables ...
 
 # * Write a code block that subsets the data to site, longitude, and latitude
 #   and removes duplicate rows:

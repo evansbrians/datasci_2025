@@ -17,7 +17,7 @@ library(tidyverse)
 
 # 3 -----------------------------------------------------------------------
 
-# Using the *relative file path*, read in the worksheet "coqui_counts.rds" 
+# Using the *relative file path*, read in the file "coqui_counts.rds" 
 # and globally assign the object to the name `coqui`. 
 
 coqui <- 

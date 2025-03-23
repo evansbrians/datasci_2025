@@ -73,37 +73,28 @@ Points may be deducted from each question's total:
 In answering the questions for this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
 
 * `.Primitive, ()`
+* `.Primitive, <-`
 * `.Primitive, =`
 * `.Primitive, :`
-* `.Primitive, ==`
-* `.Primitive, >=`
-* `.Primitive, <=`
-* `.Primitive, /`
+* `.Primitive, !`
 * `.Primitive, c`
 * `base::%in%`
 * `base::library`
-* `base::list2env`
-* `base::mean`
-* `dplyr::filter`
-* `dplyr::mutate`
-* `dplyr::n`
-* `dplyr::pull`
-* `dplyr::rename`
+* `base::rm`
+* `dplyr::count`
+* `dplyr::distinct`
 * `dplyr::select`
-* `dplyr::summarize`
 * `ggplot2::+`
 * `ggplot2::aes`
-* `ggplot2::coord_flip`
-* `ggplot2::element_blank`
-* `ggplot2::element_line`
-* `ggplot2::geom_boxplot`
+* `ggplot2::geom_bar`
 * `ggplot2::ggplot`
+* `ggplot2::labs`
+* `ggplot2::scale_fill_manual`
 * `ggplot2::scale_y_continuous`
-* `ggplot2::theme`
 * `magrittr::%>%`
 * `readr::read_rds`
-* `tidyr::drop_na`
 * `tidyr::pivot_longer`
+* `tidyr::separate`
 :::
 
 :::
@@ -221,7 +212,7 @@ Knowing the number of observations per habitat type, the data tidying process no
 
 ## Solving the mystery
 
-Hopefully the exploration steps above helped you to see how these data are still untidy.
+Hopefully the exploration steps above helped you to see how these data are still untidy!
 
 :::{class="now_you"}
 10\. [[1.50]]{class="score"} Please write a brief comment that describes which tidy data rule is being violated in `coqui_long`and how you were able to determine that.
