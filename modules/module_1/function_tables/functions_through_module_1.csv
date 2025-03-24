@@ -55,19 +55,14 @@ base,unique,1.4_importing_exploring_exporting,Subset an atomic vector to the uni
 dplyr,arrange,1.4_importing_exploring_exporting,Sort the rows of a data frame by the values in a variable or variables
 dplyr,bind_cols,1.3_objects,Combine two variables or columns of two tibbles to create a new tibble
 dplyr,desc,1.4_importing_exploring_exporting,"When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order"
-dplyr,filter,1.6_course_style_guide_part_1,Subset a data frame by logical condition
-dplyr,mutate,1.6_course_style_guide_part_1,Add or modify a column in a data frame
 dplyr,n,1.6_course_style_guide_part_1,Calculate the number of observations (rows)
 dplyr,rename,1.5_assignments,Change the name assigned to a column in a data frame
 dplyr,select,1.6_course_style_guide_part_1,Subset columns in a data frame by name (without quotes!)
 dplyr,slice_head,1.4_importing_exploring_exporting,Subset a data frame to the first row (default) or rows
 dplyr,slice_tail,1.4_importing_exploring_exporting,Subset a data frame to the last row (default) or rows
 dplyr,summarize,1.6_course_style_guide_part_1,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-ggplot2,aes,1.6_course_style_guide_part_1,Define aesthetics
-ggplot2,ggplot,1.6_course_style_guide_part_1,"Set the data and, potentially, the aesthetics of a plot"
 lobstr,ref,1.5_assignments,View the structure of an object in your computer's memory
 magrittr,%>%,1.5_assignments,The pipe operator passes the output of the LHS argument to the function on the right
-purrr,map_dbl,1.6_course_style_guide_part_1,Iterate across a vector and return a double numeric vector
 readr,read_csv,0.3-objects,Read a tabular csv file into R as a tibble data frame
 readr,read_lines,0.3-objects,Read an atomic vector into R
 readr,read_rds,0.3-objects,Read an RDS file into R

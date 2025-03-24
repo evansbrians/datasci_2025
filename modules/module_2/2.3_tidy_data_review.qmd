@@ -663,31 +663,23 @@ list(
 ::: panel
 **Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`. The function `rlang::set_names` is also attached with `library(tidyverse)`. 
 
-**Also note**: I do not include functions that I recommend avoiding.
+::: function_table
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, $`: Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::unique`: Subset an atomic vector to the unique values in the set
-* `dplyr::distinct`: Subset a data frame by removing duplicate rows
-* `dplyr::select`: Subset columns in a data frame by name
-* `lobstr::ref`: View the structure (reference tree) of an object in your computer's memory
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `readr::read_csv`: Read an csv file into R
-* `readr::write_rds`: Write an R object as an RDS file
-* `rlang::set_names`: Assign names to values in a vector or items in a list.
-* `tibble::lst`: Combine objects into a list while maintaining any names assigned to the global environment
-* `tidyr::pivot_longer`: Convert a data frame from wide to long format
-* `tidyr::pivot_wider`: Convert a data frame from long to wide format
-* `tidyr::separate` (superseded): Separate a single column into multiple columns by a delimiter
-* `tidyr::unite`: Combine columns in a data frame to create a single column
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_2.3_tidy_data_review.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 :::
 
 

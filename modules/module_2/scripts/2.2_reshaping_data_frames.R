@@ -10,7 +10,6 @@ library(tidyverse)
 angola_ungulates_list <-
   read_rds("data/raw/angola_ungulates.rds")
 
-
 # sending list item names to the global environment -----------------------
 
 # Assign each list item name to the global environment (Not my preferred
@@ -26,7 +25,8 @@ rm(angola_ungulates_list)
 
 list2env(
   read_rds("data/raw/angola_ungulates.rds"),
-  envir = .GlobalEnv)
+  envir = .GlobalEnv
+)
 
 # Read in a list and assign each list item name to the global environment
 # (preferred method):
@@ -41,7 +41,8 @@ read_rds("data/raw/angola_ungulates.rds") %>%
 
 angola_ungulates <-
   bind_rows(
-    read_rds("data/raw/angola_ungulates.rds"))
+    read_rds("data/raw/angola_ungulates.rds")
+  )
 
 # Read in the list, bind the list items, and then globally assign to a name
 # (the piped version *is* preferred!):
@@ -64,7 +65,8 @@ angola_ungulates_date_fix <-
   unite(
     col = "date",
     year:day,
-    sep = "-")
+    sep = "-"
+  )
 
 # Unite genus and species columns and globally assign to the name
 # angola_ungulates_spp_fix:
@@ -74,7 +76,8 @@ angola_ungulates_spp_fix <-
   unite(
     col = "sci_name",
     genus:species,
-    sep = " ")
+    sep = " "
+  )
 
 # Remove the names angola_ungulates_spp_fix and angola_ungulates_date_fix
 # from the global environment:
@@ -98,14 +101,16 @@ angola_ungulates <-
   unite(
     col = "date",
     year:day,
-    sep = "-") %>%
+    sep = "-"
+  ) %>%
   
   # Combine the scientific name columns:
   
   unite(
     col = "sci_name",
     genus:species,
-    sep = " ")
+    sep = " "
+  )
 
 # separate ----------------------------------------------------------------
 
@@ -115,8 +120,14 @@ angola_ungulates_taxonomy_fix <-
   angola_ungulates %>%
   separate(
     col = "taxonomy",
-    into = c("class", "order", "family"),
-    sep = "-")
+    into = 
+      c(
+        "class", 
+        "order", 
+        "family"
+      ),
+    sep = "-"
+  )
 
 # Complete in a single chained analysis and globally assign a name:
 
@@ -135,20 +146,27 @@ angola_ungulates <-
   unite(
     col = "date",
     year:day,
-    sep = "-") %>%
+    sep = "-"
+  ) %>%
   
   # Combine the scientific name columns:
   
   unite(
     col = "sci_name",
     genus:species,
-    sep = " ") %>%
+    sep = " "
+  ) %>%
   
   # Separate the taxonomy into multiple columns:
   
   separate(
     col = "taxonomy",
-    into = c("class", "order", "family"),
+    into = 
+      c(
+        "class", 
+        "order", 
+        "family"
+      ),
     sep = "-")
 
 # Remove the name angola_ungulates_taxonomy_fix from the global environment:
@@ -164,7 +182,8 @@ observations <-
   select(
     angola_ungulates,
     date:user_login,
-    sci_name)
+    sci_name
+  )
 
 # Subset to taxonomic information and globally assign the name taxonomy:
 
@@ -173,7 +192,8 @@ taxonomy <-
     angola_ungulates,
     sci_name,
     class:family,
-    common_name)
+    common_name
+  )
 
 # Subset to observations of undulates and globally assign the name
 # observations (preferred):
@@ -182,7 +202,8 @@ observations <-
   angola_ungulates %>%
   select(
     date:user_login,
-    sci_name)
+    sci_name
+  )
 
 # Subset to taxonomic information and globally assign the name taxonomy
 # (preferred):
@@ -192,7 +213,8 @@ taxonomy <-
   select(
     sci_name,
     class:family,
-    common_name)
+    common_name
+  )
 
 # Subset to taxonomic information (but do not include class) and globally
 # assign the name taxonomy (preferred):
@@ -202,8 +224,8 @@ taxonomy <-
   select(
     sci_name,
     order:family,
-    common_name)
-
+    common_name
+  )
 
 # remove duplicates -------------------------------------------------------
 
@@ -215,7 +237,8 @@ taxonomy_distinct <-
   select(
     sci_name,
     order:family,
-    common_name) %>%
+    common_name
+  ) %>%
   distinct()
 
 # bind columns ------------------------------------------------------------
@@ -285,7 +308,8 @@ families %>%
 families %>%
   summarize(
     count = n(),
-    .by = family)
+    .by = family
+  )
 
 # pivot data frames -------------------------------------------------------
 
@@ -296,7 +320,8 @@ wide_families <-
   count(family) %>%
   pivot_wider(
     names_from = family,
-    values_from = n)
+    values_from = n
+  )
 
 # When working with data supplied by others, the necessity to pivot from
 # long to wide form is more common:
@@ -305,4 +330,5 @@ wide_families %>%
   pivot_longer(
     cols = Bovidae:Suidae,
     names_to = "family",
-    values_to = "n")
+    values_to = "n"
+  )

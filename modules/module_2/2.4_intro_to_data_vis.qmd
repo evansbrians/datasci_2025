@@ -1,5 +1,5 @@
 ---
-title: "2.2 Introduction to data visualization with ggplot"
+title: "2.4 Introduction to data visualization with ggplot"
 format:
   html:
     embed-resouces: true
@@ -45,8 +45,6 @@ You will learn:
 
 ## Introductory video
 
-*Please note: I made this video quite a long time ago (and it used to come before the lesson on using pipes). The code in the written portion of this tutorial is much more closely aligned with modern code styling principles!*
-
 {{< video https://www.youtube.com/embed/przzfGihKSY?si=f_oZbXcPiyKTCqhl >}}
 
 ## Background
@@ -68,10 +66,49 @@ The grammar of graphics considers the structure of a given data visualization to
 
 Consider the plot we made in the *Introduction to visualizing data with ggplot* video. 
 
-<img src = 'www/chickadee_mass.png' style = 'display: block;
-margin-left: auto;
-margin-right: auto;
-width: 75%;padding-top: 15px; padding-bottom: 15px;'></img>
+```{r echo = FALSE, message = FALSE}
+library(tidyverse)
+
+chickadees <- 
+  read_csv("data/raw/chickadees.csv")
+
+chickadees %>% 
+  ggplot() +
+  aes(
+    x = fct_rev(sex)
+  ) +
+  geom_bar(
+        color = "black",
+        fill = "#9eb8c5"
+  ) +
+  scale_y_continuous(
+    limits = c(0, 500),
+    expand = c(0, 0)
+  ) +
+  # scale_fill_manual(
+  #   values = 
+  #     c(
+  #       F = "#9eb8c5",
+  #       M = "#f94c40"
+  #     )
+  # ) +
+  facet_wrap(
+    ~ spp,
+    nrow = 2
+  ) +
+  coord_flip() +
+  labs(
+    title = "Number of chickadee captures by species and sex",
+    x = "Sex",
+    y = "Count"
+  ) +
+  theme_bw() +
+  theme(
+    axis.title = element_text(size = 14),
+    plot.title = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  )
+```
 
 Try to answer the following regarding the plot, you can click the buttons to see the answers (but try to answer them first!):
 
@@ -81,7 +118,6 @@ Try to answer the following regarding the plot, you can click the buttons to see
 
 * Species is mapped to the x axis
 * Mass is mapped to the y axis
-* Sex is mapped to color
 
 </div>
 </div>
@@ -100,7 +136,7 @@ Trick question. **All** non-data elements!
 <div class="panel">
 
 * The range of the x and y axis in data and image space
-* The colors
+* The fill color
 
 </div>
 </div>
@@ -109,14 +145,14 @@ Trick question. **All** non-data elements!
 <button class="accordion">What is the coordinate system of this plot?</button>
 <div class="panel">
 
-Cartesian (x and y axes)
+A flipped cartesian (x and y axes)
 </div>
 </div>
 
 <div>
 <button class="accordion">What geometries are present in this plot?</button>
 <div class="panel">
-Boxplots
+Barplot
 </div>
 </div>
 
@@ -423,7 +459,7 @@ chickadees %>%
     expand = c(0, 0)
   ) +
   scale_color_manual(
-    values = c('orange', 'green')
+    values = c("orange", "green")
   )
 ```
 
