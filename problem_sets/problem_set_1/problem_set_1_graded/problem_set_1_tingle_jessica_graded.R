@@ -28,6 +28,10 @@ bird_counts <-
     sheet = "point_count_observations",
     skip = 1)
 
+# [[-0.10]] Code formatting:  If a function spans more than one line of code,
+# closing parentheses should be placed on their own line and indented to the
+# same level as the start of the function. Sorry Jessica, this is a new rule!
+
 # question 4 --------------------------------------------------------------
 
 # Explore the structure of `bird_counts` ...
@@ -91,6 +95,10 @@ bird_counts[bird_counts[["species"]] %in%
                 "GRCA", 
                 "NOCA"), ]
 
+# [[-0.05]] Code formatting:  If a function spans more than one line of code,
+# closing parentheses should be placed on their own line and indented to the
+# same level as the start of the function. 
+
 # question 6 --------------------------------------------------------------
 
 # Describe and modify the variables assigned to `bird_counts` ...
@@ -142,6 +150,9 @@ typeof(
 bird_counts[["diet"]] %>% 
   factor() %>% 
   typeof
+
+# [[-0.05]] Code formatting: Always provide parentheses when running
+# named/non-operator prefix functions.
 
 # question 8 --------------------------------------------------------------
 
@@ -209,3 +220,11 @@ bird_counts_sorted <-
   arrange(site, 
           diet, 
           species) 
+
+# [[-0.10]] Code formatting: 
+
+# * If a function spans more than one line of code, opening parentheses should
+#   be followed by a line break.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line.

@@ -30,6 +30,12 @@ bird_counts <- readxl::read_excel(
   skip = 2
 )
 
+# [[-0.10]] Code formatting:  If a code block spans more than one line of code,
+# add a new line after the assignment operator.
+
+# [[-0.50]] `readxl::excel_sheets()` is not among the functions that you may use
+# for this assignment.
+
 # question 4 --------------------------------------------------------------
 
 # Explore the structure of `bird_counts` ...
@@ -95,6 +101,13 @@ bird_counts[bird_counts[["species"]] %in%
                 "NOCA"
                 ), ]
 
+# [[-0.10]] Code formatting:
+
+# * Include no more than one prefix function per line of code.
+
+# * Closing parentheses should be indented to the same level as the start of 
+#   the function.
+
 # question 6 --------------------------------------------------------------
 
 # Describe and modify the variables assigned to `bird_counts` ...
@@ -113,6 +126,8 @@ summary(bird_counts)
 # `species` to `species_code`:
 
 rename(bird_counts, species_code = species)
+
+# [[-0.25]] `$` is not among the functions that you may use for this assignment.
 
 # question 7 --------------------------------------------------------------
 
@@ -146,7 +161,15 @@ bird_counts$diet %>%
   factor() %>% 
   typeof()
 
-  
+# [[-0.50]] `$` is not among the functions that you may use for this assignment.
+
+# [[-0.10]] Code formatting:
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line.
+
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
 
 # question 8 --------------------------------------------------------------
 
@@ -167,6 +190,11 @@ levels(
 bird_counts$foraging %>% 
   factor() %>% 
   levels ()
+
+# [[-0.30]] Incorrect: `$` is not among the functions that you may use for this
+# assignment.
+
+# [[-0.05]] Incorrect: Opening parentheses should not be preceded by a space.
 
 # question 9 --------------------------------------------------------------
 
@@ -191,6 +219,8 @@ bird_counts %>%
   .$count %>% 
   mean()
   
+# [[-0.40]] Incorrect: `$` is not among the functions that you may use for this
+# assignment.
 
 # question 10 -------------------------------------------------------------
 
@@ -219,4 +249,9 @@ bird_counts_sorted <-
     species
 )
 
+# [[-0.10]] Incorrect: All violations are worth 0.1 points. See key for
+# violations.
 
+# [[-0.10]] Code formatting: If a function spans more than one line of code,
+# closing parentheses should be placed on their own line and indented to the
+# same level as the start of the function.

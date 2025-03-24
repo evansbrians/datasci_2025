@@ -34,6 +34,22 @@ bird_counts <- readxl::read_excel(
       "count")
 )
 
+# [[-0.25]] Incorrect: You lost a row in your data frame because you skipped the
+# column names row -- this assigned the first line of the data as column names
+# and is also why you needed to add your `col_names` argument.
+
+# [[-0.10]] Code formatting: 
+
+# * If a code block spans more than one line of code, add a new line after the 
+#   assignment operator.
+
+# * If a functions spans more than one line of code, opening parentheses should
+#   be followed by a line break.
+
+# * If a functions spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of
+#   the function.
+
 # question 4 --------------------------------------------------------------
 
 # Explore the structure of `bird_counts` ...
@@ -95,6 +111,17 @@ bird_counts[bird_counts[["species"]] == "CACH", ]
 bird_counts[bird_counts[["species"]] %in%
     c("AMRO", "GRCA", "NOCA"), ]
 
+# [[-0.10]] Code formatting:
+
+# * If a functions spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of
+#   the function.
+
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were two space prior to the section header.
+
+# * If you provide three or more arguments to a function, place each argument 
+#   on its own line.
 
 # question 6 --------------------------------------------------------------
 
@@ -217,3 +244,7 @@ bird_counts_sorted <-
           diet, 
           species
   )
+
+# [[-0.10]] Code formatting: If a function spans more than one line of code,
+# opening parentheses should be followed by a line break.
+

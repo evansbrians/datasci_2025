@@ -31,6 +31,9 @@ bird_counts <-
 
 bird_counts
 
+# [[No points removed]] Code parsimony: It is never necessary to write just
+# the name assigned to an object within your script.
+
 # question 4 --------------------------------------------------------------
 
 # Explore the structure of `bird_counts` ...
@@ -99,6 +102,8 @@ bird_counts[
       "NOCA"
     ), 
            ]
+
+# [[-0.10]] Incorrect (bullet point 5): The species code is "GRCA" not "CGRA".
 
 # question 6 --------------------------------------------------------------
 
@@ -233,6 +238,9 @@ bird_counts[bird_counts[["species"]] == "CACH", ] %>%
   .[["count"]] %>% 
   mean()
 
+# [[-0.10]] Code formatting: Maintain one blank line between code blocks and
+# comments.
+
 # question 10 -------------------------------------------------------------
 
 # The code below contains ten violations of the "Course Style Guide". 
@@ -255,3 +263,6 @@ bird_counts_sorted <-
     diet, 
     species
   )
+
+# [[-0.30]] Incorrect: All violations are worth 0.1 points. See key for
+# violations.

@@ -29,6 +29,11 @@ bird_counts <-
   skip = 1
   )
 
+# [[-0.10]] Code formatting: Indentation is off -- if the opening parentheses
+# and the first argument of a function are on different lines, the first
+# argument should be indented two spaces (one tab stop) relative to the start of
+# the line above.
+
 # question 4 --------------------------------------------------------------
 
 # Explore the structure of `bird_counts` ...
@@ -97,6 +102,19 @@ bird_counts[
   ), 
 ]
 
+# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
+# use `%in%`.
+
+# [[-0.05]] Code formatting: 
+
+# * When subsetting or extracting a multidimensional object inside of square
+#   brackets, include a single space for rows or columns in which all data are
+#   returned.
+
+# * Indentation is off -- if the opening parentheses and the first argument of 
+#   a function are on different lines, the first argument should be indented 
+#   two spaces (one tab stop) relative to the start of the line above.
+
 # question 6 --------------------------------------------------------------
 
 # Describe and modify the variables assigned to `bird_counts` ...
@@ -117,6 +135,9 @@ summary(bird_counts)
 rename(
   bird_counts, species_code = species
 )
+
+# [[-0.125]] Do not use numeric column indexing for extracting data from data
+# frames or named lists.
 
 # question 7 --------------------------------------------------------------
 
@@ -152,6 +173,9 @@ typeof(
 bird_counts[["diet"]] %>% 
   factor() %>% 
   typeof()
+
+# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
+# comments.
 
 # question 8 --------------------------------------------------------------
 
@@ -216,3 +240,10 @@ bird_counts_sorted <- bird_counts %>%
   # Sort rows
   
   arrange("site", "diet", "species") 
+
+# [[-0.20]] Incorrect: All violations are worth 0.1 points. See key for
+# violations.
+
+# [[No points removed]]: When using tidyverse functions (or at least *most*
+# tidyverse functions), it is not necessary to specify the name of a column with
+# quotes.

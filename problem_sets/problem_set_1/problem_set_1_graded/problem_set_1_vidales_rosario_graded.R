@@ -29,6 +29,11 @@ bird_counts <-
   skip = 1
   )
 
+# [[-0.10]] Code formatting: Indentation is off -- if the opening parentheses
+# and the first argument of a function are on different lines, the first
+# argument should be indented two spaces (one tab stop) relative to the start of
+# the line above.
+
 # question 4 --------------------------------------------------------------
 
 # Explore the structure of `bird_counts` ...
@@ -54,6 +59,9 @@ str(bird_counts)
 # random access memory; *Hint: See **Lesson 1.5: Assignments***).
 
 lobstr::ref(.GlobalEnv)
+
+# [[-0.025]] Incorrect: For the first bullet point, you were asked to produce
+# a one-value character vector.
 
 # question 5 --------------------------------------------------------------
 
@@ -96,6 +104,24 @@ bird_counts[
       "NOCA"), 
 ]
 
+# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
+# use `%in%`.
+
+# [[-0.10]] Code formatting:
+  
+# * For functions that span more than one line, opening parentheses should be
+#   followed by a line break.
+
+# * Commas should be followed by one trailing space.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of
+#   the function.
+
+# [[No points removed]] Code parsimony: Because dplyr is a member of the core
+# tidyverse, it is not necessary to specify `dplyr::` when running a function
+# from that package.
+
 # question 6 --------------------------------------------------------------
 
 # Describe and modify the variables assigned to `bird_counts` ...
@@ -119,6 +145,11 @@ rename(
   bird_counts,
   species_code = "species"
 )
+
+# [[-0.05]] Code formatting: Commas should be followed by one trailing space.
+
+# [[No points removed]] Code parsimony: In the tidyverse, quotes are not
+# necessary when referring to a column name.
 
 # question 7 --------------------------------------------------------------
 
@@ -156,6 +187,18 @@ bird_counts[ ,"diet"] %>%
   factor() %>% 
   typeof()
 
+# [[-0.10]] Code formatting:
+
+# * Commas should be followed by one trailing space.
+
+# * Indentation is off -- if the opening parentheses and the first argument of
+#   a function are on different lines, the first argument should be indented 
+#   two spaces (one tab stop) relative to the start of the line above.
+
+# * Maintain one blank line between code blocks and comments.
+
+# * Add a single space between the hashtag (#) and comment.
+
 # question 8 --------------------------------------------------------------
 
 # The code below represents a chained analysis that uses nested functions 
@@ -175,6 +218,8 @@ levels(
 bird_counts[ ,"foraging"] %>% 
   factor() %>% 
   levels()
+
+# [[-0.05]] Code formatting: Commas should be followed by one trailing space.
 
 # question 9 --------------------------------------------------------------
 
@@ -197,6 +242,16 @@ mean(chickadee_counts)
 bird_counts[
   bird_counts[ ,"species"] == "CACH", ][,"count"] %>% 
   mean()
+
+# [[-0.15]] Incorrect: Failed to connect each step in the process with a pipe.
+
+# [[-0.10]] Code formatting:
+
+# * Commas should be followed by one trailing space.
+
+# * When subsetting or extracting a multidimensional object inside of square
+#   brackets, include a single space for rows or columns in which all data
+#   are returned.
   
 # question 10 -------------------------------------------------------------
 
@@ -223,3 +278,6 @@ bird_counts_sorted <-
           diet, 
           species
   ) 
+
+# [[-0.10]] Code formatting: If a function spans more than one line of code,
+# opening parentheses should be followed by a line break.

@@ -14,6 +14,8 @@
 
 library(tidyverse)
 
+# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were two space prior to the section header.
 
 # question 3 --------------------------------------------------------------
 
@@ -29,6 +31,18 @@ bird_counts <- (
   sheet = "point_count_observations",
   skip = 2
   )) 
+
+# [[-0.10]] Code formatting:
+
+# * Indentation is off -- if the opening parentheses and the first argument of 
+#   a function are on different lines, the first argument should be indented 
+#   two spaces (one tab stop) relative to the start of the line above.
+
+# * If a code block spans more than one line of code, add a new line after the 
+#   assignment operator.
+
+# [[No points removed]] Code parsimony: The outer parentheses were not
+# necessary.
 
 # question 4 --------------------------------------------------------------
 
@@ -56,6 +70,9 @@ str(bird_counts)
 # random access memory; *Hint: See **Lesson 1.5: Assignments***).
 
 lobstr::ref(.GlobalEnv)
+
+# [[-0.025]] Code formatting: Maintain one blank line between code blocks and
+# comments.
 
 # question 5 --------------------------------------------------------------
 
@@ -91,6 +108,20 @@ bird_counts[
   bird_counts[, "species"] ==
       c("NOCA", "AMRO", "GRCA"), ]
 
+# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
+# use `%in%`.
+
+# [[-0.25]] You were not asked to a assign a name to the global environment
+# in this question.
+
+# [[No points removed]] Code formatting: 
+
+# * When subsetting or extracting a multidimensional object inside of square
+#   brackets, include a single space for rows or columns in which all data are
+#   returned.
+
+# * If you provide three or more arguments to a function, place each argument 
+#   on its own line.
 
 # question 6 --------------------------------------------------------------
 
@@ -115,6 +146,14 @@ rename(
   bird_counts,
   species_code = species
   )
+
+# [[0.10]] Code formatting:
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of
+#   the function.
+
+# * Code formatting: Maintain one blank line between code blocks and comments.
 
 # question 7 --------------------------------------------------------------
 
@@ -149,6 +188,10 @@ bird_counts[["diet"]] %>%
   factor() %>% 
   typeof()
 
+# [[-0.05]] Code formatting: Indentation is off -- if the opening parentheses
+# and the first argument of a function are on different lines, the first
+# argument should be indented two spaces (one tab stop) relative to the start of
+# the line above.
 
 # question 8 --------------------------------------------------------------
 
@@ -170,6 +213,9 @@ bird_counts[["foraging"]] %>%
   factor() %>% 
   levels()
 
+# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # question 9 --------------------------------------------------------------
 
@@ -195,6 +241,11 @@ bird_counts %>%
   .$count %>% 
   mean()
 
+# [[-0.40]] Incorrect: `$` is not among the functions that you may use for this
+# assignment.
+
+# [[-0.10]] Code formatting: Maintain one blank line between code blocks and
+# comments.
 
 # question 10 -------------------------------------------------------------
 
@@ -217,5 +268,19 @@ bird_counts_sorted = bird_counts %>%
   species,
 )
  
+# [[-0.50]] Incorrect: All violations are worth 0.1 points. See key for
+# violations.
 
+# [[-0.10]] Code formatting:
+
+# * Indentation is off -- if the opening parentheses and the first argument of
+#   a function are on different lines, the first argument should be indented 
+#   two spaces (one tab stop) relative to the start of the line above.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of 
+#   the function.
+
+# [[No points removed]] Code parsimony: You added an extra comma at the end of
+# the `arrange()` arguments.
 

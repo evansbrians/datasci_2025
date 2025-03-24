@@ -16,6 +16,9 @@
 
 library(tidyverse)
 
+# [[-0.05]] Code formatting: Add a single space between the hashtag (#) and
+# comment.
+
 # question 3 --------------------------------------------------------------
 
 # Using the *relative file path*, read in the worksheet
@@ -34,6 +37,15 @@ bird_counts <-
       skip = 2
     )
   )
+
+# [[-0.25]] Incorrect: You were asked to read in the file as a tibble data
+# frame, but this converted the tibble to a base R data frame.
+
+# [[-0.25]] `data.frame()` is not among the functions that you may use for this
+# assignment.
+
+# [[-0.25]] `readxl::read_xlsx()` is not among the functions that you may use
+# for this assignment.
 
 # question 4 --------------------------------------------------------------
 
@@ -111,6 +123,25 @@ bird_counts[
       "NOCA"),
 ]
 
+# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
+# use `%in%`.
+
+# [[-0.075]] Code formatting: 
+
+# * Infix functions should be separated from surrounding code with a single 
+#   leading and trailing space.
+
+# * When subsetting or extracting a multidimensional object inside of square
+#   brackets, include a single space for rows or columns in which all data
+#   are returned.
+
+# * Commas should be followed by one trailing space.
+
+# * For functions that span more than one line, opening parentheses should be
+#   followed by a line break.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line.
 
 # question 6 --------------------------------------------------------------
 
@@ -137,6 +168,9 @@ rename(
   bird_counts,
   species_code = "species"
 )
+
+# [[No points removed]] Code parsimony: In the tidyverse, quotes are not
+# necessary when referring to a column name.
 
 # question 7 --------------------------------------------------------------
 
@@ -169,6 +203,9 @@ typeof(
   factor()
 )
 
+# [[-0.05]] Code formatting: If a function spans more than one line of code,
+# closing parentheses should be placed on their own line.
+
 # question 8 --------------------------------------------------------------
 
 # The code below represents a chained analysis that uses nested functions 
@@ -189,6 +226,9 @@ bird_counts[["foraging"]] %>%
   factor() %>% 
   levels()
 
+# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # question 9 --------------------------------------------------------------
 
@@ -212,6 +252,11 @@ bird_counts[
   bird_counts[["species"]] == "CACH", ][["count"]] %>%
   mean()
 
+# [[-0.15]] Incorrect: Failed to connect each step in the process with a pipe.
+
+# [[-0.10]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # question 10 -------------------------------------------------------------
 
@@ -236,3 +281,5 @@ bird_counts_sorted <-
   
   arrange(site, diet, species)
 
+# [[-0.20]] Incorrect: All violations are worth 0.1 points. See key for
+# violations.

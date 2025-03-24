@@ -10,6 +10,9 @@
 
 #done
 
+# [[-0.10]] Code formatting: Add a single space between the hashtag (#) and
+# comment.
+
 # question 2 --------------------------------------------------------------
 
 # Open the script file in RStudio and attach the tidyverse metapackage to 
@@ -17,6 +20,9 @@
 
 
 library(tidyverse)
+
+# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
+# comments.
 
 # question 3 --------------------------------------------------------------
 
@@ -57,6 +63,23 @@ bird_counts <-
 
 bird_counts
 
+# [[-0.50]] `readxl::excel_sheets()` is not among the functions that you may use
+# for this assignment.
+
+# [[-0.10]] Code formatting: 
+
+# * Add a single space between the hashtag (#) and comment.
+
+# * Closing parentheses should be indented to the same level as the start of 
+#   the function.
+
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were two space prior to the section header.
+
+# [[No points removed]] Code parsimony: While it was good to see how you
+# explored your data to answer the question, such explorations should occur in
+# the console pane unless this is requested as a part of a question. This is
+# especially the case because your version required an additional assignment.
 
 # question 4 --------------------------------------------------------------
 
@@ -88,7 +111,8 @@ str(bird_counts)
 
 lobstr::ref(.GlobalEnv)
 
-
+# [[-0.10]] Code formatting: Maintain one blank line between code blocks and
+# comments.
 
 # question 5 --------------------------------------------------------------
 
@@ -134,6 +158,22 @@ bird_counts[
   bird_counts[,"species"] == c("AMRO", "GRCA", "NOCA"),
   ]
 
+# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
+# use `%in%`.
+
+# [[-0.15]] Code formatting:
+
+# * Closing parentheses should be indented to the same level as the start of 
+#   the function.
+
+# * Maintain one blank line between code blocks and comments.
+
+# * When subsetting or extracting a multidimensional object inside of square
+#   brackets, include a single space for rows or columns in which all data
+#   are returned.
+
+# * If you provide three or more arguments to a function, place each argument 
+#   on its own line.
 
 # question 6 --------------------------------------------------------------
 
@@ -156,6 +196,14 @@ rename(
   bird_counts,
   species_code = species
 )
+
+# [[-0.05]] Code formatting:
+
+# * Commas should be followed by one trailing space.
+
+# * When subsetting or extracting a multidimensional object inside of square
+#   brackets, include a single space for rows or columns in which all data
+#   are returned.
 
 # question 7 --------------------------------------------------------------
 
@@ -191,6 +239,13 @@ bird_counts[["diet"]] %>%
   factor() %>%  
   typeof()
 
+# [[-0.10]] Code formatting:
+
+# * Maintain one blank line between code blocks and comments.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of
+#   the function.
 
 # question 8 --------------------------------------------------------------
 
@@ -236,7 +291,11 @@ bird_counts %>%
   .[["count"]] %>% 
   mean()
 
+# [[-0.40]] Incorrect: `$` is not among the functions that you may use for this
+# assignment.
 
+# [[-0.10]] Code formatting: Maintain one blank line between code blocks and
+# comments.
 
 # question 10 -------------------------------------------------------------
 
@@ -263,4 +322,9 @@ bird_counts_sorted <-
     site, diet, species
     )
 
+# [[-0.10]] Incorrect: All violations are worth 0.1 points. See key for
+# violations.
 
+# [[-0.10]] Code formatting: If a function spans more than one line of code,
+# closing parentheses should be placed on their own line and indented to the
+# same level as the start of the function.
