@@ -115,10 +115,6 @@ grade_summaries_1 %>%
 :::
 
 
-
-
-
-
 <script>
 var acc = document.getElementsByClassName("accordion");
 var i;
