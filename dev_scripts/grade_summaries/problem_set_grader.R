@@ -21,7 +21,7 @@ get_grade_summaries <-
     
     submission_files <-
       file.path(
-        "../../problem_sets",
+        parent_path,
         str_c("problem_set_", problem_set),
         str_c("problem_set_", problem_set, "_graded")
       ) %>% 
@@ -32,7 +32,7 @@ get_grade_summaries <-
     gradebook <-
       file.path(
         "https://docs.google.com/spreadsheets/d",
-        "15NY5WQjI9Xr_j9TalGZsGjj6sTF8inpbEkNMCcXLizc"
+        "1roqSv1qa3hHKvtXptzN_LjVDT4SPceY8RTrhvuxOKBw"
       ) %>% 
       googlesheets4::read_sheet() %>% 
       filter(p_set == problem_set)
