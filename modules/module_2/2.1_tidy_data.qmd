@@ -37,11 +37,6 @@ You will hear me say this a lot, but the tidyverse is not simply a set of functi
 * The tidy data rules, which describe the normal data rules in statistical language
 * How to apply functions from ***2.1 Reshaping data frames*** to the data normalization process.
 
-A couple of things to note prior to watching the video:
-
-* I am not crazy about the column or data set names here (camelCase; I made this video several years ago -- prior to the R community recommendation for snake_case).
-* You may either code along using the script file `2.3_tidy_data.R` or just watch the video!
-
-{{< video https://www.youtube.com/embed/XCT38M895T0?si=7vxRWSRPpjqWVXv- >}}
+{{< video https://www.youtube.com/embed/ms-hVB0r7oQ?si=QuzOnrilrtocapYZ >}}
 
 
