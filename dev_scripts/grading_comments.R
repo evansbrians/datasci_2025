@@ -1,19 +1,34 @@
 
 # Comments for students when grading the assignments
 
+
+# grab bag ----------------------------------------------------------------
+
+# [[-0.25]] You were not asked to a assign a name to the global environment
+# in this question.
+
+# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
+# use `%in%`.
+
 # formatting --------------------------------------------------------------
 
 # [[-0.05]]: Code formatting: Assigned names should be written in snake_case.
 
 # Horizontal spacing
 
-# [[-0.025]] Code formatting: Indentation is off.
+# [[-0.025]] Code formatting: Indentation is off -- if the opening parentheses
+# and the first argument of a function are on different lines, the first
+# argument should be indented two spaces (one tab stop) relative to the start of
+# the line above.
 
 # [[-0.025]] Code formatting: Infix functions should be separated from
 # surrounding code with a single leading and trailing space.
 
 # [[No points removed]] Code formatting: The extraction ($) and colon (:, ::)
 # infix operators should not be preceded or followed by a space.
+
+# [[No points removed]] Code formatting: Commas should be followed by one
+# trailing space.
 
 # [[No points removed]] Code formatting: Commas should be followed by one
 # trailing space, but not a leading space.
@@ -24,6 +39,10 @@
 # [[-0.025]] Code formatting: Parentheses ((...)), curly braces {...}, and
 # square bracket (extraction: [], [[]]) operators should not be preceded or
 # followed by a space.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line and indented to the same level as the start of
+#   the function.
 
 # Line breaks:
 
@@ -39,6 +58,10 @@
 # [[-0.025]] Code formatting: Maintain one blank line between code blocks and
 # comments.
 
+# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
+
 # [[-0.05]] Code formatting: If you provide three or more arguments to a
 # function, place each argument on its own line.
 
@@ -47,6 +70,12 @@
 
 # [[-0.05]] Code formatting:  If a code block spans more than one line of code,
 # add a new line after the assignment operator.
+
+# * If a function spans more than one line of code, opening parentheses should
+#   be followed by a line break.
+
+# * If a function spans more than one line of code, closing parentheses should
+#   be placed on their own line.
 
 # Functions:
 
@@ -57,6 +86,10 @@
 # followed by function.
 
 # parsimony ---------------------------------------------------------------
+
+# [[No points removed]] Code parsimony: Because dplyr is a member of the core
+# tidyverse, it is not necessary to specify `dplyr::` when running a function
+# from that package.
 
 # [[-0.015]] Code parsimony: When assigning names, unless the names include a
 # space or other non-syntactic symbol, it is not necessary to put those names in
@@ -115,6 +148,9 @@
 # place variable names inside of quotes.
 
 # functions you may use ---------------------------------------------------
+
+# [[-0.40]] Incorrect: `$` is not among the functions that you may use for this
+# assignment.
 
 # [[-1.25]] `labs()` is not among the functions that you may use for this
 # assignment.
