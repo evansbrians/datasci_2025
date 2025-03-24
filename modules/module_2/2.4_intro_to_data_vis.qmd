@@ -66,10 +66,49 @@ The grammar of graphics considers the structure of a given data visualization to
 
 Consider the plot we made in the *Introduction to visualizing data with ggplot* video. 
 
-<img src = 'www/chickadee_mass.png' style = 'display: block;
-margin-left: auto;
-margin-right: auto;
-width: 75%;padding-top: 15px; padding-bottom: 15px;'></img>
+```{r echo = FALSE, message = FALSE}
+library(tidyverse)
+
+chickadees <- 
+  read_csv("data/raw/chickadees.csv")
+
+chickadees %>% 
+  ggplot() +
+  aes(
+    x = fct_rev(sex)
+  ) +
+  geom_bar(
+        color = "black",
+        fill = "#9eb8c5"
+  ) +
+  scale_y_continuous(
+    limits = c(0, 500),
+    expand = c(0, 0)
+  ) +
+  # scale_fill_manual(
+  #   values = 
+  #     c(
+  #       F = "#9eb8c5",
+  #       M = "#f94c40"
+  #     )
+  # ) +
+  facet_wrap(
+    ~ spp,
+    nrow = 2
+  ) +
+  coord_flip() +
+  labs(
+    title = "Number of chickadee captures by species and sex",
+    x = "Sex",
+    y = "Count"
+  ) +
+  theme_bw() +
+  theme(
+    axis.title = element_text(size = 14),
+    plot.title = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  )
+```
 
 Try to answer the following regarding the plot, you can click the buttons to see the answers (but try to answer them first!):
 
@@ -79,7 +118,6 @@ Try to answer the following regarding the plot, you can click the buttons to see
 
 * Species is mapped to the x axis
 * Mass is mapped to the y axis
-* Sex is mapped to color
 
 </div>
 </div>
@@ -98,7 +136,7 @@ Trick question. **All** non-data elements!
 <div class="panel">
 
 * The range of the x and y axis in data and image space
-* The fill colors
+* The fill color
 
 </div>
 </div>
@@ -107,7 +145,7 @@ Trick question. **All** non-data elements!
 <button class="accordion">What is the coordinate system of this plot?</button>
 <div class="panel">
 
-Cartesian (x and y axes)
+A flipped cartesian (x and y axes)
 </div>
 </div>
 

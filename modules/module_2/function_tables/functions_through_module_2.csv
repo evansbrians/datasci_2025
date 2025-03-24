@@ -52,7 +52,6 @@ base,summary,1.4_importing_exploring_exporting,Print summary stats for a data ob
 base,tolower,1.5_assignments,Convert a character vector to lowercase
 base,table,1.4_importing_exploring_exporting,Count the number of unique observations in an atomic vector
 base,typeof,0.2-values,Print a one-value character vector that represents how a data object is stored on our computer
-base,unit,2.4_intro_to_data_vis,Set or create a unit object
 base,unique,1.4_importing_exploring_exporting,Subset an atomic vector to the unique values in the set
 dplyr,arrange,1.4_importing_exploring_exporting,Sort the rows of a data frame by the values in a variable or variables
 dplyr,bind_cols,1.3_objects,Combine two variables or columns of two tibbles to create a new tibble
@@ -60,39 +59,27 @@ dplyr,bind_rows,2.2_reshaping_data_frames,Combine rows of two or more tibbles to
 dplyr,count,2.2_reshaping_data_frames,Tabulate the number of observations of each unique value of a column in a data frame and return as a long format tibble
 dplyr,desc,1.4_importing_exploring_exporting,"When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order"
 dplyr,distinct,2.2_reshaping_data_frames,Subset a data frame by removing duplicate rows
-dplyr,filter,1.6_course_style_guide_part_1,Subset a data frame by logical condition
-dplyr,group_by,2.4_intro_to_data_vis,Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
 dplyr,left_join,2.2_reshaping_data_frames,"A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values"
-dplyr,mutate,1.6_course_style_guide_part_1,Add or modify a column in a data frame
 dplyr,n,1.6_course_style_guide_part_1,Calculate the number of observations (rows)
 dplyr,rename,1.5_assignments,Change the name assigned to a column in a data frame
 dplyr,select,1.6_course_style_guide_part_1,Subset columns in a data frame by name (without quotes!)
 dplyr,slice_head,1.4_importing_exploring_exporting,Subset a data frame to the first row (default) or rows
 dplyr,slice_tail,1.4_importing_exploring_exporting,Subset a data frame to the last row (default) or rows
-dplyr,slice_max,2.4_intro_to_data_vis,Sort a data frame by a variable and subset to the rows associated with the highest values of that variable
 dplyr,summarize,1.6_course_style_guide_part_1,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-ggplot2,aes,1.6_course_style_guide_part_1,Define aesthetics
-ggplot2,coord_flip,2.4_intro_to_data_vis,Switch the mapping to the horizontal and vertical coordinates
-ggplot2,element_line,2.4_intro_to_data_vis,Set the theme for a line element
-ggplot2,element_rect,2.4_intro_to_data_vis,Set the theme for a shape element
+ggplot2,aes,2.4_intro_to_data_vis,Define aesthetics
 ggplot2,element_text,2.4_intro_to_data_vis,Set the theme for a text element
-ggplot2,expansion,2.4_intro_to_data_vis,Set upper and lower values or proportions to expand an axis by
 ggplot2,facet_wrap,2.4_intro_to_data_vis,Split plot into facets
-ggplot2,geom_bar,2.4_intro_to_data_vis,Create a bar geometry
 ggplot2,geom_point,2.4_intro_to_data_vis,Create a point geometry
 ggplot2,geom_smooth,2.4_intro_to_data_vis,Add a line-of-best-fit geometry
-ggplot2,ggplot,1.6_course_style_guide_part_1,"Set the data and, potentially, the aesthetics of a plot"
-ggplot2,ggsave,2.4_intro_to_data_vis,Save a ggplot to your computer
+ggplot2,ggplot,2.4_intro_to_data_vis,"Set the data and, potentially, the aesthetics of a plot"
 ggplot2,labs,2.4_intro_to_data_vis,Add or modify the labels of a plot
 ggplot2,scale_color_manual,2.4_intro_to_data_vis,Manually define the colors of a geometry
-ggplot2,scale_fill_brewer,2.4_intro_to_data_vis,Fill a geometry with colors from a RColorBrewer palette
 ggplot2,scale_x_continuous,2.4_intro_to_data_vis,Set the scale of the x axis
 ggplot2,scale_y_continuous,2.4_intro_to_data_vis,Set the scale of the y axis
 ggplot2,theme,2.4_intro_to_data_vis,Define the theme elements of a plot
 ggplot2,theme_bw,2.4_intro_to_data_vis,Generate a pre-packaged light background theme for a plot
 lobstr,ref,1.5_assignments,View the structure of an object in your computer's memory
 magrittr,%>%,1.5_assignments,The pipe operator passes the output of the LHS argument to the function on the right
-purrr,map_dbl,1.6_course_style_guide_part_1,Iterate across a vector and return a double numeric vector
 readr,read_csv,0.3-objects,Read a tabular csv file into R as a tibble data frame
 readr,read_lines,0.3-objects,Read an atomic vector into R
 readr,read_rds,0.3-objects,Read an RDS file into R

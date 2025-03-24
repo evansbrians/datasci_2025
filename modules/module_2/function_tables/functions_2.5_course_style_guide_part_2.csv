@@ -10,7 +10,6 @@ Package,Function,Definition
 .Primitive,$,Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
 .Primitive,==,Infix relational operator (is equal to)
 .Primitive,!,Prefix logical operator (not)
-.Primitive,<,Infix relational operator (less than)
 .Primitive,+,Infix arithmetic operator (addition)
 .Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
 .Primitive,/,Infix arithmetic operator (divide)
@@ -26,8 +25,6 @@ base,mean,Generate a one-value double numeric vector that describes the mean of 
 base,rm,Remove a name from a specified environment (default is the global environment)
 base,search,Print a character vector of attached objects associated with your current R session
 base,typeof,Print a one-value character vector that represents how a data object is stored on our computer
-dplyr,filter,Subset a data frame by logical condition
-dplyr,mutate,Add or modify a column in a data frame
 dplyr,n,Calculate the number of observations (rows)
 dplyr,select,Subset columns in a data frame by name (without quotes!)
 dplyr,summarize,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
@@ -35,7 +32,6 @@ ggplot2,+,ggplot's pipe operator (adds a layer to a plot)
 ggplot2,aes,Define aesthetics
 ggplot2,ggplot,"Set the data and, potentially, the aesthetics of a plot"
 magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
-purrr,map_dbl,Iterate across a vector and return a double numeric vector
 tibble,tibble,Column-wise creation of a tibble data frame
 tibble,tribble,Row-wise creation of a tibble data frame
 utils,str,View the structure of a data object
