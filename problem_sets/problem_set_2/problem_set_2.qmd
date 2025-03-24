@@ -1,5 +1,5 @@
 ---
-title: "Problem set 2: Problem set training"
+title: "Problem set 2: Counting coquies"
 format:
   html:
     embed-resouces: true

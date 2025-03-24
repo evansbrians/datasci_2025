@@ -30,12 +30,11 @@ href = "www/hex_icon.png" />
 
 ![](../../images/hex_complex.png){.intro_image}
 
-You will hear me say this a lot, but the tidyverse is not simply a set of functions or packages built for working with data. Instead, Hadley Wickham built the tidyverse to develop a new way of using the R language that adheres to long-established standards in data engineering. At the foundation of the tidyverse are the rules that govern "tidy data". These rules represent a recommended structure for your data that ensures that your data are robust against errors, easy to modify, and easy to work with. In the video lesson below (runtime: 18:37), you will learn:
+You will hear me say this a lot, but the tidyverse is not simply a set of functions or packages built for working with data. Instead, Hadley Wickham built the tidyverse to develop a new way of using the R language that adheres to long-established standards in data engineering. At the foundation of the tidyverse are the rules that govern "tidy data". These rules represent a recommended structure for your data that ensures that your data are robust against errors, easy to modify, and easy to work with. In the video lesson below (runtime: 20:42), you will learn:
 
 * Why tidy data is an important consideration in data management
 * Three of the primary rules of normal (a.k.a. "tidy") data from the perspective of data engineering and relational databases
 * The tidy data rules, which describe the normal data rules in statistical language
-* How to apply functions from ***2.1 Reshaping data frames*** to the data normalization process.
 
 {{< video https://www.youtube.com/embed/ms-hVB0r7oQ?si=QuzOnrilrtocapYZ >}}
 
