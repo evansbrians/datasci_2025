@@ -30,7 +30,7 @@ href = "www/hex_icon.png" />
 
 In this lesson we will explore, create, and modify a plot using the core tidyverse package *ggplot* -- an extraordinarily powerful and well-designed plotting system. This lesson provides 
 
-* A video introduction to ggplot (runtime: XX:XX). Please be sure to watch that video prior to moving forward with the tutorial!
+* A video introduction to ggplot (runtime: 32:24). Please be sure to watch that video prior to moving forward with the tutorial!
 * A written guide that will serve as a reference for using ggplot and includes incorporating pipes into your plotting scripts. Although much of this content is a review of the introductory video, there will be new content sprinkled throughout. 
 
 You will learn:
@@ -45,7 +45,7 @@ You will learn:
 
 ## Introductory video
 
-{{< video https://www.youtube.com/embed/przzfGihKSY?si=f_oZbXcPiyKTCqhl >}}
+{{< video https://www.youtube.com/embed/YS7wDkPBvM4?si=f_ZUDOGa-mW2GSqQ >}}
 
 ## Background
 
