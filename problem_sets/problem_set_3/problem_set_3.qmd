@@ -108,6 +108,11 @@ In this assignment, you may **only** use the following R functions in your submi
 
 ## About the data 
 
+:::: Accordion
+<button class="accordion">Data for this assignment</button>
+
+:::: {.panel}
+
 This problem set will use the following files:
 
 [world_bank_countries.csv]{.mono}: A csv file that provides country reference information from the World Bank. Variables include:
@@ -136,6 +141,10 @@ This problem set will use the following files:
 * [Indicator Code]{.mono}, character: A code representing the variable being measured
 * [1960 ... 2020]{.mono}, numeric: The *per capita*  CO~2~ emissions of each country in a given year (year as columns)
 * [...66]{.mono}, logical: A junk column that suggests these data were compiled using Microsoft Excel
+
+:::
+
+:::
 
 ## Setup
 
@@ -242,6 +251,17 @@ Our final goal will be to visualize the change in per capita CO~2~ emissions fro
 * [[0.2]]{class="subscore"} Globally assigned to the name `top_emitters_2018`
 
 
+7\. [[2.0]]{class="score"} Modify the data frame assigned to `populations_co2` such that `co2` values represent the *total* emissions ([[0.3]]{class="subscore"}; Note: the total emissions for a given country is the per capita emissions times the population) and the data frame is:
+
+* Subset to the year 2018
+* Add a column called `total_co2` that represents the *total* emissions (*Note: the total emissions for a given country is the per capita emissions times the population*)
+* Arranged from the highest to lowest CO~2~ total emissions in 2018 
+* Subset to **only** countries with records in the `countries` data frame
+* Subset to **only** the 5 countries with the most CO~2~ emissions (and also satisfy the conditions above)
+* Subset to  **only** the fields `country_code`, `country_name`, and `total_co2`
+* Globally assigned to the name `top_emitters_2018`
+
+
 8\. [[2.5]]{class="score"}  Using `population_co2` and `top_emitters_2018`, generate a ggplot that shows the **per capita** CO~2~ emissions from 1960 to 2018 for the five countries that had the highest **total** CO~2~ emissions in 2018. Plot the data such that:
 
 * [[0.25]]{class="subscore"} The data being plotted are the per capita emissions from 1960-2018 for the top five emitting countries
@@ -254,6 +274,19 @@ Our final goal will be to visualize the change in per capita CO~2~ emissions fro
 * [[0.25]]{class="subscore"} The y-axis ranges from 0 to 30
 * [[0.25]]{class="subscore"} The plot includes a descriptive title
 * [[0.25]]{class="subscore"} The background of the plot is white and contains no grid lines
+
+8\. [[2.5]]{class="score"}  Using `population_co2` and `top_emitters_2018`, generate a ggplot that shows the **per capita** CO~2~ emissions from 1960 to 2018 for the five countries that had the highest **total** CO~2~ emissions in 2018. Plot the data such that:
+
+* The data being plotted are the per capita emissions from 1960-2018 for the top five emitting countries
+* Evaluation of the plotting code does not produce any warning messages
+* Your x-aesthetic is year and is labeled "Year"
+* Your y-aesthetic is co_2 and is labeled "Carbon dioxide emissions (metric tons/person)"
+* Your color aesthetic is country_name and is labeled "Country" (*Hint: It's often easier to modify the data going into a `ggplot` than inside of a `ggplot` function*)
+* Your plot includes point and line geometries
+* The x-axis ranges from 1960 to 2020
+* The y-axis ranges from 0 to 30
+* The plot includes a descriptive title
+* The background of the plot is white and contains no grid lines
 :::
 
 
