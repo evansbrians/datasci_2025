@@ -8,7 +8,7 @@ library(tidyverse)
 # Read in and pre-process the data:
 
 arthropods <-
-  read_csv("CaterpillarsCountData_timestamp-1742904029_uniqueid-b2CNa/CaterpillarsCountData.csv") %>% 
+  read_csv("/Users/tarasnedgen/Downloads/CaterpillarsCountData.csv") %>% 
   janitor::clean_names() %>% 
   select(
     date = local_date,
@@ -51,7 +51,7 @@ cc_survey_locations <-
 
 # Surveys table:
 
-cc_surveys <- 
+cc_surveys <-
   arthropods %>% 
   mutate(
     survey_id = 
@@ -60,6 +60,12 @@ cc_surveys <-
         year(date),
         yday(date),
         sep = "-"
+      ),
+    survey_id =
+      if_else(
+        str_detect(observation_method, "Visual"),
+        str_c(survey_id, "v"),
+        str_c(survey_id, "b")
       )
   ) %>%
   distinct(
@@ -80,6 +86,12 @@ cc_observations <-
         year(date),
         yday(date),
         sep = "-"
+      ),
+    survey_id =
+      if_else(
+        str_detect(observation_method, "Visual"),
+        str_c(survey_id, "v"),
+        str_c(survey_id, "b")
       )
   ) %>%
   select(
@@ -87,7 +99,8 @@ cc_observations <-
     herbivory_score,
     arthropod,
     arthropod_quantity
-  )
+  ) %>% 
+  filter(herbivory_score >= 0)
 
 # write to file -----------------------------------------------------------
 
