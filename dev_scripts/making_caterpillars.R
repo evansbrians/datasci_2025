@@ -101,7 +101,16 @@ cc_observations <-
     arthropod_quantity
   ) %>% 
   filter(herbivory_score >= 0) %>% 
-  distinct()
+  distinct() %>% 
+  summarize(
+    arthropod_quantity = sum(arthropod_quantity),
+    .by =
+      c(
+        survey_id,
+        herbivory_score,
+        arthropod
+      )
+  )
 
 # write to file -----------------------------------------------------------
 
