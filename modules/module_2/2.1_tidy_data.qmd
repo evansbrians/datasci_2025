@@ -1,5 +1,5 @@
 ---
-title: "2.3 Tidy data"
+title: "2.1 Tidy data"
 format:
   html:
     embed-resouces: true
@@ -27,6 +27,9 @@ href = "www/hex_icon.png" />
 type="image/png" 
 href = "www/hex_icon.png" />
 </head>
+<hr>
+
+<div>
 
 ![](../../images/hex_complex.png){.intro_image}
 
