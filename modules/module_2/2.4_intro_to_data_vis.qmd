@@ -116,8 +116,8 @@ Try to answer the following regarding the plot, you can click the buttons to see
 <button class="accordion">What are the aesthetic mappings?</button>
 <div class="panel">
 
-* Species is mapped to the x axis
-* Mass is mapped to the y axis
+* Sex is mapped to the x axis
+* Count is mapped to the y axis
 
 </div>
 </div>
@@ -153,6 +153,13 @@ A flipped cartesian (x and y axes)
 <button class="accordion">What geometries are present in this plot?</button>
 <div class="panel">
 Barplot
+</div>
+</div>
+
+<div>
+<button class="accordion">What do the facets represent in this plot?</button>
+<div class="panel">
+Species
 </div>
 </div>
 
