@@ -8,7 +8,7 @@ library(tidyverse)
 # Read in and pre-process the data:
 
 arthropods <-
-  read_csv("/Users/tarasnedgen/Downloads/CaterpillarsCountData.csv") %>% 
+  read_csv("CaterpillarsCountData_timestamp-1742904029_uniqueid-b2CNa/CaterpillarsCountData.csv") %>% 
   janitor::clean_names() %>% 
   select(
     date = local_date,
@@ -100,7 +100,8 @@ cc_observations <-
     arthropod,
     arthropod_quantity
   ) %>% 
-  filter(herbivory_score >= 0)
+  filter(herbivory_score >= 0) %>% 
+  distinct()
 
 # write to file -----------------------------------------------------------
 
