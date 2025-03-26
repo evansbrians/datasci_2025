@@ -1,272 +1,191 @@
-# Problem set 3 key: Global CO2 
 
-# 2 -----------------------------------------------------------------------
+# Answer key for problem set 3
 
-# Attach the core tidyverse packages to your current R session:
+# question 1 --------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using
+# a snake case naming convention. *Note: You will submit this script file 
+# as your assignment*.
+
+# question 2 --------------------------------------------------------------
+
+# Open the script file in RStudio and attach the tidyverse metapackage to 
+# your current R session.
 
 library(tidyverse)
 
-# 3 -----------------------------------------------------------------------
+# question 3 --------------------------------------------------------------
 
-# The following code reads in world_bank_countries.csv and assigns the name
-# countries to your global environment. Please modify this code such that it
-# follows best management practices in code formatting.
+# Read in the `caterpillars_count.rds` and assign the names of the list to the
+# global environment.
 
-# Given:
+read_rds("data/raw/caterpillars_count.rds") %>% 
+  list2env(.GlobalEnv)
 
-countries=read_csv("data/raw/world_bank_countries.csv")%>%select(!country_region)
+# question 4 --------------------------------------------------------------
 
-# Answer:
+# How many caterpillars has Caterpillars Count counted? Please provide your
+# answer as a one-value numeric vector.
 
-countries <- 
-  read_csv("data/raw/world_bank_countries.csv") %>% 
-  select(!country_region)
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  pull(arthropod_quantity) %>% 
+  sum()
 
-# 4, given ----------------------------------------------------------------
+# question 5 --------------------------------------------------------------
 
-# The code below reads in and wrangles the data successfully, but not
-# parsimoniously. Modify the code such that the process below is completed in a
-# chained analysis in which only the name associated with the final object,
-# `world_pop`, is assigned to your global environment (i.e., the code block
-# should not include intermediate assignments).
+# Please make a summary data frame of the total number of sites in the District
+# of Columbia, Maryland, and Virginia and arrange the table alphabetically by
+# region.
 
-# Read in population data:
+sites %>% 
+  filter(
+    region %in%
+      c(
+        "DC",
+        "MD", 
+        "VA"
+      )
+  ) %>% 
+  summarize(
+    n = n(),
+    .by = region
+  ) %>% 
+  arrange(region)
 
-world_pop_raw <-
-  read_csv(
-    'data/raw/API_SP.POP.TOTL_DS2_en_csv_v2_2763937.csv', 
-    skip = 3)
+# question 6 --------------------------------------------------------------
 
-# Subset to columns of interest:
+# Subset the survey_locations data frame to those that are within sites in the
+# District of Columbia, Maryland, or Virginia. For full credit, please complete
+# this such that:
 
-world_pop_column_subset <-
-  select(
-    world_pop_raw,
-    
-    # Rename Country Code column to remove space:
-    
-    country_code = `Country Code`,
-    
-    # Subset to other columns of interest:
-    
-    `1960`:`2020`)
+# * No columns are added to `survey_locqtions`;
+# * No function is nested more than two levels deep;
+# * The `select` function is not used to remove columns.
 
+sites %>% 
+  filter(
+    region %in%
+      c(
+        "DC",
+        "MD", 
+        "VA"
+      )
+  ) %>% 
+  semi_join(
+    survey_locations,
+    .,
+    by = "site_name"
+  )
 
-# Make the data tidy by pivoting to a long form table:
+# question 7 --------------------------------------------------------------
 
-world_pop_long <-
-  pivot_longer(
-    world_pop_column_subset,
-    names_to = 'year',
-    values_to = 'population',
-    `1960`:`2020`)
+# Please make a summary data frame of the total number of surveys conducted in
+# the District of Columbia, Maryland, and Virginia in 2024 and arrange the table
+# from the highest to lowest number of surveys.
 
-# Finally, convert the year column to numeric:
-
-world_pop <-
-  mutate(
-    world_pop_long,
-    year = as.numeric(year))
-
-# 4, answer ---------------------------------------------------------------
-
-world_pop <-
-  read_csv(
-    'data/raw/API_SP.POP.TOTL_DS2_en_csv_v2_2763937.csv', 
-    skip = 3) %>% 
-  
-  # Subset to columns of interest:
-  
-  select(
-    
-    # Rename Country Code column to remove space:
-    
-    country_code = `Country Code`,
-    
-    # Subset to other columns of interest:
-    
-    `1960`:`2020`) %>% 
-  
-  
-  # Make the data tidy by pivoting to a long form table:
-  
-  pivot_longer(
-    names_to = 'year',
-    values_to = 'population',
-    `1960`:`2020`) %>% 
-  
-  # Finally, convert the year column to numeric:
-  
-  mutate(
-    year = as.numeric(year))    
-
-# 5 -----------------------------------------------------------------------
-
-# In a chained analysis with no intermediate assignments:
-
-# * Read in the CO2 data (API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv)
-# * Wrangle the data such that the resultant tibble contains (only) the 
-#   variables `country_code`, `year`, and `co2` (as above)
-# * Convert the class of the `year` variable to numeric
-# * Globally assign the data frame to the name `co2`
-
-co2 <-
-  read_csv(
-    'data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv', 
-    skip = 3) %>% 
-  
-  # Subset to columns of interest:
-  
-  select(
-    
-    # Rename Country Code column to remove space:
-    
-    country_code = `Country Code`,
-    
-    # Subset to other columns of interest:
-    
-    `1960`:`2020`) %>% 
-  
-  
-  # Make the data tidy by pivoting to a long form table:
-  
-  pivot_longer(
-    names_to = 'year',
-    values_to = 'co2',
-    `1960`:`2020`) %>% 
-  
-  # Finally, convert the year column to numeric:
-  
-  mutate(
-    year = as.numeric(year))    
-
-# 6 -----------------------------------------------------------------------
-
-# Join the population and CO2 tibbles. Globally assign the resultant object to
-# the name `population_co2`.
-
-population_co2 <- 
-  world_pop %>% 
+survey_locations %>% 
+  inner_join(
+    sites %>% 
+      filter(
+        region %in%
+          c(
+            "DC",
+            "MD", 
+            "VA"
+          )
+      ),
+    by = "site_name"
+  ) %>% 
   left_join(
-    co2,
-    by = c("country_code", "year"))
+    surveys,
+    by = "survey_location"
+  ) %>% 
+  summarize(
+    n = n(),
+    .by = region
+  ) %>% 
+  arrange(
+    desc(n)
+  )
 
-# Or:
+# question 8 --------------------------------------------------------------
 
-population_co2 <- 
-  world_pop %>% 
+# Please generate a summary table that provides the average (mean) number of
+# caterpillars observed in "Beat sheet" and "Visual" surveys. Note that to
+# properly address this question you will have to do something about those `NA`
+# values!
+
+observations %>% 
+  filter(arthropod == "caterpillar") %>%
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys,
+    by = "survey_id"
+  ) %>% 
+  mutate(
+    arthropod_quantity = replace_na(arthropod_quantity, 0)
+  ) %>% 
+  summarize(
+    average_caterpillars = mean(arthropod_quantity),
+    .by = observation_method
+  )
+
+# Or, without mutate:
+
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys,
+    by = "survey_id"
+  ) %>% 
+  summarize(
+    average_caterpillars = 
+      arthropod_quantity %>% 
+      replace_na(0) %>% 
+      mean(),
+    .by = observation_method
+  )
+
+# question 9 --------------------------------------------------------------
+
+# Please generate a summary table that provides the total number of arthropods
+# counted per state in Maryland, DC, and Virginia in 2024.
+
+observations %>% 
+  select(survey_id, arthropod_quantity) %>% 
   inner_join(
-    co2,
-    by = c("country_code", "year"))
-
-# 7 -----------------------------------------------------------------------
-
-# Modify the data frame assigned to `populations_co2` such that `co2` values
-# represent the *total* emissions (Note: the total emissions for a given country
-# is the per capita emissions times the population) and the data frame is:
-
-# * Subset to the year 2018
-# * Arranged from the highest to lowest CO2 total emissions in 2018
-# * Subset to only countries with records in the countries data frame
-# * Subset to  the 5 countries with the most CO2 emissions (and also satisfy
-#   the conditions above)
-# * Subset to only the fields `country_code`, `country_name`, and `total_co2`
-# * Globally assigned to the name `top_emitters_2018`
-
-top_emitters_2018 <- 
-  population_co2 %>%
-  
-  # Subset to 2018:
-  
-  filter(year == 2018) %>% 
-  
-  # Calculate the total co2 emissions, per country, in 2018:
-  
-  mutate(total_co2 = population * co2) %>% 
-  
-  # Subset to  columns of interest:
-  
-  select(country_code, total_co2) %>% 
-  
-  # Contains only countries with records in the countries data frame:
-  
+    surveys %>% 
+      filter(
+        year(date) == 2024
+      ) %>% 
+      select(survey_id, survey_location),
+    by = "survey_id"
+  ) %>% 
   inner_join(
-    countries %>% 
-      select(country_code, country_name), 
-    by = "country_code") %>% 
-  
-  # Contains only the 5 countries with the most CO2 emissions (and also satisfy
-  # the conditions above)
-  
-  slice_max(total_co2, n = 5)
+    survey_locations %>% 
+      select(survey_location, site_name),
+    by = "survey_location"
+  ) %>% 
+  inner_join(
+    sites %>% 
+      select(site_name, region) %>% 
+      filter(
+        region %in% 
+          c(
+            "MD",
+            "DC",
+            "VA"
+          )
+      ),
+    by = "site_name"
+  ) %>% 
+  summarize(
+    n_dmv = sum(arthropod_quantity),
+    .by = region
+  )
 
-# 8 -----------------------------------------------------------------------
+# question 10 -------------------------------------------------------------
 
-# Using `population_co2` and `top_emitters_2018`, generate a ggplot that shows
-# the per capita CO~2~ emissions from 1960 to 2018 for the five countries that
-# had the highest total CO~2~ emissions in 2018. Plot the data such that:
-
-# * The data being plotted are the per capita emissions from 1960-2018 for the
-#   top five emitting countries in 2018
-# * Evaluation of the plotting code does not produce any warning messages
-# * Your x-aesthetic is year and is labeled “Year”
-# * Your y-aesthetic is co_2 and is labeled “Carbon dioxide emissions (metric 
-#   tons/person)”
-# * Your color aesthetic is country_name and is labeled “Country”
-# * Your plot includes point and line geometries
-# * The x-axis ranges from 1960 to 2020
-# * The y-axis ranges from 0 to 30
-# * The plot includes a descriptive title
-# * The background of the plot is white and contains no grid lines
-
-population_co2 %>% 
-  
-  # Select variables of interest:
-  
-  select(country_code, year, co2) %>% 
-  
-  # Join the data frame from question 7:
-  
-  inner_join(top_emitters_2018, by = "country_code") %>% 
-  
-  # Remove NA values (to silence error messages)
-  
-  drop_na(co2) %>% 
-  
-  # Plotting:
-  
-  ggplot() +
-  
-  aes(
-    x = year, 
-    y = co2,
-    color = country_name) +
-  
-  # Geometries:
-  
-  geom_point() +
-  geom_line() +
-  
-  # Scale x-axis:
-  
-  scale_x_continuous(
-    expand = c(0, 0),
-    limits = c(1960, 2020)) +
-  
-  # Scale y-axis:
-  
-  scale_y_continuous(
-    expand = c(0, 0),
-    limits = c(0, 30)) +
-  
-  # Labels:
-  
-  labs(
-    title = "Global per capita carbon dioxide emissions for the top five emitters, 1960-2018",
-    x = "Year",
-    y = "Carbon dioxide emissions (metric tons/person)") +
-  
-  # Thematic elements:
-  
-  theme(
-    panel.background = element_rect(fill = "white"))
