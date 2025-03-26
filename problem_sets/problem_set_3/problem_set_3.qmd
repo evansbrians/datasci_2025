@@ -43,7 +43,7 @@ library(tidyverse)
 
 In this exercise, you will explore data from the participatory science project [*Caterpillar Counts!*](https://luquillo.lter.network/){target="_blank"}. The primary goal of this project, which was developed by macroecologist Dr. Allen Hurlbert, is to explore the temporal and spatial distribution of arthropods across North America. Our very own Tara Snedgen leads the Smithsonian Migratory Bird Center's *Caterpillar Counts!* sampling team.
 
-### Grading
+## Grading
 
 The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="score"}).
 
@@ -181,7 +181,7 @@ the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using a snak
 
 :::
 
-# Exploring data within a single table
+## Exploring data within a single table
 
 The names in your global environment are associated with objects that represent levels of observation. Each of these objects contains valuable information about this study!
 
@@ -197,7 +197,7 @@ The names in your global environment are associated with objects that represent 
 
 :::
 
-# Exploring data across two tables
+## Exploring data across two tables
 
 Tidy data often require us to conduct joins that allow us to work with information organized at different levels of observation.
 
@@ -225,7 +225,7 @@ To properly address this question you will have to do something about surveys in
 
 
 
-# Exploring data across multiple tables
+## Exploring data across multiple tables
 
 It is sometimes the case that one level of observation is distantly connected to the information stored in another level of observation. This requires us to chain joins across a series of tables. This is an incredibly common occurrence when working with databases!
 
