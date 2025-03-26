@@ -119,7 +119,7 @@ In this assignment, you may **only** use the following R functions in your submi
 ## About the data 
 
 :::: Accordion
-<button class="accordion">Data for this assignment</button>
+<button class="accordion">Metadata for this assignment</button>
 
 :::: {.panel}
 
@@ -136,8 +136,7 @@ This problem set will use the file `caterpillars_count.rds`. This is a tidy data
 
 [**survey_locations**]{.mono}: Information about the survey location, where each location represents a branch on a given tree.
 
-* [branch_id]{.mono}, character: A unique identifier for each survey location (primary key).
-* [survey_location]{.mono}, character: A unique letter code input by users that specifies a particular survey branch.
+* [branch_id]{.mono}, character: A unique letter code input by users that specifies a particular survey branch (primary key).
 * [site_id]{.mono}, character: Foreign key to `sites`.
 * [plant]{.mono}, character: Plant species of the survey branch.
 
@@ -180,7 +179,7 @@ the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using a snak
 
 :::{class="now_you"}
 
-3\. [[1.0]]{class="score"}  Read in the `caterpillars_count.rds` and assign the names of the list to the global environment.
+3\. [[1.0]]{class="score"} Read in the file `caterpillars_count.rds` and assign the names of the list items to the global environment.
 
 :::
 
