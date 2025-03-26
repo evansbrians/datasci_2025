@@ -212,36 +212,6 @@ surveys %>%
   aes(x = region) +
   geom_bar()
 
-# Or (but not suggested):
-
-surveys %>% 
-  
-  # Subset to surveys in 2024:
-  
-  filter(
-    year(date) == 2024
-  ) %>% 
-  
-  # Join source to target table, maintaining all of the rows in target:
-  
-  left_join(
-    survey_locations,
-    by = "survey_location"
-  ) %>% 
-  
-  # Join source to target table, maintaining only matching key values:
-  
-  inner_join(
-    sites_dmv,
-    by = "site_name"
-  ) %>% 
-  
-  # Plot the number of surveys per region:
-  
-  ggplot() +
-  aes(x = region) +
-  geom_bar()
-
 # question 10 --------------------------------------------------------------
 
 # Please generate a summary table that provides the total number of arthropods
