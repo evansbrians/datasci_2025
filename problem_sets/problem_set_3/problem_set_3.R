@@ -17,8 +17,8 @@
 
 # question 3 --------------------------------------------------------------
 
-# Read in the `caterpillars_count.rds` and assign the names of the list to the
-# global environment.
+# Read in the file `caterpillars_count.rds` and assign the names of the list
+# items to the global environment.
 
 
 
@@ -39,8 +39,8 @@
 
 # question 6 --------------------------------------------------------------
 
-# Create a summary table that displays the number of surveys by year across
-# regions and arrange from the highest to lowest number of surveys per year.
+# Create a summary table that displays the number of surveys by year and 
+# arrange from the highest to lowest number of surveys per year.
 
 
 
@@ -60,13 +60,13 @@
 
 # Please generate a summary table that provides the average (mean) number of
 # caterpillars observed in "Beat sheet" and "Visual" surveys
-# (`observation_method`) across sampling regions.
+# (`observation_method`).
 
 
 
 # question 9 --------------------------------------------------------------
 
-# Please generate a bar plot that displays the total number of surveys conducted
+# Please generate a bar plot that displays the number of surveys conducted
 # in the District of Columbia, Maryland, and Virginia in 2024. Plot the data
 # such that:
 

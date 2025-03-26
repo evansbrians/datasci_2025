@@ -17,8 +17,8 @@ library(tidyverse)
 
 # question 3 --------------------------------------------------------------
 
-# Read in the `caterpillars_count.rds` and assign the names of the list to the
-# global environment.
+# Read in the file `caterpillars_count.rds` and assign the names of the list
+# items to the global environment.
 
 read_rds("data/raw/caterpillars_count.rds") %>% 
   list2env(.GlobalEnv)
