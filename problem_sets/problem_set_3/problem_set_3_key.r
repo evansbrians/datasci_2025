@@ -243,7 +243,6 @@ surveys %>%
   aes(x = region) +
   geom_bar()
 
-
 # question 10 --------------------------------------------------------------
 
 # Please generate a summary table that provides the total number of arthropods
