@@ -94,7 +94,7 @@ surveys %>%
 # District of Columbia, Maryland, or Virginia. For full credit, please complete
 # this such that:
 
-# * No columns are added to, or removed from, `survey_locqtions`
+# * No columns are added to, or removed from, `survey_locations`
 # * The `filter` function is not used to subset rows
 # * The `select` function is not used to subset columns
 
@@ -104,7 +104,7 @@ survey_locations %>%
   
   semi_join(
     sites_dmv,
-    by = "site_name"
+    by = "site_id"
   )
 
 # question 8 --------------------------------------------------------------
@@ -196,7 +196,7 @@ surveys %>%
   
   # Subset to variables of interest:
   
-  select(survey_id:survey_location) %>% 
+  select(survey_id:branch_id) %>% 
   
   # Join source to target table, maintaining all of the rows in target:
   
@@ -206,7 +206,7 @@ surveys %>%
       # Reduce columns to just those that we want to maintain:
       
       select(!plant),
-    by = "survey_location"
+    by = "branch_id"
   ) %>% 
   
   # Join source to target table, maintaining only matching key values:
@@ -216,8 +216,8 @@ surveys %>%
       
       # Subset to variables of interest:
       
-      select(site_name, region),
-    by = "site_name"
+      select(site_id, region),
+    by = "site_id"
   ) %>% 
   
   # Plot the number of surveys per region:
@@ -259,7 +259,7 @@ observations %>%
       
       # Subset to variables of interest:
       
-      select(survey_id, survey_location),
+      select(survey_id, branch_id),
     by = "survey_id"
   ) %>% 
   
@@ -270,8 +270,8 @@ observations %>%
       
       # Subset to variables of interest:
       
-      select(survey_location, site_name),
-    by = "survey_location"
+      select(branch_id, site_id),
+    by = "branch_id"
   ) %>% 
   
   # Join the source to the target table, maintaining only matching key values:
@@ -281,8 +281,8 @@ observations %>%
       
       # Subset to variables of interest:
       
-      select(site_name, region),
-    by = "site_name"
+      select(site_id, region),
+    by = "site_id"
   ) %>% 
   
   # Count the number of arthropods observed by region:

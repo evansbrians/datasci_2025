@@ -50,7 +50,7 @@
 # District of Columbia, Maryland, or Virginia. For full credit, please complete
 # this such that:
 
-# * No columns are added to, or removed from, `survey_locqtions`
+# * No columns are added to, or removed from, `survey_locations`
 # * The `filter` function is not used to subset rows
 # * The `select` function is not used to subset columns
 
