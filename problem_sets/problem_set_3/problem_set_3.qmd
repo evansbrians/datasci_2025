@@ -125,30 +125,33 @@ In this assignment, you may **only** use the following R functions in your submi
 
 This problem set will use the file `caterpillars_count.rds`, a tidy dataset that contains the following list items:
 
-`sites`: Site-level information.
+[**sites**]{.mono}: Site-level information.
 
+* [site_id]{.mono}, character: A unique identifier for each site (primary key).
 * [site_name]{.mono}, character: The name of the study site.
 * [site_description]{.mono}, character: Description of the site
 * [latitude]{.mono}, character: The latitudinal coordinates of a site, in decimal degrees.
 * [longitude]{.mono}, character: The longitudinal coordinates of a site, in decimal degrees.
 * [region]{.mono}, double numeric: The area of a country, in square kilometers
 
-`survey_locations`: Information about the survey location, where each location represents a branch on a given tree.
+[**survey_locations**]{.mono}: Information about the survey location, where each location represents a branch on a given tree.
 
-* [survey_location]{.mono}, character: A unique three-letter code specifying a particular survey branch.
-* [site_name]{.mono}, character: The name of the study site.
+* [branch_id]{.mono}, character: A unique identifier for each survey location (primary key).
+* [survey_location]{.mono}, character: A unique letter code input by users that specifies a particular survey branch.
+* [site_id]{.mono}, character: Foreign key to `sites`.
 * [plant]{.mono}, character: Plant species of the survey branch.
 
-`surveys`: Each survey is a sampling event conducted on a given date with a given observation method.
+[**surveys**]{.mono}: Each survey is a sampling event conducted on a given date with a given observation method.
 
-* [survey_id]{.mono}, character: A unique code representing a sampling event.
-* [survey_location]{.mono}, character: A unique three-letter code specifying a particular survey branch.
+* [survey_id]{.mono}, character: A unique identifier for each survey event (primary key).
+* [branch_id]{.mono}, character: Foreign key to `survey_locations`.
 * [date]{.mono}, character: The date that a survey occurred
 * [observation_method]{.mono}, character: The survey method, either "Visual" or "Beat sheet"
 
-`observations`: Each observation is an arthropod order and the quantity of individuals within that order observed during a given survey.
+[**observations**]{.mono}: Each observation is an arthropod order and the quantity of individuals within that order observed during a given survey.
 
-* [survey_id]{.mono}, character: A unique code representing a sampling event.
+* [observation_id]{.mono}, character:  A unique identifier for each arthropod observation (primary key).
+* [survey_id]{.mono}, character: Foreign key to `surveys`.
 * [arthropod]{.mono}, character: The arthropod order that was observed during a survey.
 * [arthropod_quantity]{.mono}, character: The number of arthropods of a given order observed during a survey.
 
