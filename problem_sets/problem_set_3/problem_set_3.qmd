@@ -41,7 +41,11 @@ library(tidyverse)
 
 ![](../../images/tara_counting_caterpillars.jpg){.intro_image}
 
-In this exercise, you will explore data from the participatory science project [*Caterpillar Counts!*](https://luquillo.lter.network/){target="_blank"}. The primary goal of this project, which was developed by macroecologist Dr. Allen Hurlbert, is to explore the temporal and spatial distribution of arthropods across North America. Our very own Tara Snedgen leads the Smithsonian Migratory Bird Center's *Caterpillar Counts!* sampling team.
+In this exercise, you will explore data from the participatory science project [*Caterpillars Count!*](https://caterpillarscount.unc.edu/){target="_blank"}. The primary goal of this project, which was developed by macroecologist Dr. Allen Hurlbert, is to explore the temporal and spatial distribution of arthropods across North America. Our very own Tara Snedgen leads the Smithsonian Migratory Bird Center's *Caterpillars Count!* sampling team.
+
+Data were provided by Caterpillars Count! and the many participants who contribute to its foliage arthropod monitoring program.
+
+**Citation**: *Caterpillars Count!. 2025. Foliage Arthropod Data. Data type: Raw data. 05/29/2002 - 03/12/2025 for Site: All sites. Chapel Hill, North Carolina, USA. Data set accessed 03/25/2025 at [https://caterpillarscount.unc.edu/](https://caterpillarscount.unc.edu/){target="blank"}.*
 
 ## Grading
 
@@ -73,37 +77,40 @@ Points may be deducted from each question's total:
 
 In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
 
-* `.Primitive, ()`
-* `.Primitive, =`
+* `.Primitive, (...)`
 * `.Primitive, <-`
+* `.Primitive, =`
 * `.Primitive, :`
 * `.Primitive, ==`
-* `.Primitive, *`
 * `.Primitive, !`
-* `.Primitive, as.numeric`
 * `.Primitive, c`
+* `.Primitive, sum`
+* `base::%in%`
 * `base::library`
+* `base::list2Env`
+* `base::mean`
+* `dplyr::arrange`
+* `dplyr::desc`
 * `dplyr::filter`
+* `dplyr::full_join`
 * `dplyr::inner_join`
 * `dplyr::left_join`
 * `dplyr::mutate`
 * `dplyr::n`
+* `dplyr::pull`
 * `dplyr::select`
-* `dplyr::slice_max`
+* `dplyr::semi_join`
+* `dplyr::summarize`
 * `ggplot2::+`
 * `ggplot2::aes`
-* `ggplot2::element_rect`
-* `ggplot2::geom_line`
-* `ggplot2::geom_point`
+* `ggplot2::geom_bar`
 * `ggplot2::ggplot`
 * `ggplot2::labs`
-* `ggplot2::scale_x_continuous`
 * `ggplot2::scale_y_continuous`
-* `ggplot2::theme`
+* `lubridate::year`
 * `magrittr::%>%`
-* `readr::read_csv`
-* `tidyr::drop_na`
-* `tidyr::pivot_longer`
+* `readr::read_rds`
+* `tidyr::replace_na`
 
 :::
 
@@ -118,7 +125,7 @@ In this assignment, you may **only** use the following R functions in your submi
 
 This problem set will use the file `caterpillars_count.rds`, a tidy dataset that contains the following list items:
 
-`sites`: This describes site-level information
+`sites`: Site-level information.
 
 * [site_name]{.mono}, character: The name of the study site.
 * [site_description]{.mono}, character: Description of the site
@@ -126,23 +133,22 @@ This problem set will use the file `caterpillars_count.rds`, a tidy dataset that
 * [longitude]{.mono}, character: The longitudinal coordinates of a site, in decimal degrees.
 * [region]{.mono}, double numeric: The area of a country, in square kilometers
 
-`survey_locations`:
+`survey_locations`: Information about the survey location, where each location represents a branch on a given tree.
 
 * [survey_location]{.mono}, character: A unique three-letter code specifying a particular survey branch.
 * [site_name]{.mono}, character: The name of the study site.
 * [plant]{.mono}, character: Plant species of the survey branch.
 
-`surveys`:
+`surveys`: Each survey is a sampling event conducted on a given date with a given observation method.
 
-* [survey_id]{.mono}, character: A name (in English) for each country
+* [survey_id]{.mono}, character: A unique code representing a sampling event.
 * [survey_location]{.mono}, character: A unique three-letter code specifying a particular survey branch.
 * [date]{.mono}, character: The date that a survey occurred
 * [observation_method]{.mono}, character: The survey method, either "Visual" or "Beat sheet"
 
-`observations`:
+`observations`: Each observation is an arthropod order and the quantity of individuals within that order observed during a given survey.
 
-* [survey_id]{.mono}, character: A name (in English) for each country
-* [herbivory_score]{.mono}, character: A categorical score of the proportion of the observed leaf area that was consumed by arthropods; 0 = None, 1 = Trace (<5%), 2 = Light (5-10%), 3 = Moderate (10-25%), 4 = Heavy (>25%).
+* [survey_id]{.mono}, character: A unique code representing a sampling event.
 * [arthropod]{.mono}, character: The arthropod order that was observed during a survey.
 * [arthropod_quantity]{.mono}, character: The number of arthropods of a given order observed during a survey.
 
@@ -193,7 +199,7 @@ The names in your global environment are associated with objects that represent 
 
 :::{class="now_you"}
 
-6\. [[1.0]]{class="score"} Create a summary table that displays the number of surveys by year across regions and arrange from the highest to lowest number of surveys per year.
+6\. [[1.0]]{class="score"} Create a summary table that displays the number of surveys by year and arrange from the highest to lowest number of surveys per year.
 
 :::
 
@@ -203,17 +209,17 @@ Tidy data often require us to conduct joins that allow us to work with informati
 
 :::{class="now_you"}
 
-7\. [[2.0]]{class="score"} Subset the survey_locations data frame to those that are located within sites in the District of Columbia, Maryland, or Virginia. For full credit, please complete this such that:
+7\. [[2.0]]{class="score"} Using `sites_dmv`, subset the `survey_locations` data frame to those that are located within sites in the District of Columbia, Maryland, or Virginia. For full credit, please complete this such that:
 
-* No columns are added to, or removed from, `survey_locations`
-* The `filter` function is not used to subset rows
-* The `select` function is not used to subset columns
+* No columns are added to, or removed from, `survey_locations`;
+* The `filter` function is not used to subset rows;
+* The `select` function is not used to subset columns.
 
 :::
 
 :::{class="now_you"}
 
-8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys (`observation_method`) across sampling regions. 
+8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys (`observation_method`). 
 
 :::{class="mysecret"}
 <i class="fas fa-user-secret fa-2x"></i> Zeros are important!
@@ -248,12 +254,12 @@ It is sometimes the case that one level of observation is distantly connected to
 
 :::{class="now_you"}
 
-9\. [[2.5]]{class="score"} Please generate a bar plot that displays the total number of surveys conducted in the District of Columbia, Maryland, and Virginia in 2024. Plot your data such that:
+9\. [[2.5]]{class="score"} Please generate a bar plot that displays the number of surveys conducted in the District of Columbia, Maryland, and Virginia in 2024. Plot your data such that:
 
-* Your x-aesthetic is region and is labeled "Region"
-* Your y-axis is labeled "Count"
-* The y-axis ranges from 0 to 2500
-* The plot includes a descriptive title
+* Your x-aesthetic is region and is labeled "Region";
+* Your y-axis is labeled "Count";
+* The y-axis ranges from 0 to 2500;
+* The plot includes a descriptive title.
 
 :::
 
