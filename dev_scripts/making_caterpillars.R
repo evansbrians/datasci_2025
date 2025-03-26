@@ -24,7 +24,8 @@ arthropods <-
   ) %>% 
   mutate(
     arthropod_quantity = replace_na(arthropod_quantity, 0)
-  )
+  ) %>% 
+  distinct()
 
 # tidy levels of observation ----------------------------------------------
 
@@ -33,11 +34,18 @@ arthropods <-
 cc_sites <- 
   arthropods %>% 
   select(
-    site_name,
-    site_description, 
+    site_name:site_description,
     latitude:region
   ) %>% 
-  distinct()
+  distinct() %>% 
+  mutate(
+    site_id =
+      stringi::stri_rand_strings(
+        n = nrow(.),
+        length = 7
+      ),
+    .before = site_name
+  )
 
 # Survey location table:
 
@@ -47,6 +55,16 @@ cc_survey_locations <-
     survey_location,
     site_name,
     plant
+  ) %>% 
+  left_join(
+    cc_sites %>% 
+      select(site_id, site_name),
+    by = "site_name"
+  ) %>% 
+  select(
+    branch_id = survey_location,
+    site_id,
+    plant
   )
 
 # Surveys table:
@@ -54,70 +72,110 @@ cc_survey_locations <-
 cc_surveys <-
   arthropods %>% 
   mutate(
-    survey_id = 
+    survey_id_temp = 
       str_c(
         survey_location,
         year(date),
         yday(date),
         sep = "-"
       ),
-    survey_id =
+    survey_id_temp =
       if_else(
         str_detect(observation_method, "Visual"),
-        str_c(survey_id, "v"),
-        str_c(survey_id, "b")
+        str_c(survey_id_temp, "v"),
+        str_c(survey_id_temp, "b")
       )
   ) %>%
   distinct(
-    survey_id,
-    survey_location,
+    survey_id_temp,
+    branch_id = survey_location,
     date,
     observation_method
+  ) %>% 
+  mutate(
+    survey_id = 
+      stringi::stri_rand_strings(
+        n = nrow(.),
+        length = 7
+      ),
+    .before = survey_id_temp
   )
 
 # Counts table:
 
-cc_observations <-
+observations <-
   arthropods %>% 
   mutate(
-    survey_id = 
+    survey_id_temp = 
       str_c(
         survey_location,
         year(date),
         yday(date),
         sep = "-"
       ),
-    survey_id =
+    survey_id_temp =
       if_else(
         str_detect(observation_method, "Visual"),
-        str_c(survey_id, "v"),
-        str_c(survey_id, "b")
+        str_c(survey_id_temp, "v"),
+        str_c(survey_id_temp, "b")
       )
   ) %>%
   select(
-    survey_id,
-    herbivory_score,
+    survey_id_temp,
     arthropod,
     arthropod_quantity
   ) %>% 
-  filter(herbivory_score >= 0) %>% 
-  distinct() %>% 
   summarize(
     arthropod_quantity = sum(arthropod_quantity),
     .by =
       c(
-        survey_id,
-        herbivory_score,
+        survey_id_temp,
         arthropod
       )
+  ) %>% 
+  distinct() %>% 
+  left_join(
+    cc_surveys %>% 
+      select(survey_id, survey_id_temp),
+    by = "survey_id_temp"
+  ) %>% 
+  select(
+    survey_id,
+    everything()
+  ) %>% 
+  select(!survey_id_temp)
+
+# back up the line --------------------------------------------------------
+
+# All of the below were actually good, but just required a double-check
+
+surveys <- 
+  cc_surveys %>% 
+  select(!survey_id_temp) %>% 
+  semi_join(observations, by = "survey_id") %>% 
+  arrange(date, branch_id)
+
+survey_locations <- 
+  cc_survey_locations %>% 
+  semi_join(surveys, by = "branch_id")
+
+sites <- 
+  cc_sites %>% 
+  semi_join(survey_locations, by = "site_id")
+
+
+# write to files ----------------------------------------------------------
+
+my_list <-
+  list(
+    sites = sites,
+    survey_locations = survey_locations,
+    surveys = surveys,
+    observations = observations
   )
 
-# write to file -----------------------------------------------------------
-
-list(
-  sites = cc_sites,
-  survey_locations = cc_survey_locations,
-  surveys = cc_surveys,
-  observations = cc_observations
-) %>% 
+my_list %>% 
   write_rds("data/raw/caterpillars_count.rds")
+
+my_list %>% 
+  write_rds("problem_sets/problem_set_3/caterpillars_count.rds")
