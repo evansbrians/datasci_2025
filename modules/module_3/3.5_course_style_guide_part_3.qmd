@@ -46,6 +46,38 @@ The “Additions” section, below, only includes new formatting rules that were
 
 :::{style="margin-bottom:-2em;"}
 
+-   Now that you have gotten the hang of pipes, we are loosening the **nested functions** rule -- you may now nest functions **three** levels deep! *Note: Although there will be instances where you will need to nest functions three levels deep, you should still try to use pipes whenever possible!*
+
+    :::: indent_code_bb
+    <button class="accordion" style="margin-bottom:1em;">Example</button>
+    ::: panel
+    [Bad:]{.bad}
+    
+    ```{r}
+    mean(
+      as.numeric(
+        factor(
+          c("boy", "howdy")
+        )
+      )
+    )
+    ```
+    
+    [Good:]{.good}
+    
+    ```{r}
+    c("boy", "howdy") %>% 
+      factor() %>% 
+      as.numeric() %>% 
+      mean()
+    ```
+    :::
+    ::::
+    
+:::
+
+:::{style="margin-bottom:-2em;"}
+
 -   If a function is on the same line as another function, and the number of arguments across functions is three or more, place each argument of the parent function on its own line.
 
     :::: indent_code_bb
@@ -1096,7 +1128,7 @@ The “Additions” section, below, only includes new formatting rules that were
 
 :::{style="margin-bottom:-2em;"}
 
--   **Nested functions** should not be nested deeper than two levels (use a pipe instead!).
+-   **Nested functions** should not be nested deeper than **three** levels (use a pipe instead!).
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
@@ -1106,7 +1138,9 @@ The “Additions” section, below, only includes new formatting rules that were
     ```{r}
     mean(
       as.numeric(
-        factor(1:2)
+        factor(
+          c("boy", "howdy")
+        )
       )
     )
     ```
@@ -1114,7 +1148,8 @@ The “Additions” section, below, only includes new formatting rules that were
     [Good:]{.good}
     
     ```{r}
-    factor(1:2) %>%
+    c("boy", "howdy") %>% 
+      factor() %>% 
       as.numeric() %>% 
       mean()
     ```
@@ -1256,7 +1291,7 @@ The “Additions” section, below, only includes new formatting rules that were
 
 :::{style="margin-bottom:-2em;"}
 
--   **Single quotes**: Avoid using single quotes when referring to character values -- only use them when necessary (see preliminary lesson BOY HOWDY).
+-   **Single quotes**: Avoid using single quotes when referring to character values -- only use them when necessary (see **Preliminary lesson 2: Values**).
 
     :::: indent_code_bb
     <button class="accordion" style="margin-bottom:1em;">Example</button>
