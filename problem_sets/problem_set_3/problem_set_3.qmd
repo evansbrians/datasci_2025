@@ -123,7 +123,7 @@ In this assignment, you may **only** use the following R functions in your submi
 
 :::: {.panel}
 
-This problem set will use the file `caterpillars_count.rds`, a tidy dataset that contains the following list items:
+This problem set will use the file `caterpillars_count.rds`. This is a tidy dataset that contains the following list of tibble data frames:
 
 [**sites**]{.mono}: Site-level information.
 
