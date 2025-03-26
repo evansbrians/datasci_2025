@@ -143,7 +143,15 @@ observations <-
     survey_id,
     everything()
   ) %>% 
-  select(!survey_id_temp)
+  select(!survey_id_temp) %>% 
+  mutate(
+    observation_id = 
+      stringi::stri_rand_strings(
+        n = nrow(.),
+        length = 7
+      ),
+    .before = survey_id
+  )
 
 # back up the line --------------------------------------------------------
 
