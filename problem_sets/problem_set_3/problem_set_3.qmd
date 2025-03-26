@@ -39,7 +39,9 @@ library(tidyverse)
 
 <hr>
 
-In this exercise, you will explore data compiled by the <a href = "https://databank.worldbank.org/home.aspx" target = "_blank">World Bank DataBank</a> that provides information on the emissions of greenhouse gases and the populations of countries around the world.
+  ![](../../images/tara_counting_caterpillars.jpg){.intro_image}
+
+In this exercise, you will explore data from the participatory science project [Caterpillar Counts!](https://luquillo.lter.network/){target="_blank"}. 
 
 ### Grading
 
@@ -47,10 +49,11 @@ The points allotted for each question are provided in highlighted red bold text 
 
 Points may be deducted from each question's total: 
 
-* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
-* [[50%]]{class="subscore"} Include only assignments specified in the question;
-* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
-* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
+* [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question;
+* [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
+* [[10%]]{class="subscore"} Code parsimony;
+* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3**;
 * [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
 
 *Note: The maximum deduction is the total points value for a given question*
@@ -113,34 +116,35 @@ In this assignment, you may **only** use the following R functions in your submi
 
 :::: {.panel}
 
-This problem set will use the following files:
+This problem set will use the file `caterpillars_count.rds`, a tidy dataset that contains the following list items:
 
-[world_bank_countries.csv]{.mono}: A csv file that provides country reference information from the World Bank. Variables include:
+`sites`: This describes site-level information
 
-* [country_code]{.mono}, character: A three-letter code assigned to each country
-* [country_name]{.mono}, character: A name (in English) for each country
-* [country_region]{.mono}, character: The general region where each country is located
-* [country_georegion]{.mono}, character: A finer-scale region with the larger region
-* [land_area]{.mono}, double numeric: The area of a country, in square kilometers
+* [site_name]{.mono}, character: The name of the study site.
+* [site_description]{.mono}, character: Description of the site
+* [latitude]{.mono}, character: The latitudinal coordinates of a site, in decimal degrees.
+* [longitude]{.mono}, character: The longitudinal coordinates of a site, in decimal degrees.
+* [region]{.mono}, double numeric: The area of a country, in square kilometers
 
+`survey_locations`:
 
-[API_SP.POP.TOTL_DS2_en_csv_v2_2763937.csv]{.mono}: Can you believe that this is the *actual* name of the file? These data were also retrieved from the World Bank and represent the population of each country from 1960 through 2020. These are the raw data and have not been altered in any way. Variables include:
+* [survey_location]{.mono}, character: A unique three-letter code specifying a particular survey branch.
+* [site_name]{.mono}, character: The name of the study site.
+* [plant]{.mono}, character: Plant species of the survey branch.
 
-* [Country Name]{.mono}, character: A name (in English) for each country
-* [Country Code]{.mono}, character: A three-letter code assigned to each country
-* [Indicator Name]{.mono}, character: The variable being measured for each country
-* [Indicator Code]{.mono}, character: A code representing the variable being measured
-* [1960 ... 2020]{.mono}, numeric: The population of each country in a given year (year as columns)
-* [...66]{.mono}, logical: A junk column that suggests these data were compiled using Microsoft Excel
+`surveys`:
 
-[API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv]{.mono}: These data were also retrieved from the World Bank and represent the *per capita* CO~2~ emissions of each country from 1960 through 2020. These are the raw data and have not been altered in any way. Variables include:
+* [survey_id]{.mono}, character: A name (in English) for each country
+* [survey_location]{.mono}, character: A unique three-letter code specifying a particular survey branch.
+* [date]{.mono}, character: The date that a survey occurred
+* [observation_method]{.mono}, character: The survey method, either "Visual" or "Beat sheet"
 
-* [Country Name]{.mono}, character: A name (in English) for each country
-* [Country Code]{.mono}, character: A three-letter code assigned to each country
-* [Indicator Name]{.mono}, character: The variable being measured for each country
-* [Indicator Code]{.mono}, character: A code representing the variable being measured
-* [1960 ... 2020]{.mono}, numeric: The *per capita*  CO~2~ emissions of each country in a given year (year as columns)
-* [...66]{.mono}, logical: A junk column that suggests these data were compiled using Microsoft Excel
+`observations`:
+
+* [survey_id]{.mono}, character: A name (in English) for each country
+* [herbivory_score]{.mono}, character: A categorical score of the proportion of the observed leaf area that was consumed by arthropods; 0 = None, 1 = Trace (<5%), 2 = Light (5-10%), 3 = Moderate (10-25%), 4 = Heavy (>25%).
+* [arthropod]{.mono}, character: The arthropod order that was observed during a survey.
+* [arthropod_quantity]{.mono}, character: The number of arthropods of a given order observed during a survey.
 
 :::
 
@@ -153,140 +157,102 @@ This problem set will use the following files:
 :::
 
 :::{class="now_you"}
-1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_3_[last
-name]_[first name].R". For example, I would name my file `problem_set_3_evans_brian.R`.
 
-2\. [[0.50]]{class="score"} Attach the tidyverse metapackage to your current R session.
-
-:::
-
-## Read and pre-process the data
-
-:::{class="now_you"}
-3\. [[1.0]]{class="score"}  The following code reads in `world_bank_countries.csv` and assigns the name `countries` to your global environment. Please modify this code such that it follows best management practices in code formatting.
-
-```{r q03, message = FALSE, warning = FALSE}
-countries=read_csv("data/raw/world_bank_countries.csv")%>%select(!country_region)
-```
-
-4\. [[1.0]]{class="score"} The code below reads in and wrangles the data successfully, but not parsimoniously. Modify the code such that the process below is completed in a chained analysis in which only the name associated with the final object, `world_pop`, is assigned to your global environment (i.e., the code block should not include intermediate assignments).
-
-```{r q04, message = FALSE, warning = FALSE}
-# Read in population data:
-
-world_pop_raw <-
-  read_csv(
-    'data/raw/API_SP.POP.TOTL_DS2_en_csv_v2_2763937.csv', 
-    skip = 3)
-
-# Subset to columns of interest:
-
-world_pop_column_subset <-
-  select(
-    world_pop_raw,
-    
-    # Rename Country Code column to remove space:
-    
-    country_code = `Country Code`,
-    
-    # Subset to other columns of interest:
-    
-    `1960`:`2020`)
-
-
-# Make the data tidy by pivoting to a long form table:
-
-world_pop_long <-
-  pivot_longer(
-    world_pop_column_subset,
-    names_to = 'year',
-    values_to = 'population',
-    `1960`:`2020`)
-
-# Finally, convert the year column to numeric:
-
-world_pop <-
-  mutate(
-    world_pop_long,
-    year = as.numeric(year))
-```
+1\. [[0.50]]{class="score"} Before opening your script file for this problem set, change the name of
+the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using a snake case naming convention. For example, Tara would name her file `problem_set_3_snedgen_tara.R`. *Note: You will submit this script file as your assignment*.
 
 :::
 
-*Note: Why did I include "skip = 3" as one of my arguments? You might want to look at what happens when you do not include a skip argument. If this is confusing, please revisit the video lecture and tutorial on reading and writing data.*
-
-*Also note: Back ticks (e.g.,* `1960`*) are needed when columns start with a number or contain a space.*
-
 :::{class="now_you"}
 
-5\. [[1.0]]{class="score"} In a chained analysis with no intermediate assignments:
-
-* [[0.3]]{class="subscore"} Read in the CO~2~ data (`API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.csv`)
-* [[0.3]]{class="subscore"} Wrangle the data such that the resultant tibble contains (only) the variables `country_code`, `year`, and `co2` (as above)
-* [[0.3]]{class="subscore"} Convert the class of the `year` variable to numeric
-* [[0.2]]{class="subscore"} Globally assign the data frame to the name `co2`
+2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
 
 :::
 
-We can see that the data are not tidy. Recall the tidy rule that every level of observation forms a table. The population table and the CO~2~ table are the same level of observation -- each characterize some attribute of the country on a given year. As such, the data should be stored in the same table.  We'll need to join the tables together.
-
 :::{class="now_you"}
 
-6\. [[1.0]]{class="score"} Join the population and CO~2~ tibbles [[0.8]]{class="subscore"}. Globally assign the resultant object to the name `population_co2` [[0.2]]{class="subscore"}. *Hint: You will have to be careful here, because the two tibbles contain two common columns that define the observation!*
+3\. [[1.0]]{class="score"}  Read in the `caterpillars_count.rds` and assign the names of the list to the global environment.
 
 :::
 
-## Subset and visualize total CO~2~ emissions
+:::{class="now_you"}
 
-Our final goal will be to visualize the change in per capita CO~2~ emissions from 1960-2018 for the countries that emitted the most total CO~2~ in 2018 (the last year for which we have emissions data). *Note: CO~2~ data are provided in per capita emissions -- metric tons of CO~2~ per person.* 
+4\. [[1.0]]{class="score"} Subset the `sites` data frame to where `region` is `DC` (District of Columbia), `MD` (Maryland), or `VA` (Virginia and globally assign the name `sites_dmv` to the resultant object.
+
+:::
+
+# Exploring data within a single table
+
+The names in your global environment are associated with objects that represent levels of observation. Each of these objects contains valuable information about this study!
 
 :::{class="now_you"}
-7\. [[2.0]]{class="score"} Modify the data frame assigned to `populations_co2` such that `co2` values represent the *total* emissions ([[0.3]]{class="subscore"}; Note: the total emissions for a given country is the per capita emissions times the population) and the data frame is:
 
-* [[0.3]]{class="subscore"} Subset to the year 2018
-* [[0.3]]{class="subscore"} Arranged from the highest to lowest CO~2~ total emissions in 2018 
-* [[0.3]]{class="subscore"} Subset to **only** countries with records in the `countries` data frame
-* [[0.3]]{class="subscore"} Subset to **only** the 5 countries with the most CO~2~ emissions (and also satisfy the conditions above)
-* [[0.3]]{class="subscore"} Subset to  **only** the fields `country_code`, `country_name`, and `total_co2`
-* [[0.2]]{class="subscore"} Globally assigned to the name `top_emitters_2018`
+5\. [[1.0]]{class="score"} How many caterpillars has Caterpillars Count counted? Please provide your answer as a one-value numeric vector.
 
+:::
 
-7\. [[2.0]]{class="score"} Modify the data frame assigned to `populations_co2` such that `co2` values represent the *total* emissions ([[0.3]]{class="subscore"}; Note: the total emissions for a given country is the per capita emissions times the population) and the data frame is:
+:::{class="now_you"}
 
-* Subset to the year 2018
-* Add a column called `total_co2` that represents the *total* emissions (*Note: the total emissions for a given country is the per capita emissions times the population*)
-* Arranged from the highest to lowest CO~2~ total emissions in 2018 
-* Subset to **only** countries with records in the `countries` data frame
-* Subset to **only** the 5 countries with the most CO~2~ emissions (and also satisfy the conditions above)
-* Subset to  **only** the fields `country_code`, `country_name`, and `total_co2`
-* Globally assigned to the name `top_emitters_2018`
+6\. [[1.0]]{class="score"} Create a summary table that displays the number of surveys by year across regions and arrange from highest to lowest number of surveys.
 
+:::
 
-8\. [[2.5]]{class="score"}  Using `population_co2` and `top_emitters_2018`, generate a ggplot that shows the **per capita** CO~2~ emissions from 1960 to 2018 for the five countries that had the highest **total** CO~2~ emissions in 2018. Plot the data such that:
+# Exploring data across two tables
 
-* [[0.25]]{class="subscore"} The data being plotted are the per capita emissions from 1960-2018 for the top five emitting countries
-* [[0.25]]{class="subscore"} Evaluation of the plotting code does not produce any warning messages
-* [[0.25]]{class="subscore"} Your x-aesthetic is year and is labeled "Year"
-* [[0.25]]{class="subscore"} Your y-aesthetic is co_2 and is labeled "Carbon dioxide emissions (metric tons/person)"
-* [[0.25]]{class="subscore"} Your color aesthetic is country_name and is labeled "Country" (*Hint: It's often easier to modify the data going into a `ggplot` than inside of a `ggplot` function*)
-* [[0.25]]{class="subscore"} Your plot includes point and line geometries
-* [[0.25]]{class="subscore"} The x-axis ranges from 1960 to 2020
-* [[0.25]]{class="subscore"} The y-axis ranges from 0 to 30
-* [[0.25]]{class="subscore"} The plot includes a descriptive title
-* [[0.25]]{class="subscore"} The background of the plot is white and contains no grid lines
+Tidy data often require us to conduct joins that allow us to work with information organized at different levels of observation.
 
-8\. [[2.5]]{class="score"}  Using `population_co2` and `top_emitters_2018`, generate a ggplot that shows the **per capita** CO~2~ emissions from 1960 to 2018 for the five countries that had the highest **total** CO~2~ emissions in 2018. Plot the data such that:
+:::{class="now_you"}
 
-* The data being plotted are the per capita emissions from 1960-2018 for the top five emitting countries
-* Evaluation of the plotting code does not produce any warning messages
-* Your x-aesthetic is year and is labeled "Year"
-* Your y-aesthetic is co_2 and is labeled "Carbon dioxide emissions (metric tons/person)"
-* Your color aesthetic is country_name and is labeled "Country" (*Hint: It's often easier to modify the data going into a `ggplot` than inside of a `ggplot` function*)
-* Your plot includes point and line geometries
-* The x-axis ranges from 1960 to 2020
-* The y-axis ranges from 0 to 30
+7\. [[2.0]]{class="score"} Subset the survey_locations data frame to those that are located within sites in the District of Columbia, Maryland, or Virginia. For full credit, please complete this such that:
+
+* No columns are added to, or removed from, `survey_locations`;
+* The `filter` function is not used to subset rows;
+* The `select` function is not used to subset columns.
+
+:::
+
+:::{class="now_you"}
+
+8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys across sampling regions. Note that to properly address this question you will have to do something about surveys in which no caterpillars were observed!
+
+:::
+
+# Exploring data across multiple tables
+
+It is sometimes the case that one level of observation is distantly connected to the information stored in another level of observation. This requires us to chain joins across a series of tables. This is an incredibly common occurrence when working with databases!
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Recommendations for conducting complex database-like operations:
+
+* I suggest using scratch paper to map out your process before attempting to code your way through problems like these:
+    * Visualize what you want your end result to look like.
+    * Determine which tables contain the rows or columns that you want in your resultant object. 
+    * Write out your order of operations.
+    * Identify matching key columns between the tables being joined.
+    * Determine the appropriate target and source table for each join. Recall that, typically, the target table contains the foreign key that is associated with the primary key of the source table.
+    * Consider which type of join (or joins) to use -- make sure you know the different classes of joins and what each one does!
+* When you go to code it:
+    * Add a brief comment before each step describing what that step does.
+    * Subset rows and columns to those of interest prior to conducting joins.
+    * Pipe your way through each individual stage of the process to ensure that it has the desired outcome.
+
+:::
+
+:::{class="now_you"}
+
+9\. [[2.5]]{class="score"} Please generate a bar plot that displays the total number of surveys conducted in the District of Columbia, Maryland, and Virginia in 2024. Plot your data such that:
+
+* Your x-aesthetic is region and is labeled "Region"
+* Your y-axis is labeled "Count"
+* The y-axis ranges from 0 to 2500
 * The plot includes a descriptive title
-* The background of the plot is white and contains no grid lines
+
+:::
+
+:::{class="now_you"}
+
+10\. [[2.5]]{class="score"} Please generate a summary table that provides the total number of arthropods counted per state in the District of Columbia, Maryland, and Virginia in 2024.
+
 :::
 
 

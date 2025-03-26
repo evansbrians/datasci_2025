@@ -25,25 +25,6 @@ read_rds("data/raw/caterpillars_count.rds") %>%
 
 # question 4 --------------------------------------------------------------
 
-# How many caterpillars has Caterpillars Count counted? Please provide your
-# answer as a one-value numeric vector.
-
-observations %>% 
-  
-  # Subset to caterpillar observations:
-  
-  filter(arthropod == "caterpillar") %>% 
-  
-  # Extract the variable of interest:
-  
-  pull(arthropod_quantity) %>% 
-  
-  # Calculate the total number of arthropods:
-  
-  sum()
-
-# question 5 --------------------------------------------------------------
-
 # Subset the `sites` data frame to where `region` is `DC` (District of
 # Columbia), `MD` (Maryland), or `VA` (Virginia and globally assign the name
 # `sites_dmv` to the resultant object.
@@ -61,6 +42,25 @@ sites_dmv <-
         "VA"
       )
   )
+
+# question 5 --------------------------------------------------------------
+
+# How many caterpillars has Caterpillars Count counted? Please provide your
+# answer as a one-value numeric vector.
+
+observations %>% 
+  
+  # Subset to caterpillar observations:
+  
+  filter(arthropod == "caterpillar") %>% 
+  
+  # Extract the variable of interest:
+  
+  pull(arthropod_quantity) %>% 
+  
+  # Calculate the total number of arthropods:
+  
+  sum()
 
 # question 6 --------------------------------------------------------------
 
@@ -81,8 +81,8 @@ surveys %>%
 
 # question 7 --------------------------------------------------------------
 
-# Subset the survey_locations data frame to those that are located within sites
-# in the District of Columbia, Maryland, or Virginia. For full credit, please
+# Subset the survey_locations data frame to records that are located within
+# the District of Columbia, Maryland, or Virginia (`region`). For full credit, please
 # complete this such that:
 
 # * No columns are added to, or removed from, `survey_locqtions`;
@@ -170,7 +170,7 @@ observations %>%
 # question 9 --------------------------------------------------------------
 
 # Please generate a bar plot that displays the total number of surveys conducted
-# in the District of Columbia, Maryland, and Virginia in 2024.
+# in the District of Columbia, Maryland, and Virginia in 2024. 
 
 surveys %>% 
   
@@ -210,7 +210,16 @@ surveys %>%
   
   ggplot() +
   aes(x = region) +
-  geom_bar()
+  geom_bar() +
+  scale_y_continuous(
+    limits = c(0, 2500),
+    expand = c(0, 0)
+  ) +
+  labs(
+    x = "Region",
+    y = "Count",
+    title = "Caterpillar Counts! surveys in D.C., Maryland, and Virginia in 2024"
+  )
 
 # question 10 --------------------------------------------------------------
 
