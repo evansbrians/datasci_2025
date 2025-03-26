@@ -1,106 +1,119 @@
 
 # Comments for students when grading the assignments
 
+# [[-0.10]] Code formatting:
+
+# [[No points removed]] Code formatting:
+
+# [[-0.10]] Code parsimony:
+
+# [[No points removed]] Code parsimony:
 
 # grab bag ----------------------------------------------------------------
 
-# [[-0.25]] You were not asked to a assign a name to the global environment
-# in this question.
+# [[-0.50]] You were not asked to a assign a name to the global environment in
+# this question.
 
-# [[-0.50]] Incorrect (bullet point 5): When comparing between sets of values,
-# use `%in%`.
+# [[-0.50]] Incorrect: When comparing between sets of values, use `%in%`.
 
-# formatting --------------------------------------------------------------
+# [[-0.50]]: When you work in an RStudio project you do not need to supply the
+# absolute file path to the data that you read in. Working in a project allows
+# you to read in the data with a relative file path -- in other words, the
+# location of the file relative to the top level of the project folder. As
+# written, this code will not work on my computer (because I do not share your
+# absolute file path).
 
-# [[-0.05]]: Code formatting: Assigned names should be written in snake_case.
+# functions you may use ---------------------------------------------------
 
-# Horizontal spacing
+# [[-0.50]] `labs` is not among the functions that you may use for this
+# assignment.
 
-# [[-0.025]] Code formatting: Indentation is off -- if the opening parentheses
-# and the first argument of a function are on different lines, the first
-# argument should be indented two spaces (one tab stop) relative to the start of
-# the line above.
+# [[-0.50]] `labs` and `recode` are not among the functions that you may use for this assignment.
 
-# [[-0.025]] Code formatting: Infix functions should be separated from
-# surrounding code with a single leading and trailing space.
+# [[-0.50]] `labs`, `is.na`, and `recode` are not among the functions that you may use for this assignment.
 
-# [[No points removed]] Code formatting: The extraction ($) and colon (:, ::)
-# infix operators should not be preceded or followed by a space.
+# formatting: random ------------------------------------------------------
 
-# [[No points removed]] Code formatting: Commas should be followed by one
-# trailing space.
+# * Assigned names should be written in snake_case.
 
-# [[No points removed]] Code formatting: Commas should be followed by one
-# trailing space, but not a leading space.
+# * Code formatting: Spell out TRUE and FALSE in a function’s argument.
 
-# [[-0.025]] Code formatting: Add a single space between the hashtag (#) and
-# comment.
+# formatting: horizontal space --------------------------------------------
 
-# [[-0.025]] Code formatting: Parentheses ((...)), curly braces {...}, and
-# square bracket (extraction: [], [[]]) operators should not be preceded or
-# followed by a space.
+# Indentation:
 
-# * If a function spans more than one line of code, closing parentheses should
-#   be placed on their own line and indented to the same level as the start of
-#   the function.
+# * Indentation: If the opening parentheses and the first argument of a 
+#   function are on different lines, the first argument should be indented two
+#   spaces (one tab stop) relative to the start of the line above.
 
-# Line breaks:
+# * Indentation and hanging parentheses: If a function spans more than one line
+#   of code, closing parentheses should be placed on their own line and 
+#   indented to the same level as the start of the function.
 
-# [[No points removed]] Code formatting: Code that follows a pipe operator
-# should be placed on a new line.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
 
-# [[No points removed]] Code formatting: Code and comments should not exceed 80
-# characters in width (if it is avoidable) – add a line break, if possible.
+# Single spaces:
 
-# [[-0.025]] Code formatting: Include no more than one prefix function per line
-# of code.
+# * The extraction ($) and colon (:, ::) infix operators should not be preceded
+#   or followed by a space.
 
-# [[-0.025]] Code formatting: Maintain one blank line between code blocks and
-# comments.
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
 
-# [[-0.05]] Code formatting: Maintain one blank line between code blocks and
-# comments. In your version there were additional spaces prior to the section
-# header.
+# * Commas should be followed by one trailing space.
 
-# [[-0.05]] Code formatting: If you provide three or more arguments to a
-# function, place each argument on its own line.
+# * Commas should be followed by one trailing space, but not a leading space.
 
-# [[-0.025]] Code formatting: Do not separate adjacent library() functions with
-# a blank line.
+# * Add a single space between the hashtag (#) and comment.
 
-# [[-0.05]] Code formatting:  If a code block spans more than one line of code,
-# add a new line after the assignment operator.
+# * Parentheses, curly braces, and square bracket operators should not be
+#   preceded or followed by a space.
 
-# * If a function spans more than one line of code, opening parentheses should
-#   be followed by a line break.
+# * Include a trailing space after ~.
 
-# * If a function spans more than one line of code, closing parentheses should
-#   be placed on their own line.
+# formatting: vertical spacing --------------------------------------------
 
-# Functions:
+# * Maintain one blank line between code blocks and comments.
 
-# [[No points removed]] Code formatting: Spell out TRUE and FALSE in a
-# function’s argument.
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
 
-# [[-0.10]] Code formatting: Include a trailing space if ~ is
-# followed by function.
+# * Do not separate adjacent library() functions with a blank line.
+
+# * Code within a single code block should not be separated by blank lines
+#   unless it is separated by a comment
+
+# formatting: line breaks -------------------------------------------------
+
+# If X spans more than one line of code ...
+
+#  * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
+
+# * If a function spans more than one line of code, the closing parentheses 
+#   should be followed placed on their own line.
+
+# * Include no more than one prefix function per line of code.
+
+# * If you provide three or more arguments to a function, place each argument
+#   on its own line.
+
+# * Code and comments should not be on the same line.
+
+# * Code that follows a pipe operator should be placed on a new line.
+
+# * Code and comments should not exceed 80 characters in width (if it is
+#   avoidable) – add a line break, if possible.
 
 # parsimony ---------------------------------------------------------------
 
 # [[No points removed]] Code parsimony: Because dplyr is a member of the core
 # tidyverse, it is not necessary to specify `dplyr::` when running a function
 # from that package.
-
-# [[-0.015]] Code parsimony: When assigning names, unless the names include a
-# space or other non-syntactic symbol, it is not necessary to put those names in
-# quotes.
-
-# [[-0.05]] Code parsimony: When removing just one field, it is typically more
-# parsimonious to use negated selection.
-
-# [[-0.02]] Code parsimony: The first object sent to a non-spatial join
-# determines the class of the output. As such the resultant object of your
-# `left_join()` was a shapefile so `st_as_sf()` was not necessary.
 
 # [[No points removed]] Code parsimony: When supplying a single value, it is not
 # necessary to wrap that value inside of `c()`. The `c` function combines
@@ -110,13 +123,28 @@
 # previous step is passed to the first argument of the next step, a placeholder
 # is not necessary.
 
-# Summarizing:
+# Quotes
 
-# [[No points removed]] Code parsimony: The comma at the end of `summarize()`
-# was not necessary.
+# [[No points removed]] Code parsimony: With `select()`, it is not necessary to
+# place variable names inside of quotes.
+
+# [[-0.10]] Code parsimony: When assigning names, unless the names include a
+# space or other non-syntactic symbol, it is not necessary to put those names in
+# quotes.
+
+# [[No points removed]] Code parsimony: With `.by = ...`, it is not necessary to
+# place variable names inside of quotes.
+
+# [[No points removed]] Code parsimony: With `rename()`, it is not necessary to
+# place variable names inside of quotes.
+
+# Summarizing:
 
 # [[No points removed]] Code parsimony: Given that you passed the data to
 # summarize, `select()` was not necessary.
+
+# [[No points removed]] Code parsimony: The comma at the end of `summarize()`
+# was not necessary.
 
 # Filtering:
 
@@ -133,68 +161,20 @@
 
 # Select and rename:
 
+# [[-0.05]] Code parsimony: When removing just one field, it is typically more
+# parsimonious to use negated selection.
+
 # [[No points removed]] Code parsimony: Except in the case of negated selection,
 # you do not need to supply variables to `select()` with `c()`.
-
-# [[No points removed]] Code parsimony: With `select()`, it is not necessary to
-# place variable names inside of quotes.
 
 # [[No points removed]] Code parsimony: You can rename multiple variables within
 # a single `rename()`.
 
-# Grouping:
+# GIS-specific issues -----------------------------------------------------
 
-# [[No points removed]] Code parsimony: With `.by = ...`, it is not necessary to
-# place variable names inside of quotes.
-
-# functions you may use ---------------------------------------------------
-
-# [[-0.40]] Incorrect: `$` is not among the functions that you may use for this
-# assignment.
-
-# [[-1.25]] `labs()` is not among the functions that you may use for this
-# assignment.
-
-# [[-1.25]] `labs()` and `element_text()` are not among the functions that you
-# may use for this assignment.
-
-# [[-0.5]] The `&` operator is not among the functions that you may use for this
-# assignment.
-
-# [[-0.5]] Neither `scale_x_discrete()` nor `theme_minimal()` are among the
-# functions that you may use for this assignment.
-
-# [[-0.5]] Neither the negation operator (`!`) nor `is.na` are functions that
-# you may use in this assignment.
-
-# [[-0.5]] The negation operator (`!`), `is.na`, and `&` are not among the
-# functions that you may use for this assignment.
-
-# [[-0.75]] `group_by()` is not among the functions that you may use for this
-# assignment.
-
-# [[-1.25]] The negation operator (`!`), `is.na`, `recode`, `theme_minimal` and
-# `labs` are not functions that you may use in this assignment.
-
-# [[-1.25]] `factor()`,`labs()`, `element_text()`, and `element_rect()` are not
-# among the functions that you may use for this assignment.
-
-# [[-0.25]] Incorrect answer: When you work in an RStudio project you do not
-# need to supply the absolute file path to the data that you read in. 
-# Working in a project allows you to read in the data with a relative file
-# path -- in other words, the location of the file relative to the top 
-# level of the project folder. As written, this code will not work on my
-# computer (because I do not share your absolute file path).
-
-# [[-0.5]] Missed the grouping argument `.by = ...`.
-
-# [[-0.25]] Incorrect: Because of NA values, warning messages were produced when
-# plotting the data.
-
-# [[-0.50]] Include only assignments specified in the question.
-
-# [[-0.125]] Incorrect: You do not include enough comments to navigate the 
-# the more complex elements of this code block.
+# [[-0.02]] Code parsimony: The first object sent to a non-spatial join
+# determines the class of the output. As such the resultant object of your
+# `left_join()` was a shapefile so `st_as_sf()` was not necessary.
 
 # [[-0.5]] Incorrect: When converting a data frame to point shapefile, you must
 # read in the data with the same CRS in which it was recorded. Here, that is
