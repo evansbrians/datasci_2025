@@ -29,8 +29,17 @@ read_rds("data/raw/caterpillars_count.rds") %>%
 # answer as a one-value numeric vector.
 
 observations %>% 
+  
+  # Subset to caterpillar observations:
+  
   filter(arthropod == "caterpillar") %>% 
+  
+  # Extract the variable of interest:
+  
   pull(arthropod_quantity) %>% 
+  
+  # Calculate the total number of arthropods:
+  
   sum()
 
 # question 5 --------------------------------------------------------------
@@ -40,6 +49,9 @@ observations %>%
 # region.
 
 sites %>% 
+  
+  # Subset sites to DC, MD, and VA:
+  
   filter(
     region %in%
       c(
@@ -48,46 +60,36 @@ sites %>%
         "VA"
       )
   ) %>% 
+  
+  # Count the number of sites per region:
+  
   summarize(
     n = n(),
     .by = region
   ) %>% 
+  
+  # Arrange alphabetically by region:
+  
   arrange(region)
 
 # question 6 --------------------------------------------------------------
 
-# Subset the survey_locations data frame to those that are within sites in the
-# District of Columbia, Maryland, or Virginia. For full credit, please complete
-# this such that:
+# Subset the survey_locations data frame to those that are located within sites
+# in the District of Columbia, Maryland, or Virginia. For full credit, please
+# complete this such that:
 
-# * No columns are added to `survey_locqtions`;
-# * No function is nested more than two levels deep;
+# * No columns are added to, or removed from, `survey_locqtions`;
 # * The `select` function is not used to remove columns.
 
-sites %>% 
-  filter(
-    region %in%
-      c(
-        "DC",
-        "MD", 
-        "VA"
-      )
-  ) %>% 
-  semi_join(
-    survey_locations,
-    .,
-    by = "site_name"
-  )
-
-# question 7 --------------------------------------------------------------
-
-# Please make a summary data frame of the total number of surveys conducted in
-# the District of Columbia, Maryland, and Virginia in 2024 and arrange the table
-# from the highest to lowest number of surveys.
-
 survey_locations %>% 
-  inner_join(
+  
+  # Subset survey locations to matching key values:
+  
+  semi_join(
     sites %>% 
+      
+      # Subset sites to DC, MD, and VA:
+      
       filter(
         region %in%
           c(
@@ -97,20 +99,9 @@ survey_locations %>%
           )
       ),
     by = "site_name"
-  ) %>% 
-  left_join(
-    surveys,
-    by = "survey_location"
-  ) %>% 
-  summarize(
-    n = n(),
-    .by = region
-  ) %>% 
-  arrange(
-    desc(n)
   )
 
-# question 8 --------------------------------------------------------------
+# question 7 --------------------------------------------------------------
 
 # Please generate a summary table that provides the average (mean) number of
 # caterpillars observed in "Beat sheet" and "Visual" surveys. Note that to
@@ -118,15 +109,30 @@ survey_locations %>%
 # values!
 
 observations %>% 
+  
+  # Subset observations to caterpillars:
+  
   filter(arthropod == "caterpillar") %>%
+  
+  # Subset to variables of interest:
+  
   select(survey_id, arthropod_quantity) %>% 
+  
+  # Join to surveys to observations, maintaining NA values:
+  
   full_join(
     surveys,
     by = "survey_id"
   ) %>% 
+  
+  # Replace NA values with 0:
+  
   mutate(
     arthropod_quantity = replace_na(arthropod_quantity, 0)
   ) %>% 
+  
+  # Calculate the average (mean) number of caterpillars by observation method:
+  
   summarize(
     average_caterpillars = mean(arthropod_quantity),
     .by = observation_method
@@ -135,19 +141,91 @@ observations %>%
 # Or, without mutate:
 
 observations %>% 
-  filter(arthropod == "caterpillar") %>% 
+  
+  # Subset observations to caterpillars:
+  
+  filter(arthropod == "caterpillar") %>%
+  
+  # Subset to variables of interest:
+  
   select(survey_id, arthropod_quantity) %>% 
+  
+  # Join to surveys to observations, maintaining NA values:
+  
   full_join(
     surveys,
     by = "survey_id"
   ) %>% 
+  
+  # Calculate the average (mean) number of caterpillars by observation method:
+  
   summarize(
     average_caterpillars = 
       arthropod_quantity %>% 
+      
+      # Replace NA values with 0:
+      
       replace_na(0) %>% 
       mean(),
     .by = observation_method
   )
+
+# question 8 --------------------------------------------------------------
+
+# Please generate a bar plot that displays the total number of surveys conducted
+# in the District of Columbia, Maryland, and Virginia in 2024 and arrange the
+# table from the highest to lowest number of surveys.
+
+surveys %>% 
+  
+  # Subset to surveys in 2024:
+  
+  filter(
+    year(date) == 2024
+  ) %>% 
+  
+  # Subset to variables of interest:
+  
+  select(survey_id, survey_location) %>% 
+  
+  # Join source to target table, maintaining all of the rows in target:
+  
+  left_join(
+    survey_locations %>% 
+      
+      # Reduce columns to just those that we want to maintain:
+      
+      select(!plant),
+    by = "survey_location"
+  ) %>% 
+  
+  # Join source to target table, maintaining only matching key values:
+  
+  inner_join(
+    sites %>% 
+      
+      # Subset sites to DC, MD, and VA:
+      
+      filter(
+        region %in%
+          c(
+            "DC",
+            "MD", 
+            "VA"
+          )
+      ) %>% 
+      
+      # Subset to variables of interest:
+      
+      select(site_name, region),
+    by = "site_name"
+  ) %>% 
+  
+  # Plot the number of surveys per region:
+  
+  ggplot() +
+  aes(x = region) +
+  geom_bar()
 
 # question 9 --------------------------------------------------------------
 
@@ -155,23 +233,50 @@ observations %>%
 # counted per state in Maryland, DC, and Virginia in 2024.
 
 observations %>% 
+  
+  # Subset to variables of interest:
+  
   select(survey_id, arthropod_quantity) %>% 
+  
+  # Join the source to the target table, maintaining only matching key values:
+  
   inner_join(
     surveys %>% 
+      
+      # Subset to surveys in 2024:
+      
       filter(
         year(date) == 2024
       ) %>% 
+      
+      # Subset to variables of interest:
+      
       select(survey_id, survey_location),
     by = "survey_id"
   ) %>% 
+  
+  # Join the source to the target table, maintaining only matching key values:
+  
   inner_join(
-    survey_locations %>% 
+    survey_locations %>%
+      
+      # Subset to variables of interest:
+      
       select(survey_location, site_name),
     by = "survey_location"
   ) %>% 
+  
+  # Join the source to the target table, maintaining only matching key values:
+  
   inner_join(
     sites %>% 
+      
+      # Subset to variables of interest:
+      
       select(site_name, region) %>% 
+      
+      # Subset sites to DC, MD, and VA:
+      
       filter(
         region %in% 
           c(
@@ -182,10 +287,11 @@ observations %>%
       ),
     by = "site_name"
   ) %>% 
+  
+  # Count the number of arthropods observed by region:
+  
   summarize(
     n_dmv = sum(arthropod_quantity),
     .by = region
   )
-
-# question 10 -------------------------------------------------------------
 
