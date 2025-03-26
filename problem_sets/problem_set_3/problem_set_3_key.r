@@ -135,7 +135,7 @@ observations %>%
     .by = observation_method
   )
 
-# Or, without mutate:
+# Or, without mutate (more parsimonious):
 
 observations %>% 
   
