@@ -170,8 +170,7 @@ observations %>%
 # question 9 --------------------------------------------------------------
 
 # Please generate a bar plot that displays the total number of surveys conducted
-# in the District of Columbia, Maryland, and Virginia in 2024 and arrange the
-# table from the highest to lowest number of surveys.
+# in the District of Columbia, Maryland, and Virginia in 2024.
 
 surveys %>% 
   
