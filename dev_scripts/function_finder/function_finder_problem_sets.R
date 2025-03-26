@@ -15,7 +15,7 @@ extract_code_hw_key <-
         problem_set_number)
     ) %>% 
       list.files(
-        pattern = "key\\.R",
+        pattern = "key\\.[Rr]",
         full.names = TRUE) %>% 
       read_lines() %>% 
       str_trim() %>% 
@@ -72,7 +72,7 @@ get_fun_table <-
 # Functions used in the key:
 
 key_fun <-
-  get_fun_table(6) %>% 
+  get_fun_table(3) %>% 
   mutate(
     fun = 
       str_c(
