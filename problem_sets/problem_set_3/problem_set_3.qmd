@@ -41,7 +41,11 @@ library(tidyverse)
 
 ![](../../images/tara_counting_caterpillars.jpg){.intro_image}
 
-In this exercise, you will explore data from the participatory science project [*Caterpillar Counts!*](https://caterpillarscount.unc.edu/){target="_blank"}. The primary goal of this project, which was developed by macroecologist Dr. Allen Hurlbert, is to explore the temporal and spatial distribution of arthropods across North America. Our very own Tara Snedgen leads the Smithsonian Migratory Bird Center's *Caterpillar Counts!* sampling team.
+In this exercise, you will explore data from the participatory science project [*Caterpillars Count!*](https://caterpillarscount.unc.edu/){target="_blank"}. The primary goal of this project, which was developed by macroecologist Dr. Allen Hurlbert, is to explore the temporal and spatial distribution of arthropods across North America. Our very own Tara Snedgen leads the Smithsonian Migratory Bird Center's *Caterpillars Count!* sampling team.
+
+Data were provided by Caterpillars Count! and the many participants who contribute to its foliage arthropod monitoring program.
+
+**Citation**: *Caterpillars Count!. 2025. Foliage Arthropod Data. Data type: Raw data. 05/29/2002 - 03/12/2025 for Site: All sites. Chapel Hill, North Carolina, USA. Data set accessed 03/25/2025 at [https://caterpillarscount.unc.edu/](https://caterpillarscount.unc.edu/){target="blank"}.*
 
 ## Grading
 
