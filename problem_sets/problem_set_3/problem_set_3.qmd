@@ -1,5 +1,5 @@
 ---
-title: "Problem set 3: Global CO~2~"
+title: "Problem set 3: Counting caterpillars"
 format:
   html:
     embed-resouces: true
@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -39,9 +39,9 @@ library(tidyverse)
 
 <hr>
 
-  ![](../../images/tara_counting_caterpillars.jpg){.intro_image}
+![](../../images/tara_counting_caterpillars.jpg){.intro_image}
 
-In this exercise, you will explore data from the participatory science project [Caterpillar Counts!](https://luquillo.lter.network/){target="_blank"}. 
+In this exercise, you will explore data from the participatory science project [*Caterpillar Counts!*](https://luquillo.lter.network/){target="_blank"}. The primary goal of this project, which was developed by macroecologist Dr. Allen Hurlbert, is to explore the temporal and spatial distribution of arthropods across North America. Our very own Tara Snedgen leads the Smithsonian Migratory Bird Center's *Caterpillar Counts!* sampling team.
 
 ### Grading
 
@@ -193,7 +193,7 @@ The names in your global environment are associated with objects that represent 
 
 :::{class="now_you"}
 
-6\. [[1.0]]{class="score"} Create a summary table that displays the number of surveys by year across regions and arrange from highest to lowest number of surveys.
+6\. [[1.0]]{class="score"} Create a summary table that displays the number of surveys by year across regions and arrange from the highest to lowest number of surveys per year.
 
 :::
 
@@ -205,17 +205,25 @@ Tidy data often require us to conduct joins that allow us to work with informati
 
 7\. [[2.0]]{class="score"} Subset the survey_locations data frame to those that are located within sites in the District of Columbia, Maryland, or Virginia. For full credit, please complete this such that:
 
-* No columns are added to, or removed from, `survey_locations`;
-* The `filter` function is not used to subset rows;
-* The `select` function is not used to subset columns.
+* No columns are added to, or removed from, `survey_locations`
+* The `filter` function is not used to subset rows
+* The `select` function is not used to subset columns
 
 :::
 
 :::{class="now_you"}
 
-8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys across sampling regions. Note that to properly address this question you will have to do something about surveys in which no caterpillars were observed!
+8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys (`observation_method`) across sampling regions. 
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Zeros are important!
+
+To properly address this question you will have to do something about surveys in which no caterpillars were observed. Excluding zero values will lead to very inflated count data!
 
 :::
+:::
+
+
 
 # Exploring data across multiple tables
 
