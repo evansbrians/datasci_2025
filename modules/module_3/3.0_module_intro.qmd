@@ -71,6 +71,32 @@ This week we will use the following data files in our exercises:
 
 ## Readings and resources
 
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
+::: panel
+
+::: glossary_table
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  here::here(),
+  "dev_scripts/glossary/glossary_source.R"
+) %>% 
+  source()
+
+get_glossary_table_module(module = 3) %>%
+  kableExtra::kable(
+    align = c("l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+:::
+
+
+
 -   Wickham & Grolemund:
 
     -   [5.1-5.5: Data transformation](https://r4ds.had.co.nz/transform.html#transform){target="_blank"}
@@ -84,3 +110,20 @@ This week we will use the following data files in our exercises:
 
     -   [Data tidying (tidyr)](https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf){target="_blank"}
     -   [Data transformation (dplyr)](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf){target="_blank"}
+    
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
