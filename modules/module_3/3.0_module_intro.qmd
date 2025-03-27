@@ -72,9 +72,10 @@ This week we will use the following data files in our exercises:
 ## Readings and resources
 
 <button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
-::: panel
 
+::: panel
 ::: glossary_table
+
 ```{r, message = FALSE, echo = FALSE}
 library(tidyverse)
 
@@ -95,6 +96,31 @@ get_glossary_table_module(module = 3) %>%
 :::
 :::
 
+<button class="accordion" style="margin-bottom:1em">Functions used through the end of this module (I am a button ... click me!)</button>
+
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  "function_tables",
+  "functions_through_module_3.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+:::
 
 
 -   Wickham & Grolemund:
