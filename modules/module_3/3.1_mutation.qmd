@@ -47,10 +47,10 @@ rm(has_annotations)
 
 **Mutation** describes the process of adding columns to a data frame and/or modifying existing columns (or adding/modifying list items to/in a list). This lesson includes a video introduction to mutation and a written tutorial that reviews and adds to the video content. In completing this lesson, you will learn how to:
 
-* Modify a single column or multiple columns with `mutate()`
-* Set values to [NA]{.mono}
-* Set [NA]{.mono} values to a different value
-* Modify some columns while removing others with `transmute()`
+* Modify a single column or multiple columns with `mutate()`;
+* Set values to [NA]{.mono};
+* Set [NA]{.mono} values to a different value;
+* Modify some columns while removing others with `transmute()`.
 
 **Note**: I teach the function `transmute` in this lesson. While useful, this function has been **superseded**. Superseded functions are those for which there is a better alternative function or argument that has been developed. The functions will not receive new features but will still receive bug fixes. Please see the Posit team's description of a function's [Lifecycle stages](https://lifecycle.r-lib.org/articles/stages.html#:~:text=can%20fix%20it.-,Superseded,you%20what%20we%20recommend%20instead%20.){target="_blank"} for more information.
 
@@ -64,9 +64,9 @@ Please click on the buttons below to explore the metadata for this lesson!
 
 <button class="accordion">Metadata: Video lesson</button>
 ::: panel
-In the video portion of this lesson, we will explore the [*.rds]{.mono} file [weather_tidy.rds]{.mono}. The data are formatted as a list object comprised of the following tibble data frames and variables:
+In the video portion of this lesson, we will explore the [*.rds]{.mono} file `weather_tidy.rds`. The data are formatted as a list object comprised of the following tibble data frames and variables:
 
-[stations]{.mono}
+`stations`
 
 * [station]{.mono}, character: The **primary key** for each weather station -- recall that a primary key is a unique identifier for a row (i.e., observation) in a data frame.
 * [longitude]{.mono}, numeric: The longitudinal coordinates of a weather station, in decimal degrees.
@@ -75,7 +75,7 @@ In the video portion of this lesson, we will explore the [*.rds]{.mono} file [we
 * [state]{.mono}, character: The state where a weather station is located
 * [name]{.mono}, character: The name of a weather station
 
-[observations]{.mono}
+`observations`
 
 * [station]{.mono}, character: The **foreign key** key to each weather station -- recall that a foreign key is a variable that refers to the primary key of another data frame.
 * [date]{.mono}, character: The date of an observation. Note that the [station]{.mono} and [date]{.mono} columns comprise the **compound key** for this table -- a compound key is a set of variables in a data frame that, combined, represent the primary key of the data frame.
@@ -87,7 +87,7 @@ In the video portion of this lesson, we will explore the [*.rds]{.mono} file [we
 
 <button class="accordion">Metadata: Written tutorial</button>
 ::: panel
-In the written portion of this lesson, we will explore the file [district_birds.rds]{.mono}. This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's participatory science project, [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch). The data are a list file and we will use the `captures` list item (a tibble data frame). The tibble includes the following variables:
+In the written portion of this lesson, we will explore the file `district_birds.rds`. This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's participatory science project, [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch). The data are a list file and we will use the `captures` list item (a tibble data frame). The tibble includes the following variables:
 
 * [capture_id]{.mono}, character: The primary key for a unique capture record.
 * [visit_id]{.mono}, character: A foreign key to a table that describes when and where a visit occurred (the [visits]{.mono} table).
@@ -105,20 +105,26 @@ In the written portion of this lesson, we will explore the file [district_birds.
 
 ## Introductory video
 
-In this lesson, you will code along with the script file [working_with_tidy_data.R]{.mono} -- this file should be located in the [scripts]{.mono} folder of your project directory. 
+In this lesson, you will code along with the script file `working_with_tidy_data.R` -- this file should be located in the [scripts]{.mono} folder of your project directory. 
 
 Before you begin, some notes on the video content:
 
 * I unfortunately use phrases like "*assign the object to the global environment*" and "*retrieve the objects from the global environment*". Remember that the global environment only contains names, *not* objects. When we run a name, R looks in our global environment for that name and then uses that name to retrieve an object from our computer's memory.
 * I refer to *names* often as "bindings" and "keys" -- this is technically correct, but might be confusing. Note that both of these terms are synonymous with "name".
-* I do not conform to the course style guide in this video!
-* Your [working_with_tidy_data.R]{.mono} file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
+* I do not conform to the course style guide in this video! The biggest violations are:
+    * This was back when I used single quotes for everything. I now much prefer using double quotes.
+    * I did not use hanging parentheses.
+    * I did not include a leading and trailing space with the `*` infix function.
+    * I should have hit enter after the opening parentheses of `mutate()` and `transmute()` when the functions arguments are placed on multiple lines. Doing so would have ensured that the arguments of the function are indented two spaces relative to the function call.
+    * `as.numeric()` and `c()` should not have been on the same line. Additionally, because `c()` had three arguments, each argument should have been placed on its own line.
+    * When `mutate()` has only one argument, but that argument contains another function, the argument should have been placed on its own line.
+* Your `working_with_tidy_data.R` file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
     
 {{< video https://www.youtube.com/embed/x5OJa705Gcg?si=mGFvAa3O8_i9givP >}}
 
 ## Set up your session (tutorial)
 
-**Important!** Before continuing, please save and close [working_with_tidy_data.R]{.mono}.
+**Important!** Before continuing, please save and close `working_with_tidy_data.R`.
 
 Please do the following to ensure that you are working in a clean session:
 
@@ -421,7 +427,8 @@ measures %>%
       replace_na(bp_cp, "-")
   ) %>% 
   mutate(
-    bp_cp = na_if(bp_cp, "U")
+    bp_cp = 
+      na_if(bp_cp, "U")
   ) %>% 
   .$bp_cp %>% 
   table(useNA = "always")
@@ -556,7 +563,7 @@ The `transmute` function is pretty much just a combination of `mutate()` and `se
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_2.4_mutation.csv"
+  "functions_3.1_mutation.csv"
 ) %>% 
   read_csv() %>% 
 kableExtra::kable(

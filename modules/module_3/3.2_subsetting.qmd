@@ -65,9 +65,9 @@ Please click on the buttons below to explore the metadata for this lesson!
 
 <button class="accordion">Metadata: Video lesson</button>
 ::: panel
-In the video portion of this lesson, we will explore the [*.rds]{.mono} file [weather_tidy.rds]{.mono}. The data are formatted as a list object  comprised of the following tibble data frames and variables:
+In the video portion of this lesson, we will explore the [*.rds]{.mono} file `weather_tidy.rds`. The data are formatted as a list object  comprised of the following tibble data frames and variables:
 
-[stations]{.mono}
+`stations`
 
 * [station]{.mono}, character: The **primary key** for each weather station -- recall that a primary key is a unique identifier for a row (i.e., observation) in a data frame.
 * [longitude]{.mono}, numeric: The longitudinal coordinates of a weather station, in decimal degrees.
@@ -76,7 +76,7 @@ In the video portion of this lesson, we will explore the [*.rds]{.mono} file [we
 * [state]{.mono}, character: The state where a weather station is located
 * [name]{.mono}, character: The name of a weather station
 
-[observations]{.mono}
+`observations`
 
 * [station]{.mono}, character: The **foreign key** key to each weather station -- recall that a foreign key is a variable that refers to the primary key of another data frame.
 * [date]{.mono}, character: The date of an observation. Note that the [station]{.mono} and [date]{.mono} columns comprise the **compound key** for this table -- a compound key is a set of variables in a data frame that, combined, represent the primary key of the data frame.
@@ -88,16 +88,16 @@ In the video portion of this lesson, we will explore the [*.rds]{.mono} file [we
 
 <button class="accordion">Metadata: Written tutorial</button>
 ::: panel
-In the written portion of this lesson, we will explore the file [district_birds.rds]{.mono}. This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's participatory science project, [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch). The data are formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
+In the written portion of this lesson, we will explore the file `district_birds.rds`. This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's participatory science project, [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch). The data are formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
 
-[birds]{.mono}
+`birds`
 
 * [species]{.mono}, character: A four-letter code for each species that serves as a primary key for this table.
 * [common_name]{.mono}, character: The common names for each species, as used in the United States.
 * [foraging]{.mono}, character: The foraging strategy of each species.
 * [diet]{.mono}, character: The dietary niche of each species.
 
-[captures]{.mono}
+`captures`
 
 * [capture_id]{.mono}, character: The primary key for a unique capture record.
 * [visit_id]{.mono}, character: A foreign key to the [visits]{.mono} table.
@@ -112,7 +112,7 @@ In the written portion of this lesson, we will explore the file [district_birds.
 * [bp_cp]{.mono}, character: The breeding condition of a bird, where: "-" stands for a bird that is not in breeding condition, "BP" is a brood patch, "CP" is a cloacal protuberance, "U" is unknown, and [NA]{.mono} represents missing data.
 * [fat]{.mono}, character: The fat measured on a bird, that ranges from "0" for no fat, "T" for trace fat, and up to "5" for the maximum amount of fat. [NA]{.mono} values represent missing data.
 
-[visits]{.mono}
+`visits`
 
 * [visit_id]{.mono}, character: The primary key for a unique visit record.
 * [site_id]{.mono}, character: A foreign key to the [sites]{.mono} table.
@@ -130,7 +130,7 @@ Please do the following to ensure that you are working in a clean session:
 
 Now that we are working in a clean session:
 
-1. Open the script file [working_with_tidy_data.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+1. Open the script file `working_with_tidy_data.R` (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 2. Select the set up and mutation **code sections** and run the selected code (Windows: [Ctrl + Enter]{.mono}; Mac: [Cmd + Return]{.mono}).
 
 ### Video content
@@ -139,16 +139,22 @@ Before you begin, some notes on the video content:
 
 * I created this video before the package *lubridate* was elevated to a **core tidyverse** package (February 2023). As such, if you have attached the *tidyverse* library, you no longer have to explicitly load `library(lubridate)` nor use `lubridate::`.
 * I demonstrate the use of the `-` operator for negated selection ... I do not recommend using `-` for this purpose!
-* I do not conform to the course style guide in this video!
 * Since making this video, I have changed my mind on the use of `drop_na()` and offer an alternate version in the written portion of this tutorial.
+* I do not conform to the course style guide in this video! The biggest violations are:
+    * I did not use hanging parentheses.
+    * `select()` and `c()` should not have been on the same line.
+    * `select()` and `where()` should not have been on the same line. 
+    * `slice()` and `c()` should not have been on the same line.
+    * `filter()` and `is.na()` should not have been on the same line.
+    * I should have put `max()` on its own line if it had more than one argument, and placed each of the arguments on their own line. This would have ensured that each argument was indented two spaced relative to the function call.
+    * I should have hit enter after the opening parentheses of `select()` and `filter()` when the functions arguments are placed on multiple lines. Doing so would have ensured that each argument of the function is on its own line and indented two spaces relative to the function call.
 * Your [working_with_tidy_data.R]{.mono} file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
-
 
 {{< video https://www.youtube.com/embed/E8SDseOmmhk >}}
 
 ## Set up your session (tutorial)
 
-**Important!** Before continuing, please save and close [working_with_tidy_data.R]{.mono}.
+**Important!** Before continuing, please save and close `working_with_tidy_data.R`.
 
 Please do the following to ensure that you are working in a clean session:
 
@@ -158,7 +164,7 @@ Please do the following to ensure that you are working in a clean session:
 Now that we are working in a clean session:
 
 1. Create a script file (Windows: [Ctrl + Shift + N]{.mono}; Mac: [Cmd + Shift + N]{.mono}).
-2. Save your script file as "[scripts/subsetting_written_content.R]{.mono}".
+2. Save your script file as "`scripts/subsetting_written_content.R`".
 3. Add metadata as a comment on the top of the file (e.g., `# My code for the subsetting tutorial`).
 4. Following your metadata, create a new **code section** (Windows: [Ctrl + Shift + R]{.mono}; Mac: [Cmd + Shift + R]{.mono}) and call it "`setup`".
 5. Following your section header, attach the packages that comprise the **core tidyverse** (`library(tidyverse)`)
@@ -178,7 +184,7 @@ Now we are going to add our data for this lesson ... let's do this as two "Now y
 :::{.now_you}
 <button class="accordion">{{< fa user-circle size=2x >}}&nbsp; In a single piped statement:
 
-* Read in the list [district_birds.rds]{.mono}
+* Read in the list `district_birds.rds`
 * Assign the names of the individual list items to your global environment
 
 </button>
@@ -893,7 +899,7 @@ A quick look at the data with `distinct()` (and some helper functions) has revea
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_2.5_subsetting.csv"
+  "functions_3.2_subsetting.csv"
 ) %>% 
   read_csv() %>% 
 kableExtra::kable(
