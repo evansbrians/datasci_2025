@@ -70,9 +70,33 @@ This week we will use the following data files in our exercises:
 
 ## Readings and resources
 
-<button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
 ::: panel
-**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *tibble* and *tidyverse* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: glossary_table
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  here::here(),
+  "dev_scripts/glossary/glossary_source.R"
+) %>% 
+  source()
+
+get_glossary_table_module(module = 2) %>%
+  kableExtra::kable(
+    align = c("l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+:::
+
+<button class="accordion" style="margin-bottom:1em">Functions used through the end of this module (I am a button ... click me!)</button>
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
 
 ::: function_table
 
@@ -95,8 +119,6 @@ file.path(
 :::
 
 :::
-
-:::{style="margin-top:16px;"}
 
 -   Wickham & Grolemund:
     -   [5.1-5.5: Data transformation](https://r4ds.had.co.nz/transform.html#transform){target="_blank"}
