@@ -63,7 +63,7 @@ Please click on the buttons below to explore the metadata for this lesson!
 
 <button class="accordion">Metadata: Video lesson</button>
 ::: panel
-In the video portion of this lesson, we will explore two files -- [weather_tidy.rds]{.mono} and [messy_birds.rds]{.mono}. 
+In the video portion of this lesson, we will explore two files -- `weather_tidy.rds` and `messy_birds.rds`. 
 
 **[weather_tidy.rds]{.mono}**: These data are formatted as a list object comprised of the following tibble data frames and variables:
 
@@ -101,7 +101,7 @@ In the video portion of this lesson, we will explore two files -- [weather_tidy.
 
 <button class="accordion">Metadata: Written tutorial</button>
 ::: panel
-In the written portion of this lesson, we will explore the file [district_birds.rds]{.mono}. We have already used this dataset *a lot*, so I will spare you the details of how and why these data were collected (but see the introduction to this module if you missed it). The data are a formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
+In the written portion of this lesson, we will explore the file `district_birds.rds`. We have already used this dataset *a lot*, so I will spare you the details of how and why these data were collected (but see the introduction to this module if you missed it). The data are a formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
 
 [birds]{.mono}
 
@@ -124,9 +124,7 @@ In the written portion of this lesson, we will explore the file [district_birds.
 * [date]{.mono}, character: The date in which a visit occurred.
 :::
 
-## Introductory video
-
-### Set up your video session
+## Set up your video session
 
 Please do the following to ensure that you are working in a clean session:
 
@@ -134,11 +132,18 @@ Please do the following to ensure that you are working in a clean session:
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
 3. Open the script file [joins.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
+### Video content
+
+Before you begin, some notes on the video content:
+
+* This video was made before I realized the magic of hanging/exploded parentheses. As such, I violate style guide rules related to that.
+* Your `working_with_tidy_data.R` file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
+
 {{< video https://www.youtube.com/embed/wr4mzkZpq50 >}}
 
 ## Set up your session (tutorial)
 
-**Important!** Before continuing, please save and close [joins.R]{.mono}.
+**Important!** Before continuing, please save and close `joins.R`.
 
 Please do the following to ensure that you are working in a clean session:
 
@@ -148,7 +153,7 @@ Please do the following to ensure that you are working in a clean session:
 Now that we are working in a clean session:
 
 1. Create a script file (Windows: [Ctrl + Shift + N]{.mono}; Mac: [Cmd + Shift + N]{.mono}).
-2. Save your script file as "[scripts/joins_written_content.R]{.mono}".
+2. Save your script file as "`scripts/joins_written_content.R`".
 3. Add metadata as a comment on the top of the file (e.g., `# My code for the joining tutorial`).
 4. Following your metadata, create a new **code section** (Windows: [Ctrl + Shift + R]{.mono}; Mac: [Cmd + Shift + R]{.mono}) and call it "`setup`".
 5. Following your section header, attach the packages that comprise the **core tidyverse** (`library(tidyverse)`)
@@ -156,7 +161,7 @@ Now that we are working in a clean session:
 At this point, your script should look something like:
 
 ```{r eval = FALSE}
-# My code for the summarizing tutorial
+# My code for the joining tutorial
 
 # setup --------------------------------------------------------
 
@@ -670,7 +675,7 @@ To better understand joins, I **strongly**  recommend reading the R for Data Sci
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_3.5_joins.csv"
+  "functions_3.4_joins.csv"
 ) %>%
   read_csv() %>%
   kableExtra::kable(

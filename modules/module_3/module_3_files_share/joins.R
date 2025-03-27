@@ -73,7 +73,8 @@ measures %>%
     bird_info %>% 
       select(
         spp_code = spp, 
-        common_name),
+        common_name
+      ),
     by = "spp"
   )
 
