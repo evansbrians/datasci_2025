@@ -1,0 +1,236 @@
+---
+title: "Problem set 4: Cicada emergence"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+<!-- knitr setup --> 
+
+```{r knitr_setup, include = FALSE}
+options(knitr.table.format = "html")
+
+knitr::opts_chunk$set(eval = FALSE)
+
+library(tidyverse)
+```
+
+<hr>
+
+![](https://lh3.googleusercontent.com/1dfPLMi9HIkLg746ltRkcuGVwcCocA33wDJYovxvZbsIUNOzSzQyASJ7869x-w8H6R989ym_onoKfEoUfB9WQXsXziWvDAm67RLpqeyFOVaTT6lUTVhkoDtCO-gTQjrmDYZ29sO1zgo=w2400?source=screenshot.guru){.intro_image}
+
+In the spring of 2021, the Brood X cicadas emerged throughout much of the Mid-Atlantic region of the United States. Brood X are periodical cicadas that spend most of their lives underground, emerge in the spring every 17 years, breed, and then die. In their adult form, they produce an incredibly loud song to attract mates.
+
+Our team at the Smithsonian Migratory Bird Center deployed automated sound recording units (ARUs) throughout the District of Columbia, Maryland, and Virginia. Our goal for this study was to determine how bird song may vary in response to cicada noise along a gradient of anthropogenic noise and urban intensity.
+
+In this exercise, you will explore cicada observations collected by iNaturalist community science participants. Early reports by participants helped us to determine the appropriate locations to place our ARUs.
+
+## Grading
+
+The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="score"}).
+
+Points may be deducted from each question's total: 
+
+* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Include only assignments specified in the question;
+* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
+* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
+* [[10%]]{class="subscore"} Ensure that your code is as parsimonious as possible;
+* [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
+
+*Note: The maximum deduction is the total points value for a given question*
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Click the blue button below to view the functions that you may use in completing this problem set. Make sure that you know what each function does (use `?[function name]` if you do not). Do not use any functions outside of this list!
+:::
+
+<!-- Note, the below is an accordion, which was styled in the css section -->
+
+:::: Accordion
+<button class="accordion">Functions that you may use in this assignment</button>
+
+:::: {.panel}
+
+**Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *purrr*, *readr*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library. Regex metacharacters are not R functions and may be used as needed!
+
+In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
+
+* `.Primitive, <-`
+* `.Primitive, =`
+* `.Primitive, ()`
+* `.Primitive, ~`
+* `.Primitive, !`
+* `.Primitive, ==`
+* `.Primitive, c`
+* `base::%in%`
+* `base::library`
+* `base::unique`
+* `dplyr::filter`
+* `dplyr::n`
+* `dplyr::pull`
+* `dplyr::select`
+* `dplyr::semi_join`
+* `magrittr::%>%`
+* `purrr::keep`
+* `purrr::pluck`
+* `readr::read_rds`
+* `stringr::str_detect`
+
+:::
+
+:::
+
+## About the data 
+
+This problem set will use the file [cicadas_2021.rds]{.mono}. The data were originally downloaded using the *rinat* package and represent iNaturalist observations. The locations of observations were derived with Program R. The data are arranged as a list that contains the following data frames (not including lifelines):
+
+[brood_x]{.mono}
+
+* [species]{.mono}, character: The scientific name (genus and species) of each species of brood X cicada.
+* [common_name]{.mono}, character: The common name of each species of brood X cicada.
+
+[cicada_observations_2021]{.mono}
+
+* [datetime]{.mono}, datetime: The date and time in which an observation took place.
+* [scientific_name]{.mono}, character: The genus and species (if known) observed.
+* [address]{.mono}, character: The location in which an observation was made (based on the coordinates of the observation).
+* [city]{.mono}, character: The US city in which an observation was made.
+* [state]{.mono}, numeric: The US state in which an observation was made.
+* [quality_grade]{.mono}, character: Whether the observation was verified by experts ("research" grade) or has not been able to be verified ("casual" grade).
+
+## Setup
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i>  Remember that it is best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
+:::
+
+::: now_you
+
+1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_4_[last name]_[first name].R". For example, I would name my file `problem_set_4_evans_brian.R`.
+
+:::
+
+::: now_you
+
+2\. [[0.50]]{class="score"} Attach the tidyverse metapackage to your current R session.
+
+:::
+
+## Read and pre-process the data
+
+The `cicadas_temp` file represents research-grade iNaturalist observations of Brood X periodical cicadas from February through September of 2021.
+
+::: now_you
+
+3\. [[0.50]]{class="score"} Read in `data/raw/cicadas_2021.rds` and globally assign the list to the
+name cicada_list.
+
+:::
+
+::: now_you
+
+4\. [[2.0]]{.score}  In a single, chained analysis with no intermediate assignments:
+
+* [[0.50]]{.subscore} Subset `cicada_list` to `cicada_observations_2021`
+* [[0.50]]{.subscore} Subset to observations in Maryland, Virginia, and the District of Columbia ("MD", "VA", and "DC");
+* [[0.25]]{.subscore} Subset to research grade observations (variable = `quality_grade`);
+* [[0.25]]{.subscore} Change the variable name `scientific_name` to `species`;
+* [[0.25]]{.subscore} Remove the columns `city`, `state`, and `quality_grade`;
+* [[0.25]]{.subscore} Globally assign the name `cicada_research_quality` to the resultant object.
+
+:::
+
+## Addressing cicada species
+
+Brood X cicada are comprised of three species, *Magicicada cassini*, *Magicicada septendecim*, and *Magicicada septendecula*. Any other `scientific name` in the dataset either does not represent Brood X species or represents an observation that could not be identified to species.
+
+::: now_you
+
+5\. [[1.0]]{.score} This study is focused on Brood X cicada. Without using `filter()` [[0.50]]{.subscore} please:
+
+* [[0.25]]{.subscore} Subset the `cicada_research_quality` to Brood X species (*Magicicada cassini*, *Magicicada septendecim*, and *Magicicada septendecula*);
+* [[0.25]]{.subscore} Assign the name `brood_x_observations` to the resultant object.
+
+:::
+
+## Help me select my sites!
+
+I am looking for sites that our team can visit that will provide us with a lot of cicada song recordings!
+
+### The park problem
+
+We are only permitted to set up our automated recording units in area parks.
+
+::: now_you
+
+6\. [[2.0]]{.score} Unfortunately for us, "Park" is a common street name and there is a type
+of road in the area called a "parkway" (which may be abbreviated as "pkwy"). Let's explore values in the `address` variable. *Without* using `filter()` [[0.50]]{.subscore}, extract a vector of addresses from the data frame `brood_x_observations` such that the extracted values:
+
+* [[0.25]]{.subscore} Starts with the word "Park" or "park", *or*
+* [[1.0]]{.subscore} Contain the strings "Parkway", "parkway", "Pkwy", or "pkwy";
+* [[0.25]]{.subscore} Are globally assigned to the name `not_parks`.
+
+:::
+
+::: now_you
+
+7\. [[1.0]]{.score} Subset `brood_x_observations` such that the resultant object:
+
+* [[0.25]]{.subscore} The `address` variable ends with "park" or "Park";;
+* [[0.50]]{.subscore} The `address` is *not* found in the vector assigned to the name
+  `not_parks`;
+* [[0.25]]{.subscore} Is globally assigned to the name `brood_x_parks`.
+
+:::
+
+### Bang for our research buck
+
+We want to visit the sites in our region that will hopefully yield the highest number of cicadas for our recordings!
+
+::: {.now_you}
+
+8\. [[2.0]]{.score} Provide a unique vector of locations (variable = `address`) in which more than 40 cicadas have been observed.
+
+:::
+<hr>
+
+<!-- Note: The below is the javascript that I use to make the accordion button work -->
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
