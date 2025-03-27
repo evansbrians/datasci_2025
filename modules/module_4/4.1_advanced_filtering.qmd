@@ -42,7 +42,7 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 I have said it before, but filtering is one of the most important tasks that we do when managing our data. Tidyverse tools for filtering data give us amazing flexibility to conduct filters that are powerful and easy to read. This lesson includes a video tutorial (runtime -- 31:16) that describes advanced filtering techniques (applied as we plot data) and a *compendium* intended to serve predominantly as a reference (just so you do not have to watch the video multiple times ... but *do not* skip the video!). In completing this lesson, you will learn how to:
 
@@ -88,10 +88,17 @@ Please do the following to ensure that you are working in a clean session:
 
 Before you begin, some notes on the video content:
 
+* I am currently much more in favor of running `aes()` outside of the `ggplot()` function (rather than nesting).
 * I again use *key* to describe variable names ... that makes sense, but I think simply using "name" is much more clear in this context.
-* In `aes()`, I should have placed `reorder()` on its own line (based on the course style guide). Likewise, for `filter(year(...) == ...)`, `year()` should have been placed on its own line.
 * I do not typically use `reorder()` within `aes()` but we will not find a better way to address this until ***Module 4: Focus on mutation***.
-* When using `filter()`, if the number of arguments is greater than or equal to two, each argument should be place on their own line and should be indented two spaces.
+* I do not conform to the course style guide in this video! The biggest violations are:
+    * In `aes()`, I should have placed `reorder()` on its own line (based on the course style guide). Likewise, for `filter(year(...) == ...)`, `year()` should have been placed on its own line.
+    * When using `filter()`, if the number of arguments is greater than or equal to two, each argument should be place on their own line and should be indented two spaces.
+    * I place more than one prefix function on the same line multiple times. Each prefix function should have been placed on its own line.
+    * This was back when I used single quotes for everything. I now much prefer using double quotes.
+    * I did not use hanging parentheses.
+* Your `working_with_tidy_data.R` file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
+
 
 {{< video https://www.youtube.com/embed/knemDJegTgo >}}
 
