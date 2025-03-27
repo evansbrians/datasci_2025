@@ -1,0 +1,1087 @@
+---
+title: Strings, dates, and times ... Oh my!
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" />
+<!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" -->
+<!--- link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" --->
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" />
+<!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" -->
+</head>
+
+
+```{css more_styles, echo = FALSE}
+.mysecret {
+  border: 1px solid #999999;
+  border-style: solid; 
+  padding: 20px; 
+  border-radius: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+}
+
+.mygraybox {
+  border: 4px solid #ababab;
+  border-style: solid; 
+  padding: 20px; 
+  border-radius: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #fff9e6;
+}
+
+
+/* Here, I add a custom class for area surrounding the graded portions of this assignment.*/
+
+.now_you {
+  border-left: 8px solid #292093;
+  background-color: #e6ffff;
+  padding: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Here I will add some custom css on my font awesome icons*/
+  
+.fas {
+  font-size:36px
+}
+  
+code{
+  background-color:#f2f2f2;
+  border-radius: 25px;
+}
+ 
+span.co{
+  color:#000080;
+  font-weight: bold;
+}
+ 
+img {
+  display: block;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+p {
+  text-align: left;
+  font-size: 18px;
+  margin-bottom: 18px;
+  padding-bottom: 6px;
+}
+
+ul, ol{
+  line-height: 27px;
+  text-align: left;
+  font-size: 2rem;
+  margin-left: 0px;
+  margin-top: 18px;
+}
+ 
+blockquote{
+  font-size: 18px;
+  border-left: 8px solid #292093;
+  background-color: #e6ffff;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+ 
+.row{
+  margin: auto;
+}
+ 
+table {
+  border-collapse: collapse;
+}
+
+table, td, th {
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+ 
+ /* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.roundBorder {
+  border-radius: 25px;
+  border: 5px solid #30288C;
+  background: #D6EAF8;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.roundBorderBlack {
+  border-radius: 25px;
+  border: 10px solid #D3D3D3;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.roundBorderBlackEx {
+  border-radius: 5px;
+  border: 5px solid #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.roundBorderEx {
+  border-radius: 3px;
+  border: 5px solid #30288C;
+  background: #D6EAF8;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.tt {
+    position: relative;
+    display: inline-block;
+    class: inline; 
+    font-weight: bold;
+    font-family: "Avenir";
+    font-size: 18px;
+    border-bottom: 1px black;
+}
+
+/* Tooltip text */
+.tt .ttText {
+    visibility: hidden;
+    font-weight: normal;
+    font-size: 18px;
+    width: 200px;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    text-align: left;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tt:hover .ttText {
+    visibility: visible;
+}
+
+div.tocify {
+    width: 40%;
+    max-width: 260px;
+    max-height: 85%;
+}
+
+hr {
+  margin-top: 0px;
+  margin-bottom: 18px
+}
+
+.topic {
+  font-size: 19px !important;
+}
+
+code {
+  font-size: 16px !important;
+  background-color: #efefef;
+}
+
+h1 {
+  font-size: 3.5em;
+}
+
+h2 {
+  font-size: 2.5em;
+  padding-bottom: 22px;
+  margin-top: 22px;
+  margin-bottom: 0px;
+}
+
+h3 {
+  font-size: 2em;
+  margin-bottom: 18px;
+  margin-bottom: 18px;
+}
+
+h4 {
+  font-size: 1.5em;
+  margin-bottom: 18px;
+}
+
+h5 {
+  font-size: 1.1em;
+}
+
+pre {
+  font-size: 16px !important;
+  background-color: #efefef;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+/* Accordion style */
+.accordion {
+  background-color: #e6f0ff;
+  color: #000000;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ffffff;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #80b3ff; 
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+
+table {
+  margin-top: 18px;
+}
+
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stringr)
+library(tidyverse)
+```
+
+
+## Overview
+<hr>
+
+<div class = "row">
+<a title = "Data Science hex">
+  <img  src = "www/hex_complex.png"
+        alt="Hex sticker for data science class"
+        style = "float: right; padding-left: 2em; padding-bottom: 2em; padding-right: 3em; width: 40%; height: auto;">
+  </img>
+</a>
+
+Strings, dates, and times are often difficult to work through. Luckily, two packages in the tidyverse, lubridate and stringr have taken almost all of the pain out of the process of dealing with these types of values. This tutorial will guide you through how to work with dates and times, how to modify strings, and how to write string queries with regex. Strings and regex content are largely focused on the tools necessary to work with difficult date and time data.
+
+As a warning, this tutorial ends with some advanced content. I highly advise you to skip that content unless you feel that you are ready. If you choose to do so, however, please do read the "Pain avoidance" section at the very end of this document.
+
+</div>
+
+Please be sure that you have watched all of the week 5 video lectures prior to working on this lesson!
+
+## Setup
+<hr>
+
+Please first obtain the files `bad_dates.rds` and`bad_dates_2021.csv` from your course data folder and save it in `data_sci/data/raw`.
+
+Open R Studio. Remember that it's best practice to start with a clean R Studio session. Please do the following before continuing:
+
+1. If there are any script files open in your source pane, close them. If any of the file titles are blue, save them prior to closing.
+
+1. In the *Environment* tab of your **workspace pane**, ensure that your **global environment** is empty. If it is not, click the *broom* to remove all objects.
+
+1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+
+
+Now we'll set up our script file:
+
+1. Open a new script file.
+
+1. Save the file right away as `data_sci/scripts/worksheet_strings_dates_times.R`
+
+1. Add a new code section and call it "setup"
+
+1. After a space between your section break, include and run the following:
+
+```{r eval = TRUE, results = 'hide', message = FALSE, warning = FALSE}
+library(tidyverse)
+
+# Read in the data:
+
+bad_dates_2021 <- 
+  read_csv('data/raw/bad_dates_2021.csv')
+
+read_rds('data/raw/bad_dates.rds') %>% 
+  list2env(.GlobalEnv)
+```
+
+## Dates & times
+<hr>
+
+A fun and useful thing we can do with lubridate is extract time at different scales from the data.
+
+Let's use our `good_dates` file to start building a data frame with derived information on when an event occurred. Probably the most common column of interest would be the year an event occurred. We can do so using the lubridate function `year()`:
+
+```{r}
+good_dates %>% 
+  mutate(year = year(date_time))
+```
+
+We can extract the month an event occurred using the `month()` function:
+
+```{r}
+good_dates %>% 
+  mutate(month = month(date_time))
+```
+
+And choose how to label those months:
+
+```{r}
+good_dates %>% 
+  mutate(
+    month = 
+      month(
+        date_time,
+        label = TRUE,
+        abbr = FALSE))
+```
+
+We can extract the day of the month a date occurred with `mday()`:
+
+```{r}
+good_dates %>% 
+  mutate(day_of_month = mday(date_time))
+```
+
+Or the day of year with `yday()`:
+
+```{r}
+good_dates %>% 
+    mutate(day_of_year = yday(date_time))
+```
+
+I always like see the day of week as well, with `wday()`:
+
+```{r}
+good_dates %>% 
+  mutate(
+    weekday = 
+      wday(
+        date_time,
+        label = TRUE,
+        abbr = FALSE))
+```
+
+Let's put together these mutate statements and assign this object to our global environment and call it `wide_dates`:
+
+```{r}
+wide_dates <-
+  good_dates %>% 
+  mutate(
+    year = year(date_time),
+    month = 
+      month(
+        date_time,
+        label = TRUE,
+        abbr = FALSE),
+    day_of_month = mday(date_time),
+    day_of_year = yday(date_time),
+    weekday = 
+      wday(
+        date_time,
+        label = TRUE,
+        abbr = FALSE))
+```
+
+### Some times
+
+Now we're going to do the same thing with our time object. Just like with dates, it's easy to extract information if we have a proper date-time column .
+
+Let's pull out the the hour of day from good dates with the `hour()` function:
+
+```{r}
+good_dates %>% 
+  mutate(hour = hour(date_time))
+```
+
+... and the minutes using the `minute()` function:
+
+```{r}
+good_dates %>% 
+  mutate(
+    hour = hour(date_time),
+    minute = minute(date_time))
+```
+
+... and seconds using the `second()` function:
+
+```{r}
+good_dates %>% 
+  mutate(
+    hour = hour(date_time),
+    minute = minute(date_time),
+    second = second(date_time))
+```
+
+Let's assign the name `wide_time` to the resultant object:
+
+```{r}
+wide_time <-
+  good_dates %>% 
+  mutate(
+    hour = hour(date_time),
+    minute = minute(date_time),
+    second = second(date_time))
+```
+
+### Some meaningful information we can get from dates
+
+We often need to conduct analyses based on dates. One function that is particularly useful is the function `decimal_date()`, which converts the date into decimal numbers:
+
+```{r}
+good_dates %>% 
+  mutate(ddate = decimal_date(date_time))
+```
+
+Tibbles can have an odd way of truncating our numeric values. Let's see what our first decimal date looks like:
+
+```{r}
+good_dates %>% 
+  mutate(ddate = decimal_date(date_time)) %>% 
+  slice(1) %>% 
+  pull()
+```
+
+And, of course, we can't leave a section on dates and times without bringing in one of our window functions. Let's see how much time has elapsed between the natural disasters in the table using the `lag()` offset window function and the function `difftime()`:
+
+```{r}
+good_dates %>% 
+  mutate(
+    elapsed_days = 
+      difftime(
+        date_time,
+        lag(date_time)))
+```
+
+We can specify the units in this as well. Let's see what this looks like in days:
+
+```{r}
+good_dates %>% 
+  mutate(
+    elapsed_days = 
+      difftime(
+        date_time,
+        lag(date_time),
+        units = 'day'))
+```
+
+### Some bells and whistles
+
+Before we go from this gentle introduction to our lubridate tools (it's going to get a bit more intense at the end), I thought I'd show off some fun bells-and-whistles.
+
+If I wanted to know what day it is and I've been stuck in a multi-day-high-intensity-code-hole, I don't have to turn to a calendar. I just type:
+
+```{r}
+today()
+```
+
+What time is it? Oh shoot, I can't find my phone:
+
+```{r}
+now()
+```
+
+If my code hole is super deep, I might not remember what day of the week it is:
+
+```{r}
+wday(
+  today(),
+  label = TRUE, 
+  abbr = FALSE)
+```
+
+Is this year a leap year?
+
+```{r}
+leap_year(today())
+```
+
+Lubridate is super easy to use and really fun.
+
+## Basic stringr
+<hr>
+
+The tidyverse package stringr offers easy-to-use tools for finding information about strings, modifying strings, and replacing them. I will focus our attention in this section on stringr tools that I use most frequently when I'm working with date-time objects.
+
+### Detecting strings
+
+
+
+By default, string replace only changes part of a string. Check out what happens when we attempt to change the forward slashes to periods in the (nearly) European date format below:
+
+```{r}
+str_replace(
+  '21/7/14',
+  '/',
+  '.')
+```
+
+It only changed the first matching character. If we want to change all of the matching characters across the string, we use `str_replace_all()`:
+
+```{r}
+str_replace_all(
+  '21/7/14', 
+  '/', 
+  '.')
+```
+
+### Joining strings
+
+We can join string vectors using the `str_c()` function. When we do so, we provide a `sep = ` argument which will define the string that separates the values in each vector.
+
+In its most simple usage, `str_c()` will join together two values. We define the `sep = ` argument here as a comma and a space: 
+
+```{r}
+str_c(
+  "He wasn't scared of nothin' boys",
+  "he was pretty sure he could fly",
+  sep = ', ')
+```
+
+Each of the above is a one value character vector. Let's see what happens when we join a value to a longer vector:
+
+```{r}
+str_c(
+  c('hello',
+    'howdy',
+    'hi'),
+  'world',
+  sep = ' ')
+```
+
+In the above, each of the values in the first vector were joined with the value in the second. Take a look at how it works in a data frame when using the mutate function:
+
+```{r}
+tibble(
+  a = c('hello', 'howdy'),
+  b = c('world', 'everybody')) %>% 
+  mutate(d = str_c(a, 'folks', sep = ' '))
+```
+
+The above pasted the value "folks" to each of the specified values in column `a`.
+
+We can also use this to paste together two different columns:
+
+```{r}
+tibble(
+  a = c('hello', 'howdy'),
+  b = c('world', 'everybody')) %>% 
+  mutate(d = str_c(a, b, sep = ' '))
+```
+
+We can use this to put together pretty-looking dates with our wide_dates table:
+
+```{r}
+wide_dates %>% 
+  mutate(
+    pretty_date = 
+      str_c(
+        month, 
+        day_of_month,
+        sep = ' ') %>% 
+      str_c(year, sep = ', '))
+```
+
+<br>
+<blockquote>
+<i class="fas fa-user-circle" style='font-size:36px'></i>&nbsp;&nbsp;<span style = 'font-size: 36px;'>Now you!</span>
+
+Use the `wide_dates` data set to generate even prettier dates -- make them the European format with a name (e.g. 9 September 2016):
+
+<button class="accordion" style = "margin-bottom: 18px">My answer</button>
+<div class="panel">
+```{r}
+wide_dates %>% 
+  mutate(
+    pretty_date = 
+      str_c(
+        day_of_month, 
+        month,
+        year,
+        sep = ' '))
+```
+</div>
+
+
+<hr>
+</block quote>
+
+Useful dates are more important than pretty dates.
+
+We can use `str_c()` with `wide_dates` make a date column that's close (enough) to an ISO 8601 date:
+
+```{r}
+wide_dates %>% 
+  mutate(
+    date = 
+      str_c(
+        year,
+        as.numeric(month),
+        day_of_month,
+        sep = '-'))
+```
+
+... and convert this to a proper date column:
+
+```{r}
+wide_dates %>% 
+  mutate(
+    date = 
+      str_c(
+        year,
+        as.numeric(month),
+        day_of_month,
+        sep = '-') %>% 
+      as_date())
+```
+
+
+Let's see if we can do the same with our `wide_time` data. First we need to join the two data sets. I'll do so below (make sure you know what's happening in each step and why!) and assign the name new_dates to the resultant object:
+
+```{r}
+new_dates <-
+  wide_dates %>% 
+  mutate(
+    date = 
+      str_c(
+        year,
+        as.numeric(month),
+        day_of_month,
+        sep = '-') %>% 
+      as_date()) %>% 
+  select(
+    id, 
+    incident,
+    date_time, 
+    date) %>% 
+  left_join(
+    wide_time %>% 
+      select(id, hour:second), 
+    by = 'id')
+
+new_dates
+```
+
+Now we can combine the date columns:
+
+```{r}
+new_dates %>% 
+  mutate(
+    time = 
+      str_c(
+        hour,
+        minute,
+        second, 
+        sep = ':'))
+```
+
+Now that we've done that, let's reduce the number of columns:
+
+```{r}
+new_dates %>% 
+  mutate(
+    time = 
+      str_c(
+        hour,
+        minute,
+        second, 
+        sep = ':')) %>% 
+  select(-c(hour:second))
+```
+
+Then combine our date and time columns:
+
+```{r}
+new_dates %>% 
+  mutate(
+    time = 
+      str_c(
+        hour,
+        minute,
+        second, 
+        sep = ':')) %>% 
+  select(-c(hour:second)) %>% 
+  mutate(
+    date_time2 = 
+      str_c(
+        date,
+        time,
+        sep = ' '))
+```
+
+... give it another cleaning:
+
+```{r}
+new_dates %>% 
+  mutate(
+    time = 
+      str_c(
+        hour,
+        minute,
+        second, 
+        sep = ':')) %>% 
+  select(-c(hour:second)) %>% 
+  mutate(
+    date_time2 = 
+      str_c(
+        date,
+        time,
+        sep = ' ')) %>% 
+  select(-c(date, time))
+```
+
+... and calculate a proper date-time object using the `as_datetime()` function!
+
+```{r}
+new_dates %>% 
+  mutate(
+    time = 
+      str_c(
+        hour,
+        minute,
+        second, 
+        sep = ':')) %>% 
+  select(-c(hour:second)) %>% 
+  mutate(
+    date_time2 = 
+      str_c(
+        date,
+        time,
+        sep = ' ') %>% 
+      as_datetime()) %>% 
+  select(-c(date, time))
+```
+
+
+Before we move on, it's important to recognize that most of the process above was possible because the dates were stored in the standard date format. When things start to get inconsistent we need the help of regex!
+
+
+
+
+
+<span style = "color: red;">***Warning**: The content below gets somewhat advanced. If you're still on the regex struggle bus, you may want to skip reading the below for now. You will not be responsible for reproducing this content in your homework. This material will be here for you when you're ready.*</span>
+
+## The problem with yy
+<hr>
+
+You may have noticed in the previous dates material that we did not cover a **very** common US date format 'mm/dd/yy'. Those dates are difficult to fix without regex.
+
+### Unintentional time travel
+
+If we have dates in our data that span the 1900s and 2000s, we may run into a common problem. Let's see what happens when we use the lubridate function `mdy()` on the following dates:
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  mdy()
+```
+
+We see that the first date in the set was put in the wrong century. The `yy` format forces `mdy` to guess the century and, in this case, it guessed wrong.
+
+We can let regex and `str_replace()` come to our rescue!
+
+First, we need to figure a general statement for detecting our dates. I see that month can be either one or two digits. I would assume that day could be as well. Here's the regex to detect our dates:
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_detect('[0-9]{1,2}/[0-9]{1,2}/[0-9]{2}')
+```
+
+Next, we need to define our groups. We'll assign month, day, and year to their own groups using parentheses:
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_detect('([0-9]{1,2})/([0-9]{1,2})/([0-9]{2})')
+```
+
+We haven't changed the data yet, just grouped our month, day, and year. Each group is separated with a slash and mapped such that month is group one, day is group two, and year is group three. We can replace any group using (*Note the forward slashes in the below are the separators between month, day, and year -- those were not a part of our groups*):
+
+```{r}
+# Replace group 1 (month) with hello:
+
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_replace(
+    '([0-9]{1,2})/([0-9]{1,2})/([0-9]{2})',
+    'hello/\\2/\\3')
+
+# Replace group 2 (day) with hello:
+
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_replace(
+    '([0-9]{1,2})/([0-9]{1,2})/([0-9]{2})',
+    '\\1/hello/\\3')
+
+# Replace group 3 (year) with hello:
+
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_replace(
+    '([0-9]{1,2})/([0-9]{1,2})/([0-9]{2})',
+    '\\1/\\2/hello')
+```
+
+So, in the same way, we can add the number "19" in front of our group 3 value.
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_replace(
+    '([0-9]{1,2})/([0-9]{1,2})/([0-9]{2})',
+    '\\1/\\2/19\\3')
+```
+
+Well, that worked okay for the dates in 1967 and 1969, but what about the one in 2014?
+
+To apply the above, we might want to define some threshold value that represents when to go to the previous century. Let's say it's the year 2030. I can modify my regex search as follows:
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_detect('([0-9]{1,2})/([0-9]{1,2})/([3-9][0-9])')
+```
+
+Now, both values in the 1900s evaluate to TRUE and the value in this century evaluates to FALSE. Let's run this with out `str_replace()` function and see what we get:
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_replace(
+    '([0-9]{1,2})/([0-9]{1,2})/([3-9][0-9])',
+    '\\1/\\2/19\\3')
+```
+
+That worked great! Now we can safely turn this into a proper date object with:
+
+```{r}
+c('9/21/67', '7/20/69', '7/21/14') %>% 
+  str_replace(
+    '([0-9]{1,2})/([0-9]{1,2})/([3-9][0-9])',
+    '\\1/\\2/19\\3') %>% 
+  mdy()
+```
+
+I recommend **always** replacing any two digit year with the four digit version! Regex is the most straightforward and safest way to do so.
+
+## Mixed dates, revisited
+<hr>
+
+In our lecture this week, we covered mixed dates, but only those in which the month was spelled out. I avoided covering mixed dates that are of the variety mm/dd/yyyy and dd/mm/yyyy. This is probably the most common type of mixed date and it's a challenging issue to solve. 
+
+This issue happen a lot when dates are entered into Excel and multiple people are reporting their data. Although the proper European format for dates is dd.mm.yyyy, if a date is entered into a column that's already specified as mm/dd/yyyy, Excel will do it's best to change it into that format.
+
+Let's look at the data set `bad_dates_2021`:
+
+```{r}
+bad_dates_2021
+```
+
+The `bad_date` column has dates stored as both mm/dd/yyyy and dd/mm/yyyy.Let's see what happens when we try to convert the dates with `dmy()`:
+
+```{r}
+bad_dates_2021 %>% 
+  mutate(bad_date = dmy(bad_date))
+```
+
+We get a message that many of the values failed to parse. Let's see how many columns match the actual date:
+
+```{r}
+bad_dates_2021 %>% 
+  mutate(
+    bad_date = dmy(bad_date),
+    matching_date = bad_date == date) %>% 
+  group_by(matching_date) %>% 
+  summarize(n = n())
+```
+
+So, we see that 197 matched, 69 were converted to a date object but did not match, and 99 were not able to be converted.
+
+Let's see how what happens if we use the US date format `mdy()`:
+
+```{r}
+bad_dates_2021 %>% 
+  mutate(
+    bad_date = mdy(bad_date),
+    matching_date = bad_date == date) %>% 
+  group_by(matching_date) %>% 
+  summarize(n = n())
+```
+
+Here, our situation is just as bad.
+
+So let's see if we can address this with regex by carefully specifying the range of numbers that should be in each date field. 
+
+Let's do the European version first. European dates start with days, which should be some value between 1 and 31. Because there are 12 months in the year, we can only be confident about days greater than 13.
+
+```{r}
+bad_dates_2021 %>% 
+  filter(
+    str_detect(
+      bad_date, 
+      '^(1[3-9]|[2-3][0-9])/'))
+```
+
+So we have 122 date values where the format is definitely European.
+
+We can add another pass. If the second set in the string (which should be month) is any value above 12, it's going to be in the US date format. I use the wildcard character and specify that the first set in the string is either going to be one or two characters long (i.e., months 1-9 or 10-12).
+
+```{r}
+bad_dates_2021 %>% 
+  filter(
+    str_detect(
+      bad_date,
+      '^.{1,2}/(1[3-9]|[2-3][0-9])/'))
+```
+
+So we have 99 values that are definitely in the US date format. Let's start putting these together in a `case_when()` statement:
+
+```{r}
+bad_dates_2021 %>% 
+  mutate(
+    date_format = 
+      case_when(
+        str_detect(
+          bad_date,
+          '^(1[3-9]|[2-3][0-9])/') ~ 'european',
+        str_detect(
+          bad_date,
+          '^.{1,2}/(1[3-9]|[2-3][0-9])/') ~ 'us',
+        TRUE ~ 'unknown')) %>% 
+  group_by(date_format) %>% 
+  summarize(n = n())
+```
+
+So we see that there are 144 date values that are unknown. That's pretty bad **but**, importantly, we haven't mis-specified any dates (which is the worst case scenario). Consider that when we ran `mdy()` with the US data, 180 apparently matched but those matches could not actually be inferred from the data. Likewise, for the European dates, 197 matched but could not be inferred from the data.
+
+So what do you do? This is where your understanding of your research system comes in. When were you or your team in the field? When does it make sense that the observations occurred? Are there any other clues of events that happened on a given date or adjacent dates? For example, perhaps your team only works from Monday to Friday. You can use the `wday()` function to inform your date assignment!
+
+## Validation
+<hr>
+
+One great use of regex is for validating data during the data entry process (or in post-processing). You can use regex in Microsoft Excel, Google Sheets, and most other reasonable data entry systems.
+
+I work with bird banding data. The bird bands we work with are numbered with a 3 or 4 digit prefix and a 5 digit suffix, with the two numbers separated by a dash. During the data entry process, I have regex validation built in that looks something like this:
+
+```{r}
+c('112-35813',
+  '1123-58132',
+  '11-23581',
+  '112-3581') %>% 
+  if_else(
+    str_detect(., '^[1-9][0-9]{2,3}-[1-9][0-9]{4}$'),
+    .,
+    'Please re-enter the band number')
+```
+
+*It's worth taking a moment to think about what the `.` does in the statement above. The `.` refers to the data before the pipe!*
+
+We can, of course, do the same things with dates. For example, if we are recording dates in the European format (we shouldn't) with a four-digit year (always use a four-digit year), we can validate the date using:
+
+```{r}
+c('20/9/2021',
+  '9/20/2021') %>% 
+  if_else(
+    str_detect(., '^.{1,2}/(1[3-9]|[2-3][0-9])/'),
+    'Bad date!',
+    .)
+```
+
+Or, for US dates:
+
+```{r}
+c('20/9/2021',
+  '9/20/2021') %>% 
+  if_else(
+    str_detect(., '^(1[3-9]|[2-3][0-9])/'),
+    'Bad date!',
+    .)
+```
+
+Data validation is a big subject and we could add much more sophisticated validation than the above (e.g., not allowing entry of future dates!), but this is a solid start.
+
+## Pain avoidance
+<hr>
+
+Working with dates safely and painlessly starts with the data entry process. Of course, the big lesson here is that working with non-standard dates is a real problem. There is great potential to suffer data loss. If you have the opportunity to manage the collection of data, my suggested solutions are:
+
+1. (**Best**): Use a date picker app for data entry (you can even do it in the Developer tab in Excel if your institution allows it) and store the dates as ISO 8601. This is by far the safest solution.
+
+1. (**Good**): Train yourself and your team to record and report data in ISO 8601. Include strict data validation in your spreadsheet or data entry program to prohibit errors.
+
+1. (**Pretty good**): Have a standard date format your team is always to use and include data validation (as above). Behind-the-scenes, these dates should be stored in ISO 8601.
+
+1. (**Somewhat safe, but ugly**): Have your team enter their data as separate year, month, day fields, include data validation (as above) and store the data behind-the-scenes as ISO 8601.
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
+
+<script>
+var x = document.getElementsByClassName("hide_button");
+var i;
+
+for (i = 0; i < x.length; i++) {
+  x[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>

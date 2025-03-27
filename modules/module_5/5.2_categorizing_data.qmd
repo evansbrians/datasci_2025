@@ -1,0 +1,926 @@
+---
+title: "5.2. Categorizing data"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../images/hex_complex.png){.intro_image}
+
+Classifying and reclassifying objects is a common task associated with cleaning, exploring, and preparing data for analysis or visualization. If we are not careful, we can generate errors in our data during this process -- such errors can drastically change the interpretation of our analyses. For example, I often ask for the raw data and code used to process those data when peer-reviewing manuscripts. I have sent several manuscripts back because the authors' results were based on an error in how they data classification! The process of finding and fixing classification errors, and the classification process itself, can be *super* time-consuming. In this video lesson (runtime -- 28:05) and compendium tutorial, you will learn how to use tidyverse tools that will save you an incredible amount of time and greatly improve the integrity of your data. Specifically, you will learn how to:
+
+* Classify numeric vectors with base R's `cut()`;
+* Use *dplyr* to classify or reclassify values into two (`if_else()`) or more (`case_when()`) classes;
+* Use *stringr* (`str_replace()`) and regex to clean, classify, and reclassify character vectors.
+
+*Note: The compendium portion of this tutorial does not include any new material that you will be responsible for in this course and is therefore meant to serve as reference only. I do, however, include an **advanced** `str_replace()` section at the end. I do not recommend completing this section until you are very comfortable with regex.*
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
+
+</div>
+
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+In this lesson, we will explore the file [birds_cicadas_lc.rds]{.mono}. The data are formatted as a list of the following tibble data frames:
+
+**[birds]{.mono}**: Injured and sick birds that were brought to a wildlife rehabilitation center.
+
+* [patient_id]{.mono}, character: 
+* [admission_date]{.mono}, date: 
+* [common_name]{.mono}, character: 
+* [age]{.mono}, character: 
+* [canopy]{.mono}, numeric: 
+* [imp]{.mono}, numeric: 
+* [nlcd]{.mono}, numeric: 
+
+**[cicadas]{.mono}**: iNaturalist observations of Brood X cicadas in 2021.
+
+* [datetime]{.mono}, datetime: 
+* [canopy]{.mono}, numeric: 
+* [imp]{.mono}, numeric: 
+* [nlcd]{.mono}, numeric: 
+
+**[bad_coords]{.mono}**: Coordinates of birds that were brought to the wildlife rehabilitation center.
+
+* [id]{.mono}, character: 
+* [longitude]{.mono}, numeric: 
+* [latitude]{.mono}, numeric: 
+
+**[nlcd_key]{.mono}**: A key to the [Multi-Resolution Land Characteristics (MRLC) Consortium](https://www.mrlc.gov/){target="_blank"} land cover classes.
+
+* [id]{.mono}, numeric: 
+* [name]{.mono}, character: 
+* [color_value]{.mono}, character: 
+* [description]{.mono}, character: 
+
+:::
+
+## Set up your video session
+
+Please do the following to ensure that you are working in a clean session:
+
+1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
+2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+3. Open the script file [categorize.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+
+## Video content
+
+Notes: 
+
+* You will see me complain about my usage of hanging parentheses ... but that is now (usually) my preference!
+* Your script will not exactly match my video script. Wherever possible, I have modified the script to adhere to the course style guide (e.g., indentation) and replaced single quotes with double quotes.
+* I talk about error messages that you will receive with [NA]{.values} in `if_else()` and `case_when()` ... this no longer produced an error (as of early 2023)!
+
+{{< video https://www.youtube.com/embed/r9k-GdyiH4U >}}
+
+## Compendium tutorial
+
+In this written portion of the tutorial, we will again attach the core packages in the tidyverse to our current session and:
+
+* Read in [data/processed/birds_cicadas_lc.rds]{.mono};
+* Extract the list item assigned to the name `cicadas` with `pluck()`;
+* Globally assign the object to the name `cicadas`.
+
+```{r}
+# R script for the cateogize compendium
+
+# setup -------------------------------------------------------------------
+
+library(tidyverse)
+
+# Read in the data for this lesson:
+
+cicadas <-
+  read_rds("data/processed/birds_cicadas_lc.rds") %>% 
+  pluck("cicadas")
+```
+
+### Numeric to factor with `cut()`
+
+The base R function `cut` can help us convert a numeric variable into an **ordinal factor**. Ordinal factors are variables that clearly represent ordered levels (e.g., "small" and "big"; "low", "medium", and "high"). I personally find the `cut()` to be a bit painful, but I believe that it is worthwhile to understand how to use it.
+
+To see how this works, let's start with a tibble with a single column that contains the integers with the values 1 through 5:
+
+```{r}
+tibble(x = 1:5)
+```
+
+We will add a new column to the above data frame with `mutate()` and `cut()`. The two required arguments of cut are:
+
+* The variable that will be classified (the first argument);
+* A vector breaks upon which to base the classification (these can be thought of as **boundary values** -- or "boundaries" that define the minimum and maximum values of a group).
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5))
+  )
+```
+
+The above produced a factor, but what the heck does it mean? Notice that the first value in our resultant vector was `NA`, the values `2` and `3` were evaluated to the factor level `(1,3]` and the values `4` and `5` were evaluated to the factor level `(3,5]`. An unfortunate aspect of cut is the potentially confusing notation of our output. The table below may help:
+
+:::{style="background-color: white; font-size: 14px;"}
+
+|Notation | x              | y              | Description
+|:-------:|:--------------:|:--------------:|:---------------------------|
+| (x, y]  | > x   (open)   | <= y (closed)  | Classes do not include the lower break value, but do include the upper break value
+| [x, y)  | >= x  (closed) | < y  (open)    | Classes include the lower break value, but do not include the upper break value
+| [x, y]  | >- x (closed)  | <= y  (closed) | Classes include both the lower and upper break values
+
+:::
+
+To understand this, it is useful to understand what is meant by "open" and "closed" boundaries:
+
+* An **open boundary** does not include the boundary value and is signified with `(` for a lower open boundary and `)` for an upper open boundary. 
+* A **closed boundary**, includes the boundary value and is signified with `[` for a lower closed boundary and `]` for an upper closed boundary.
+
+So, matching the descriptions of the overly-dense notation with our output above, we can see that the value 1 evaluated to `NA` because the first factor level is defined as values greater than `1` (the lower boundary is defined as "open"). The value `3` belongs to the first class `(1,3]` because that class includes the value `3` and the upper boundary is defined as "closed". Likewise, the boundary value `5` is included because that upper boundary is "closed" and is thus included in the class `(3, 5]`.
+
+Confused yet? If so, it is going to get worse before it gets better. This behavior can be modified with two arguments of `cut()`, `include_lowest = ...` and `right = ...`. By default, these arguments are `include.lowest = FALSE` and `right = TRUE`.
+
+The easier of the two is `right = ...`, so we will start there. If `right = TRUE`, the default, this means that the interval is open on the left (lower boundary) and open closed on the right (upper) boundary. This is the defaut behavior and is why our resultant classes were noted as `(x,y]`. Conversely, if `right = FALSE`, the interval is closed on the left and open on the right.  
+
+Let's specify `right = FALSE` and see what happens:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5),
+        right = FALSE)
+  )
+```
+
+Now, our lower boundary value, `1`, is included within the first class `[1,3)`, because the interval is closed on the left. The value `3` is included within the closed boundary value of the second class. The value `5` is now `NA` because the upper boundary is open.
+
+Let's now tackle the `include.lowest = ...` argument. This is where things are going to get *really* annoying:
+
+If `include.lowest = FALSE` (the default) and `right = TRUE` (the default) then the lowest boundary value is not included in a class:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5),
+        include.lowest = FALSE,
+        right = TRUE)
+  )
+```
+
+If `include.lowest = FALSE` (the default) and `right = FALSE` then the highest boundary value is not included in a class:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5),
+        include.lowest = FALSE,
+        right = FALSE)
+  )
+```
+
+If `include.lowest = TRUE` and `right = TRUE` then the lowest boundary value is included in a class:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5),
+        include.lowest = TRUE,
+        right = TRUE)
+  )
+```
+
+Finally, if `include.lowest = TRUE` and `right = FALSE` then the highest boundary value is included.
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5),
+        include.lowest = TRUE,
+        right = FALSE)
+  )
+```
+
+We are through with the tough stuff (*Phew! That was hell!* ), so let's get to the fun part. Once we have our classes, we can use the `labels = ...` argument, and a character vector of labels to assign, to add labels to our classes:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      cut(
+        x,
+        breaks = c(1, 3, 5),
+        labels = c("little", "big"),
+        include.lowest = TRUE,
+        right = FALSE)
+  )
+```
+
+Now that is a result I wrap my brain around!
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [`cut()`? What a @&#*ing loathsome function!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+I do use this function a lot, but mainly just to test the boundary behavior of classified ordinal values when I am forced by a package to use base R-style functions (e.g., the *terra* package). The decision of which combination of `include.lowest = ...` and `right = ...` depends on where you wish to split your categories. Because the behavior of these functions (and the help file, see `?cut`) is so obtuse, I *strongly* recommend generating toy data and observing how your classes behave at the boundaries *before* applying this to real data!
+
+::: 
+
+#### `cut()`, applied
+
+If you are still with me, let's use `cut()` to classify our impervious surface data (`imp`) into "rural", "suburban", and "urban" and count the number of cicada observations in each class. We will classify these data such that values:
+
+* Below 10% impervious surface are classified as "rural";
+* Between 10 and <40% impervious surface are classified as "suburban";
+* Greater than or equal to 40% impervious surface are classified as "urban".
+
+Before I apply the above to real data, I like to generate a toy data frame with which to test the boundary behavior. We can use the base R function `seq` for this, the arguments of which are:
+
+* `from`: The lowest value in the sequence;
+* `to`: The highest value in the sequence;
+* `by`: The increment between values.
+
+```{r}
+tibble(
+  imp = 
+    seq(
+      from = 0,
+      to = 100,
+      by = 10)
+)
+```
+
+We can now play around with the arguments of `include.lowest = ...` and `right = ...` to ensure that we have the correct combination for the boundary behavior target classes.
+
+```{r}
+
+# Generate a toy data frame for testing:
+
+tibble(
+  imp = 
+    seq(
+      from = 0,
+      to = 100,
+      by = 10)
+) %>% 
+  
+  # Classify the data:
+  
+  mutate(
+    imp_class = 
+      cut(
+        imp,
+        breaks = c(0, 10, 40, 100),
+        include.lowest = TRUE,
+        right = FALSE
+      )
+  )
+```
+
+... and apply to our cicada-counting operation:
+
+```{r}
+cicadas %>% 
+  
+  # Classify the data:
+  
+  mutate(
+    imp_class = 
+      imp %>% 
+      cut(
+        breaks = c(0, 10, 40, 100),
+        include.lowest = TRUE,
+        labels = 
+          c("rural",
+            "suburban",
+            "urban"),
+        right = FALSE
+      )
+  ) %>%
+  
+  # Count the number of observations per class:
+  
+  summarize(
+    n = n(),
+    .by = imp_class
+  ) %>% 
+  
+  # Plot the number of observations per class:
+  
+  ggplot() +
+  aes(
+    x = imp_class,
+    y = n) +
+  geom_bar(stat = "identity") +
+  theme_bw()
+```
+
+I know that `cut()` is tough, and I totally get it if you are annoyed, luckily our *dplyr* functions for classifying data are much more straightforward!
+
+### Two classes with `if_else()`
+
+The `if_else` function is used to divide a value into two classes, and is usually used within `mutate()`. We are required to supply the following arguments:
+
+* `condition = ...`: A logical test of a variable.
+* `true = ...`: The value to assign if the logical test evaluates to `TRUE`.
+* `false = ...`: The value to assign if the logical test evaluates to `FALSE`.
+
+Are you ready to be annoyed with me? Let's classify our integers from 1 through 5 again, assigning values less than 3 as "little" and all other values as "big":
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      if_else(
+        condition = x < 3,
+        true = "little",
+        false = "big"
+      )
+  )
+```
+
+Because our of the order of these arguments, this can be simplified as:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      if_else(
+        x < 3,
+        "little",
+        "big"
+      )
+  )
+```
+
+We can also add categories for missing values. By default, these will be [NA]{.mono}:
+
+```{r}
+tibble(x = c(NA, 1:5)) %>% 
+  mutate(
+    x_classified = 
+      if_else(
+        x < 3,
+        "little",
+        "big"
+      )
+  )
+```
+
+With the `missing = ...` argument, we can specify a new value for those data:
+
+```{r}
+tibble(x = c(NA, 1:5)) %>% 
+  mutate(
+    x_classified = 
+      if_else(
+        x < 3,
+        "little",
+        "big",
+        missing = "I dunno"
+      )
+  )
+```
+
+Let's turn to real data:
+
+* Reclassify cicada observations into the classes "forested", representing observations where the proportion cover of tree canopy (`can`) is greater than 40%, and "open" for classes where `imp` is less than or equal to 40%;
+* Plot the number of observations in each land cover class.
+
+```{r}
+cicadas %>% 
+  
+  # Classify the data:
+  
+  mutate(
+    canopy_class = 
+      if_else(
+        canopy > 40,
+        "forested",
+        "open"
+      )
+  ) %>% 
+  
+  # Count the number of observations per class:
+  
+  summarize(
+    n = n(),
+    .by = canopy_class
+  ) %>% 
+  
+  # Plot the number of observations per class:
+  
+  ggplot() +
+  aes(
+    x = canopy_class,
+    y = n) +
+  geom_bar(stat = "identity") +
+  theme_bw()
+```
+
+### More than two classes with `case_when()`
+
+When you have more than two classes, `if_else()` is not the right choice. Here, I suggest using the `case_when()` statement. The syntax is a little different but still not too difficult to master. For each category, you supply a logical test and the value to assign, separated by a formula function (`~`):
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      case_when(
+        x < 3 ~ "too cold",
+        x == 3 ~ "just right",
+        x > 3 ~ "too hot")
+  )
+```
+
+The above is evaluated in order. Every logical test that evaluates to `TRUE` is excluded from the subsequent operations. As such, the above could also be written as:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      case_when(
+        x < 3 ~ "too cold",
+        x > 3 ~ "too hot",
+        TRUE ~ "just right")
+  )
+```
+
+Another option is to use the `.default = ...` option. This will specify a value to assign for values where none of the logical tests evaluated to `TRUE`:
+
+```{r}
+tibble(x = 1:5) %>% 
+  mutate(
+    x_classified = 
+      case_when(
+        x < 3 ~ "too cold",
+        x > 3 ~ "too hot",
+        .default = "just right")
+  )
+```
+
+We sometimes want to classify data based on multiple variables. For this, let's turn again to real data. 
+
+Perhaps we want to assign classes to the `cicada` observations based on *both* impervious surface (`imp`) and canopy cover (`canopy`) and count the number of observations in each class. We will assign the following classes:
+
+|Class              | impervious surface (`imp`) | Canopy cover (`can`)
+|:-----------------:|:-------------------------:|:--------------------:|
+| rural-open        | less than 10%              | less than or equal to 40%  
+| rural-forested    | less than 10%              | greater than 40%    
+| suburban-open     | 10 to less than 40%        | less than or equal to 40% 
+| suburban-forested | 10 to less than 40%        | greater than 40% 
+| urban-open        | greater than 40%           | less than or equal to 40% 
+| urban-forested    | greater than 40%           | greater than 40% 
+
+This is a time in which we can use ye-olde base R's `&` function without shame! Let's conduct our analysis first the above by defining each category:
+
+```{r}
+cicadas %>% 
+  
+  # Classify the data:
+  
+  mutate(
+    lc_class = 
+      case_when(
+        imp < 10 & canopy <= 40 ~ "rural-open",
+        imp < 10 & canopy > 40 ~ "rural-forested",
+        imp > 10 & imp < 40 & canopy <= 40 ~ "suburban-open",
+        imp > 10 & imp < 40 & canopy > 40 ~ "suburban-forested",
+        imp > 40 & canopy <= 40 ~ "urban-open",
+        imp > 40 & canopy > 40 ~ "urban-forested"
+      )
+  ) %>% 
+  
+  # Count the number of observations per class:
+  
+  summarize(
+    n = n(),
+    .by = lc_class
+  ) %>% 
+  
+  # Plot the number of observations per class:
+  
+  ggplot() +
+  aes(
+    x = lc_class,
+    y = n) +
+  geom_bar(stat = "identity") +
+  theme_bw()
+```
+
+As you might imagine, we can simplify the above. Because `case_when` statements are evaluated in order, we can avoid lengthy arguments like `imp > 10 & imp < 40 & canopy <= 40` by avoiding our more extreme `imp` values first:
+
+```{r}
+cicadas %>% 
+  
+  # Classify the data:
+  
+  mutate(
+    lc_class = 
+      case_when(
+        imp < 10 & canopy <= 40 ~ "rural-open",
+        imp < 10 & canopy > 40 ~ "rural-forested",
+        imp > 40 & canopy <= 40 ~ "urban-open",
+        imp > 40 & canopy > 40 ~ "urban-forested",
+        canopy <= 40 ~ "suburban-open",
+        canopy > 40 ~ "suburban-forested"
+      )
+  ) %>% 
+  
+  # Count the number of observations per class:
+  
+  summarize(
+    n = n(),
+    .by = lc_class
+  ) %>% 
+  
+  # Plot the number of observations per class:
+  
+  ggplot() +
+  aes(
+    x = lc_class,
+    y = n) +
+  geom_bar(stat = "identity") +
+  theme_bw()
+```
+
+### Classifying and reclassifying strings
+
+We can use the *stringr* function `str_replace` to replace part of a string using pattern matching. This has a lot of applications, such as fixing misspellings and typos and reformatting dates (coming soon!).
+
+Once we learn regex, the application of `str_replace()` is straightforward. 
+
+Consider the following vector of US states:
+
+```{r}
+c("CA",
+  "New York",
+  "NC",
+  "WI")
+```
+
+Each of the states above was written using a two-letter code except for the first "New York" (which should be "NY"). We can use `str_replace()` and **literal character** matching to fix this. We supply the following arguments:
+
+* `string`: The character vector (or assigned name) that we would like to modify;
+* `pattern`: The pattern to search for;
+* `replacement`: A replacement for the search pattern.
+
+```{r}
+str_replace(
+  string =
+    c("CA",
+      "New York",
+      "NC",
+      "WI"),
+  pattern = "New York",
+  replacement = "NY"
+)
+```
+
+Because the function only has three arguments, we can simplify the above by omitting the argument names (if we ensure that we supply them in order!):
+
+```{r}
+str_replace(
+  c("CA",
+    "New York",
+    "NC",
+    "WI"),
+  "New York",
+  "NY"
+)
+```
+
+... and it should come as no surprise that I greatly prefer piping the data input vector into the `string = ...` argument:
+
+```{r}
+c("CA",
+  "New York",
+  "NC",
+  "WI") %>% 
+  str_replace("New York", "NY")
+```
+
+We can modify our search string by using **metacharacters**. The value "New York" begins with an uppercase "N", ends with a lowercase "k" and has some symbols in between. The `pattern` could therefore have been written as:
+
+```{r}
+c("CA",
+  "New York",
+  "NC",
+  "WI") %>% 
+  str_replace("^N.*k$", "NY")
+```
+
+Notice that we have to include the *entire* pattern that we would like to replace.
+
+The utility of metacharacters becomes more apparent as the complexity of the problem grows. Here I will create a tibble and assign it to the name `grasses`:
+
+```{r}
+grasses <-
+  tibble(
+    grass =
+      c("Big blue",
+        "Bg bluestem",
+        "Big Bluestem",
+        "big bluestm")
+  )
+```
+
+The various misspellings of the character vector `grass` obviously a problem. A single `str_replace()` is just not going to cut it. 
+
+Here, I will add a new column so I can check my work:
+
+```{r}
+grasses %>% 
+  mutate(
+    grass_fix =
+      grass %>% 
+      str_replace("Big blue", "Big bluestem")
+  )
+```
+
+We *could* chain together a bunch of `str_replace()` operations (one for each spelling):
+
+```{r}
+grasses %>% 
+  mutate(
+    grass_fix =
+      grass %>% 
+      str_replace("Big blue", "Big bluestem") %>% 
+      str_replace("Bg bluestem", "Big bluestem") %>% 
+      str_replace("Big Bluestem", "Big bluestem") %>% 
+      str_replace("big bluestm", "Big bluestem")
+  )
+```
+
+The above totally lacks parsimony. To recreate this with metacharacters, we need to explore what the problems are and how we might fix them. Here, I am seeing the following problems:
+
+* The first "B" (in "Big") is sometimes lowercase -- this pattern can be matched with `"^[Bb]"`.
+* The "i" in big and the "e" in "stem" is sometimes omitted -- this can be matched with `"i?"` and `"e?"`, respectively.
+* The "b" in "bluestem" is sometimes capitalized -- this can be matched with `"[Bb]"`.
+* The pattern "stem" at the end of the string is sometimes entirely omitted -- this can be matched with `"(stem)?$"`
+
+Putting this all together, our metacharacter-powered `str_replace()` would be:
+
+```{r}
+grasses %>% 
+  mutate(
+    grass_fix =
+      grass %>% 
+      str_replace("^[Bb]i?g blue(ste?m)?$", "Big bluestem")
+  )
+```
+
+This is what I would consider to be "conservative regex" in that it is fully robust against new data being added. It is certainly not the simplest regex statement we could have used:
+
+```{r}
+grasses %>% 
+  mutate(
+    grass_fix =
+      grass %>% 
+      str_replace(".*", "Big bluestem")
+  )
+```
+
+Although more simple, the above is what I call "situational regex" -- it only works because there are no other values in our tibble. Getting in the practice of using regex statements that are robust against new data will save you lots of problems in the long run ... as such, I *strongly* recommend using conservative regex!
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Advanced content**: Replace part of a string]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+*Note: This is for advanced users only, you will not be responsible for the content in this section!*
+
+An unfortunately common task when managing data is to replace part of a string while maintaining the values.
+
+Consider the following US phone numbers, written in different formats (and pretend that this example is a part of a much larger database!):
+
+```{r}
+c("1-212-736-5000",
+  "1 (401) 867-5309",
+  "1(212)555-2368")
+```
+
+Optimally, all of our phone numbers should be in the same format. To do so, our first task would be to use `str_detect()` and some conservative regex to ensure that we can match all of the patterns. What I notice is that:
+
+* US phone numbers start with "1" -- this pattern can be matched with `^1`
+* The second symbol may be a dash or space or missing -- this can be matched with `[- ]?`
+* The three digit area code sometimes has opening and closing parentheses. To match this we need to use character escapes for the parentheses and the optional symbol character -- `\\(` and `\\)`.
+* The area code is separated from the subsequent symbols with a dash or space, or no symbol at all -- this can be matched with `[- ]?`.
+* The telephone prefix is three numbers and is followed by a dash -- `[0-9]{3}-`
+* The line number is four digits -- `[0-9]{4}`.
+
+```{r}
+c("1-212-736-5000",
+  "1 (401) 867-5309",
+  "1(212)555-2368") %>% 
+  str_detect("^1[- ]?\\(?[0-9]{3}\\)?[- ]?[0-9]{3}-[0-9]{4}$")
+```
+
+The above worked to detect the numbers but how do we replace them? We need to separate which portions of the string that contains values (within the pattern) of interest using alternation constraints `(...)`. Below, I surround the numbers with parentheses:
+
+```{r}
+c("1-212-736-5000",
+  "1 (401) 867-5309",
+  "1(212)555-2368") %>% 
+  str_detect(
+    "^1[- ]?\\(?([0-9]{3})\\)?[- ]?([0-9]{3})-([0-9]{4})$",
+  )
+```
+
+Next, I can replace the strings with `str_replace()` in the replacement pattern by:
+
+* Writing the portions of each string as literal characters (in whatever format is preferred);
+* Referring to each portion of the string surrounded by alternation constraints by their order with `\\1`, `\\2`. `\\3`.
+
+```{r}
+c("1-212-736-5000",
+  "1 (401) 867-5309",
+  "1(212)555-2368") %>% 
+  str_replace(
+    "^1[- ]?\\(?([0-9]{3})\\)?[- ]?([0-9]{3})-([0-9]{4})$",
+    "1-\\1-\\2-\\3"
+  )
+```
+
+The above will save you *loads* of data cleaning time!
+
+:::
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Boundary value** (when classifying numeric vectors): The value that represents the minimum and maximum values of a class.
+* **Literal character**: In regex, this is used to search for exact character matches in the case (i.e., lower vs. upper) and order of characters.
+* **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string). Note: Metacharacters are not R functions!
+* **Ordinal factor** (or, more generally, variable): A variable with represented as ordered levels.
+* **Closed boundary**: When classifying numeric values, this describes a boundary that includes the boundary value.
+* **Open boundary**: When classifying numeric values, this describes a boundary that does not include the boundary value.
+* **Regular expressions (regex)**: An algorithm used to search strings (character values).
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
+* `.Primitive, ==`: Infix relational operator (is equal to)
+* `.Primitive, &`: Infix logical operator (and)
+* `.Primitive, >`: Infix relational operator (greater than)
+* `.Primitive, <`: Infix relational operator (less than)
+* `.Primitive, <=`: Infix relational operator (less than or equal to)
+* `.Primitive, c`: Combine values to form an atomic vector
+* `base::cut`: Convert a numeric vector into a factor
+* `base::library`: Attach the package environment for a given package to the current R session
+* `dplyr::case_when`: Classify or reclassify a vector into several classes by applying logical tests and assigning a value if a given test evaluates to `TRUE`
+* `dplyr::if_else`: Classify or reclassify a vector into two classes by applying a logical test and assigning one value if the test evaluates to `TRUE` and another if it evaluates to `FALSE`
+* `dplyr::mutate`: Add or modify a column in a data frame
+* `dplyr::n`: Calculate the number of observations (rows)
+* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+* `ggplot2::aes`: Define aesthetics
+* `ggplot2::geom_bar`: Create a bar geometry
+* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
+* `ggplot2::theme_bw`: Generate a pre-packaged light background theme for a plot
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `purrr::pluck`: Extract a list item from a list
+* `readr::read_rds`: Read an RDS file into R
+* `stringr::str_replace`: Replace a given pattern in a string with a new pattern
+* `tibble::tibble`: Column-wise creation of a tibble data frame
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Metacharacter escape**, `\\`: Treat a metacharacter as a literal character
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+:::
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+|Task                         | Windows          | Mac
+|:----------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
+| Open an existing script     | Ctrl + O         | command + O
+| Create a new script         | Ctrl + shift + N | command + shift + N
+| Save script file            | Ctrl + S         | command + S
+| Execute code                | Ctrl + Enter     | command + return
+| Copy                        | Ctrl + C         | command + C
+| Paste                       | Ctrl + V         | command + V
+| Add a pipe operator         | Ctrl + shift + M | command + shift + M
+| Add an assignment operator  | Alt + dash       | option + dash
+| Add a new code section      | Ctrl + shift + R | command + shift + R
+| Indent code                 | Ctrl + I         | command + I
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>

@@ -1,0 +1,551 @@
+---
+title: "5.4. Dates and times"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../images/hex_complex.png){.intro_image}
+
+Nothing strikes fear in a data manager more than poorly formatted dates ("... why on Earth did you think that was an appropriate date format to use?"). In the base R universe, there is a layer for hell dedicated to spending eternity fixing all of the various date formats that our technicians use in the field. Luckily, a little bit of regex and *a lot* of the *lubridate* package (now a member of the **core tidyverse**) has made date problems a thing of the past! This lesson includes a video (runtime -- 19:34) and a written tutorial. The written tutorial for this lesson includes very little new material (specified with the heading "new content:"). Herein, you will learn:
+
+* The international date and time standard (ISO 8601)
+* How to convert common dates to standard dates;
+* Why and how to avoid transitive dependence in dates and times
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
+
+</div>
+
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+In this lesson we will explore the file [dates.rds]{.mono}. The data were obtained from the US Federal Emergency Management Agency (FEMA). These data are formatted as a list of the following tibble data frames:
+
+[good_dates]{.mono}: Natural disasters with a proper (i.e., ISO 8601 date-time column)
+
+* [id]{.mono}, integer: An integer primary key representing the row number of the data set.
+* [incident]{.mono}, character: The type of natural disaster on a given date.
+* [date_time]{.mono}, date-time: The date and time that an incident began.
+
+[us_dates]{.mono}: The same natural disasters above, with a bunch of different US date formats.
+
+* [id]{.mono}, integer: An integer primary key representing the row number of the data set.
+* [incident]{.mono}, character: The type of natural disaster on a given date.
+* [slash_yyyy]{.mono}, character: Date in [mm]/[dd]/[yyyy] format.
+* [name_month]{.mono}, character: Date in [month name], [dd], [yyyy] format.
+* [abbr_month]{.mono}, character: Date in [month abbreviation], [dd], [yyyy] format.
+
+[european_dates]{.mono}: The same natural disasters above, with a bunch of different European date formats.
+
+* [id]{.mono}, integer: An integer primary key representing the row number of the data set.
+* [incident]{.mono}, character: The type of natural disaster on a given date.
+* [dot_yyyy]{.mono}, character: Date in [dd]/[mm]/[yyyy] format.
+* [name_month]{.mono}, character: Date in [dd] [month name] [yyyy] format.
+* [abbr_month]{.mono}, character: Date in [dd] [month abbreviation] [yyyy] format.
+
+[mixed_month_names]{.mono}: The same natural disasters above, with a bunch of different US *and* European date formats.
+
+* [id]{.mono}, integer: An integer primary key representing the row number of the data set.
+* [incident]{.mono}, character: The type of natural disaster on a given date.
+* [date]{.mono}, character: Date in a variety of US and European date formats.
+:::
+
+## Set up your video session
+
+Please do the following to ensure that you are working in a clean session:
+
+1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
+2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+3. Open the script file [dates.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+
+## Video content
+
+{{< video https://www.youtube.com/embed/404L_pyTWgk >}}
+
+## Compendium tutorial
+
+In this written portion of the tutorial, we will again attach the core packages in the tidyverse to our current session read in and globally assign [dates.rds]{.mono}:
+
+```{r, message = FALSE}
+# R script for the subsetting vectors compendium
+
+# setup -------------------------------------------------------------------
+
+library(tidyverse)
+
+# Read in the data for this lesson:
+
+read_rds('data/raw/dates.rds') %>% 
+  list2env(.GlobalEnv)
+
+```
+
+### Converting to date class objects
+
+The international standard format (ISO 8601) for dates is yyyy-mm-dd. Converting a character date in ISO 8601 format is simple with *lubridate* with `as_date()`:
+
+```{r}
+good_dates %>% 
+  mutate(
+    date = as_date(date_time))
+```
+
+This is the case whether the date column is of class date-time or character (though *do* note the warning message below!):
+
+```{r}
+good_dates %>% 
+  mutate(
+    date = 
+      date_time %>% 
+      as.character() %>% 
+      as_date(date_time))
+```
+
+Converting the character dates above was easy because our date was formatted as a standard date object (ISO 8601). Things get a good bit harder when this is not the case ...
+
+#### European dates to date-class objects
+
+Let's look at "European dates" first. This name is a misnomer, because this is the most common date format used around the world. The format for these dates is expressed as dd.mm.yyyy. Let's see what the data look like:
+
+```{r}
+european_dates
+```
+
+The data in this table is the same as our `good_dates` data set, but here I'm expressing the date in three different European date formats.
+
+Let's see what happens when we use the `as_date()` function on this object to get a true date column:
+
+```{r, error = TRUE}
+european_dates %>% 
+  mutate(date = as_date(dot_yyyy))
+```
+
+All of the values failed to parse. It was impossible for lubridate to determine the date with the provided format.
+
+We can use the function `dmy`, or day-month-year to derive a true date column:
+
+```{r}
+european_dates %>%
+  mutate(date = dmy(dot_yyyy))
+```
+
+Here it worked because we told lubridate the format of the date as we read it in.
+
+We can get the same output using the `name_month` field: 
+
+```{r}
+european_dates %>%
+  mutate(date = dmy(name_month))
+```
+
+... and the `abbr_month` field:
+
+```{r}
+european_dates %>%
+  mutate(date = dmy(abbr_month))
+```
+
+#### US dates to date-class objects
+
+The US date format (mm/dd/yyyy) is truly absurd. The *lubridate* function to convert this to a true date is `mdy`. 
+
+Let's look at out `us_dates` object: 
+
+```{r}
+us_dates
+```
+
+We can convert the date format [mm]/[dd]/[yyyy] to standard dates with `mdy()`:
+
+```{r}
+us_dates %>% 
+  mutate(date = mdy(slash_yyyy))
+```
+
+This also works when the name of the month is provided: 
+
+```{r}
+us_dates %>% 
+  mutate(date = mdy(name_month))
+```
+
+... *and* with abbreviated months!
+
+```{r}
+us_dates %>% 
+  mutate(date = mdy(abbr_month))
+```
+
+#### Mixed dates
+
+I know that it might sound crazy, but I have worked with character vectors that represent dates in *both* in European and US date formats (in the same table!). The best option when this is the case is to use regex to try to detect the format that the dates are stored in.
+
+For example, let's look at the data frame `mixed_month_names`:
+
+```{r}
+mixed_month_names
+```
+
+We can see that some dates are in European format whereas others are in US format.  If possible, I suggest splitting these data into two separate data frames based on a *stringr* search for a given date class:
+
+```{r}
+# Detect European dates:
+
+mixed_month_names %>% 
+  filter(
+    str_detect(date, "^[0-9]"))
+
+# Detect US dates:
+
+mixed_month_names %>% 
+  filter(
+    str_detect(date, "^[A-Za-z]"))
+```
+
+... and convert each date column using `dmy` or `mdy`:
+
+```{r}
+# Detect European dates and transform to date class objects:
+
+mixed_month_names %>% 
+  filter(
+    str_detect(date, "^[0-9]")) %>% 
+  mutate(
+    date = dmy(date)
+  )
+
+# Detect US dates and transform to date class objects:
+
+mixed_month_names %>% 
+  filter(
+    str_detect(date, "^[A-Za-z]")) %>% 
+  mutate(
+    date = mdy(date)
+  )
+```
+
+... and combine the two data frames:
+
+```{r}
+bind_rows(
+  
+  # Detect European dates and transform to date class objects:
+  
+  mixed_month_names %>% 
+    filter(
+      str_detect(date, "^[0-9]")) %>% 
+    mutate(
+      date = dmy(date)
+    ),
+  
+  # Detect US dates and transform to date class objects:
+  
+  mixed_month_names %>% 
+    filter(
+      str_detect(date, "^[A-Za-z]")) %>% 
+    mutate(
+      date = mdy(date)
+    )
+)
+```
+
+*Note: The above was pretty straightforward because the dates include a named month. Although I have required it for previous iterations of this course, I decided that the regex required for mixed numeric dates (e.g. 3/31/2024 and 31.03.2024 is too complex for an introductory course in data management!*
+
+### New content: Combine date and time columns
+
+I frequently see date columns and time columns stored separately in a dataset. This makes little sense because a time is really just a smaller segment of a day. Storing a date and time in this way is similar to storing the value &#x3C0; as the whole number 3 in one column and the decimal 0.1416 in another column.
+
+Let's look at a two-row data frame with separate date and time columns:
+
+```{r}
+tribble(
+  ~date,        ~time, 
+  "1954-07-14", "06:13:01",
+  "1955-04-01", "02:38:32")
+```
+
+When this occurs, you can use the *tidyr* function `unite` (***Module 2***) to combine columns (separating the date and time with a space):
+
+```{r}
+tribble(
+  ~date,        ~time, 
+  "1954-07-14", "06:13:01",
+  "1955-04-01", "02:38:32") %>% 
+  unite(
+    col = "date_time",
+    date:time,
+    sep = " "
+  )
+```
+
+... and the *lubridate* function `ymd_hms` to convert the resultant object to a date-time class object:
+
+```{r}
+tribble(
+  ~date,        ~time, 
+  "1954-07-14", "06:13:01",
+  "1955-04-01", "02:38:32") %>% 
+  unite(
+    col = "date_time",
+    date:time,
+    sep = " "
+  ) %>% 
+  mutate(
+    datetime = ymd_hms(date_time)
+  )
+```
+
+*Note: There are a lot of variations of this! See `?ymd_hms` for a ton of different ways you can convert a character date-time to a date-time class object!*
+
+### Avoiding transitive dependence
+
+Transitive dependence is *super* common with date, time, and date-time variables. I find typically run into this problem with folks who store and explore their data using Microsoft Excel. This often looks something like (at best):
+
+```{r}
+tribble(
+  ~incident,    ~year, ~date_time,       
+  "Earthquake",  1954,  "1954-07-14 06:13:01",
+  "Volcano",     1955,  "1955-04-01 02:38:32",
+  "Earthquake",  1960,  "1960-01-21 17:24:21")
+```
+
+Because the information for the `year` column can be derived from the `datetime` column, this column is completely unnecessary. 
+
+Instead, it is much more straightforward to extract the year, when needed, from a date or datetime object:
+
+```{r}
+good_dates %>% 
+  mutate(
+    year = year(date_time))
+```
+
+There are *loads* of functions like this in the *lubridate* package! For example, we can extract the month number:
+
+```{r}
+good_dates %>% 
+  mutate(
+    month = month(date_time))
+```
+
+... month abbreviation:
+
+```{r}
+good_dates %>% 
+  mutate(
+    month = 
+      month(
+        date_time,
+        label = TRUE))
+```
+
+... month name:
+
+```{r}
+good_dates %>% 
+  mutate(
+    month = 
+      month(
+        date_time,
+        label = TRUE,
+        abbr = FALSE))
+```
+
+... weekday:
+
+```{r}
+good_dates %>% 
+  mutate(
+    weekday = 
+      wday(
+        date_time,
+        label = TRUE,
+        abbr = FALSE))
+```
+
+... day-of-year:
+
+```{r}
+good_dates %>% 
+  mutate(
+    day_of_year = 
+      yday(date_time))
+```
+
+... and even hour-of-day!
+
+```{r}
+good_dates %>% 
+  mutate(
+    hr = 
+      hour(date_time))
+```
+
+... as long as you have a proper ISO 8601 date or date-time object, the possibilities are limitless!
+
+*Note: Unlike most tidyverse packages, which tends to be conservative regarding the amount of functions, the lubridate package currently uses a different function for each time increment. Be sure to download the cheatsheet for the package ... it is easy-to-use and handy!*
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Literal character**: In regex, this is used to search for exact character matches in the case (i.e., lower vs. upper) and order of characters.
+* **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string). Note: Metacharacters are not R functions!
+* **Regular expressions (regex)**: An algorithm used to search strings (character values).
+:::
+
+<button class="accordion">Functions</button>
+
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+* `.Primitive, $`: Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
+* `.Primitive, /`: Infix arithmetic operator (divide)
+* `.Primitive, <`: Infix relational operator (less than)
+* `.Primitive, as.character`: Transform an atomic vector to a character vector
+* `base::[]`: Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+* `base::library`: Attach the package environment for a given package to the current R session
+* `dplyr::mutate`: Add or modify a column in a data frame
+* `base::list2env`: Assign the items in a list to a specified environment
+* `lubridate::as_date`: Convert properly formatted date, stored as a character or datetime vector, to a date class object
+* `lubridate::dmy`: Convert a date formatted as day, month, year (European date format) to a date class object
+* `lubridate::hour`: Extract the hour-of-day from a date-time or time class object or a properly formatted date-time character vector or a properly formatted date-time character vector.
+* `lubridate::mdy`: Convert a date formatted as month, day, year (US date format) to a date class object
+* `lubridate::month`: Extract the month from a properly formatted date value
+* `lubridate::wday`: Extract the day of the week from a properly formatted date value
+* `lubridate::yday`: Calculate the day of year from a properly formatted date object
+* `lubridate::year`: Extract the year from a properly formatted date value
+* `lubridate::ymd_hms`: Generate a date-time class object with an character vector of the format yyyy-mm-dd hh:mm:ss
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `readr::read_rds`: Read an RDS file into R
+* `stringr::str_detect`: Logical test of whether a pattern (string) is contained within a character value
+* `tibble::tibble`: Column-wise creation of a tibble data frame
+* `tibble::tribble`: Row-wise creation of a tibble data frame
+* `tidyr::unite`: Combine columns in a data frame to create a single column
+
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Metacharacter escape**, `\\`: Treat a metacharacter as a literal character
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+
+:::
+
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+|Task                         | Windows          | Mac
+|:----------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
+| Open an existing script     | Ctrl + O         | command + O
+| Create a new script         | Ctrl + shift + N | command + shift + N
+| Save script file            | Ctrl + S         | command + S
+| Execute code                | Ctrl + Enter     | command + return
+| Copy                        | Ctrl + C         | command + C
+| Paste                       | Ctrl + V         | command + V
+| Add a pipe operator         | Ctrl + shift + M | command + shift + M
+| Add an assignment operator  | Alt + dash       | option + dash
+| Add a new code section      | Ctrl + shift + R | command + shift + R
+| Indent code                 | Ctrl + I         | command + I
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
