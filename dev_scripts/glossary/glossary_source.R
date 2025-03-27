@@ -6,13 +6,17 @@ library(tidyverse)
 # Read in glossary of terms:
 
 glossary_table <- 
-  read_csv("dev_scripts/glossary/big_glossary.csv") %>% 
+  file.path(
+    here::here(),
+    "dev_scripts/glossary/big_glossary.csv"
+  ) %>% 
+  read_csv() %>% 
   
   # Remove stuff associated with the GIS course (that may interfere with
   # data sci stuff):
   
   filter(
-    !str_detect(Term, "Projected|Projection")
+    !str_detect(Term, "Projected|Projection|GIS")
   )
 
 # functions ---------------------------------------------------------------
@@ -22,14 +26,18 @@ glossary_table <-
 get_lesson_terms <-
   function(module, lesson) {
     file.path(
+      here::here(),
+      "modules",
+      str_c("module_", module),
       lesson
     ) %>% 
       read_lines() %>% 
       keep(~ str_detect(.x, "\\*\\*")) %>% 
       map(
-        ~str_extract_all(.x, "\\*\\*[a-zA-Z_]*\\*\\*")
+        ~str_extract_all(.x, "\\*\\*[a-zA-Z_ ()]*\\*\\*")
       ) %>% 
-      unlist() %>% 
+      unlist() %>%
+      sort() %>% 
       keep(
         ~ !str_detect(.x, "Important|\\{.mono\\}")
       ) %>% 
@@ -37,6 +45,7 @@ get_lesson_terms <-
       keep(
         ~ !str_detect(.x, "^R$|Rstudio|Projected|Projection|CRS|[Dd]istance")
       ) %>% 
+      str_to_title() %>% 
       unique() %>% 
       sort()
   }
@@ -46,7 +55,12 @@ get_lesson_terms <-
 
 get_module_terms <-
   function(module) {
-    list.files(pattern = "qmd$") %>% 
+    file.path(
+      here::here(),
+      "modules",
+      str_c("module_", module)
+    ) %>% 
+      list.files(pattern = "qmd$") %>% 
       set_names(., .) %>% 
       map(
         ~ get_lesson_terms(module, .x)
@@ -64,35 +78,45 @@ get_glossary_table_lesson <-
     module,
     lesson
   ) {
-    get_lesson_terms(module, lesson) %>% 
-      map_dfr(
-        ~ glossary_table %>% 
-          filter(
-            str_detect(
-              tolower(Term), 
-              tolower(.x),
-            ),
-            !str_detect(.x, "^R$|Rstudio|Projected|Projection|CRS|[Dd]istance")
-          )
-      ) %>% 
-      distinct()
+    lesson_terms <-
+      get_lesson_terms(module, lesson)
+    if(
+      length(lesson_terms) > 0) {
+      lesson_terms %>% 
+      str_to_lower() %>% 
+        map_dfr(
+          ~ glossary_table %>% 
+            filter(
+              str_to_lower(Term) == .x|
+                str_detect(
+                  str_to_lower(Term), 
+                  .x,
+                ),
+              !str_detect(
+                Term, 
+                "^R$|Rstudio|Projected|Projection|CRS|[Dd]istance|Geodetic|sfc"
+              )
+            )
+        ) %>% 
+        distinct() %>% 
+        arrange(Term)
+    }
   }
 
 # Function to get new glossary table for a module:
 
 get_glossary_table_module <-
   function(module) {
-    list.files(
-      str_c("modules/module_", module), 
-      pattern = "qmd$"
+    file.path(
+      here::here(),
+      str_c("modules/module_", module)
     ) %>% 
+    list.files(pattern = "qmd$") %>% 
       keep(
         ~ !str_detect(.x, "[0-9]{1}\\.0")
       ) %>% 
       map(
-        ~ get_glossary_table_lesson(
-          module = mod,
-          lesson = .x)
+        ~ get_glossary_table_lesson(module, lesson = .x)
       ) %>% 
       bind_rows() %>% 
       distinct() %>% 
