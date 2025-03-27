@@ -3,13 +3,12 @@
 
 library(tidyverse)
 
-source('scripts/source_script.R')
-
 # read in the data:
 
 file.path(
-  'data/processed',
-  'weather_tidy.rds') %>% 
+  "data/processed",
+  "weather_tidy.rds"
+) %>% 
   read_rds() %>% 
   list2env(.GlobalEnv)
 
@@ -29,7 +28,7 @@ temp <-
 # Add a column of elevation in feet:
 
 temp$elevation <-
-  temp$elevation*3.28
+  temp$elevation * 3.28
 
 # Look again at the observations file:
 
@@ -42,7 +41,13 @@ observations
 
 # But as a warning:
 
-as.numeric(c(1, 2, '3,1'))
+as.numeric(
+  c(
+    1, 
+    2, 
+    "3,1"
+  )
+)
 
 # mutate in the tidyverse -------------------------------------------------
 
@@ -54,17 +59,19 @@ rm(temp)
 
 mutate(
   stations,
-  elevation = elevation*3.28)
+  elevation = elevation * 3.28
+)
 
 # Now you! Re-arrange the above as a piped code block:
 
- 
+
 
 # Add a new variable with mutate
 
 mutate(
   stations,
-  elevation = elevation*3.28)
+  elevation = elevation * 3.28
+)
 
 # multiple mutations ------------------------------------------------------
 
@@ -76,9 +83,9 @@ observations
 # vector:
 
 
-  
+
 # Use chained mutate statements to transform snow and temperature_min:
-  
+
 
 
 # Separate multiple mutate statements with a comma:
@@ -88,7 +95,7 @@ observations
 # Now you! Modify our mutation statement from above such that snow,
 # temperature_min, and temperature_max are all numeric.
 
- 
+
 
 # transmute ---------------------------------------------------------------
 
@@ -151,17 +158,21 @@ stations
 # "station_id":
 
 stations %>% 
-  select(station,
-         name:state,
-         longitude:elevation)
+  select(
+    station,
+    name:state,
+    longitude:elevation
+  )
 
 # Modify the above with rename(), such that the binding "station" is changed to
 # "station_id":
 
 stations %>% 
-  select(station,
-         name:state,
-         longitude:elevation)
+  select(
+    station,
+    name:state,
+    longitude:elevation
+  )
 
 # Select with everything() to reorder columns:
 
@@ -217,7 +228,8 @@ observations
 observations %>% 
   mutate(
     temperature_min = 
-      as.numeric(temperature_min)) %>% 
+      as.numeric(temperature_min)
+  ) %>% 
   arrange(temperature_min)
 
 # Arrange data in descending order:
@@ -225,9 +237,11 @@ observations %>%
 observations %>% 
   mutate(
     temperature_max = 
-      as.numeric(temperature_max)) %>% 
+      as.numeric(temperature_max)
+  ) %>% 
   arrange(
-    desc(temperature_max))
+    desc(temperature_max)
+  )
 
 # Now you! Extract a vector of the dates on which the five highest temperatures
 # were observed:
@@ -254,41 +268,48 @@ observations
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Remove NA values with drop_na():
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Remove NA values with na.rm:
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Remove NA values with !is.na():
 
 observations %>% 
   filter(
-    precip == max(precip))
+    precip == max(precip)
+  )
 
 # Filter based on multiple conditions:
 
 observations %>% 
   filter(
-    lubridate::year(date) == 2010)
+    lubridate::year(date) == 2010
+  )
 
 # Filter based on multiple conditions, a caveat:
 
 observations %>% 
-  filter(!is.na(precip),
-         precip == max(precip))
+  filter(
+    !is.na(precip),
+    precip == max(precip)
+  )
 
 # Now you! subset the data frame to the day in 2015 in which the maximum
 # temperature was observed at weather stations above 40 degrees north:
- 
+
 observations
 
 # Using distinct() to subset to unique columns:
