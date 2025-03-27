@@ -41,7 +41,7 @@ This module (and *most* of module 5) are a little different in that almost all o
 -   **4.1. Advanced filtering**: In this video lesson (runtime -- 31:16) and compendium tutorial, we will review basic filtering and break new ground on how to filter by date, reduce repetition when filtering multiple variables, introduces the concept of "regular expressions", and filter grouped data.
 -   **4.2. Filtering strings**: This video lesson (runtime -- 42:32) and compendium tutorial provides the basics of using regular expressions (literal characters and metacharacters) to filter strings.
 -   **4.3. Introduction to subsetting**:  In the final video lesson (runtime -- 25:56) and compendium tutorial we will address how to subset vectors (atomic vectors and lists) by position, name, and logic.
--   **Addendum: Glossary of terms and functions, Modules 1-4**: Herein, I provide a written documentation of all of the terminology and functions we have used thus far. 
+-   **4.4. Data visualization with ggplot, part 2**: 
 
 ## Getting started
 
@@ -58,6 +58,57 @@ This week we will use the following data files in our exercises:
 **[spotted_lanternfly.rd]{.mono}**: This is a tabular dataset of [iNaturalist observation of spotted lanternfly (*Lycorma delicatula*)](https://www.inaturalist.org/projects/spotted-lanternfly){target="_blank"}, an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application. The data were downloaded using the R package *rinat*.
 
 ## Readings and resources
+
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
+
+::: panel
+::: glossary_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  here::here(),
+  "dev_scripts/glossary/glossary_source.R"
+) %>% 
+  source()
+
+get_glossary_table_module(module = 4) %>%
+  kableExtra::kable(
+    align = c("l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+:::
+
+<button class="accordion" style="margin-bottom:1em">Functions used through the end of this module (I am a button ... click me!)</button>
+
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  "function_tables",
+  "functions_through_module_4.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+:::
 
 - Wickham and Grolemund (1st edition): 
     -   [5.2: Filter rows with filter](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
