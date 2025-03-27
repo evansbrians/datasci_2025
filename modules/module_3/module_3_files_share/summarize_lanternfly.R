@@ -1,13 +1,12 @@
 
 # setup -------------------------------------------------------------------
 
-library(lubridate)
 library(tidyverse)
 
 # Load iNaturalist observations of spotted lanternflies:
 
 spotted_lanternfly <-
-  read_rds('data/raw/spotted_lanternfly.rds')
+  read_rds("data/raw/spotted_lanternfly.rds")
 
 # group and summarize data by one variable --------------------------------
 
@@ -51,9 +50,18 @@ spotted_lanternfly
 # Latitudinal range expansion, northern boundary:
 
 spotted_lanternfly %>% 
-  group_by(year = year(datetime)) %>% 
-  summarize(latitude = max(latitude)) %>% 
-  ggplot(aes(x = year, y = latitude)) +
+  group_by(
+    year = year(datetime)
+  ) %>% 
+  summarize(
+    latitude = max(latitude)
+  ) %>% 
+  ggplot(
+    aes(
+      x = year, 
+      y = latitude
+    )
+  ) +
   geom_point() +
   geom_line() +
   theme_bw()
@@ -68,15 +76,21 @@ spotted_lanternfly
 # Latitudinal range expansion, combined:
 
 spotted_lanternfly %>% 
-  group_by(year = year(datetime)) %>% 
+  group_by(
+    year = year(datetime)
+  ) %>% 
   summarize(
     southern = min(latitude),
-    northern = max(latitude))
+    northern = max(latitude)
+  ) %>% 
   
   ggplot(
-    aes(x = year,
-        y = latitude,
-        color = limits)) +
+    aes(
+      x = year,
+      y = latitude,
+      color = limits
+    )
+  ) +
   geom_point() +
   geom_line() +
   theme_bw()
@@ -90,13 +104,17 @@ spotted_lanternfly %>%
 spotted_lanternfly %>% 
   group_by(
     year = year(datetime),
-    state) %>% 
+    state
+  ) %>% 
   summarize(n = n()) %>% 
   ggplot(
-    aes(x = year,
-        y = n)) +
-  geom_bar(stat = 'identity') +
-  facet_wrap(~state) +
+    aes(
+      x = year,
+      y = n
+    )
+  ) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ state) +
   theme_bw()
 
 
