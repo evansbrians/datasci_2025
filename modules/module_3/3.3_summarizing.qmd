@@ -116,20 +116,9 @@ Please do the following to ensure that you are working in a clean session:
 Before you begin, some notes on the video content:
 
 * The processes in which I use the `slice()` function could have more parsimoniously been completed with the `slice_max()` function.
-* I am currently much more in favor of running `aes()` outside of the `ggplot()` function (rather than nesting).
-* I made this video in the middle of 2022 -- this is why the number of spotted lanternfly observations decrease a little in that year. It is also why your help file will look differently than mine -- there has been some big changes to the options of the function!
-* I do not conform to the course style guide in this video! The biggest violations are:
-    * This was back when I used single quotes for everything. I now much prefer using double quotes.
-    * I did not use hanging parentheses.
-    * `select()` and `c()` should not have been on the same line. Additionally, because `c()` had three arguments, each argument should have been placed on its own line.
-    * `group_by()` and `year()` should not have been on the same line. 
-    * `group_by()` and `month()` should not have been on the same line. 
-    * I should have put each argument of `month()` on its own line.
-    * When I have two or more arguments in `aes()`, and they both contain `=`, they should have been placed on their own lines.
-    * `summarize()` and `max()` or `min()` should not have been on the same line.
-* Your `working_with_tidy_data.R` file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
+* I made this video in the middle of 2022 -- this is why the number of spotted lanternfly observations decrease a little in that year.
 
-{{< video https://www.youtube.com/embed/1ngdQKVTO7o >}}
+{{< video https://www.youtube.com/embed/dAwDbaf-AaQ?si=R2agNkD8mr_jihsc >}}
 
 ## Set up your session (tutorial)
 

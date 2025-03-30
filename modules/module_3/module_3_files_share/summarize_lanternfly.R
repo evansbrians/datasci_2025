@@ -82,7 +82,7 @@ spotted_lanternfly %>%
   summarize(
     southern = min(latitude),
     northern = max(latitude)
-  ) %>% 
+  )
   
   ggplot(
     aes(
