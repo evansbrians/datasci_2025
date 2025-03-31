@@ -99,7 +99,8 @@ garden %>%
 
 garden %>% 
   magrittr::extract(
-    c("garden_beds", "plants_and_shrooms"))
+    c("garden_beds", "plants_and_shrooms")
+  )
 
 garden %>% 
   tidyselect:::select(garden_beds, plants_and_shrooms)
@@ -117,7 +118,8 @@ garden %>%
 
 garden %>% 
   tidyselect:::select(
-    matches("nt")) %>%
+    matches("nt")
+  ) %>%
   names()
 
 # Now you! Use matches() to magrittr::extract a vector of instruments where the
@@ -140,7 +142,7 @@ garden$plants_and_shrooms$species
 garden %>% 
   pluck("plants_and_shrooms") %>% 
   pluck("species")
-  
+
 # subsetting vectors with logic -------------------------------------------
 
 # Ye olde indexing method for subsetting atomic vectors:
@@ -155,14 +157,17 @@ instruments
 # Now with purrr::keep()!
 
 instruments %>% 
-  keep(~ .x %in% c("vocals", "drums"))
+  keep(
+    ~ .x %in% c("vocals", "drums")
+  )
 
 garden %>% 
   pluck("food_events") %>% 
   pull(species) %>% 
   unique() %>% 
   keep(
-    ~ str_detect(.x, "squash"))
+    ~ str_detect(.x, "squash")
+  )
 
 # Now you! Subset the vector garden$food_events$event to those that do not
 # contain the word "eaten":
