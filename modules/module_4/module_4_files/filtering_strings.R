@@ -30,25 +30,31 @@ my_covid_garden
 
 # Detecting weird strings (str_detect):
 
-c("Georgia",
+c(
+  "Georgia",
   "Savannah, Georgia",
   "Atlanta, georgia",
-  "GA") == "Georgia"
+  "GA"
+) == "Georgia"
 
 # Now you ... detect "Squirrel" in the character vector below:
 
-c("Gray squirrel",
+c(
+  "Gray squirrel",
   "Eastern gray Squirrel",
   "grey Squirrel",
-  "Giant Squid")
+  "Giant Squid"
+)
 
 # Now you! Detect "sparrow" in the character vector below:
 
-c("House sparrow",
+c(
+  "House sparrow",
   "Grasshopper sparrow",
   "Eastern towhee",
   "arrowroot",
-  "spadefoot toad")
+  "spadefoot toad"
+)
 
 # filtering with partial string matching ----------------------------------
 
@@ -56,8 +62,9 @@ c("House sparrow",
 
 garden_beds %>%
   filter(
-    str_detect(light_access, "shade"))
-  
+    str_detect(light_access, "shade")
+  )
+
 # For larger datasets, I suggest looking at an ordered string of unique values:
 
 food_events %>% 
@@ -71,7 +78,8 @@ food_events %>%
 food_events %>% 
   filter(
     event %>% 
-    str_detect("."))
+      str_detect(".")
+  )
 
 # Now you (take 2)! Subset plants_and_shrooms to just species that contain the
 # string "squash":
@@ -82,16 +90,20 @@ plants_and_shrooms
 
 # Anchor metacharacter, start of string (metacharacter ^):
 
-c("gray wolf",
+c(
+  "gray wolf",
   "gray", 
-  "stingray") %>% 
+  "stingray"
+) %>% 
   str_detect("gray")
 
 # Anchor metacharacter, end of string (metacharacter $):
 
-c("gray wolf",
+c(
+  "gray wolf",
   "gray", 
-  "stingray") %>% 
+  "stingray"
+) %>% 
   str_detect("gray")
 
 # Now you! Use anchor metacharacters to subset food_events to plants eaten
@@ -99,40 +111,55 @@ c("gray wolf",
 
 food_events %>% 
   filter(
-    str_detect(event, "eaten"))
+    str_detect(event, "eaten")
+  )
 
 # character class ---------------------------------------------------------
 
 # Character class (metacharacter []):
 
-c("Gray squirrel",
+c(
+  "Gray squirrel",
   "Eastern gray Squirrel",
-  "grey Squirrel") %>% 
+  "grey Squirrel"
+) %>% 
   str_detect("gray")
 
 # Now you! Detect "Georgia" or "georgia" in the character string below:
 
-c("Georgia",
+c(
+  "Georgia",
   "Savannah, Georgia",
   "Atlanta, georgia",
-  "GA") %>% 
+  "GA"
+) %>% 
   str_detect("Georgia")
 
 # Match a range of letters (metacharacter [-]):
 
-c("June-1",
+c(
+  "June-1",
   "june 9",
-  "JUNE") %>% 
+  "JUNE"
+) %>% 
   str_detect("a-z")
 
 # Match a range of numbers (metacharacter [-]):
 
-c("June-1", "june 9", "JUNE") %>% 
+c(
+  "June-1",
+  "june 9",
+  "JUNE"
+) %>% 
   str_detect("[0-9]")
 
 # Use with care!
 
-c("12", "15", "29") %>% 
+c(
+  "12",
+  "15",
+  "29"
+) %>% 
   str_detect("[10-19]")
 
 # Now you! Use the character class metacharacter to subset food_events to
@@ -141,24 +168,29 @@ c("12", "15", "29") %>%
 food_events %>% 
   filter(
     date %>% 
-      str_detect("2020-04-"))
+      str_detect("2020-04-")
+  )
 
 # or ----------------------------------------------------------------------
 
 # The or metacharacter (metacharacter |):
 
-c("gray wolf",
+c(
+  "gray wolf",
   "grey squirrel", 
   "stingray",
-  "graying") %>% 
+  "graying"
+) %>% 
   str_detect("^gre") 
 
 # But avoid overusing this tool!
 
-c("gray wolf",
+c(
+  "gray wolf",
   "grey squirrel", 
   "stingray",
-  "graying") %>% 
+  "graying"
+) %>% 
   str_detect("gray wolf|grey|graying") 
 
 # Now you! Use the "or" metacharacter to subset food_events to those that
@@ -172,27 +204,32 @@ food_events %>%
 food_events %>% 
   filter(
     event %>% 
-      str_detect("bugs"))
+      str_detect("bugs")
+  )
 
 # alternation constraint --------------------------------------------------
 
 # Alternation constraint, groups of characters (metacharacter ()):
 
-c("gray wolf",
+c(
+  "gray wolf",
   "green iguana",
   "black-throated green warbler",
   "grape",
   "bentgrass",
-  "honeysuckle") %>% 
+  "honeysuckle"
+) %>% 
   str_detect("gr[ae]y|en")
 
 # This can be very useful for the endings of words!
 
-c("graying",
+c(
+  "graying",
   "greyer",
   "gray treefrog",
   "stingray",
-  "grayed") %>% 
+  "grayed"
+) %>% 
   str_detect("^gr[ae]y$")
 
 # Now you! Use alternation constraints to subset food_events to those in 
@@ -201,114 +238,138 @@ c("graying",
 food_events %>% 
   filter(
     event %>% 
-      str_detect("eaten by"))
+      str_detect("eaten by")
+  )
 
 # you've got options? -----------------------------------------------------
 
 # We can set an individual pattern as optional with the metacharacter `?`:
 
-c("boy howdy!",
+c(
+  "boy howdy!",
   "Boy howdy",
   "Boy-howdy!",
   "boy-howdy",
-  "He sure does say 'boy howdy' a lot") %>% 
+  "He sure does say 'boy howdy' a lot"
+) %>% 
   str_detect("^[Bb]oy[ -]howdy!$")
 
 # ... or set a character class as optional ...
 
-c("boy howdy!",
+c(
+  "boy howdy!",
   "Boyhowdy!",
   "boy-howdy!",
-  "He sure does say 'boy howdy' a lot") %>% 
+  "He sure does say 'boy howdy' a lot"
+) %>% 
   str_detect("^[Bb]oy[ -]howdy!$")
 
 # ... or set an alternation constraint as optional ...
 
-c("boy howdy!",
+c(
+  "boy howdy!",
   "howdy!",
-  "He sure does say 'boy howdy' a lot") %>% 
+  "He sure does say 'boy howdy' a lot"
+) %>% 
   str_detect("^(boy )howdy!$")
 
 # Now you! Modify the code below such that the first four values evaluate to
 # TRUE, but "George" evaluates to FALSE:
 
-c("Georgia",
+c(
+  "Georgia",
   "Savannah, Georgia",
   "Atlanta, georgia",
   "GA",
-  "George") %>% 
+  "George"
+) %>% 
   str_detect("[Gg]eorgi[Aa]")
 
 # you've got options. -----------------------------------------------------
 
 # The wild card character (metacharacter .)!
 
-c("gray wolf",
+c(
+  "gray wolf",
   "groy wolf",
   "grey wolf",
   "gray whale",
   "blue whale",
-  "gravy") %>% 
+  "gravy"
+) %>% 
   str_detect("gr[ae]y")
 
 # Now you! Modify the code below such that the first six values evaluate to 
 # TRUE:
 
-c("graay wolf",
+c(
+  "graay wolf",
   "groy wolf",
   "graey wolf",
   "greoy wolf",
   "gry wolf",
   "gray whale",
   "blue whale",
-  "gravy") %>% 
+  "gravy"
+) %>% 
   str_detect("groy")
 
 # But use wildcard characters sparingly!
 
 list.files(
   "data/raw",
-  pattern = ".csv")
+  pattern = ".csv"
+)
 
 # repetition --------------------------------------------------------------
 
 # Repeat no times, or an unlimited number of times (metacharacter *):
 
-c("gray whale",
+c(
+  "gray whale",
   "gray wolf",
   "gratefully",
-  "blue whale") %>% 
+  "blue whale"
+) %>% 
   str_detect("gra.y")
 
 # Repeat at least once (metacharacter +):
 
-c("gray whale",
+c(
+  "gray whale",
   "gray wolf",
   "gratefully",
-  "blue whale") %>% 
+  "blue whale"
+) %>% 
   str_detect("gra.y")
 
 # A specified number of repetitions:
 
-c("1-212-736-5000",
+c(
+  "1-212-736-5000",
   "49-21-736-5000",
   "1-97-867-5309",
   "1-970-867-500",
-  "1-970-867-5309") %>% 
+  "1-970-867-5309"
+) %>% 
   str_detect("[0-9]{1}-[0-9]{1}-[0-9]{1}-[0-9]{1}")
 
 # A range of repetitions:
 
-c("3/15/2021",
+c(
+  "3/15/2021",
   "03/1/21",
   "03/15/2021",
-  "2021/03/5") %>% 
+  "2021/03/5"
+) %>% 
   str_detect("[0-9]{2}/[0-9]{2}/[0-9]{4}")
 
 # Now you! Detect US (mm/dd/yyyy) and European (dd/mm/yyyy) in the character
 # vector below (15 March, 2021):
 
-c("03/15/2021",
+c(
+  "03/15/2021",
   "03/15/21",
-  "2021/03/05") %>% 
+  "2021/03/05"
+) %>% 
   str_detect("[0-9]{2}/[0-9]{2}/[0-9]{4}")
