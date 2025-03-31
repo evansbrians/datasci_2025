@@ -1,4 +1,6 @@
 
+# Working with tidy data parts 1 & 2: Mutation and subsetting
+
 # setup -------------------------------------------------------------------
 
 library(tidyverse)
@@ -18,7 +20,7 @@ stations
 
 elevation
 
-stations$elevation 
+stations$elevation
 
 # mutate in base R --------------------------------------------------------
 
@@ -27,7 +29,7 @@ temp <-
 
 # Add a column of elevation in feet:
 
-temp$elevation <-
+temp$elevation_ft <-
   temp$elevation * 3.28
 
 # Look again at the observations file:
@@ -296,7 +298,7 @@ observations %>%
 
 observations %>% 
   filter(
-    lubridate::year(date) == 2010
+    year(date) == 2010
   )
 
 # Filter based on multiple conditions, a caveat:

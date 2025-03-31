@@ -118,7 +118,7 @@ Before you begin, some notes on the video content:
 * The processes in which I use the `slice()` function could have more parsimoniously been completed with the `slice_max()` function.
 * I made this video in the middle of 2022 -- this is why the number of spotted lanternfly observations decrease a little in that year.
 
-{{< video https://www.youtube.com/embed/dAwDbaf-AaQ?si=R2agNkD8mr_jihsc >}}
+{{< video https://www.youtube.com/embed/dAwDbaf-AaQ?si=eJ_Wv1BH3juDlatv >}}
 
 ## Set up your session (tutorial)
 

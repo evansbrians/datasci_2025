@@ -135,22 +135,7 @@ Now that we are working in a clean session:
 
 ### Video content
 
-Before you begin, some notes on the video content:
-
-* I created this video before the package *lubridate* was elevated to a **core tidyverse** package (February 2023). As such, if you have attached the *tidyverse* library, you no longer have to explicitly load `library(lubridate)` nor use `lubridate::`.
-* I demonstrate the use of the `-` operator for negated selection ... I do not recommend using `-` for this purpose!
-* Since making this video, I have changed my mind on the use of `drop_na()` and offer an alternate version in the written portion of this tutorial.
-* I do not conform to the course style guide in this video! The biggest violations are:
-    * I did not use hanging parentheses.
-    * `select()` and `c()` should not have been on the same line.
-    * `select()` and `where()` should not have been on the same line. 
-    * `slice()` and `c()` should not have been on the same line.
-    * `filter()` and `is.na()` should not have been on the same line.
-    * I should have put `max()` on its own line if it had more than one argument, and placed each of the arguments on their own line. This would have ensured that each argument was indented two spaced relative to the function call.
-    * I should have hit enter after the opening parentheses of `select()` and `filter()` when the functions arguments are placed on multiple lines. Doing so would have ensured that each argument of the function is on its own line and indented two spaces relative to the function call.
-* Your [working_with_tidy_data.R]{.mono} file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
-
-{{< video https://www.youtube.com/embed/E8SDseOmmhk >}}
+{{< video https://www.youtube.com/embed/rPmOJtrG89Q?si=lcQuPTqZ_XWiS1PP >}}
 
 ## Set up your session (tutorial)
 

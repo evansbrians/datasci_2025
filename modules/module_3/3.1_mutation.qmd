@@ -106,21 +106,8 @@ In the written portion of this lesson, we will explore the file `district_birds.
 ## Introductory video
 
 In this lesson, you will code along with the script file `working_with_tidy_data.R` -- this file should be located in the [scripts]{.mono} folder of your project directory. 
-
-Before you begin, some notes on the video content:
-
-* I unfortunately use phrases like "*assign the object to the global environment*" and "*retrieve the objects from the global environment*". Remember that the global environment only contains names, *not* objects. When we run a name, R looks in our global environment for that name and then uses that name to retrieve an object from our computer's memory.
-* I refer to *names* often as "bindings" and "keys" -- this is technically correct, but might be confusing. Note that both of these terms are synonymous with "name".
-* I do not conform to the course style guide in this video! The biggest violations are:
-    * This was back when I used single quotes for everything. I now much prefer using double quotes.
-    * I did not use hanging parentheses.
-    * I did not include a leading and trailing space with the `*` infix function.
-    * I should have hit enter after the opening parentheses of `mutate()` and `transmute()` when the functions arguments are placed on multiple lines. Doing so would have ensured that the arguments of the function are indented two spaces relative to the function call.
-    * `as.numeric()` and `c()` should not have been on the same line. Additionally, because `c()` had three arguments, each argument should have been placed on its own line.
-    * When `mutate()` has only one argument, but that argument contains another function, the argument should have been placed on its own line.
-* Your `working_with_tidy_data.R` file may look slightly different than the one used in the video tutorial. Your version of the file has been updated to adhere to the course style guide.
     
-{{< video https://www.youtube.com/embed/x5OJa705Gcg?si=mGFvAa3O8_i9givP >}}
+{{< video https://www.youtube.com/embed/B_sqeAWkJhA?si=1N5er3vsjObQJNDI >}}
 
 ## Set up your session (tutorial)
 
