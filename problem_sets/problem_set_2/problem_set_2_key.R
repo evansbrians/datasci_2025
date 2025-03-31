@@ -93,6 +93,7 @@ rm(coqui_no_class)
 # of transects that were sampled within each habitat type:
 
 coqui_long %>% 
+  distinct(transect_id, habitat) %>% 
   count(habitat)
 
 # 8 -----------------------------------------------------------------------
@@ -149,6 +150,11 @@ coqui_long %>%
 coqui_long %>% 
   select(transect_id:habitat) %>% 
   distinct()
+
+# Or:
+
+coqui_long %>% 
+  distinct(transect_id, habitat)
 
 # * Write a code block that subsets the data to transect_id, habitat, and date
 #   and removes duplicate rows:
