@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ![](../../images/hex_complex.png){.intro_image}
 
-Our **Course style guide** represent is a formatting guide for the script files in our course and is intended to help you develop a consistent syntax for creating communicable, readable code. We will provide this style guide in three separate documents. Well-formatted code is not just an end product though -- recommendations in these documents will help you explore and debug your code *as you write it*. Moreover, a portion of your grade will be based on adhering to these style guides (up to 10% per problem set)!
+Our **Course style guide** is a formatting guide for the script files in our course and is intended to help you develop a consistent syntax for creating communicable, readable code. We will provide this style guide in three separate documents. Well-formatted code is not just an end product though -- recommendations in these documents will help you explore and debug your code *as you write it*. Moreover, a portion of your grade will be based on adhering to these style guides (up to 10% per problem set)!
 
 Style guides, such as this one, are common across many computer languages and organizations. Although "style" represents a preference (i.e., it does not influence code output), using a style guide does make collaboration easier! Herein, we borrow heavily from the [tidyverse style guide](https://style.tidyverse.org/){target="_blank"}, from which most of the formatting rules below were derived. We include only elements from the tidyverse style guide that are relevant to the content in this course and have included additional or modified elements that, in my opinion, provide added utility or enhanced code readability.
 
