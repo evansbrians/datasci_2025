@@ -59,11 +59,11 @@ grade_summaries_1 %>%
     color = "black"
   ) +
   scale_x_continuous(
-    limits = c(0, 10.1),
+    limits = c(6, 10.1),
     expand = c(0, 0)
   ) +
   scale_y_continuous(
-    limits = c(0, 6),
+    limits = c(0, 4),
     expand = c(0, 0)
   ) +
   theme_classic()
@@ -103,6 +103,93 @@ grade_summaries_1 %>%
 
 ```{r, warning = FALSE, message = FALSE, echo = FALSE}
 grade_summaries_1 %>% 
+  pluck("points_off_by_mistake_description") %>% 
+  rename(
+    `Mistake` = mistake_description,
+    `Average points off` = ave_points_off) %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_paper("hover", full_width = F)
+```
+
+:::
+:::
+
+<button class="accordion">Problem set 2</button>
+
+::: panel
+
+## Problem set 2
+
+:::{style="background-color: white; font-size: 14px;"}
+
+```{r, message = FALSE, echo = FALSE, warning = FALSE}
+grade_summaries_2 <-
+  get_grade_summaries(problem_set = 2)
+```
+
+Descriptive statistics of scores for Problem set 2:
+
+* Mean: `r grade_summaries_2$mean`
+* Median: `r grade_summaries_2$median`
+* Standard deviation: `r grade_summaries_2$sd`
+* Standard error: `r grade_summaries_2$se`
+
+Here is the distribution of scores:
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE, fig.asp = 0.4}
+grade_summaries_2 %>% 
+  pluck("grades") %>% 
+  ggplot() +
+  aes(x = grade) +
+  geom_histogram(
+    fill = "#dcdcdc",
+    color = "black"
+  ) +
+  scale_x_continuous(
+    limits = c(6, 10.1),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 5),
+    expand = c(0, 0)
+  ) +
+  theme_classic()
+```
+
+### Points off by question
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+grade_summaries_2 %>% 
+  pluck("points_off_by_question") %>% 
+  mutate(
+    ave_percent_off = round(ave_percent_off, 2)
+  ) %>% 
+  rename(
+    Question = question,
+    `Average point deduction (%)` = ave_percent_off) %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_paper("hover", full_width = F)
+```
+
+### Points off by the type of mistake
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+grade_summaries_2 %>% 
+  pluck("points_off_by_mistake_class") %>% 
+   mutate(
+    ave_points_off = round(ave_points_off, 2)
+  ) %>% 
+  rename(
+    `Type of mistake` = mistake_class,
+    `Average points off` = ave_points_off) %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_paper("hover", full_width = F)
+```
+
+### Points off by mistake
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+grade_summaries_2 %>% 
   pluck("points_off_by_mistake_description") %>% 
   rename(
     `Mistake` = mistake_description,
