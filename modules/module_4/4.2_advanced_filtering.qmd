@@ -90,7 +90,7 @@ Before you begin, some notes on the video content:
 * I again use *key* to describe variable names ... that makes sense, but I think simply using "name" is much more clear in this context.
 * I do not typically use `reorder()` within `aes()` but we will not find a better way to address this until ***Module 4: Focus on mutation***.
 
-{{< video https://www.youtube.com/embed/QNdmLfzsI2U >}}
+{{< video https://www.youtube.com/watch?v=QNdmLfzsI2U >}}
 
 ## Compendium tutorial
 
