@@ -56,11 +56,10 @@ spotted_lanternfly %>%
   summarize(
     latitude = max(latitude)
   ) %>% 
-  ggplot(
-    aes(
-      x = year, 
-      y = latitude
-    )
+  ggplot() +
+  aes(
+    x = year, 
+    y = latitude
   ) +
   geom_point() +
   geom_line() +
@@ -83,13 +82,12 @@ spotted_lanternfly %>%
     southern = min(latitude),
     northern = max(latitude)
   )
-  
-  ggplot(
-    aes(
-      x = year,
-      y = latitude,
-      color = limits
-    )
+
+ggplot() +
+  aes(
+    x = year,
+    y = latitude,
+    color = limits
   ) +
   geom_point() +
   geom_line() +
@@ -107,17 +105,11 @@ spotted_lanternfly %>%
     state
   ) %>% 
   summarize(n = n()) %>% 
-  ggplot(
-    aes(
-      x = year,
-      y = n
-    )
+  ggplot() +
+  aes(
+    x = year,
+    y = n
   ) +
   geom_bar(stat = "identity") +
   facet_wrap(~ state) +
   theme_bw()
-
-
-
-
-
