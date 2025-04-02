@@ -1,7 +1,17 @@
 
-# 2 -----------------------------------------------------------------------
+# Script file for problem set 4: Cicada emergence
 
-# Attach the tidyverse metapackage to your current R session:
+# question 1 --------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# the `problem_set_4.R` to "problem_set_4_[last name]_[first name].R" using
+# a snake case naming convention. *Note: You will submit this script file 
+# as your assignment*.
+
+# question 2 --------------------------------------------------------------
+
+# Open the script file in RStudio and attach the tidyverse metapackage to 
+# your current R session.
 
 library(tidyverse)
 
@@ -30,12 +40,35 @@ cicada_research_quality <-
   cicada_list %>% 
   pluck("cicada_observations_2021") %>% 
   filter(
-    state %in% c("DC", "MD", "VA"),
-    quality_grade == "research") %>% 
+    state %in% 
+      c(
+        "DC", 
+        "MD", 
+        "VA"
+      ),
+    quality_grade == "research"
+  ) %>% 
   select(
     date,
     species = scientific_name, 
-    address)
+    address
+  )
+
+# Or:
+
+cicada_research_quality <- 
+  cicada_list %>% 
+  pluck("cicada_observations_2021") %>% 
+  filter(
+    state %>% 
+      str_detect("MD|VA|DC"),
+    quality_grade == "research"
+  ) %>% 
+  select(
+    date,
+    species = scientific_name,
+    address
+  )
 
 # 5 -----------------------------------------------------------------------
 
@@ -50,7 +83,8 @@ brood_x_observations <-
   semi_join(
     cicada_list %>% 
       pluck("brood_x"),
-    by = "species")
+    by = "species"
+  )
 
 # 6 -----------------------------------------------------------------------
 
@@ -68,13 +102,14 @@ not_parks <-
   brood_x_observations %>% 
   pull(address) %>% 
   keep(
-    ~ str_detect(.x, "^[Pp]ark|[Pp](ar)?kwa?y"))
+    ~ str_detect(.x, "^[Pp]ark|[Pp](ar)?kwa?y")
+  )
 
 # 7 -----------------------------------------------------------------------
 
 # Subset brood_x to such that the resultant object:
 
-# * The `address` variable ends with "park" or "Park";
+# * The `address` variable contains "park" or "Park";
 # * The `address` is *not* found in the vector assigned to the name
 #   `not_parks`;
 # * Is globally assigned to the name `brood_x_parks`.
@@ -82,18 +117,20 @@ not_parks <-
 brood_x_parks <- 
   brood_x_observations %>% 
   filter(
-    str_detect(address, "[Pp]ark$"),
-    !address %in% not_parks)
+    str_detect(address, "[Pp]ark"),
+    !address %in% not_parks
+  )
 
 # 8 -----------------------------------------------------------------------
 
-# Provide a unique vector of locations (variable = `address`) in which more 
-# than 40 cicadas have been observed:
+# Using `brood_x_parks`, provide a unique vector of locations (variable =
+# `address`) in which more than 40 cicadas have been observed:
 
 brood_x_parks %>% 
   filter(
     n() > 40,
-    .by = address) %>% 
+    .by = address
+  ) %>% 
   pull(address) %>% 
   unique()
 

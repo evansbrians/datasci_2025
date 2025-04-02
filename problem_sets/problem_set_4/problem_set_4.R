@@ -1,7 +1,17 @@
 
-# 2 -----------------------------------------------------------------------
+# Script file for problem set 4: Cicada emergence
 
-# Attach the tidyverse metapackage to your current R session:
+# question 1 --------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# the `problem_set_4.R` to "problem_set_4_[last name]_[first name].R" using
+# a snake case naming convention. *Note: You will submit this script file 
+# as your assignment*.
+
+# question 2 --------------------------------------------------------------
+
+# Open the script file in RStudio and attach the tidyverse metapackage to 
+# your current R session.
 
 
 
@@ -55,7 +65,7 @@
 
 # Subset `brood_x_observations` to such that the resultant object:
 
-# * The `address` variable ends with "park" or "Park";
+# * The `address` variable contains "park" or "Park";
 # * The `address` is *not* found in the vector assigned to the name
 #   `not_parks`;
 # * Is globally assigned to the name `brood_x_parks`.
@@ -64,7 +74,7 @@
 
 # 8 -----------------------------------------------------------------------
 
-# Provide a unique vector of locations (variable = `address`) in which more 
-# than 40 cicadas have been observed:
+# Using `brood_x_parks`, provide a unique vector of locations (variable =
+# `address`) in which more than 40 cicadas have been observed:
 
 
