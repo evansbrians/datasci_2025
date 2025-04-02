@@ -83,7 +83,6 @@ In this assignment, you may **only** use the following R functions in your submi
 * `.Primitive, ~`
 * `.Primitive, !`
 * `.Primitive, ==`
-* `.Primitive, c`
 * `base::%in%`
 * `base::library`
 * `base::unique`
@@ -150,7 +149,7 @@ the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using a snak
 
 ## Read and pre-process the data
 
-The `cicadas_2021.rds` file represents research-grade iNaturalist observations of Brood X periodical cicadas from February through September of 2021.
+The `cicadas_2021.rds` file represents iNaturalist observations of Brood X periodical cicadas from February through April of 2021.
 
 ::: now_you
 
