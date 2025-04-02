@@ -23,7 +23,7 @@ my_covid_garden
 # - Each species has more than one event (e.g., planted, harvested)
 # - Some treatments (e.g., adding compost) occurred at the bed-level, when this
 #   occurred, the value in the species column is NA
-# - Some treatments (e.g., plantinig or harvesting) occurred at the organism 
+# - Some treatments (e.g., planting or harvesting) occurred at the organism 
 #   level (plant or fungi species) 
 
 # the need for stringr ----------------------------------------------------
@@ -173,7 +173,7 @@ food_events %>%
 
 # or ----------------------------------------------------------------------
 
-# The or metacharacter (metacharacter |):
+# The "or" metacharacter (metacharacter |):
 
 c(
   "gray wolf",
