@@ -1,0 +1,167 @@
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+         xmlns:dc="http://purl.org/dc/terms/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"
+         packageId="c8dd9ab2-7b78-4eac-9958-b7ff958545fe/v1.5" system="http://gbif.org" scope="system"
+         xml:lang="eng">
+
+<dataset>
+  <alternateIdentifier>c8dd9ab2-7b78-4eac-9958-b7ff958545fe</alternateIdentifier>
+  <alternateIdentifier>http://arobis.cenpat-conicet.gob.ar:8081/resource?r=argentina-secretariapesca</alternateIdentifier>
+  <title xml:lang="eng">Programa de Observadores a Bordo (POBCh) de la Secretaria de Pesca de la Provincia del Chubut, Argentina . Observer On board Program -Fisheries Secretariat of the Province of Chubut-Argentina (OOBPPCh)</title>
+      <creator>
+    <individualName>
+        <givenName>María Eva</givenName>
+      <surName>Góngora</surName>
+    </individualName>
+    <organizationName>Secretaria de Pesca de la Provincia del Chubut</organizationName>
+    <address>
+        <city>Rawson</city>
+        <administrativeArea>Chubut</administrativeArea>
+        <country>AR</country>
+    </address>
+      </creator>
+      <metadataProvider>
+    <individualName>
+        <givenName>María Rosa</givenName>
+      <surName>Marin</surName>
+    </individualName>
+    <organizationName>Centro Nacional Patagónico - CONICET</organizationName>
+    <positionName>Professional support to research</positionName>
+    <address>
+        <deliveryPoint>Bv. Almirante Brown 2915</deliveryPoint>
+        <city>Puerto Madryn</city>
+        <administrativeArea>Chubut</administrativeArea>
+        <postalCode>U9120ACD</postalCode>
+        <country>AR</country>
+    </address>
+    <phone>+54 280 4883184 (int. 1202)</phone>
+    <electronicMailAddress>marin@cenpat-conicet.gob.ar</electronicMailAddress>
+      </metadataProvider>
+      <associatedParty>
+    <individualName>
+        <givenName>Observer On board Program</givenName>
+      <surName>Secretaría de Pesca de la Provincia del Chubut</surName>
+    </individualName>
+    <organizationName>Secretaría de Pesca de la Provincia del Chubut</organizationName>
+    <address>
+        <city>Rawson</city>
+        <administrativeArea>Chubut</administrativeArea>
+        <country>AR</country>
+    </address>
+    <role>author</role>
+      </associatedParty>
+  <pubDate>
+      2021-05-17
+  </pubDate>
+  <language>eng</language>
+  <abstract>
+    <para>ENGLISH: In Patagonia, Argentina, (from 42º00 SL to 47º00 SL) it is developing an important shrimp fishery, target on &quot;Patagonian Red Shrimp&quot; (Pleoticus muelleri), caught by twin trawler freezer fleet. Since 2001, the survey was optimized and the fishery was surveyed by the Fisheries Secretariat of the Province of Chubut by means OOBPPCh, that collects of the fishery biological information about target specie and by catch, contributing to strengthen knowledge about ecosystem and biodiversity of the fishing areas. Specimens were identified on board by trained observers following a protocol. Also there is wide reference collection of condricthyes and osteicthyes available from the &quot;Working Agreement between the Fisheries Secretariat and Natural Sciences Faculty of the National University of Patagonia San Juan Bosco&quot;. Reported observations were recorded in data base of the OOBPPCh. -- ESPAÑOL -- En Patagonia, Argentina (42º00´LS y 47º00´LS) se desarrolla una pesquería cuya especie blanco es el langostino (Pleoticus muelleri) de la cual participan buques congeladores tangoneros. Desde 2001, con el objetivo de optimizar el seguimiento, la pesquería es monitoreada por la Secretaría de Pesca de la Provincia del Chubut a través de un Programa de Observadores a Bordo que recolecta información biológica pesquera de la especie objetivo y de la fauna acompañante, contribuyendo al conocimiento de las especies que integran el ecosistema de las áreas de pesca. Los especimenes capturados en cada lance de pesca, fueron identificados por personal entrenado. También existe una colección de referencia de peces óseos y cartilaginosos como resultado de un &quot;Acuerdo de Trabajo con Facultad de Ciencias Naturales de la Universidad Nacional de la Patagonia San Juan Bosco y la Secretaría de Pesca de la Provincia del Chubut&quot;. Las observaciones fueron registradas en la base de datos del POBCh.</para>
+  </abstract>
+      <keywordSet>
+            <keyword>Occurrence</keyword>
+        <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type.xml</keywordThesaurus>
+      </keywordSet>
+      <keywordSet>
+            <keyword>South Atlantic Ocean</keyword>
+            <keyword>Argentina</keyword>
+            <keyword>demersal</keyword>
+            <keyword>pelagic</keyword>
+            <keyword>bentonic</keyword>
+            <keyword>fishes</keyword>
+            <keyword>fisheries</keyword>
+            <keyword>teleosts</keyword>
+            <keyword>elasmobranches</keyword>
+            <keyword>cephalopods</keyword>
+            <keyword>Chubut</keyword>
+        <keywordThesaurus>n/a</keywordThesaurus>
+      </keywordSet>
+  <additionalInfo>
+    <para>marine, harvested by iOBIS</para>
+  </additionalInfo>
+  <intellectualRights>
+    <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by-nc/4.0/legalcode"><citetitle>Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License</citetitle></ulink>.</para>
+  </intellectualRights>
+  <coverage>
+      <geographicCoverage>
+          <geographicDescription>--</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-67.4</westBoundingCoordinate>
+          <eastBoundingCoordinate>-62.8</eastBoundingCoordinate>
+          <northBoundingCoordinate>-43</northBoundingCoordinate>
+          <southBoundingCoordinate>-49.2</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+          <temporalCoverage>
+              <rangeOfDates>
+                  <beginDate>
+                    <calendarDate>2003-01-01</calendarDate>
+                  </beginDate>
+                <endDate>
+                  <calendarDate>2005-12-18</calendarDate>
+                </endDate>
+              </rangeOfDates>
+          </temporalCoverage>
+  </coverage>
+  <maintenance>
+    <description>
+      <para></para>
+    </description>
+    <maintenanceUpdateFrequency>unkown</maintenanceUpdateFrequency>
+  </maintenance>
+
+      <contact>
+    <individualName>
+        <givenName>María Rosa</givenName>
+      <surName>Marin</surName>
+    </individualName>
+    <organizationName>Centro Nacional Patagónico - CONICET</organizationName>
+    <positionName>Professional support to research</positionName>
+    <address>
+        <deliveryPoint>Bv. Almirante Brown 2915</deliveryPoint>
+        <city>Puerto Madryn</city>
+        <administrativeArea>Chubut</administrativeArea>
+        <postalCode>U9120ACD</postalCode>
+        <country>AR</country>
+    </address>
+    <phone>+54 280 4883184 (int. 1202)</phone>
+    <electronicMailAddress>marin@cenpat-conicet.gob.ar</electronicMailAddress>
+      </contact>
+  <methods>
+        <methodStep>
+          <description>
+            <para>--</para>
+          </description>
+        </methodStep>
+      <sampling>
+        <studyExtent>
+          <description>
+            <para>--</para>
+          </description>
+        </studyExtent>
+        <samplingDescription>
+          <para>Platform: SHIPS. Instrument: TRAWL; BOTTOM TRAWL; FISH NETS; MIDWATER TRAWLS.</para>
+        </samplingDescription>
+      </sampling>
+      <qualityControl>
+        <description>
+          <para>--</para>
+        </description>
+      </qualityControl>
+  </methods>
+</dataset>
+  <additionalMetadata>
+    <metadata>
+      <gbif>
+          <dateStamp>2015-09-08T12:06:52.777-03:00</dateStamp>
+          <hierarchyLevel>dataset</hierarchyLevel>
+            <citation>Góngora M E (2015): Programa de Observadores a Bordo (POBCh) de la Secretaria de Pesca de la Provincia del Chubut, Argentina . Observer On board Program -Fisheries Secretariat of the Province of Chubut-Argentina (OOBPPCh). v1.5. ArOBIS Centro Nacional Patagónico. Dataset/Occurrence. http://arobis.cenpat-conicet.gob.ar:8081/resource?r=argentina-secretariapesca&amp;v=1.5</citation>
+          <bibliography>
+                <citation>Bovcon N., Cochia P., 2007. Guía de reconocimiento de peces capturados por buques pesqueros monitoreados con observadores a bordo. Publicación especial de la Secretaría de Pesca de la Provincia del Chubut, Argentina, Rawson.</citation>
+          </bibliography>
+          <resourceLogoUrl>http://arobis.cenpat-conicet.gob.ar:8081/logo.do?r=argentina-secretariapesca</resourceLogoUrl>
+          <dc:replaces>c8dd9ab2-7b78-4eac-9958-b7ff958545fe/v1.5.xml</dc:replaces>
+      </gbif>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>

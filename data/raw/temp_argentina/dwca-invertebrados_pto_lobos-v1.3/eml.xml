@@ -1,0 +1,221 @@
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+         xmlns:dc="http://purl.org/dc/terms/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"
+         packageId="25e11899-c0d8-490a-b1fa-f158086b92c3/v1.3" system="http://gbif.org" scope="system"
+         xml:lang="eng">
+
+<dataset>
+  <alternateIdentifier>25e11899-c0d8-490a-b1fa-f158086b92c3</alternateIdentifier>
+  <alternateIdentifier>http://arobis.cenpat-conicet.gob.ar:8081/resource?r=invertebrados_pto_lobos</alternateIdentifier>
+  <title xml:lang="eng">Invertebrates San Matias gulf from shallows waters, Patagonia, Argentina</title>
+      <creator>
+    <individualName>
+        <givenName>SAMUEL</givenName>
+      <surName>ALMONACID</surName>
+    </individualName>
+    <organizationName>CESIMAR-CONICET</organizationName>
+    <positionName>Informatic-Ph D.student</positionName>
+    <address>
+        <deliveryPoint>BOULEVARD BROWN 2915</deliveryPoint>
+        <city>PUERTO MADRYN</city>
+        <administrativeArea>CHUBUT</administrativeArea>
+        <postalCode>9120</postalCode>
+        <country>AR</country>
+    </address>
+    <electronicMailAddress>almonacid@cenpat-conicet.gob.ar</electronicMailAddress>
+      </creator>
+      <metadataProvider>
+    <individualName>
+        <givenName>MIRTHA</givenName>
+      <surName>LEWIS</surName>
+    </individualName>
+    <organizationName>CESIMAR-CENPAT</organizationName>
+    <positionName>RESEARCH BIOLOGIST</positionName>
+    <address>
+        <deliveryPoint>BOULEVARD BROWN 2915</deliveryPoint>
+        <city>PUERTO MADRYN</city>
+        <administrativeArea>CHUBUT</administrativeArea>
+        <postalCode>9120</postalCode>
+        <country>AR</country>
+    </address>
+    <electronicMailAddress>mirtha@cenpat-conicet.gob.ar</electronicMailAddress>
+      </metadataProvider>
+      <associatedParty>
+    <organizationName>Fisheries Agency of Chubut Province</organizationName>
+    <electronicMailAddress>mirtha@cenpat-conicet.gob.ar</electronicMailAddress>
+    <role>user</role>
+      </associatedParty>
+  <pubDate>
+      2021-05-13
+  </pubDate>
+  <language>eng</language>
+  <abstract>
+    <para>Survey of volutid snails (4 species) and infaunal and epibenthic bivalves (9 species) of interest for the artisanal fisheries at the southwest region of the San Matias Gulf, Patagonia.  Data were collected in 1998-1999 by expert researchers of Research Council of Argentina, commissioned by the provincial administration to estimate biomass of species susceptible to commercial capture. The data were stored in digital support by the Fishing Agency of Chubut Province, Argentina.</para>
+  </abstract>
+      <keywordSet>
+            <keyword>Occurrence; marine invertebrates; volutid; bivalves; shallow waters; Patagonia Argentina</keyword>
+        <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type.xml</keywordThesaurus>
+      </keywordSet>
+  <intellectualRights>
+    <para>To the extent possible under law, the publisher has waived all rights to these data and has dedicated them to the <ulink url="http://creativecommons.org/publicdomain/zero/1.0/legalcode"><citetitle>Public Domain (CC0 1.0)</citetitle></ulink>. Users may copy, modify, distribute and use the work, including for commercial purposes, without restriction.</para>
+  </intellectualRights>
+  <coverage>
+      <geographicCoverage>
+          <geographicDescription>Southeast area of the San Matias Gulf that boundaries with the San Jose Gulf. Puerto Lobos is the accessible point coast from the cliff. The beach has wide shelf (solid sandstone platform extending into the sea).The seabed is sand and mixed bottoms of gravel and sand, while the slope changes the depth in few meters. The weather is characterized by strong winds.The species presented range from 30m to 5m depth.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-64.667</westBoundingCoordinate>
+          <eastBoundingCoordinate>-64.067</eastBoundingCoordinate>
+          <northBoundingCoordinate>-42</northBoundingCoordinate>
+          <southBoundingCoordinate>-42.221</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+          <temporalCoverage>
+              <rangeOfDates>
+                  <beginDate>
+                    <calendarDate>1999-05-06</calendarDate>
+                  </beginDate>
+                <endDate>
+                  <calendarDate>1999-05-17</calendarDate>
+                </endDate>
+              </rangeOfDates>
+          </temporalCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>All specimens are marine volutids and marine bivalves identified to species level. The dataset included four species of volutid snails (Zidona dufresnei, Adelomelon beckii, Adelomelon ancilla, Odontocymbiola magellanica) and eight species of Bivalvia (Aulacomya atra, Mytilus platensis, Ameghinomya antiqua, Aequipecten tehuelchus, Ensis macha, Panopea abbreviata, Atrina seminuda y Ostrea Puelchana.</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Aulacomya atra</taxonRankValue>
+                  <commonName>magellanic mussel</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Mytilus platensis</taxonRankValue>
+                  <commonName>Blue mussel</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Ameghinomya antiqua</taxonRankValue>
+                  <commonName>Clam</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Aequipecten tehuelchus</taxonRankValue>
+                  <commonName>Scallop</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Ensis macha</taxonRankValue>
+                  <commonName>Razor shell</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Panopea abbreviata</taxonRankValue>
+                  <commonName>Giant clam</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Atrina seminuda</taxonRankValue>
+                  <commonName>Half-naked pen shell</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Ostrea Puelchana</taxonRankValue>
+                  <commonName>Oyster</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Zidona dufresnei</taxonRankValue>
+                  <commonName>Volutid gastropods</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Adelomelon beckii</taxonRankValue>
+                  <commonName>Volutid gastropods</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Adelomelon ancilla</taxonRankValue>
+                  <commonName>Volutid gastropods</commonName>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Odontocymbiola magellanica</taxonRankValue>
+                  <commonName>Volutid gastropods</commonName>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+  </coverage>
+  <maintenance>
+    <description>
+      <para></para>
+    </description>
+    <maintenanceUpdateFrequency>unkown</maintenanceUpdateFrequency>
+  </maintenance>
+
+      <contact>
+    <individualName>
+        <givenName>Gregorio</givenName>
+      <surName>BIGATTI</surName>
+    </individualName>
+    <organizationName>BIOMAR-CENPAT</organizationName>
+    <positionName>Research Biologist</positionName>
+    <address>
+        <deliveryPoint>BOULEVARD BROWN 2915</deliveryPoint>
+        <city>PUERTO MADRYN</city>
+        <administrativeArea>CHUBUT</administrativeArea>
+        <postalCode>9120</postalCode>
+        <country>AR</country>
+    </address>
+      </contact>
+  <methods>
+        <methodStep>
+          <description>
+            <para>The records were extracted from a hard copy report available in the CENPAT- CONICET library. For the preparation of data set, the species occurrence tables were integrated to the complementary tables of records of date, hour of start and end of each station, and depth. Ciocco N. F. 1995 La marisquería mediante buceo en el Golfo San José (Chubut Argentina) Serie : Informes técnicos del plan de manejo integrado de la Zona Costera Patagónica (PNUD-GEF, FPN), 2(1):1-39 Ciocco N. F., M.L. Lasta &amp; C. Bremec.1998. Pesquerías de bivalvos: mejillón, vieiras (Tehuelche y Patagónica) y otras especies. En : el Mar Argentino y sus recursos Pesqueros 2: 142-166 (Boschi ed.), INIDEP, Mar del Plata.</para>
+          </description>
+        </methodStep>
+      <sampling>
+        <studyExtent>
+          <description>
+            <para>Survey was conducted at the Puerto Lobos shoreline, to estimate the abundance and biomass of bivalves and volutids of commercial interest. The sampling place was selected for its logistic for artisanal fishermen, natural accessibility characteristics to get access by truck and zodiac boat, and the informal knowledge in the area of bivalves and volutids susceptible to being commercially exploited.</para>
+          </description>
+        </studyExtent>
+        <samplingDescription>
+          <para>The design of the survey was of fixed transects for visual census by SCUBA diving. Sampling included 29 transects perpendicular to the coast, from 5m to 30 m of deph, 8 oriented from West to East separated every 1800 m and 21 settled from South to North, separated every 1300m. The diver counted and recorded every 150m bivalves and volutids in a line of 1m wide covering 150m2. Representative specimens of gastropods and infaunal and epibenthic bivalves were collected. Complementary records of date, hour of start and end of each station, type of bottom and depth were included. The depth was taken with SCUBA diving computer and echo sound.</para>
+        </samplingDescription>
+      </sampling>
+      <qualityControl>
+        <description>
+          <para>Taxonomy was verify by the curator Dr. Javier Signorelli of the IBIOMAR CENPAT-CONICET.</para>
+        </description>
+      </qualityControl>
+  </methods>
+  <project >
+    <title>Relevamiento y sistematización de la información sobre mariscos para la pesca artesanal en las costas de Chubut. (Systematic survey on seafood for the artisanal fishery off the coast of Chubut)</title>
+      <personnel>
+        <individualName>
+            <givenName>Nestor</givenName>
+          <surName>Ciocco</surName>
+        </individualName>
+        <role>author</role>
+      </personnel>
+      <abstract>
+        <para>Survey conducted at Chubut shoreline (5-30m depth), to estimate the abundance and biomass of bivalves and volutids of commercial interest through advisory of experts of Centro Nacional Patagonico, Research council of Argentina (Acronym CONICET) to Federal Council of investments of Argentina (Acronym CFI).</para>
+      </abstract>
+      <funding>
+        <para>Consulting Services to Consejo Federal de Inversiones Argentina- Federal Council of investments of Argentina. http://biblioteca.cfi.org.ar/biblioteca/</para>
+      </funding>
+  </project>
+</dataset>
+  <additionalMetadata>
+    <metadata>
+      <gbif>
+          <dateStamp>2018-10-26T04:00:04.287-03:00</dateStamp>
+          <hierarchyLevel>dataset</hierarchyLevel>
+            <citation>Almonacid S., Marin M. R., Bigatti G., Lewis M.(2018). Database of marine invertebrates of San Jorge Gulf, Argentina.  Version 1.0. CESIMAR-CONICET.</citation>
+          <bibliography>
+                <citation>Ciocco N. F. 1999. Relevamiento y sistematización de la información sobre mariscos para la pesca artesanal en las costas de Chubut. Consejo Federal de Inversiones Argentina- 278 pp</citation>
+          </bibliography>
+          <dc:replaces>25e11899-c0d8-490a-b1fa-f158086b92c3/v1.3.xml</dc:replaces>
+      </gbif>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>
