@@ -30,31 +30,12 @@ cicada_list <-
 # * Subset `cicada_list` to `cicada_observations_2021`
 # * Subset to observations in Maryland, Virginia, and the District of 
 #   Columbia ("MD", "VA", and "DC");
+# * Subset to observations where data values are not `NA`;
 # * Subset to research grade observations (variable = `quality_grade`);
 # * Change the variable name `scientific_name` to `species`
 # * Remove the columns `city`, `state`, and `quality_grade`;
 # * Globally assign the name cicada_research_quality to the resultant 
 #   object.
-
-cicada_research_quality <-
-  cicada_list %>% 
-  pluck("cicada_observations_2021") %>% 
-  filter(
-    state %in% 
-      c(
-        "DC", 
-        "MD", 
-        "VA"
-      ),
-    quality_grade == "research"
-  ) %>% 
-  select(
-    date,
-    species = scientific_name, 
-    address
-  )
-
-# Or:
 
 cicada_research_quality <- 
   cicada_list %>% 
@@ -62,6 +43,7 @@ cicada_research_quality <-
   filter(
     state %>% 
       str_detect("MD|VA|DC"),
+    !is.na(date),
     quality_grade == "research"
   ) %>% 
   select(
@@ -72,13 +54,13 @@ cicada_research_quality <-
 
 # 5 -----------------------------------------------------------------------
 
-# This study is focused on Brood X cicada. Without using `filter()` please:
-  
-# * Subset the data to Brood X species (*Magicicada cassini*, *Magicicada
-#   septendecim*, and *Magicicada septendecula*);
-# * Assign the name `brood_x_observations` to the resultant object.
+# This study is focused on the three species of Brood X cicada. Without using
+# `filter()` please:
 
-brood_x_observations <-
+# * Subset the `cicada_research_quality` to Brood X species;
+# * Globally assign the name `brood_x_observations` to the resultant object.
+
+brood_x_observations <- 
   cicada_research_quality %>% 
   semi_join(
     cicada_list %>% 
@@ -93,7 +75,7 @@ brood_x_observations <-
 # Let's explore values in the `address` variable. Without using `filter()`,
 # extract a vector of addresses from the data frame `brood_x_observations` 
 # such that the extracted values:
-  
+
 # * Starts with the word "Park" or "park", *or*
 # * Contain the strings "Parkway", "parkway", "Pkwy", or "pkwy";
 # * Are globally assigned to the name `not_parks`.
@@ -109,7 +91,7 @@ not_parks <-
 
 # Subset brood_x to such that the resultant object:
 
-# * The `address` variable contains "park" or "Park";
+# * The `address` variable contains "park", "Park", or "Zoo";
 # * The `address` is *not* found in the vector assigned to the name
 #   `not_parks`;
 # * Is globally assigned to the name `brood_x_parks`.
@@ -117,7 +99,7 @@ not_parks <-
 brood_x_parks <- 
   brood_x_observations %>% 
   filter(
-    str_detect(address, "[Pp]ark"),
+    str_detect(address, "[Pp]ark|Zoo"),
     !address %in% not_parks
   )
 
@@ -133,4 +115,51 @@ brood_x_parks %>%
   ) %>% 
   pull(address) %>% 
   unique()
+
+brood_x_park_summary <- 
+  brood_x_parks %>% 
+  filter(
+    n() > 40,
+    .by = address
+  ) %>% 
+  summarize(
+    n = n(),
+    .by = address
+  ) %>% 
+  arrange(
+    desc(n)
+  )
+
+brood_x_parks %>% 
+  semi_join(
+    brood_x_park_summary %>% 
+      slice_max(n, n = 4),
+    by = "address"
+  ) %>% 
+  ggplot() +
+  aes(
+    x = date,
+    fill = species,
+  ) + 
+  geom_density(alpha = 0.8, position = "stack") +
+  facet_wrap(
+    ~ address,
+    ncol = 1,
+    scales = "free"
+  ) +
+  scale_fill_brewer(palette = "Set1") +
+  labs(
+    title = "Density distribution of Brood X cicada emergence by date",
+    x = "Date",
+    y = "Density"
+  ) +
+  theme(
+    panel.background = element_blank(),
+    axis.line = 
+      element_line(
+        color = "black",
+        linewidth = 0.5
+      ),
+    strip.background = element_rect(color = "black")
+  )
 

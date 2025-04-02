@@ -84,6 +84,7 @@ In this assignment, you may **only** use the following R functions in your submi
 * `.Primitive, !`
 * `.Primitive, ==`
 * `base::%in%`
+* `base::is.na`
 * `base::library`
 * `base::unique`
 * `dplyr::filter`
@@ -143,7 +144,7 @@ the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using a snak
 
 ::: now_you
 
-2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
+2\. [[0.25]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
 
 :::
 
@@ -160,14 +161,15 @@ name `cicada_list`.
 
 ::: now_you
 
-4\. [[2.0]]{.score}  In a single, chained analysis with no intermediate assignments:
+4\. [[2.25]]{.score}  In a single, chained analysis with no intermediate assignments:
 
-* [[0.50]]{.subscore} Subset `cicada_list` to `cicada_observations_2021`
-* [[0.50]]{.subscore} Subset to observations in Maryland, Virginia, and the District of Columbia ("MD", "VA", and "DC");
-* [[0.25]]{.subscore} Subset to research grade observations (variable = `quality_grade`);
-* [[0.25]]{.subscore} Change the variable name `scientific_name` to `species`;
-* [[0.25]]{.subscore} Remove the columns `city`, `state`, and `quality_grade`;
-* [[0.25]]{.subscore} Globally assign the name `cicada_research_quality` to the resultant object.
+* Subset `cicada_list` to `cicada_observations_2021`
+* Subset to observations in Maryland, Virginia, and the District of Columbia ("MD", "VA", and "DC");
+* Subset to observations where data values are not `NA`;
+* Subset to research grade observations (variable = `quality_grade`);
+* Change the variable name `scientific_name` to `species`;
+* Remove the columns `city`, `state`, and `quality_grade`;
+* Globally assign the name `cicada_research_quality` to the resultant object.
 
 :::
 
@@ -177,10 +179,10 @@ Brood X cicada are comprised of three species, *Magicicada cassini*, *Magicicada
 
 ::: now_you
 
-5\. [[1.0]]{.score} This study is focused on Brood X cicada. Without using `filter()` [[0.50]]{.subscore} please:
+5\. [[1.0]]{.score} This study is focused on Brood X cicada. Without using `filter()` please:
 
-* [[0.25]]{.subscore} Subset the `cicada_research_quality` to Brood X species (*Magicicada cassini*, *Magicicada septendecim*, and *Magicicada septendecula*);
-* [[0.25]]{.subscore} Assign the name `brood_x_observations` to the resultant object.
+* Subset the `cicada_research_quality` to the three Brood X species;
+* Globally assign the name `brood_x_observations` to the resultant object.
 
 :::
 
@@ -190,16 +192,16 @@ I am looking for sites that our team can visit that will provide us with a lot o
 
 ### The park problem
 
-We are only permitted to set up our automated recording units in area parks.
+We are only permitted to set up our automated recording units in area parks and outside of our lab at the Smithsonian's National Zoo and Conservation Biology Institute.
 
 ::: now_you
 
 6\. [[2.0]]{.score} Unfortunately for us, "Park" is a common street name and there is a type
-of road in the area called a "parkway" (which may be abbreviated as "pkwy"). Let's explore values in the `address` variable. *Without* using `filter()` [[0.50]]{.subscore}, extract a vector of addresses from the data frame `brood_x_observations` such that the extracted values:
+of road in the area called a "parkway" (which may be abbreviated as "pkwy"). Let's explore values in the `address` variable. *Without* using `filter()`, extract a vector of addresses from the data frame `brood_x_observations` such that the extracted values:
 
-* [[0.25]]{.subscore} Starts with the word "Park" or "park", *or*
-* [[1.0]]{.subscore} Contain the strings "Parkway", "parkway", "Pkwy", or "pkwy";
-* [[0.25]]{.subscore} Are globally assigned to the name `not_parks`.
+* Starts with the word "Park" or "park", *or*
+* Contain the strings "Parkway", "parkway", "Pkwy", or "pkwy";
+* Are globally assigned to the name `not_parks`.
 
 :::
 
@@ -207,10 +209,10 @@ of road in the area called a "parkway" (which may be abbreviated as "pkwy"). Let
 
 7\. [[1.0]]{.score} Subset `brood_x_observations`  such that in the resultant object:
 
-* [[0.25]]{.subscore} The `address` variable contains "park" or "Park";
-* [[0.50]]{.subscore} The `address` is *not* found in the vector assigned to the name
+* The `address` variable contains "park", "Park", or "Zoo";
+* The `address` is *not* found in the vector assigned to the name
   `not_parks`;
-* [[0.25]]{.subscore} Is globally assigned to the name `brood_x_parks`.
+* Is globally assigned to the name `brood_x_parks`.
 
 :::
 
