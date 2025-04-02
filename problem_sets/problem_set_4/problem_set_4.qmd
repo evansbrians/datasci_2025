@@ -53,11 +53,11 @@ The points allotted for each question are provided in highlighted red bold text 
 
 Points may be deducted from each question's total: 
 
-* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
-* [[50%]]{class="subscore"} Include only assignments specified in the question;
-* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
-* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
-* [[10%]]{class="subscore"} Ensure that your code is as parsimonious as possible;
+* [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question;
+* [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
+* [[10%]]{class="subscore"} Code parsimony;
+* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3**;
 * [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
 
 *Note: The maximum deduction is the total points value for a given question*
@@ -104,14 +104,19 @@ In this assignment, you may **only** use the following R functions in your submi
 
 ## About the data 
 
-This problem set will use the file [cicadas_2021.rds]{.mono}. The data were originally downloaded using the *rinat* package and represent iNaturalist observations. The locations of observations were derived with Program R. The data are arranged as a list that contains the following data frames (not including lifelines):
+:::: Accordion
+<button class="accordion">Metadata for this assignment</button>
 
-[brood_x]{.mono}
+:::: {.panel}
+
+This problem set will use the file `cicadas_2021.rds`. The data were originally downloaded using the *rinat* package and represent iNaturalist observations. The locations of observations were derived with Program R. The data are arranged as a list that contains the following data frames:
+
+`brood_x`:
 
 * [species]{.mono}, character: The scientific name (genus and species) of each species of brood X cicada.
 * [common_name]{.mono}, character: The common name of each species of brood X cicada.
 
-[cicada_observations_2021]{.mono}
+`cicada_observations_2021`:
 
 * [datetime]{.mono}, datetime: The date and time in which an observation took place.
 * [scientific_name]{.mono}, character: The genus and species (if known) observed.
@@ -119,6 +124,10 @@ This problem set will use the file [cicadas_2021.rds]{.mono}. The data were orig
 * [city]{.mono}, character: The US city in which an observation was made.
 * [state]{.mono}, numeric: The US state in which an observation was made.
 * [quality_grade]{.mono}, character: Whether the observation was verified by experts ("research" grade) or has not been able to be verified ("casual" grade).
+
+:::
+
+:::
 
 ## Setup
 
@@ -128,24 +137,25 @@ This problem set will use the file [cicadas_2021.rds]{.mono}. The data were orig
 
 ::: now_you
 
-1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_4_[last name]_[first name].R". For example, I would name my file `problem_set_4_evans_brian.R`.
+1\. [[1.0]]{class="score"} Before opening your script file for this problem set, change the name of
+the `problem_set_3.R` to "problem_set_3_[last name]_[first name].R" using a snake case naming convention. For example, Tara would name her file `problem_set_3_snedgen_tara.R`. *Note: You will submit this script file as your assignment*.
 
 :::
 
 ::: now_you
 
-2\. [[0.50]]{class="score"} Attach the tidyverse metapackage to your current R session.
+2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the tidyverse metapackage to your current R session.
 
 :::
 
 ## Read and pre-process the data
 
-The `cicadas_temp` file represents research-grade iNaturalist observations of Brood X periodical cicadas from February through September of 2021.
+The `cicadas_2021.rds` file represents research-grade iNaturalist observations of Brood X periodical cicadas from February through September of 2021.
 
 ::: now_you
 
 3\. [[0.50]]{class="score"} Read in `data/raw/cicadas_2021.rds` and globally assign the list to the
-name cicada_list.
+name `cicada_list`.
 
 :::
 
@@ -196,9 +206,9 @@ of road in the area called a "parkway" (which may be abbreviated as "pkwy"). Let
 
 ::: now_you
 
-7\. [[1.0]]{.score} Subset `brood_x_observations` such that the resultant object:
+7\. [[1.0]]{.score} Subset `brood_x_observations`  such that in the resultant object:
 
-* [[0.25]]{.subscore} The `address` variable ends with "park" or "Park";;
+* [[0.25]]{.subscore} The `address` variable contains "park" or "Park";
 * [[0.50]]{.subscore} The `address` is *not* found in the vector assigned to the name
   `not_parks`;
 * [[0.25]]{.subscore} Is globally assigned to the name `brood_x_parks`.
@@ -211,7 +221,7 @@ We want to visit the sites in our region that will hopefully yield the highest n
 
 ::: {.now_you}
 
-8\. [[2.0]]{.score} Provide a unique vector of locations (variable = `address`) in which more than 40 cicadas have been observed.
+8\. [[2.0]]{.score} Using `brood_x_parks`, provide a unique vector of locations (variable = `address`) in which more than 40 cicadas have been observed.
 
 :::
 <hr>
