@@ -1,0 +1,29 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,[…],Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!,Prefix logical operator (not)
+.Primitive,>,Infix relational operator (greater than)
+.Primitive,<,Infix relational operator (less than)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,c,Combine values to form an atomic vector
+.Primitive,is.na,A logical test of whether a value in a vector is [NA]
+.Primitive,min,Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+base,%in%,Infix relational operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
+dplyr,filter,Subset a data frame by logical condition
+dplyr,group_by,Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
+dplyr,if_all,Run a function for all of the columns that satisfy a given condition
+dplyr,if_any,Run a function for any of the columns that satisfy a given condition
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,select,Subset columns in a data frame by name (without quotes!)
+dplyr,ungroup,Remove any grouping on a data frame
+lubridate,year,Extract the year from a properly formatted date value
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+readr,read_rds,Read an RDS file into R
+stringr,str_detect,Logical test of whether a pattern (string) is contained within a character value
+tibble,tribble,Row-wise creation of a tibble data frame

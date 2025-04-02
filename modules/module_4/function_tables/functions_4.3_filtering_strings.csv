@@ -1,0 +1,20 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,[…],Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,$,Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!,Prefix logical operator (not)
+.Primitive,|,Prefix logical operator (or)
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,*,Infix arithmetic operator (multiply)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,^,Infix arithmetic operator (to the power of)
+.Primitive,c,Combine values to form an atomic vector
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+stringr,str_detect,Logical test of whether a pattern (string) is contained within a character value
+utils,?,Prefix operator to retrieve the help file for a function
