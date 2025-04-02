@@ -1,0 +1,1098 @@
+---
+title: "4.2 Filtering strings"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../images/hex_complex.png){.intro_image}
+
+Poorly formatted character vectors are unfortunately rampant in ecological datasets. Luckily, the unruly behavior of character columns can be tamed with the use of the pattern matching algorithm **regular expressions** (regex). Regex is a language all its own that is built especially to search for symbols in *part of a string*. It is profoundly powerful and is used in loads of computer applications -- from database management to internet search engines. As covered in our last lesson, the regex algorithm is a combination two types of symbols:
+
+* **Literal characters**: Search for exact character matches in the case (i.e., lower vs. upper) and order of symbols.
+* **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string).
+
+Regex gives us remarkable flexibility when dealing with messy character class columns and I consider it to be one of the most important tools in an effective data manager's skillset. In this lesson, we will explore literal characters, metacharacters, and the *stringr* package (**core tidyverse**). This lesson includes a video tutorial (runtime -- 42:31) that describes how to filter data with regex and a *compendium* intended to serve predominantly as a reference. The compendium does include *some* new material and I have included many "Now you!" exercises in the compendium to give you additional practice with regex. In completing this lesson, you will learn how:
+
+* Conduct logical tests with `str_detect()` and regex (review);
+* Use regex metacharacters to search for patterns in a string
+* Apply regex and `str_detect()` to filter data frames
+
+*Note: I will focus a lot of attention in the compendium portion of this lesson on using regex to detect dates ... this will become a major topic in **Module 5**!*
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
+
+</div>
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+In the video portion of this lesson, we will explore the file [my_covid_garden.csv]{.mono}. The data are formatted as a tibble data frame object comprised of the following variables:
+
+* [bed]{.mono}, numeric: A number assigned to each raised bed in my garden.
+* [light_access]{.mono}, character: The amount of sun received by each bed, classified as "deep shade", "shade", "partial shade", and "full sun".
+* [species]{.mono}, character: A common name associated with a plant or fungus that I was growing in a given bed.
+* [date]{.mono}, date: The date in which an observation was made or action was taken on a given bed, plant, or fungus.
+* [event]{.mono}, character: An observation or action taken on a given bed, plant, or fungus.
+:::
+
+## Set up your video session
+
+Please do the following to ensure that you are working in a clean session:
+
+1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
+2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+3. Open the script file [filtering_strings.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+
+## Video content
+
+Before you begin, some notes on the video content:
+
+* I again use *key* to describe variable names ... that makes sense, but I think simply using "name" is much more clear in this context.
+* In my `aes()`, I should have placed `reorder()` on its own line (based on the course style guide). Likewise, for `filter(year(...) == ...)`, `year()` should have been placed on its own line.
+* I do not typically use `reorder()` within `aes()` but we will not find a better way to address this until ***Module 4: Focus on mutation***.
+* When using `filter()`, if the number of arguments is greater than or equal to two, each argument should be place on their own line and should be indented two spaces.
+
+{{< video https://www.youtube.com/embed/_CwBKTPw41U >}}
+
+## Compendium tutorial
+
+For this compendium, we will use character vectors that we will create for the purpose of understanding the regex search algorithm.
+
+### Review: `==` versus `str_detect()`
+
+The primitive infix function `==` is used to test whether a given value on the left-hand-side (LHS) of the function is equal to the value on the right-hand-side (RHS):
+
+```{r}
+c("gray", "grey") == "gray"
+```
+
+Notice in the above that *all* of the symbols within the LHS string must be an *exact* match to the RHS character value.
+
+The function `str_detect`, in the *stringr* package, is a logical test of whether the values in a given vector matches the RHS *pattern*. 
+
+In the below, `str_detect()` searches the string for an "r" at any position
+in the string.
+
+```{r}
+str_detect(
+  string = c("gray", "grey"),
+  pattern = "r")
+```
+
+We see that both values evaluated to `TRUE` because the string contains the symbol `"r"`.
+
+The first argument of `str_detect()` is `string = ...`, which is the target vector and the second argument is `pattern = ...` which describes the pattern to search for (often called the "search string").
+
+Because these two arguments are the first and second arguments in the function, we can omit the argument names when calling the function:
+
+```{r}
+str_detect(
+  c("gray", "grey"), "r")
+```
+
+
+In the below, str_detect searches the string for a `"g"` followed by an
+`"r"` at any position in the string:
+
+```{r}
+str_detect(
+  c("gray", "grey"),
+  "gr")
+```
+
+In the below, however, the regex statement is evaluated to `FALSE` for both values, why?
+
+```{r}
+str_detect(
+  c("gray", "grey"),
+  "gr")
+```
+
+... this is because *stringr* evaluates the symbols in the order that they appear. Although the symbols `g`, `r`, and `y` are all in the value that we are searching, they do not appear in that order.
+
+Regex is also case-sensitive -- that means that the upper and lower case symbols must *exactly* match the case of the pattern:
+
+```{r}
+str_detect(
+  c("Gray", "grey"),
+  "gr")
+```
+
+You can negate your search pattern (i.e., turn `TRUE` values to `FALSE` and `FALSE` values to `TRUE`) using the negated selection operator, `!`:
+
+```{r}
+!str_detect(
+  c("Gray", "grey"),
+  "gr")
+```
+
+... or use the `negate = ...` argument of `str_detect()` (see `?str_detect`) to negate the resultant logical vector:
+
+```{r}
+str_detect(
+  c("Gray", "grey"),
+  "gr",
+  negate = TRUE)
+```
+
+*Note: The `negate = ...` argument was added in a 2019 update of the stringr package.*
+
+::: mysecret
+
+<i class="fas fa-user-secret fa-2x"></i>  [**A white space is a literal character!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+You can also include white spaces in your search strings. For example, we can detect "big bluestem" in the character vector below:
+
+blue whale" and "black-throated blue warbler"
+```{r}
+str_detect(
+  c("big bluestem",
+    "black-throated blue warbler",
+    "blue whale"),
+  "blue ",
+  negate = TRUE)
+```
+
+:::
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+The vector below, `nina_and_maude`, contains two famous thoughts on birds:  
+
+```{r}
+nina_and_maude <-
+  c(
+    nina = "I wish I could fly like a bird in the sky",
+    maude = "To me they will always be glorious birds")
+```
+
+<button class="accordion" style = "margin-bottom: 18px">Using the search pattern "bird" or "birds", evaluate this statement such that both Nina **and** Maude's reference to birds evaluate to `TRUE`.</button>
+
+::: panel
+
+```{r}
+str_detect(nina_and_maude, "bird")
+```
+
+:::
+
+<button class="accordion" style = "margin-bottom: 18px">Using the search pattern "bird" or "birds", evaluate this statement such that Maude's reference to birds evaluates to `TRUE` and Nina's evaluates to `FALSE`.</button>
+
+::: panel
+
+```{r}
+str_detect(nina_and_maude, "birds")
+```
+
+:::
+
+<button class="accordion" style = "margin-bottom: 18px">Using the search pattern "bird" or "birds", evaluate this statement such that Nina's reference to birds evaluates to `TRUE` and Maude's evaluates to `FALSE.`</button>
+
+::: panel
+
+```{r}
+!str_detect(nina_and_maude, "birds")
+```
+
+Or ...
+
+```{r}
+str_detect(
+  nina_and_maude,
+  "birds",
+  negate = TRUE)
+```
+
+:::
+
+:::
+
+### Anchor metacharacters
+
+An **anchor metacharacter** is used to search for a symbol or symbols at the start or end of a string.
+
+You can search the start of a string using the `^` metacharacter (outside of square brackets!). For example, in the character vector below, let's detect "gray" or "gray wolf", not "stingray":
+
+```{r}
+c("gray",
+  "gray wolf",
+  "stingray") %>% 
+  str_detect("^gray")
+```
+
+*Note: Because the character vector being evaluated is the first argument of `str_detect()`, we can pipe the data into `str_detect` function!*
+
+... or detect "june" "bug", not "disjunct":
+
+```{r}
+c("june bug", "disjunct") %>% 
+  str_detect("^jun")
+```
+
+The `$` metacharacter searches at the end of a string. For example, we can use this to detect "gray" or "stingray", but not "gray wolf":
+
+```{r}
+c("gray",
+  "gray wolf",
+  "stingray") %>% 
+  str_detect("gray$") 
+```
+
+... or match "June", but not "June bug versus hurricane":
+
+```{r}
+c("June", "June bug versus hurricane") %>% 
+  str_detect("June$") 
+```
+
+::: now_you
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+The following is a character vector of months and days, formatted differently:
+
+```{r}
+c("1 April",
+  "April 1",
+  "1 May",
+  "May 1")
+```
+
+Using the character vector above and a piped statement ... 
+
+<button class="accordion" style = "margin-bottom: 18px">Detect the value that begins with the number "1":</button>
+
+::: panel 
+```{r}
+c("1 April",
+  "April 1",
+  "1 May",
+  "May 1") %>% 
+  str_detect("^1")
+```
+:::
+
+<button class="accordion" style = "margin-bottom: 18px">Detect the value that ends with the number "1":</button>
+
+::: panel 
+```{r}
+c("1 April",
+  "April 1",
+  "1 May",
+  "May 1") %>% 
+  str_detect("1$")
+```
+:::
+:::
+
+### Character class
+
+A **character class metacharacter**, `[...]` is used to search for a symbol within a set of potential symbols at a given position in a string.
+
+Detect "gray" or "grey":
+
+```{r}
+c("gray", "grey") %>% 
+  str_detect("gr[ae]y") 
+```
+
+Detect "June" or "june":
+
+```{r}
+c("June", "june") %>% 
+  str_detect("[Jj]une") 
+```
+
+::: now_you
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+The following is a character vector of function names that we use to explore data:
+
+```{r}
+c("summary",
+  "summarise",
+  "summarize",
+  "slice")
+```
+
+Using the character vector above and a piped statement ... 
+
+<button class="accordion" style = "margin-bottom: 18px">Search for the pattern "summarise" or "summarize":</button>
+
+::: panel 
+```{r}
+c("summary",
+  "summarise",
+  "summarize",
+  "slice") %>% 
+  str_detect("summari[sz]e")
+```
+
+Or (more parsimonious, but potentially dangerous):
+
+```{r}
+c("summary",
+  "summarise",
+  "summarize",
+  "slice") %>% 
+  str_detect("i[sz]e")
+```
+:::
+:::
+
+### Or
+
+The *or* metacharacter (`...|...`) is used to evaluate whether a symbol or set of symbols matches a string *or* whether another symbol or set of symbols is found in a string.
+
+For example, the following can be used to detect "gray" or "grey", not "stingray" or "graying":
+
+```{r}
+c("gray",
+  "grey",
+  "stingray",
+  "graying") %>% 
+  str_detect("^gray|grey$") 
+```
+
+The above is searching for a string that starts with "gray" or ends with "grey".
+
+Detect "June", "june", "jun", or "Jun":
+
+```{r}
+c("jun",
+  "June",
+  "juniper",
+  "disjunct") %>% 
+  str_detect("^[Jj]une|[Jj]un$")
+```
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+The character vector below, `songs_about_birds`, is a reference to one of my mentors:  
+
+```{r}
+songs_about_birds <-
+  c(bob = "Three little birds",
+    jerry = "Bird song",
+    leonard = "Bird on a wire",
+    regina = "Two birds")
+```
+
+<button class="accordion" style = "margin-bottom: 18px">Search for pattern "Two" *or* "Three" in the character vector.</button>
+
+::: panel 
+```{r}
+songs_about_birds %>% 
+  str_detect("Two|Three")
+```
+
+:::
+:::
+
+::: mysecret
+
+<i class="fas fa-user-secret fa-2x"></i>  [**Avoid overusing *or* !**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+For early regex users, there is often a tendency to overuse the *or* metacharacter. Make sure that your regex statements are as simple as possible and only use *or* when necessary.
+
+:::
+
+
+### Alternation contraints
+
+**Alternation constraints**, `()`, allows us to assess groups of symbols. For example, if we wanted to use an "or" metacharacter to detect "gray" or "grey", the following does not work:
+
+```{r}
+c("gray",
+  "grey",
+  "grape",
+  "honeysuckle") %>% 
+  str_detect("gra|ey")
+```
+
+The regex above searches for "gra" or "ey"in the string. 
+
+Parentheses restrict the environment of the "or" statements. We place 
+them around the symbols for which we want the "or" statement to 
+apply:
+
+```{r}
+c("gray",
+  "grey",
+  "grape",
+  "honeysuckle") %>% 
+  str_detect("gr(a|e)y")
+```
+
+Detect "gray" or "grey", not "stingray" or "graying":
+
+```{r}
+c("gray",
+  "grey",
+  "stingray",
+  "graying") %>% 
+  str_detect("^gr(a|e)y$") 
+```
+
+This is more complicated than our previous regex statement:
+
+```{r}
+c("gray", "grey") %>% 
+  str_detect("gr[ae]y")
+```
+
+But can be used for more complex statements. For example, detect "grayer",
+"greyed", or "graying", not "stingray" or "grays":
+
+```{r}
+c("grayed",
+  "greyer",
+  "grayes",
+  "stingray",
+  "graying") %>% 
+  str_detect("^gr[ae]y(er|ed|ing)$")
+```
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+
+```{r}
+c("spill",
+  "spilled",
+  "spilling",
+  "will",
+  "willed",
+  "willing")
+```
+
+Using the character vector above and a piped statement ... 
+
+<button class="accordion" style = "margin-bottom: 18px">Search for the value that includes the pattern "willed" or "willing":</button>
+
+::: panel 
+```{r}
+c("spill",
+  "spilled",
+  "spilling",
+  "will",
+  "willed",
+  "willing") %>% 
+  str_detect("will(ed|ing)")
+```
+
+Or (but less parsimonious):
+
+```{r}
+c("spill",
+  "spilled",
+  "spilling",
+  "will",
+  "willed",
+  "willing") %>% 
+  str_detect("willed|willing")
+```
+
+:::
+:::
+
+
+### Range
+
+The **range metacharacter** allows us to specify a range of potential symbols and is also used to define a range of repetitions (see ***Repetition***, below). Outside of square brackets, "-" is a literal character:
+
+```{r}
+c("June-1", "june 1", "JUNE") %>% 
+  str_detect("-")
+```
+
+When used inside square brackets, "-" is used to specify a range of 
+symbol values.
+
+Detect any lower-case letter:
+
+```{r}
+c("June", "june", "JUNE") %>% 
+  str_detect("[a-z]") 
+```
+
+Detect any upper-case letter:
+
+```{r}
+c("June", "june", "JUNE") %>% 
+  str_detect("[A-Z]") 
+```
+
+Detect any number:
+
+```{r}
+c("June", "june 1", "JUNE") %>% 
+  str_detect("[0-9]") 
+```
+
+These can be used in combination:
+
+```{r}
+c("June", "june 1", "JUNE") %>% 
+  str_detect("[A-Z0-9a-z]") 
+```
+
+#### Ranges of numbers
+
+Really useful regex statements can be generated at this point. Probably the most important, as it relates to working with dates and times at least, is being able to specify a range of numbers. We can use parentheses and character classes to evaluate whether strings of numbers are within a specified range. 
+
+If we want to detect a defined set of numbers, for example, "1" or "2" in a string, we might just use the character class metacharacter (`[]`):
+
+```{r}
+c(1:3) %>% 
+  str_detect('[12]')
+```
+
+When we use a range metacharacter we can to detect a range of values:
+
+```{r}
+c(1:4) %>% 
+  str_detect('[1-3]')
+```
+
+This must be used with care however! Let's make a set of values and use regex to determine if a given value is from 1 through 9:
+
+```{r}
+c(1, 3, 13, 21, 34, 144) %>% 
+  str_detect('[1-9]')
+```
+
+That did not work. They all evaluated to `TRUE` because they all contained some number from 1 through 9. This is because regex is used to match symbols, not values.
+
+To detect values that start and end with some symbol within the values one through nince, we have to add anchor metacharacters to narrow our search:
+
+```{r}
+c(1, 3, 13, 21, 34, 144) %>% 
+  str_detect('^[1-9]$')
+```
+
+That worked. Only the first two values were within our specified range. 
+
+Let's now modify our regex to evaluate the number 10 as TRUE. Here, we have to use our "or" metacharacter `|` and put our regex statement inside of parentheses (alternation constraints):
+
+```{r}
+c(1, 3, 13, 21, 34, 144) %>% 
+  str_detect('^([1-9]|10)$')
+```
+
+We can extend our range by specifying a range of numbers for the second digit in our two digit string (i.e., the values 10-99). The code below evaluates whether the values are between 1 and 19.
+
+```{r}
+c(1, 3, 13, 21, 34, 144) %>% 
+  str_detect('^([1-9]|1[0-9])$')
+```
+
+Likewise, we can specify a range of values for the first digit in our two digit string. Let's evaluate which values are between 10 and 29:
+
+```{r}
+c(1, 3, 13, 21, 34, 144) %>% 
+  str_detect('^([1-9]|[12][0-9])$')
+```
+
+Note that, in the above, this is search for the values 1-9 or values starting with the character 1 or 2, followed by a range of characters from 0 through 9.
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+<button class="accordion" style = "margin-bottom: 18px">Create a numeric vector that includes the numbers 1 through 15 and the number 151. Use `str_detect()` and regex to determine whether a given value in the vector is between 1 and 12.</button>
+
+::: panel 
+
+```{r}
+str_detect(
+  c(1:15, 151),
+  '^([1-9]|1[0-2])$')
+```
+
+:::
+
+<button class="accordion" style = "margin-bottom: 18px">Create a numeric vector that includes the numbers 1 through 21 and the number 121. Use `str_detect()` and regex to determine whether a given value in the vector is between 1 and 20.</button>
+
+::: panel 
+
+```{r}
+str_detect(
+  c(1:21, 121),
+  '^([1-9]|1[0-9]|20)$')
+```
+
+:::
+
+*Note: Make sure you understand the above, these two regex expressions are very **important** tools for working with dates!*
+
+:::
+
+### Optional match
+
+Using the **optional match metacharacter**, `?`, after a symbol will make that symbol optional. That means that the symbol can be present or absent.
+
+Detect "gray", "grey", or "grays", not "stingray" or "graying":
+
+```{r}
+c("gray",
+  "grey",
+  "grays",
+  "stingray",
+  "graying") %>% 
+  str_detect("^gr[ae]ys?$")
+```
+
+Detect "jun" or "June", not "juniper" or "disjunct":
+
+```{r}
+c("jun",
+  "June",
+  "juniper",
+  "disjunct") %>% 
+  str_detect("^[Jj]une?$")
+```
+
+We can use this in conjunction with the alternation constraints to evaluate a potential date:
+
+```{r}
+c("Jun-1",
+  "jun-1st",
+  "jun-1s",
+  "jun-15") %>% 
+  str_detect("[Jj]un-1(st)?$")
+```
+
+... or even:
+
+```{r}
+c("Jun-1",
+  "jun-1st",
+  "jun-first",
+  "jun-15") %>% 
+  str_detect("[Jj]un-(first|1(st)?)$")
+```
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+The following words in British English often have a different ending than those in American English:
+
+```{r}
+c("colour",
+  "color",
+  "neighbour",
+  "neighbor",
+  "organiser",
+  "organizer")
+```
+
+Using the character vector above and a piped statement ... 
+
+<button class="accordion" style = "margin-bottom: 18px">Detect words that end in "our" *not* "or":</button>
+
+::: panel 
+```{r}
+c("colour",
+  "color",
+  "neighbour",
+  "neighbor",
+  "organiser",
+  "organizer") %>% 
+  str_detect("our$")
+```
+
+:::
+
+<button class="accordion" style = "margin-bottom: 18px">Detect words that end in "or" *not* "our":</button>
+
+::: panel 
+
+```{r}
+c("colour",
+  "color",
+  "neighbour",
+  "neighbor",
+  "organiser",
+  "organizer") %>% 
+  str_detect("or$")
+```
+
+:::
+
+<button class="accordion" style = "margin-bottom: 18px">Detect words that end in "our" *or* "or":</button>
+
+::: panel 
+```{r}
+c("colour",
+  "color",
+  "neighbour",
+  "neighbor",
+  "organiser",
+  "organizer") %>% 
+  str_detect("ou?r$")
+```
+
+:::
+:::
+
+### Wildcard
+
+A **wildcard metacharacter**, `.`, will match any symbol. For example, maybe we want to detect "grayer" or "greyed", not "stingray" or "graying":
+
+```{r}
+c("grayed",
+  "greyer",
+  "stingray",
+  "graying") %>% 
+  str_detect("^gr[ae]ye.$") 
+```
+
+This can be useful for dates when a bunch of different separators are used:
+
+```{r}
+c("Jun 1",
+  "jun 1",
+  "June/1",
+  "June-1",
+  "June") %>% 
+  str_detect("^[Jj]une?.[0-9]$")
+```
+
+*Note: The above would only identify single-digit days!*
+
+### Repetition
+
+We can use a **repetition metacharacter** to signify that a symbol may be repeated a certain number of times.
+
+The `*` repetition metacharacter searches for symbols that may be absent or  repeated an unlimited number of times (match the gray whale and wolf):
+
+```{r}
+c("gray whale",
+  "gray wolf", 
+  "blue-gray gnatcatcher",
+  "blue whale") %>% 
+  str_detect("^gray.*$")
+```
+
+The `+` repetition metacharacter means that a symbol must be present, but may be repeated an unlimited number of times. For example, we can use the `+` metacharacter to match the animals that contain gray and have at least one character prior to the word gray:
+
+```{r}
+c("gray whale",
+  "gray wolf",
+  "blue-gray gnatcatcher",
+  "blue whale") %>% 
+  str_detect("^.+gray.*$")
+```
+
+Curly brackets, "{...}" metacharacters offer us an opportunity to provide the exact number of characters, or a range in the number of characters, in a string.
+
+If we supply a single number inside of "{...}", we specify the exact number of repetitions of a preceding symbol.
+
+For example, the following searches for a string that starts and ends with a  lowercase letter repeated four times.
+
+```{r}
+c("jun", "june") %>% 
+  str_detect("^[a-z]{4}$")
+```
+
+Likewise, the below searches for a string that starts with a lowercase letter that is repeated four times, followed by "-1" at the end of the string.
+
+```{r}
+c("jun-1", "june-1") %>% 
+  str_detect("^[a-z]{4}-1$")
+```
+
+An important application for this might be to detect date formats based on the presence of four number characters at the end of a string. For example, perhaps one of the field technicians you work with record their dates as yyyy/mm/dd (almost the standard format) and everyone else used the US date format? Here is how we might address this to detect US dates in the string:
+
+```{r}
+c("2021/3/15", "3/15/2021") %>% 
+  str_detect("[0-9]{4}$")
+```
+
+Inside the curly brackets we can also provide the lowest and maximum number of times a symbol may be repeated. For example:
+
+```{r}
+c("jun", "june", "juniper") %>% 
+  str_detect("^[a-z]{3,4}$")
+```
+
+We can use this feature to search for dates with days of the month 
+provided as 1 or 2 digit numbers:
+
+```{r}
+c("Jun 1",
+  "jun 19",
+  "June/132",
+  "June-99",
+  "June") %>% 
+  str_detect("^[Jj]une?.[0-9]{1,2}$")
+```
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+A phone number in the United States is often formatted as "1-212-736-5000" where the first symbol is the country code, the next three numbers are the area code, the next three numbers are the telephone prefix (a regional subset), and the last four numbers are the line number.
+
+Below, I generate a character vector of correctly and incorrectly formatted phone numbers:
+
+```{r}
+c("1-212-736-5000",
+  "12-12-736-5000",
+  "1-212-73-65000",
+  "1-401-867-5309",
+  "1-401-86-75309",
+  "1-401-8675309")
+```
+
+
+<button class="accordion" style = "margin-bottom: 18px">Use `str_detect()` and regex to find the correctly formatted US phone numbers:</button>
+
+::: panel 
+```{r}
+c("1-212-736-5000",
+  "12-12-736-5000",
+  "1-212-73-65000",
+  "1-401-867-5309",
+  "1-401-86-75309",
+  "1-401-8675309") %>% 
+  str_detect("^1-[0-9]{3}-[0-9]{3}-[0-9]{4}$")
+```
+
+:::
+:::
+
+### Escaping metacharacters
+
+Metacharacters are useful, but sometimes we want to refer to a metacharacter as a literal character. We can do so by placing a double backslash `\\` prior to symbol. 
+
+For example, the character vector below describes the prices of binoculars.
+
+```{r}
+binos <-
+  c("nikon monarch, 260 $",
+    "vortex ranger, 160 $",
+    "Swarovski EL, 2000 $")
+```
+
+If we tried to test for the pattern "160 $" within the string, without an excape, all values evaluate to `FALSE`:
+
+```{r}
+str_detect(binos, "160 $")
+```
+
+This is because the dollar sign (`$`) is an anchor metacharacter signifying the end of a string. The algorithm is therefore searching for a string that ends with `"160 "`. Since none of the values ends with that pattern, all values evaluate to `FALSE`.
+
+Let's see what happens when we add the metacharacter escape:
+
+```{r}
+str_detect(binos, "160 \\$")
+```
+
+The above works, because the regex algorithm is now searching for the "$" as a literal character.
+
+Let's end with a bit of a challenging one ...
+
+:::{class="now_you"}
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+A US phone numbers are often formatted as "1-212-736-5000" (as above), "1 (212) 736-5000", or "+1 212-736-5000".
+
+Below, I generate a character vector of correctly and incorrectly formatted phone numbers:
+
+```{r}
+c("1-212-736-5000",
+  "12-12-736-5000",
+  "1-212-73-65000",
+  "1 (401) 867-5309",
+  "1-401-86-75309",
+  "+1 401-867-5309")
+```
+
+<button class="accordion" style = "margin-bottom: 18px">Use `str_detect()` and regex to detect US phone numbers:</button>
+
+::: panel 
+```{r}
+c("1-212-736-5000",
+  "12-12-736-5000",
+  "1-212-73-65000",
+  "1 (401) 867-5309",
+  "1-401-86-75309",
+  "+1 401-867-5309") %>% 
+  str_detect("^\\+?1[ -]\\(?[0-9]{3}\\)?[- ][0-9]{3}-[0-9]{4}$")
+```
+
+:::
+:::
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Core tidyverse package** or **Core tidyverse**: A subset of the *tidyverse* packages that are attached with `library(tidyverse)`.
+* **Literal character**: In regex, this is used to search for exact character matches in the case (i.e., lower vs. upper) and order of characters.
+* **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string). Note: Metacharacters are not R functions!
+* **Metacharacter, alternation constraint**: Metacharacter that allows us to assess groups of symbols.
+* **Metacharacter, anchor**: Metacharacter used to search for a symbol or symbols at the start or end of a string.
+* **Metacharacter, character class**: Metacharacter used to search for a symbol within a set of potential symbols at a given position in a string.
+* **Metacharacter, optional match**: Metacharacter that makes that symbol optional.
+* **Metacharacter, or**: Metacharacter used to evaluate whether a symbol or set of symbols matches a string *or* whether another symbol or set of symbols is found in a string.
+* **Metacharacter, range**: Metacharacter that signifies that a symbol may be repeated a certain number of times.
+* **Metacharacter, repetition**: Metacharacter that allows us to specify a range of potential symbols (within a character class metacharacter) or number of times a symbol is repeated (within the range metacharacter, `{...}`).
+* **Metacharacter, wildcard**: Metacharacter that is used to match any symbol.
+* **Regular expressions (regex)**: An algorithm used to search strings (character values).
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ==`: Infix relational operator (is equal to)
+* `.Primitive, !`: Prefix logical operator (not)
+* `.Primitive, c`: Combine values to form an atomic vector
+* `.Primitive, is.na`: A logical test of whether a value in a vector is [NA]{.mono}
+* `base::library`: Attach the package environment for a given package to the current R session
+* `base::rm`: Remove a name from a specified environment (default is the global environment)
+* `base::sort`: Arrange a vector in ascending order
+* `base::unique`: Subset an atomic vector to the unique values in the set
+* `dplyr::anti_join`: A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
+* `dplyr::distinct`: Subset a data frame by removing duplicate rows
+* `dplyr::filter`: Subset a data frame by logical condition
+* `dplyr::select`: Subset columns in a data frame by name
+* `dplyr::semi_join`: A filtering join that joins a source table to a target table and maintains only records with matching key values
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `readr::read_csv`: Read a tabular csv file into R as a tibble data frame
+* `stringr::str_detect`: Logical test of whether a pattern (string) is contained within a character value
+
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+:::
+
+
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+|Task                         | Windows          | Mac
+|:----------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
+| Open an existing script     | Ctrl + O         | command + O
+| Create a new script         | Ctrl + shift + N | command + shift + N
+| Save script file            | Ctrl + S         | command + S
+| Execute code                | Ctrl + Enter     | command + return
+| Copy                        | Ctrl + C         | command + C
+| Paste                       | Ctrl + V         | command + V
+| Add a pipe operator         | Ctrl + shift + M | command + shift + M
+| Add an assignment operator  | Alt + dash       | option + dash
+| Add a new code section      | Ctrl + shift + R | command + shift + R
+| Indent code                 | Ctrl + I         | command + I
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
