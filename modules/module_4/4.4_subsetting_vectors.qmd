@@ -96,11 +96,14 @@ Please do the following to ensure that you are working in a clean session:
 
 1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
-3. Open the script file [summarize_lanternfly.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+3. Open the script file `subset_vectors.R` (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
 ## Video content
 
-{{< video https://youtu.be/JaE6PZtD8qo?si=knGEFMf4R-2CE8y1 >}}
+* I did not include hanging parentheses when using magrittr::extract to subset a list by multiple names.
+* I did not include hanging parentheses when using negated selection with partial string matching
+
+{{< video https://www.youtube.com/watch?v=EDTDH8evIRM >}}
 
 ## Written tutorial
 
