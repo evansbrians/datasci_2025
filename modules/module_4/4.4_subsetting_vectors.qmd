@@ -37,6 +37,12 @@ knitr::opts_chunk$set(
   error = TRUE)
 
 rm(has_annotations)
+
+garden <- 
+  read_rds("data/raw/my_covid_garden_tidy.rds")
+
+instruments <- 
+  read_rds("data/raw/four_instruments.rds")
 ```
 
 <hr>
@@ -49,8 +55,6 @@ Once we have adopted the tidyverse workflow, we might find ourselves annoyed tha
 * Position (though I do not recommend this!)
 * Name (just like `select()`!)
 * Logic (just like `filter()`!)
-
-*Note: The video lesson also demonstrates how to use filtering, ggplot, string matching, and a knowledge of the natural history of your study system to explore and interpret your data!*
 
 **Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
 
