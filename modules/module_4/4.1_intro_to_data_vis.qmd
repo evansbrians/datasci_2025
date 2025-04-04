@@ -1,5 +1,5 @@
 ---
-title: "2.2 Introduction to data visualization with ggplot"
+title: "4.1 Data visualization with ggplot, part two"
 format:
   html:
     embed-resouces: true
@@ -28,14 +28,13 @@ href = "www/hex_icon.png" />
 
 ![](../../images/hex_complex.png){.intro_image}
 
-In this lesson we will explore, create, and modify a plot using the core tidyverse package *ggplot* -- an extraordinarily powerful and well-designed plotting system. This lesson is broken into two primary sections:
+In this lesson we will continue our exploration of using the core tidyverse package *ggplot* to visualize data. In this written lesson (no video) we will use two datasets to generate a series of plots. The lesson is broken down into two main sections:
 
-* A video introduction to ggplot (runtime: 33:24). Please be sure to watch that video prior to moving forward with the tutorial!
-* A written guide that will serve as a reference for using ggplot and includes incorporating pipes into your plotting scripts. Although much of this content is a review of the introductory video, there will be new content sprinkled throughout. 
+1. Create plots based on the goals of a given visualization (and/or research questions), adding new content along the way;
+2. A data visualization "grimoire" in which we will summarize the plotting features above.
 
-You will learn:
+Throughout, you will enhance your knowledge on:
 
-* Grammar of graphics
 * Aesthetic mappings
 * Layers (geometries)
 * Modifying scales
@@ -1819,7 +1818,7 @@ Here's the trick -- save the plot, then open it up in your file system. How did 
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_2.2_intro_to_data_vis.csv"
+  "functions_4.1_intro_to_data_vis.csv"
 ) %>% 
   read_csv() %>% 
   kableExtra::kable(
