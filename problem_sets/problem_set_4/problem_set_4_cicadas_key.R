@@ -105,16 +105,12 @@ brood_x_parks <-
 
 # 8 -----------------------------------------------------------------------
 
-# Using `brood_x_parks`, provide a unique vector of locations (variable =
-# `address`) in which more than 40 cicadas have been observed:
+# Using `brood_x_parks`, provide a summary table that:
 
-brood_x_parks %>% 
-  filter(
-    n() > 40,
-    .by = address
-  ) %>% 
-  pull(address) %>% 
-  unique()
+# * Provides the number of observations of brood X cicada within parks where 
+#   more than 40 cicadas have been observed
+# * Is arranged from the highest to lowest number of cicada observations
+# * Is globally assigned to the name brood_x_park_summary
 
 brood_x_park_summary <- 
   brood_x_parks %>% 
@@ -129,6 +125,9 @@ brood_x_park_summary <-
   arrange(
     desc(n)
   )
+
+# 9 -----------------------------------------------------------------------
+
 
 brood_x_parks %>% 
   semi_join(
