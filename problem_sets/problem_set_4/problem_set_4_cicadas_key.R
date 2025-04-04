@@ -128,6 +128,34 @@ brood_x_park_summary <-
 
 # 9 -----------------------------------------------------------------------
 
+# We want to start placing our ARUs at the four locations with the greatest
+# number of cicada observations and at the locations where brood X cicadas
+# emerged the earliest. We will use a density plot to visualize the time of
+# emergence. Use brood_x_park summary to subset brood_x_parks to the
+# observations at the four parks with the greatest number of cicada
+# observations. Then generate a density plot in which:
+
+# * Your plot is titled "Density distribution of Brood X cicada emergence by
+#   date"
+# * The date variable is mapped to the x axis and labeled as "Date"
+# * The y-axis is density and is labeled "Density"
+# * The legend of your plot is labeled "Species"
+# * The fill color mapped to species using `scale_fill_brewer()`
+# * Each park is placed on its own facet
+# * All of the facets are positioned in a single column
+# * The scale of the y-axis is determined by the range of density values within
+#   a given park
+# * The densities of the species are displayed on top of one another (i.e., 
+#   stacked)
+# * The background of the plot is not gray and does not contain grid lines.
+# * The x and y axis are colored black and 0.5 mm wide (see `?element_line`)
+# * All text in your plot is in Times New Roman
+
+
+
+
+
+
 
 brood_x_parks %>% 
   semi_join(
@@ -140,7 +168,7 @@ brood_x_parks %>%
     x = date,
     fill = species,
   ) + 
-  geom_density(alpha = 0.8, position = "stack") +
+  geom_density(position = "stack") +
   facet_wrap(
     ~ address,
     ncol = 1,
@@ -150,7 +178,8 @@ brood_x_parks %>%
   labs(
     title = "Density distribution of Brood X cicada emergence by date",
     x = "Date",
-    y = "Density"
+    y = "Density",
+    fill = "Species"
   ) +
   theme(
     panel.background = element_blank(),
@@ -159,6 +188,11 @@ brood_x_parks %>%
         color = "black",
         linewidth = 0.5
       ),
-    strip.background = element_rect(color = "black")
+    axis.title = element_text(family = "Times"),
+    axis.text = element_text(family = "Times"),
+    plot.title = element_text(family = "Times"),
+    legend.title = element_text(family = "Times"),
+    legend.text = element_text(family = "Times"),
+    strip.text = element_text(family = "Times")
   )
 
