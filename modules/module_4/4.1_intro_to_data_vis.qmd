@@ -43,15 +43,9 @@ Throughout, you will enhance your knowledge on:
 * Themes
 * Saving plots
 
-## Introductory video
+## Review
 
-*Please note: I made this video quite a long time ago (and it used to come before the lesson on using pipes). The code in the written portion of this tutorial is much more closely aligned with modern code styling principles!*
-
-{{< video https://www.youtube.com/embed/przzfGihKSY?si=f_oZbXcPiyKTCqhl >}}
-
-## Background
-
-The *ggplot* package is built on on the design principles of Leland Wilkinson's book <a href = "https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448" target = "_blank">The Grammar of Graphics</a>.
+Recall that the *ggplot* package is built on on the design principles of Leland Wilkinson's book <a href = "https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448" target = "_blank">The Grammar of Graphics</a>.
 
 The grammar of graphics considers the structure of a given data visualization to be defined by the:
 
@@ -62,6 +56,38 @@ The grammar of graphics considers the structure of a given data visualization to
 * **Coordinate system**: Projection of data (e.g., x and y Cartesian coordinates)
 * **Facets**: Subsets of data within a given plot (i.e., plots are broken into subplots based on some grouping variable)
 * **Theme**: Styling of non-data elements in a plot
+
+## Setup
+
+Please start by loading the *tidyverse* metapackage:
+
+```{r}
+library(tidyverse)
+```
+
+Recall that *ggplot2* is a member of the **core tidyverse** and therefore does not need to be explicitly loaded if `library(tidyverse)` is within the setup section of your script!
+
+We will use three datasets for this lesson. Please load them with the following script:
+
+```{r}
+chickadees <- 
+  read_csv("data/raw/chickadees.csv")
+
+dc_birds <- 
+  read_rds("data/raw/district_birds.rds")
+
+co2 <-
+  read_rds("data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.rds")
+```
+
+
+## Addressing questions with data visualization
+
+
+
+## Data visualization grimoire
+
+
 
 
 ## Applying the Grammar of Graphics
