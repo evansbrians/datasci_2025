@@ -185,7 +185,8 @@ brood_x_parks %>%
     panel.background = 
       element_rect(
         color = "#000000",
-        fill = "#ffffff"),
+        fill = "#ffffff"
+      ),
     panel.grid = element_blank(),
     axis.line = 
       element_line(
