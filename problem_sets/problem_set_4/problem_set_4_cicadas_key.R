@@ -151,12 +151,6 @@ brood_x_park_summary <-
 # * The x and y axis are colored black and 0.5 mm wide (see `?element_line`)
 # * All text in your plot is in Times New Roman
 
-
-
-
-
-
-
 brood_x_parks %>% 
   semi_join(
     brood_x_park_summary %>% 
@@ -175,6 +169,11 @@ brood_x_parks %>%
     scales = "free"
   ) +
   scale_fill_brewer(palette = "Set1") +
+  scale_y_continuous(
+    expand = expansion(
+      add = c(0, 0.05)
+      )
+  ) +
   labs(
     title = "Density distribution of Brood X cicada emergence by date",
     x = "Date",
@@ -182,17 +181,16 @@ brood_x_parks %>%
     fill = "Species"
   ) +
   theme(
-    panel.background = element_blank(),
+    panel.background = 
+      element_rect(
+        color = "#000000",
+        fill = "#ffffff"),
+    panel.grid = element_blank(),
     axis.line = 
       element_line(
         color = "black",
         linewidth = 0.5
       ),
-    axis.title = element_text(family = "Times"),
-    axis.text = element_text(family = "Times"),
-    plot.title = element_text(family = "Times"),
-    legend.title = element_text(family = "Times"),
-    legend.text = element_text(family = "Times"),
-    strip.text = element_text(family = "Times")
+    text = element_text(family = "Times")
   )
 
