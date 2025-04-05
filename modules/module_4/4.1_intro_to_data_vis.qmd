@@ -1,5 +1,5 @@
 ---
-title: "4.1 Data visualization with ggplot, part two"
+title: "4.1 Data visualization with ggplot II: Exploring distributions"
 format:
   html:
     embed-resouces: true
@@ -28,10 +28,7 @@ href = "www/hex_icon.png" />
 
 ![](../../images/hex_complex.png){.intro_image}
 
-In this lesson we will continue our exploration of using the core tidyverse package *ggplot* to visualize data. In this written lesson (no video) we will use two datasets to generate a series of plots. The lesson is broken down into two main sections:
-
-1. Create plots based on the goals of a given visualization (and/or research questions), adding new content along the way;
-2. A data visualization "grimoire" in which we will summarize the plotting features above.
+In this written lesson (no video content), we will continue our exploration of using the core tidyverse package *ggplot* to visualize data. We will use explore different ways to visualize the distribution of a variable. We will pay special attention on what unique perspective, or what sort of information, each type of plot offers for understanding data distributions.
 
 Throughout, you will enhance your knowledge on:
 
@@ -61,126 +58,366 @@ The grammar of graphics considers the structure of a given data visualization to
 
 Please start by loading the *tidyverse* metapackage:
 
-```{r}
+```{r, error = TRUE}
 library(tidyverse)
 ```
 
 Recall that *ggplot2* is a member of the **core tidyverse** and therefore does not need to be explicitly loaded if `library(tidyverse)` is within the setup section of your script!
 
-We will use three datasets for this lesson. Please load them with the following script:
+We will use the dataset `district_birds.rds` forthis lesson. Please read in the dataset and globally assign it to the name `dc_birds`:
 
-```{r}
-chickadees <- 
-  read_csv("data/raw/chickadees.csv")
-
+```{r, error = TRUE}
 dc_birds <- 
   read_rds("data/raw/district_birds.rds")
+```
 
-co2 <-
-  read_rds("data/raw/API_EN.ATM.CO2E.PC_DS2_en_csv_v2_2764620.rds")
+## Common geometries for exploring distributions
+
+### `geom_histogram`: Binned continuous variables
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram() +
+  facet_wrap(
+    ~ sex,
+    nrow = 2
+  ) +
+  theme_bw()
+```
+
+Benefits and drawbacks of histograms:
+
+**Benefits**:
+
+* Returns the distribution of a binned numeric variable
+* Can get a clear sense of modality in your data (but see below)
+* You can get a sense of potential outliers in your data
+
+**Drawbacks**:
+
+* The bins can often obscure the underlying distribution pattern in the data
+* No data in a given bin may represent measurement precision rather than a pattern in the data
+* The number of bins are arbitrary and can greatly influence the interpretation of distribution
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(bins = 10) +
+  facet_wrap(
+    ~ sex,
+    nrow = 2
+  ) +
+  theme_bw()
+```
+
+### `geom_density`: The statistical density of continuous distributions
+
+The function `geom_density` empowers you to communicate and explore the continuous pattern of data distribution as it relates to a given variable.
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  aes(x = wing) +
+  # geom_histogram() +
+  geom_density(fill = "#dcdcdc") +
+  facet_wrap(
+    ~ sex,
+    nrow = 2
+  )
 ```
 
 
-## Addressing questions with data visualization
+**Benefits**:
+
+* Great at displaying the patterns in the data
+* Can be more effective for predicting the likelihood of a given value for a variable
+* Can provide a clear sense of modality
+* Avoids the "binning issue" problem associated with histograms
+
+**Costs**:
+
+* Provides little information regarding potential outliers in your data
+* May give a false sense of the precision of measured variables
+* y-axis can be difficult to interpret is an abstraction of the data itself
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  aes(x = wing) +
+  # geom_histogram() +
+  geom_density(fill = "#dcdcdc", bw = 0.1) +
+  facet_wrap(
+    ~ sex,
+    nrow = 2
+  )
+# geom_violin(
+#   aes(
+#     x = spp,
+#     y = wing,
+#     fill = sex
+#   )
+# )
+```
+
+### `geom_violin`: Density plots for 
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    # wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  # aes(x = wing) +
+  # geom_histogram() +
+  # geom_density(fill = "#dcdcdc") +
+  geom_violin(
+    aes(
+      x = spp,
+      y = wing,
+      fill = sex
+    )
+  ) +
+  # geom_boxplot(
+  #   aes(
+  #     x = spp,
+  #     y = wing,
+  #     fill = sex
+  #   )
+  # ) +
+  theme_bw()
+```
+
+**Benefits**:
+
+* Can clearly show that there are outliers in the data
+* Can often provide a clear visual comparison of difference in the distribution between groups
+* Can provide an easy and clear way to display difference in distributions across multiple groups
+
+**Costs**:
+
+* The two sides of each distribution are typically mirror images of one another
+* Outliers can obscure the distribution of the data
+* Unable to identify which values are outliers
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp %in% 
+      c(
+        "CACH", 
+        "CARW",
+        "HOWR"
+      ),
+    age == "AHY",
+    sex != "U",
+    # wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  # aes(x = wing) +
+  # geom_histogram() +
+  # geom_density(fill = "#dcdcdc") +
+  geom_violin(
+    aes(
+      x = spp,
+      y = wing,
+      fill = sex
+    )
+  ) +
+  # geom_boxplot(
+  #   aes(
+  #     x = spp,
+  #     y = wing,
+  #     fill = sex
+  #   )
+  # ) +
+  theme_bw()
+```
+
+### `geom_boxplot`: Statistical summaries of continuous distributions
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp %in% 
+      c(
+        # "CACH", 
+        # "CARW",
+        "HOWR"
+      ),
+    age == "AHY",
+    sex != "U",
+    # wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  # aes(x = wing) +
+  # geom_histogram() +
+  # geom_density(fill = "#dcdcdc") +
+  geom_boxplot(
+    aes(
+      x = spp,
+      y = wing,
+      fill = sex
+    )
+  ) +
+  # geom_boxplot(
+  #   aes(
+  #     x = spp,
+  #     y = wing,
+  #     fill = sex
+  #   )
+  # ) +
+  theme_bw()
+```
+
+**Benefits**:
+
+* Can clearly show which values are outliers
+* Reduces the distribution into clear, consistent, identifiable regions
+
+**Costs**:
+
+* No ability to view the modality in your data
+
+### The best of both worlds? 
+
+You can plot ...
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp %in% 
+      c(
+        # "CACH",
+        # "CARW",
+        "HOWR"
+      ),
+    age == "AHY",
+    sex != "U",
+    wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  aes(
+    x = sex,
+    y = wing,
+    fill = spp
+  ) +
+  # geom_histogram() +
+  # geom_density(fill = "#dcdcdc") +
+  geom_violin(
+    # fill = "#ff8888", 
+    # draw_quantiles = c(0.05, 0.75, 0.95)
+  ) +
+  geom_boxplot(
+    fill = "#dcdcdc",
+    width = 0.1,
+    linewidth = 0.75,
+    notch = TRUE,
+    staplewidth = 1
+  ) +
+  # geom_boxplot(
+  #   aes(
+  #     x = spp,
+  #     y = wing,
+  #     fill = sex
+  #   )
+  # ) +
+  coord_flip() +
+  theme_bw()
+```
+
+```{r, error = TRUE}
+
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 70,
+    mass < 20
+  ) %>% 
+  drop_na(wing, mass) %>% 
+  ggplot() +
+  aes(
+    y = wing,
+    x = mass
+  ) +
+  geom_hex(bins  = 10) +
+  scale_fill_continuous(type = "viridis")
+
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 70,
+    mass < 20
+  ) %>% 
+  drop_na(wing, mass) %>% 
+  ggplot() +
+  aes(
+    y = wing,
+    x = mass,
+    fill = density
+  ) +
+  geom_raster() +
+  scale_fill_continuous(type = "viridis")
 
 
-
-## Data visualization grimoire
-
-
-
-
-## Applying the Grammar of Graphics
-
-Consider the plot we made in the *Introduction to visualizing data with ggplot* video. 
-
-<img src = 'www/chickadee_mass.png' style = 'display: block;
-margin-left: auto;
-margin-right: auto;
-width: 75%;padding-top: 15px; padding-bottom: 15px;'></img>
-
-Try to answer the following regarding the plot, you can click the buttons to see the answers (but try to answer them first!):
-
-<div>
-<button class="accordion">What are the aesthetic mappings?</button>
-<div class="panel">
-
-* Species is mapped to the x axis
-* Mass is mapped to the y axis
-* Sex is mapped to color
-
-</div>
-</div>
-
-<div>
-<button class="accordion">Which elements of the plot are related to the plots theme?</button>
-<div class="panel">
-
-Trick question. **All** non-data elements!
-
-</div>
-</div>
-
-<div>
-<button class="accordion">Which elements of the plot are related to scale?</button>
-<div class="panel">
-
-* The range of the x and y axis in data and image space
-* The colors
-
-</div>
-</div>
-
-<div>
-<button class="accordion">What is the coordinate system of this plot?</button>
-<div class="panel">
-
-Cartesian (x and y axes)
-</div>
-</div>
-
-<div>
-<button class="accordion">What geometries are present in this plot?</button>
-<div class="panel">
-Boxplots
-</div>
-</div>
-
-
-
-## Getting started
-
-Please open the `data_sci_2025` project in R Studio.
-
-Before we begin, please take the following housekeeping steps before continuing:
-
-1. If there are any script files open in your source pane. Close them. If any of the file titles are blue, save them prior to closing.
-
-1. In the *Environment* tab of your **workspace pane**, ensure that your **Global Environment** is empty. If it is not, click the *broom* to remove all objects.
-
-1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
-
-Ensure that the file `chickadees.csv` is located in your project folder, in the subfolder `data/raw`.
-
-Open up a new script and save the script as "ggplot_worksheet.R" inside your `data_sci_2025/scripts` folder.
-
-Please complete the following steps in your ggplot_worksheet script:
-
-1. Give the top of the script a section header with the name "setup"
-
-1. Load the tidyverse library
-
-```{r eval = TRUE, message=FALSE}
-# setup  -----------------------------------...
-
-library(tidyverse)
 ```
 
 ## The data
 
 In your script file, please provide a comment stating that you are reading in a file. Use `read_csv()` to read `chickadees.csv` into your Global Environment and assign the key `chickadees` to the resultant object.
 
-```{r}
+```{r, error = TRUE}
 # Read in data
 
 chickadees <- 
@@ -195,14 +432,14 @@ chickadees
 
 We are also going to use elements from the tidy dataset `district_birds.rds` for this lesson:
 
-```{r}
+```{r, error = TRUE}
 read_rds("data/raw/district_birds.rds") %>% 
   list2env(.GlobalEnv)
 ```
 
 From the data we loaded above, which are arranged as the tables in a database, we will use the captures and the birds datasets:
 
-```{r}
+```{r, error = TRUE}
 captures
 
 birds
@@ -210,7 +447,7 @@ birds
 
 Please remove the other names from your global environment:
 
-```{r}
+```{r, error = TRUE}
 rm(
   sites,
   visits,
@@ -230,7 +467,7 @@ ggplot(data = chickadees)
 
 Because data is the first argument of the `ggplot()` function, this argument can also be piped in:
 
-```{r}
+```{r, error = TRUE}
 chickadees %>% 
   ggplot()
 ```
@@ -256,7 +493,7 @@ Notice that ggplot assigned the scale element to the visualization automatically
 
 Mapping is the second argument of the function. Because mapping is required for every plot, we do not need to specify the argument each time (as long as we understand what it does). Let's remove `mapping =` from the code:
 
-```{r}
+```{r, error = TRUE}
 chickadees %>% 
   ggplot(
     aes(
@@ -268,7 +505,7 @@ chickadees %>%
 
 An alternative method (that I greatly prefer), is to specify my aesthetics *after* the `ggplot` function:
 
-```{r}
+```{r, error = TRUE}
 chickadees %>% 
   ggplot() +
   aes(
@@ -455,7 +692,7 @@ chickadees %>%
 
 Bar plots are a great way to display count data (or quantities of some values). Let's try to make a bar plot:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   ggplot() +
   aes(x = spp) +
@@ -464,7 +701,7 @@ captures %>%
 
 By default, the `geom_bar` function will generate a bar that represents counts of the x variable. I prefer to pipe around the data going in, though. It is, by far, my preference to generate a summary table ... 
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   group_by(spp) %>% 
   summarize(n = n())
@@ -472,7 +709,7 @@ captures %>%
 
 ... and then pipe those data into the bar plot. To do so, we need to specify the argument `stat = "identity"` inside the `geom_bar()` function:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   group_by(spp) %>% 
   summarize(n = n()) %>% 
@@ -490,7 +727,7 @@ The two plots above are quite ugly, I know. Let's see why piping data in is a go
 
 Only bird nerds know the 4-letter species codes (which are not really even legible in this plot). These codes are great for storing data, but not very useful for communicating data. The capture data are tidy, so we will need to join the tables to bring in the more meaningful species names:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   left_join(
     birds %>% 
@@ -501,7 +738,7 @@ captures %>%
 
 If we are only interested in the counts and the `common_name` field, we should reduce this further:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -514,7 +751,7 @@ captures %>%
 
 ... and then calculate our counts again:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -528,7 +765,7 @@ captures %>%
 
 Let's try to plot it and bask in our ggplot glory:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -550,7 +787,7 @@ We did it! However, after rewarding yourself with a beer and bragging about your
 
 Maybe it would be better to just plot counts of dietary guilds?
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -574,7 +811,7 @@ captures %>%
 
 Once again proud of your gg-excellence, you show your plot to your advisor (*they are gonna love this ... it is so ecologically meaningful!* ). They like the diet counts, but want to see the species too. Just as we can add a `color` aesthetic to points, we can add color to a bar plot:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -604,7 +841,7 @@ captures %>%
 
 ... well, that didn't work as expected. Why? For polygon aesthetics (like bars), the color of the bars is defined by `fill = `, the color argument just represents the borders:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -632,7 +869,7 @@ captures %>%
 
 That's better ... but what does `color = ` do for bars? The color argument adds a line color to the bars. We can add it inside of our layer:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -663,7 +900,7 @@ captures %>%
 
 If you find that a little overbearing (I do), you can change the width of the lines with `linewidth =`
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -695,7 +932,7 @@ captures %>%
 
 ... or modify the color to something a bit less intense:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -727,7 +964,7 @@ captures %>%
 
 Perhaps you have become less impressed with your plot over time. One option would be to subset the data to just the 10 species with the most observations in the data. With the flexibility afforded to us with piping our data in, we have gained that power:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -833,7 +1070,7 @@ chickadees %>%
 
 We can also (and should) modify the scales of our bar plot. Let's look again at our last plot of banded bird counts:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -866,7 +1103,7 @@ captures %>%
 
 Given that these are count data, it makes no sense to start with a minimum value of less than zero. To address this, we would first add the `scale_y_continuous` function and modify the expand argument as above:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -902,7 +1139,7 @@ captures %>%
 
 That looks a little silly because removing the expansion sets the upper bound to the upper bound of the data. One way to address this is to look at the distribution of the data:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -924,7 +1161,7 @@ captures %>%
 
 But each bar in this instance represents the total of common names and diets. As such, we have to simplify our data grouping so we can calculate the height of the bars:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -946,7 +1183,7 @@ captures %>%
 
 We can use the returned values to specify the limits of the y-axis:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -983,7 +1220,7 @@ captures %>%
 
 That looks nice (*probably good for the final product!*), but was perhaps a lot of work. Instead, we can use the `expansion` function inside of `scale_y_continuous()`. This function was released in dplyr 3.3.0 back in 2020. We supply a vector of two numbers with `mult = c(min, max)`. The first number is the proportional expansion at the lower limit, relative to the current distribution of the data, and the second is the proportion to expand relative to upper limit:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1022,7 +1259,7 @@ captures %>%
 
 We can also set the expansion by using a number in the same units as the y-axis by using the argument `add =` (rather than `mult = `) as an argument of `expansion()`:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1144,7 +1381,7 @@ I will stay with this version for now, but you give it a try. See if you can fin
 
 One option for generating with colors is using a pre-made palette from the package *RColorBrewer*. We can see available default palettes using the function `RColorBrewer::display.brewer.all()`. To add an RColorBrewer palette, we use `scale_fill_brewer()` and specify the name of the palette in quotes. Let's add a nicer color palette to our bar plot:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1193,7 +1430,7 @@ The role of the coordinate system is to generate a 2-dimensional surface upon wh
 
 You have brought your plot (now with better colors!) to your advisor and sure enough, they do not like the grouped bars! They want each bar to represent a species. Well, we know what that will look like:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1224,7 +1461,7 @@ captures %>%
 
 A handy solution to this problem is to flip the coordinate system with `coord_flip()`. This places the x-axis on the vertical plane and the y-axis on the horizontal plane:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1381,7 +1618,7 @@ As I stated above, when you flip your coordinate system, you have to be sure to 
 
 Excited that you now have a readable bar plot of banded species, you bring it to your (surprisingly plot-savvy) advisor. They like it ... but ... those axis titles are terrible. Let's change them to "Common name" and "Number banded":
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1424,7 +1661,7 @@ Another option of specifying x- and y-axis labels is to modify the names in the 
 
 Notice, for our bar plots, that our axis labels break two naming conventions -- there is a space between the words and the first word is capitalized. We can generate axis labels with these otherwise-loathsome names by using backtick quotes in our piped data code block:
 
-```{r}
+```{r, error = TRUE}
 captures %>% 
   select(spp) %>% 
   left_join(
@@ -1749,7 +1986,7 @@ chickadees %>%
 
 ```{r eval = TRUE, message=FALSE}
 chickadees %>% 
- ggplot() +
+  ggplot() +
   aes(
     x = wing, 
     y = mass,
