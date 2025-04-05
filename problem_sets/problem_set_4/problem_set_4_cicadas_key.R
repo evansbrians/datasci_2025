@@ -170,8 +170,9 @@ brood_x_parks %>%
   ) +
   scale_fill_brewer(palette = "Set1") +
   scale_y_continuous(
-    expand = expansion(
-      add = c(0, 0.05)
+    expand =
+      expansion(
+        add = c(0, 0.05)
       )
   ) +
   labs(
