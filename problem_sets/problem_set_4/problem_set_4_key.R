@@ -38,12 +38,21 @@ cicada_list <-
 
 cicada_research_quality <- 
   cicada_list %>% 
+  
+  # Extract the list item of interest:
+  
   pluck("cicada_observations_2021") %>% 
+  
+  # Subset the data frame as described above:
+  
   filter(
     str_detect(state, "MD|VA|DC"),
     !is.na(date),
     quality_grade == "research"
   ) %>% 
+  
+  # Subset and rename variables:
+  
   select(
     date,
     species = scientific_name,
@@ -60,8 +69,14 @@ cicada_research_quality <-
 
 brood_x_observations <- 
   cicada_research_quality %>% 
+  
+  # Subset the data frame to species in `cicada_list$brood_x`:
+  
   semi_join(
-    cicada_list %>% 
+    cicada_list %>%
+      
+      # Extract the list item of interest:
+      
       pluck("brood_x"),
     by = "species"
   )
@@ -80,8 +95,17 @@ brood_x_observations <-
 
 not_parks <-
   brood_x_observations %>% 
+  
+  # Extract the `address` variable as a character vector:
+  
   pull(address) %>% 
+  
+  # Subset the character vector ...
+  
   keep(
+    
+    # ... using regex to test the vector for patterns of interest:
+    
     ~ str_detect(.x, "^[Pp]ark|[Pp](ar)?kwa?y")
   )
 
@@ -97,8 +121,17 @@ not_parks <-
 
 brood_x_parks <- 
   brood_x_observations %>% 
+  
+  # Subset the data frame ...
+  
   filter(
+    
+    # ... using regex to test for the patterns of interest:
+    
     str_detect(address, "[Pp]ark|Zoo"),
+    
+    # ... and to where the address is not in the `not_parks` vector:
+    
     !address %in% not_parks
   )
 
@@ -113,14 +146,23 @@ brood_x_parks <-
 
 brood_x_park_summary <- 
   brood_x_parks %>% 
+  
+  # Subset the data frame to parks with more than 40 observations:
+  
   filter(
     n() > 40,
     .by = address
   ) %>% 
+  
+  # Generate a summary data frame of the number of observations per park:
+  
   summarize(
     n = n(),
     .by = address
   ) %>% 
+  
+  # Sort the data frame from highest to lowest number of observations: 
+  
   arrange(
     desc(n)
   )
@@ -163,25 +205,47 @@ brood_x_park_summary <-
 #   * The facet strip text and axis titles are in 14 pt font.
 
 brood_x_parks %>% 
+  
+  # Subset the data frame to parks in `brood_x_park_summary` to the four parks
+  # with the most observations:
+  
   semi_join(
     brood_x_park_summary %>% 
       slice_max(n, n = 4),
     by = "address"
   ) %>% 
+  
+  # Use regex to subset the data frame to observations in April 2021:
+  
   filter(
     str_detect(date, "2021-04")
   ) %>% 
+  
+  # Initiate the plot:
+  
   ggplot() +
+  
+  # Define the aesthetic mappings:
+  
   aes(
     x = date,
     fill = species,
   ) + 
+  
+  # Add geometry:
+  
   geom_density(position = "stack") +
+  
+  # Divide the plot into facets:
+  
   facet_wrap(
     ~ address,
     ncol = 1,
     scales = "free_y"
   ) +
+  
+  # Define the scales of the plot:
+  
   scale_y_continuous(
     expand =
       expansion(
@@ -189,12 +253,18 @@ brood_x_parks %>%
       )
   ) +
   scale_fill_brewer(palette = "Set1") +
+  
+  # Add labels:
+  
   labs(
     title = "Density distribution of Brood X cicada observations by date",
     x = "Date",
     y = "Density",
     fill = "Species"
   ) +
+  
+  # Define the plot theme elements:
+  
   theme(
     panel.background = 
       element_rect(
