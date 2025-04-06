@@ -40,8 +40,7 @@ cicada_research_quality <-
   cicada_list %>% 
   pluck("cicada_observations_2021") %>% 
   filter(
-    state %>% 
-      str_detect("MD|VA|DC"),
+    str_detect(state, "MD|VA|DC"),
     !is.na(date),
     quality_grade == "research"
   ) %>% 
