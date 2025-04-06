@@ -129,38 +129,39 @@ brood_x_park_summary <-
 # 9 -----------------------------------------------------------------------
 
 # We want to start placing our ARUs at the four locations with the greatest
-# number of cicada observations and at the locations where brood X cicadas
-# emerged the earliest. We will use a density plot to visualize the time of
-# emergence. Using `brood_x_park_summary` and `brood_x_parks`, in a single 
-# piped code block:
+# number of cicada observations and figure out which of those locations had the
+# earliest emergence of brood X cicadas. We will use a density plot to visualize
+# the time of emergence. Within a single piped code block, use
+# `brood_x_park_summary` and `brood_x_parks` to:
 
 # * Subset `brood_x_parks` to the four parks with the greatest number of
-#   cicada observations;
+# cicada observations;
 # * Subset the resultant object to the observations in April of 2021;
 # * Generate a density plot, in which:
-#   * The date variable is mapped to the x-axis;
-#   * The fill color is mapped to `species`;
-#   * The y-axis represents the statistical densities of the species 
-#     occurrence, with each species on top of one another (i.e., stacked);
-#   * Each park is placed within its own facet;
-#   * All of the facets are positioned in a single column;
-#   * The scale of the y-axis is determined by the range of density values 
-#     within a given park and is displayed from 0 to a value of 0.05 above the
-#     maximum density for that park;
-#   * The scale of the x-axis does *not* vary by park;
-#   * The color scale associated with `species` is determined using 
+#   * The `date` variable is mapped to the x-axis;
+#   * The `species` variable is mapped to fill color;
+#   * The geometry of the plot represents the statistical density of species
+#     observations, with each species displayed on top of one another (i.e.,
+#     "stacked");
+#   * Each park is placed within its own facet and all of the facets are
+#     positioned in a single column;
+#   * The position of values on the y-axis for each facet is determined by the
+#     range of density values within a given park;
+#   * The position of values on the x-axis does *not* vary by park;
+#   * The scale of the y-axis for a given park ranges from 0 to a value of 0.05 
+#     above the maximum density for that park;
+#   * The color scale associated with `species` is determined using
 #     `scale_fill_brewer()`;
-#   * Your plot is titled "Density distribution of Brood X cicada observations
+#   * The plot is titled "Density distribution of Brood X cicada observations
 #     by date"
-#   * The x-axis is labeled as "Date";
+#   * The x-axis is labeled "Date";
 #   * The y-axis is labeled "Density";
-#   * The legend of your plot is labeled "Species";
-#   * The background of the plot is not gray, does not contain grid lines, and
-#     is bordered with a black line;
-#   * All text in your plot is in Times New Roman;
-#   * The plot title is in 14 pt font;
-#   * The facet strip text and axis title is in 12 pt font;
-#   * The axis labels are in 10 pt font
+#   * The legend is labeled "Species";
+#   * The panel background of the plot is white and has a black border;
+#   * No grid lines are displayed;
+#   * All text is in Times New Roman;
+#   * The plot title is in 16 pt font;
+#   * The facet strip text and axis titles are in 14 pt font.
 
 brood_x_parks %>% 
   semi_join(
@@ -203,15 +204,9 @@ brood_x_parks %>%
       ),
     panel.grid = element_blank(),
     strip.background = element_rect(color = "black"),
-    # axis.line = 
-    #   element_line(
-    #     color = "black",
-    #     linewidth = 0.5
-    #   ),
     text = element_text(family = "Times"),
     plot.title = element_text(size = 16),
     axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14),
-    axis.text = element_text(size = 10),
+    strip.text = element_text(size = 14)
   )
 
