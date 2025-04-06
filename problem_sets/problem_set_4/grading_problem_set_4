@@ -1,0 +1,51 @@
+Grading Problem Set 4
+
+1 (script naming convention): 0.50
+2 (load tidyverse): 0.50
+3 (read_rds and assign): 0.50
+4 (cicada_research_quality): 1.50
+  4.1 (pluck from list): 0.30
+  4.2 (filter to the DMV): 0.30
+  4.3 (remove NA values): 0.30
+  4.4 (subset to quality grade): 0.20
+  4.5 (change variable name in select): 0.20
+  4.6 (remove city, state, and quality_grade): 0.10
+  4.7 (global assignment): 0.10
+5 (brood_x_observations): 1.0
+  5.1 (the meat): 0.90
+  5.2 (global assignment): 0.10
+6: 1.5
+  6.1 (starts with park, Park): 0.40
+  6.2 (Contains parkway variants): 1.00
+  6.3 (global assignment): 0.10
+7: 1.0
+  7.1 (park, Park, or Zoo): 0.50
+  7.2 (not in the vector not_parks): 0.40
+  7.3 (tibble, globally assigned): 0.10
+8: 1.0
+  8.1 (filter and summarize): 0.80
+  8.2 (arrange): 0.10
+  8.3 (global assignment): 0.10
+9: 2.75
+  9.1 (semi-join): 0.40
+  9.2 (stringr with dates): 0.40
+  9.3 (plotting components): 0.1 per component
+    9.3.1 (date mapped to x)
+    9.3.2 (species mapped to fill)
+    9.3.3 (stat_geom, stacked)
+    9.3.4 (facets in single column)
+    9.3.5 (scale = free_y)
+    9.3.6 (scale = free_y to maintain x-axis range)
+    9.3.7 (scale_y_continuous with expand)
+    9.3.8 (scale_fill_brewer)
+    9.3.9 (plot title)
+    9.3.10 (x-axis label)
+    9.3.11 (y-axis label)
+    9.3.12 (legend title)
+    9.3.13 (panel background)
+    9.3.14 (no grid lines)
+    9.3.15 (Times New Roman)
+    9.3.16 (font size of the plot title)
+    9.3.17 (font size of strip text)
+    
+    
