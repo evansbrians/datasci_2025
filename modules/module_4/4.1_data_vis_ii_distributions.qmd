@@ -58,7 +58,7 @@ The grammar of graphics considers the structure of a given data visualization to
 
 Please start by loading the *tidyverse* metapackage:
 
-```{r, error = TRUE}
+```{r, error = TRUE, message = FALSE}
 library(tidyverse)
 ```
 
@@ -71,101 +71,125 @@ dc_birds <-
   read_rds("data/raw/district_birds.rds")
 ```
 
-## Common geometries for exploring distributions
+## Geometries for exploring distributions
 
-### `geom_histogram`: Binned continuous variables
+### Binned continuous variables: `geom_histogram`
 
-```{r, error = TRUE}
+Histograms provide an easy-to-interpret visual summary of the distribution of the values in a variable.
+
+Let's generate a plot to visualize the distribution of wing lengths for adult (`age == "AHY"`) House wrens (`spp == "HOWR"`) of known sex:
+
+```{r}
 dc_birds %>% 
   pluck("captures") %>% 
   filter(
     spp == "HOWR",
     age == "AHY",
-    sex != "U",
-    wing < 55
+    sex != "U"
   ) %>% 
-  drop_na(wing, sex) %>% 
+  drop_na(wing) %>% 
   ggplot() +
   aes(x = wing) +
   geom_histogram() +
-  facet_wrap(
-    ~ sex,
-    nrow = 2
-  ) +
   theme_bw()
 ```
 
-Benefits and drawbacks of histograms:
+The y-axis of a histogram is `count`, which makes the results easy to interpret. Each bar represents a range values on the x-axis and the height of each bar is the number of observations within that value range.
 
-**Benefits**:
+With the plot above, we are getting a sense of the distribution of wing lengths, but we can clearly see that there are some crazy values in the data. A House wren with a 90 mm wing would be terrifying! 
 
-* Returns the distribution of a binned numeric variable
-* Can get a clear sense of modality in your data (but see below)
-* You can get a sense of potential outliers in your data
+Knowing a bit about the biology of the species, we can safely assume that any wing measurement above 60 represents measurement error. Let's subset the data to where the wing length is less than 60 and visualize the distribution again:
 
-**Drawbacks**:
-
-* The bins can often obscure the underlying distribution pattern in the data
-* No data in a given bin may represent measurement precision rather than a pattern in the data
-* The number of bins are arbitrary and can greatly influence the interpretation of distribution
-
-```{r, error = TRUE}
+```{r}
 dc_birds %>% 
   pluck("captures") %>% 
   filter(
     spp == "HOWR",
     age == "AHY",
     sex != "U",
-    wing < 55
+    wing < 60
   ) %>% 
-  drop_na(wing, sex) %>% 
   ggplot() +
   aes(x = wing) +
-  geom_histogram(bins = 10) +
-  facet_wrap(
-    ~ sex,
-    nrow = 2
-  ) +
+  geom_histogram() +
   theme_bw()
 ```
 
-### `geom_density`: The statistical density of continuous distributions
+*Note: `filter()` automatically removes `NA` values from a variable that is tested in the filtering statement. As such, it was no longer necessary to use `drop_na()`!*
+
+That is lot better and gives us a closer look at the distribution. Notice the message, however, that is printed when we plotted the histogram. The `bins` represent the number of bars that the continuous data are grouped into, which is defined by the `bins = ...` argument. 
+
+It is clear, given the distribution, that the number of bars is not appropriate for these data. When a histogram looks jagged like this and/or contains missing values, it usually represents constraints associated with measurement precision.
+
+For example, let's add more bins to the data and have a look at the distribution:
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 60
+  ) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(bins = 50) +
+  theme_bw()
+```
+
+We can clearly see that a lot of our bins are missing values. Wing length is measured in millimeters and the maximum measurement precision is 0.5 mm. As such, those missing values likely represent bins that do not contain realistic measurements (e.g., 45.1 - 45.4 mm).
+
+Instead of specifying the number of bins, we can account for this by specifying the width of bins (`binwidth`). For example, if most of our data are measured in whole values of mm, we can specify `binwidth = 1`:
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 60
+  ) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(binwidth = 1) +
+  theme_bw()
+```
+
+The above provides a more complete picture of the distribution of wing lengths, displaying a normal distribution with a mode of roughly 50 mm.
+
+It should be noted that histograms are super useful for observing distributions but the number of and width bins is arbitrary. The choice is up to the coder and can obscure the distribution of the data.
+
+::: mysecret
+
+<i class="fas fa-user-secret" style = "font-size: 36px;"></i> Always choose the number of bins that most accurately communicates your data and provide a description of how the number of bins was chosen! When confronted with a histogram in the wild, think about why the scientist chose the number of bins that they did and how the interpretation of the data distribution might be influenced by bin width. 
+:::
+
+### The statistical density of continuous distributions: `geom_density`
 
 The function `geom_density` empowers you to communicate and explore the continuous pattern of data distribution as it relates to a given variable.
 
+Let's take a look at a density plot using the same values we started with last time:
+
 ```{r, error = TRUE}
 dc_birds %>% 
   pluck("captures") %>% 
   filter(
     spp == "HOWR",
     age == "AHY",
-    sex != "U",
-    wing < 55
+    sex != "U"
   ) %>% 
-  drop_na(wing, sex) %>% 
+  drop_na(wing) %>% 
   ggplot() +
   aes(x = wing) +
-  # geom_histogram() +
-  geom_density(fill = "#dcdcdc") +
-  facet_wrap(
-    ~ sex,
-    nrow = 2
-  )
+  geom_density(fill = "#aaddff") +
+  theme_bw()
 ```
 
+The y-axis of this plot is the statistical density, which describes the probability that a given value will occur within a continuous variable. A limitation to density plots is that the y-axis can often be difficult to interpret!
 
-**Benefits**:
-
-* Great at displaying the patterns in the data
-* Can be more effective for predicting the likelihood of a given value for a variable
-* Can provide a clear sense of modality
-* Avoids the "binning issue" problem associated with histograms
-
-**Costs**:
-
-* Provides little information regarding potential outliers in your data
-* May give a false sense of the precision of measured variables
-* y-axis can be difficult to interpret is an abstraction of the data itself
+The long tail at the right of this distribution suggests that there are outliers in the data, but it is a bit difficult to see what values those outliers represent. From our histogram, we know that filtering wing lengths to less than sixty likely removes outliers. Let's apply that same filter here:
 
 ```{r, error = TRUE}
 dc_birds %>% 
@@ -174,25 +198,99 @@ dc_birds %>%
     spp == "HOWR",
     age == "AHY",
     sex != "U",
-    wing < 55
+    wing < 60
   ) %>% 
-  drop_na(wing, sex) %>% 
+  drop_na(wing) %>% 
   ggplot() +
   aes(x = wing) +
-  # geom_histogram() +
-  geom_density(fill = "#dcdcdc", bw = 0.1) +
-  facet_wrap(
-    ~ sex,
-    nrow = 2
-  )
-# geom_violin(
-#   aes(
-#     x = spp,
-#     y = wing,
-#     fill = sex
-#   )
-# )
+  geom_density(fill = "#aaddff") +
+  theme_bw()
 ```
+
+*Note: Once again, we were able to remove the `drop_na(wing)` function because `NA` values in a target variable are removed by default with `filter()`!*
+
+This distribution is perhaps more messy than we would prefer. With histograms, we can specify the width of bins. With density plots, we specify the bandwidth (`bw = ...`) -- this describes the degree of smoothing to apply to the distribution.
+
+For example, if we supply a bandwidth value of 0.1 (see `?geom_density`) ...
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 60
+  ) %>% 
+  drop_na(wing) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_density(
+    fill = "#aaddff",
+    bw = 0.1  
+  ) +
+  theme_bw()
+```
+
+... we can clearly see the aforementioned limitations in measurement precision for wing length!
+
+If we add a bandwidth value of `1`, we get a normal distribution that obscures fine-scale variation in the distributional pattern:
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 60
+  ) %>% 
+  drop_na(wing) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_density(
+    fill = "#aaddff",
+    bw = 1 
+  ) +
+  theme_bw()
+```
+
+This illustrates that, like histograms, the choice of bandwidth can be somewhat arbitrary and greatly influences the interpretation of your distribution! To avoid putting my thumb on the scale, I typically choose the default bandwidth selector (see `?bw.nrd0`), as it is a good representation of the overall distributional pattern in your data.
+
+### Statistical summaries of continuous distributions: `geom_boxplot`
+
+Sometimes, we are more interested in core summary statistics that describe a distribution than the distribution itself. For this, we use `geom_boxplot`.
+
+Let's look at our distribution of wing lengths using a box plot by mapping `spp` to the x-axis, `wing` to the y-axis, and adding the geometry `geom_boxplot()`:
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 60
+  ) %>% 
+  drop_na(wing) %>% 
+  ggplot() +
+  aes(
+    x = spp,
+    y = wing
+  ) +
+  geom_boxplot(
+    fill = "#aaddff"
+  ) +
+  theme_bw()
+```
+
+The plot above provides a very clear statistical description of the distribution:
+
+* The line in the middle of the box represents the median value;
+* The bottom and top of the box represent the **hinges**, which are the 1st and 3rd quartiles of the range (25th and 75th percentiles);
+* The lines extending from the box are the **whiskers**, which represent the values no further than 1.5 times the interquartile range relative to the hinges;
+* The dots represent outliers, which are defined here as data points outside of the whiskers.
+
 
 ### `geom_violin`: Density plots for 
 
@@ -453,6 +551,42 @@ rm(
   visits,
   counts
 )
+```
+
+
+
+Benefits and drawbacks of histograms:
+
+**Benefits**:
+
+* Returns the distribution of a binned numeric variable
+* Can get a clear sense of modality in your data (but see below)
+* You can get a sense of potential outliers in your data
+
+**Drawbacks**:
+
+* The bins can often obscure the underlying distribution pattern in the data
+* No data in a given bin may represent measurement precision rather than a pattern in the data
+* The number of bins are arbitrary and can greatly influence the interpretation of distribution
+
+```{r, error = TRUE}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing < 55
+  ) %>% 
+  drop_na(wing, sex) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(bins = 10) +
+  facet_wrap(
+    ~ sex,
+    nrow = 2
+  ) +
+  theme_bw()
 ```
 
 ### Plotting data
