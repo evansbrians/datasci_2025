@@ -817,7 +817,7 @@ By flipping the coordinate system, we can clearly visualize the differences betw
 
 ### Facet scales
 
-The reason for change:
+Let's take a look at the axis scales for each facet in the histogram that we made previously:
 
 ```{r}
 dc_birds %>% 
@@ -839,7 +839,11 @@ dc_birds %>%
   theme_bw()
 ```
 
-No better, changes both axes:
+By default, the scales of the x- and y- axes are the same for each facet. This can limit our ability to communicate distributions of groups. If the goal of this plot is to show differences in the distribution of wing length between males and females, then differences in the height of the bars obscures that message. This can be confusing to our reader because the differences in the height of the bars are more extreme than the differences in male and female wing length distribution.
+
+Within the `facet_wrap` function, you can define a single scale across facets, or a unique scale for each facet (with the argument `scales = ...`). This should be done carefully!
+
+Let's generate unique scales for each facet using `scales = "free"`:
 
 ```{r}
 dc_birds %>% 
@@ -862,30 +866,9 @@ dc_birds %>%
   theme_bw()
 ```
 
-Even worse, changes just x:
+Here, we can see that the height of the bars is much improved. However, notice that the values in the x-axis are no longer aligned. This makes comparing the distribution between sexes very difficult!
 
-```{r}
-dc_birds %>% 
-  pluck("captures") %>% 
-  filter(
-    spp == "HOWR",
-    age == "AHY",
-    sex != "U",
-    wing <= 55,
-    wing >= 45
-  ) %>% 
-  ggplot() +
-  aes(x = wing) +
-  geom_histogram(binwidth = 1) +
-  facet_wrap(
-    ~ sex,
-    ncol = 1,
-    scales = "free_x"
-  ) +
-  theme_bw()
-```
-
-Oh big mama:
+To maintain the scale of the x-axis across facets, but allow the y-axis to vary by facet, we can use `scales = "free_y"`. This will set the scale of the y-axis for each facet based on the range of values within a given group:
 
 ```{r}
 dc_birds %>% 
@@ -907,10 +890,14 @@ dc_birds %>%
   ) +
   theme_bw()
 ```
+
+Because the bars are now the same height, the x-axis is maintained across facets, and the primary source of variation is the distribution of the bars, this allows us to clearly see the differences between male and female wing lengths. 
+
+*Note: Sometimes, it is preferable to only change the scale of the x-axis. This can be accomplished with `scales = "free_x"`.*
 
 ### Expansion
 
-Get rid o' that ugly little space beneath 'em thar bars:
+Notice in our plot that the y-axis extends below zero:
 
 ```{r}
 dc_birds %>% 
@@ -933,87 +920,235 @@ dc_birds %>%
   theme_bw()
 ```
 
-That looks nice (*probably good for the final product!*), but was perhaps a lot of work. Instead, we can use the `expansion` function inside of `scale_y_continuous()`. This function was released in dplyr 3.3.0 back in 2020. We supply a vector of two numbers with `mult = c(min, max)`. The first number is the proportional expansion at the lower limit, relative to the current distribution of the data, and the second is the proportion to expand relative to upper limit:
+Because this is a histogram, and therefore each bar represents count values, it is impossible to have values less than zero. It would make much more sense for the y-axis to begin at zero. 
+
+We learned how to do this previously using the `scale_y_continuous()` argument `expand = c(0, 0)`:
 
 ```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing <= 55,
+    wing >= 45
   ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
   ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
+  aes(x = wing) +
+  geom_histogram(binwidth = 1) +
+  facet_wrap(
+    ~ sex,
+    ncol = 1,
+    scales = "free_y"
   ) +
   scale_y_continuous(
-    expand = 
-      expansion(
-        mult = c(0, 0.05)
-      )
-  )
+    expand = c(0, 0)
+  ) +
+  theme_bw()
 ```
 
-We can also set the expansion by using a number in the same units as the y-axis by using the argument `add =` (rather than `mult = `) as an argument of `expansion()`:
+We got rid of the empty space below the bars, but now our tallest bars reach the top of the plot. This illustrates a limitation of this method -- it modifies both the bottom and top of the y-axis. The first value supplied in the vector is a multiplicative expansion factor (mult) and the second value is an additive expansion factor (add). These factors are being applied to the limits of the axis using the following formulas: 
+
+* $lower\_expansion = lower\_limit - (upper\_limit - lower\_limit) * mult - add$
+* $upper\_expansion = upper\_limit + (upper\_limit - lower\_limit) * mult + add$
+
+For example, if we had a lower limit of 1 and an upper limit of 10, the following `expand = ...` arguments would calculate the expansion as:
+
+* `expand = c(0.1, 0)`: 
+  * $lower\_expansion = 1 - (10 - 1) * 0.1 - 0$
+  * $upper\_expansion = 10 + (10 - 1) * 0.1 + 0$
+* `expand = c(0, 1)`: 
+  * $lower\_expansion = 1 - (10 - 1) * 0 - 1$
+  * $upper\_expansion = 10 + (10 - 1) * 0 + 1$
+* `expand = c(0.1, 1)`: 
+  * $lower\_expansion = 1 - (10 - 1) * 0.1 - 1$
+  * $upper\_expansion = 10 + (10 - 1) * 0.1 + 1$
+
+We can use the `expansion` function inside of `scale_y_continuous()` to define the upper and lower limits of the y-axis for each facet. This function was released in *ggplot2 3.3.0* in 2020. The `expansion` function has two arguments:
+
+* `mult = ...`: A numeric vector of one or two multiplicative range expansion factors.
+* `add = ...`: A numeric vector of one or two additive range expansion factors.
+
+For example, using `expansion()` and `add = ...`, we can expand the y-axis by an additive expansion factor of 10:
 
 ```{r}
-captures %>% 
-  select(spp) %>% 
-  left_join(
-    birds %>% 
-      select(
-        species, 
-        common_name, 
-        diet
-      ),
-    by = c("spp" = "species")
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing <= 55,
+    wing >= 45
   ) %>% 
-  group_by(common_name, diet) %>% 
-  summarize(
-    n = n(),
-    .groups = "drop"
-  ) %>% 
-  slice_max(n, n = 10) %>% 
   ggplot() +
-  aes(
-    x = diet, 
-    y = n,
-    fill = common_name
-  ) +
-  geom_bar(
-    stat = "identity",
-    color = "#424242",
-    linewidth = 0.3
+  aes(x = wing) +
+  geom_histogram(binwidth = 1) +
+  facet_wrap(
+    ~ sex,
+    ncol = 1,
+    scales = "free_y"
   ) +
   scale_y_continuous(
-    expand = 
+    expand =
       expansion(
-        add = c(0, 100)
+        add = 10
       )
-  )
+  ) +
+  theme_bw()
 ```
 
-As I hinted at above, however, for finished plots I usually opt for exploring the data and providing fixed values within the `limits` argument of `scale_y_continuous()`.
+If we supply a numeric vector of two additive expansion factors:
+
+* The first value represents the expansion factor associated with the lower limit
+* The second value represents the expansion factor associated with the upper limit
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing <= 55,
+    wing >= 45
+  ) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(binwidth = 1) +
+  facet_wrap(
+    ~ sex,
+    ncol = 1,
+    scales = "free_y"
+  ) +
+  scale_y_continuous(
+    expand =
+      expansion(
+        add = c(0, 10)
+      )
+  ) +
+  theme_bw()
+```
+
+Conversely, we could use `expansion()` and `mult = ...` to expand the y-axis by a multiplicative expansion factor of 0.1:
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing <= 55,
+    wing >= 45
+  ) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(binwidth = 1) +
+  facet_wrap(
+    ~ sex,
+    ncol = 1,
+    scales = "free_y"
+  ) +
+  scale_y_continuous(
+    expand =
+      expansion(
+        mult = 0.1
+      )
+  ) +
+  theme_bw()
+```
+
+If we supply a numeric vector of two multiplicative expansion factors:
+
+* The first value represents the expansion factor associated with the lower limit 
+* The second value represents the expansion factor associated with the upper limit
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing <= 55,
+    wing >= 45
+  ) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(binwidth = 1) +
+  facet_wrap(
+    ~ sex,
+    ncol = 1,
+    scales = "free_y"
+  ) +
+  scale_y_continuous(
+    expand =
+      expansion(
+        mult = c(0, 0.1)
+      )
+  ) +
+  theme_bw()
+```
+
+The y-axis of this last plot clearly represents the distribution of wing lengths between males and females without unnecessary blank space in either facet. Here, the `mult = ...` argument allows us to scale the top of the y-axis relative to the values in each group.
 
 ## Fine tuning distribution plots with themes
+
+We are now going to fine tune the theme elements of our plot but, before we do so, let's make our histogram look a little less ugly! We will:
+
+* Convert the `sex` variable to a factor that contains the labels "Female" and "Male";
+* Set the fill color of the bars to light blue;
+* Add a black border line around the bars;
+* Label the axis and plot titles with `labs()`.
+
+```{r}
+dc_birds %>% 
+  pluck("captures") %>% 
+  filter(
+    spp == "HOWR",
+    age == "AHY",
+    sex != "U",
+    wing <= 55,
+    wing >= 45
+  ) %>% 
+  mutate(
+    sex = 
+      sex %>% 
+      factor(
+        labels = c("Female", "Male")
+      )
+  ) %>% 
+  ggplot() +
+  aes(x = wing) +
+  geom_histogram(
+    binwidth = 1,
+    fill = "#aaddff",
+    color = "#000"
+  ) +
+  facet_wrap(
+    ~ sex,
+    ncol = 1,
+    scales = "free_y"
+  ) +
+  scale_y_continuous(
+    expand =
+      expansion(
+        mult = c(0, 0.1)
+      )
+  ) +
+  labs(
+    x = "Wing length (mm)",
+    y = "Number of observations",
+    title = "Wing length distribution of male and female House wren"
+  ) +
+  theme_bw()
+```
+
+Now that we have a plot that we like, it is time to specify the **themes**. Recall that themes determine how the non-data elements look.
+
+#### 
 
 
 ## Review: Positives and negatives of distribution visualizations
