@@ -26,10 +26,10 @@ Grading Problem Set 4
   8.1 (filter and summarize): 0.80
   8.2 (arrange): 0.10
   8.3 (global assignment): 0.10
-9: 2.75
+9: 2.50
   9.1 (semi-join): 0.40
   9.2 (stringr with dates): 0.40
-  9.3 (plotting components): 0.1 per component
+  9.3 (plotting components): 0.10 per component
     9.3.1 (date mapped to x)
     9.3.2 (species mapped to fill)
     9.3.3 (stat_geom, stacked)
