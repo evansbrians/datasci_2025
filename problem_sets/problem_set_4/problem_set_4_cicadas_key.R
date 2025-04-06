@@ -209,9 +209,9 @@ brood_x_parks %>%
     #     linewidth = 0.5
     #   ),
     text = element_text(family = "Times"),
-    plot.title = element_text(size = 14),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    # axis.text = element_text(size = 10),
+    plot.title = element_text(size = 16),
+    axis.title = element_text(size = 14),
+    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 10),
   )
 
