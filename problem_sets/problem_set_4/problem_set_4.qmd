@@ -145,7 +145,6 @@ This problem set will use the file `cicadas_2021.rds`. The data were originally 
 * [quality_grade]{.mono}, character: Whether the observation was verified by experts ("research" grade) or has not been able to be verified ("casual" grade).
 
 :::
-
 :::
 
 ## Setup
