@@ -181,9 +181,9 @@ brood_x_park_summary <-
 # * Generate a density plot, in which:
 #   * The `date` variable is mapped to the x-axis;
 #   * The `species` variable is mapped to fill color;
-#   * The geometry of the plot represents the statistical density of species
-#     observations, with each species displayed on top of one another (i.e.,
-#     "stacked");
+#   * The geometry of the plot represents the statistical density of
+#     observations of each species, with the transparency altered such that all
+#     species densities are visible;
 #   * Each park is placed within its own facet and all of the facets are
 #     positioned in a single column;
 #   * The position of values on the y-axis for each facet is determined by the
@@ -234,8 +234,8 @@ brood_x_parks %>%
   
   # Add geometry:
   
-  geom_density(position = "stack") +
-  
+  geom_density(alpha = 0.7) +
+
   # Divide the plot into facets:
   
   facet_wrap(
