@@ -88,7 +88,6 @@ In this assignment, you may **only** use the following R functions in your submi
 * `.Primitive, is.na`
 * `base::%in%`
 * `base::library`
-* `base::unique`
 * `dplyr::arrange`
 * `dplyr::desc`
 * `dplyr::filter`
@@ -99,7 +98,7 @@ In this assignment, you may **only** use the following R functions in your submi
 * `dplyr::slice_max`
 * `dplyr::summarize`
 * `ggplot2::+`
-* `ggplot2:aes+`
+* `ggplot2:aes`
 * `ggplot2::element_blank`
 * `ggplot2::element_rect`
 * `ggplot2::element_text`
