@@ -188,7 +188,7 @@ name `cicada_list`.
 4\. [[1.50]]{.score}  In a single, chained analysis with no intermediate assignments:
 
 * Subset `cicada_list` to `cicada_observations_2021`
-* Subset to observations in Maryland, Virginia, and the District of Columbia ("MD", "VA", and "DC");
+* Without using `c()` or `%in%`, subset to observations in Maryland, Virginia, and the District of Columbia ("MD", "VA", and "DC");
 * Subset to observations where data values are not `NA`;
 * Subset to research grade observations (variable = `quality_grade`);
 * Change the variable name `scientific_name` to `species`;
