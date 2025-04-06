@@ -112,8 +112,10 @@ file.path(
 :::
 :::
 
+- [Data to Vis](https://www.data-to-viz.com/#chord){target="_blank"}: A handy guide for when to use different kinds of plots!
+
 - Wickham and Grolemund (1st edition): 
-    -   [5.2: Filter rows with filter](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
+    -   [5.2: Filter rows with filter](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter){target="_blank"}
     -   [14: Strings](https://r4ds.had.co.nz/strings.html){target="_blank"}
     
 - Wickham: [4: Subsetting](https://adv-r.hadley.nz/subsetting.html){target="_blank"}
