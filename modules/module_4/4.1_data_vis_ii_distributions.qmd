@@ -459,7 +459,7 @@ The above successfully communicates that females, on average, have shorter wings
 
 #### Density
 
-Density plots are great for comparing distributional differences among groups.
+Density plots are great for comparing distributional differences among groups. Let's look a closer look at the distribution of male and female House wren wing lengths:
 
 ```{r}
 dc_birds %>% 
@@ -476,11 +476,14 @@ dc_birds %>%
   geom_density(fill = "#aaddff") +
   facet_wrap(
     ~ sex,
-    ncol = 1,
-    scales = "free_y"
+    ncol = 1
   ) +
   theme_bw()
 ```
+
+The above is a continuous version of our last histogram. 
+
+Unlike histograms, density plots with color can provide a clear comparison of the distributions between groups:
 
 ```{r}
 dc_birds %>% 
@@ -500,6 +503,8 @@ dc_birds %>%
   geom_density() +
   theme_bw()
 ```
+
+Similarly to histograms, however, these differences can be displayed more clearly by adding transparency such that we can see the full distribution of each sex:
 
 ```{r}
 dc_birds %>% 
@@ -522,6 +527,8 @@ dc_birds %>%
 
 #### Boxplots
 
+Boxplots are super useful for comparing statistical summaries of groups. Let's look at the difference between male and female wing lengths statistically:
+
 ```{r}
 dc_birds %>% 
   pluck("captures") %>% 
@@ -540,6 +547,8 @@ dc_birds %>%
   geom_boxplot(fill = "#aaddff") +
   theme_bw()
 ```
+
+We can see in the above that the median wing length of males is longer than the median wing length of females. We can take this one step further by testing whether the median wing values are statistically different from one another by visualizing whether the 95% confidence intervals overlap. The argument `notch = TRUE` provides an approximation of the 95% confidence intervals for comparing the difference in median values among groups:
 
 ```{r}
 dc_birds %>% 
@@ -563,11 +572,15 @@ dc_birds %>%
   theme_bw()
 ```
 
+If the notches above overlapped, this would suggest that the 95% confidence intervals overlap as well, thus the two values would not be statistically distinguishable. Because our notches do not overlap, this suggests that the median wing length of males is statistically higher than that of females.
+
 ### Two or more grouping variables
 
-I typically do not use histograms to compare the distribution of two or more grouping variables, so I will focus our attention in this section on boxplots and statistical density plots.
+I typically do not use histograms to compare the distribution of two or more grouping variables, so this section will focus on boxplots and statistical density plots.
 
 #### Boxplots
+
+As mentioned before, boxplots are a great way to identify differences among multiple groups. Let's use a facet plot to compare female and male wing lengths of Carolina chickadees ("CACH"), Carolina wrens ("CARW"), and House wrens ("HOWR"):
 
 ```{r}
 dc_birds %>% 
@@ -590,6 +603,10 @@ dc_birds %>%
   ) +
   theme_bw()
 ```
+
+I would not call the above plot particularly successful, because the outliers obscured potential differences in the distributions.
+
+We can remove all outliers with the `geom_boxplot()` argument `outliers = FALSE`:
 
 ```{r}
 dc_birds %>% 
@@ -616,29 +633,7 @@ dc_birds %>%
   theme_bw()
 ```
 
-
-```{r}
-dc_birds %>% 
-  pluck("captures") %>% 
-  filter(
-    str_detect(spp, "^CA|HOW"),
-    age == "AHY",
-    sex != "U"
-  ) %>% 
-  ggplot() +
-  aes(
-    x = spp,
-    y = wing
-  ) +
-  geom_boxplot(fill = "#aaddff") +
-  facet_wrap(
-    ~ sex,
-    ncol = 1
-  ) +
-  theme_bw()
-```
-
-Difficult to compare due to outliers across species, let's set the range of wing length to between 45 and 70 mm:
+Using the distribution of the whiskers when all outliers are removed, we can then remove outliers across species by filtering the data itself. Let's set the range of wing length to between 45 and 70 mm:
 
 ```{r}
 dc_birds %>% 
@@ -663,6 +658,9 @@ dc_birds %>%
   theme_bw()
 ```
 
+The above removed shared outliers across species. This information will allow us to further isolate the core of the distribution for other plot types!
+
+It is sometimes more clear to compare between differences by using fill colors instead of facets:
 
 ```{r}
 dc_birds %>% 
@@ -671,7 +669,8 @@ dc_birds %>%
     str_detect(spp, "^CA|HOW"),
     age == "AHY",
     sex != "U",
-    wing < 70
+    wing >= 45,
+    wing <= 70
   ) %>% 
   ggplot() +
   aes(
@@ -683,6 +682,10 @@ dc_birds %>%
   theme_bw()
 ```
 
+Because the boxes in the plot above are paired, this clearly shows a difference in wing length between sexes for each species.
+
+If, instead, our goal was to compare between species for each sex, we can simply switch the variables mapped to the x-axis and fill color:
+
 ```{r}
 dc_birds %>% 
   pluck("captures") %>% 
@@ -690,7 +693,8 @@ dc_birds %>%
     str_detect(spp, "^CA|HOW"),
     age == "AHY",
     sex != "U",
-    wing < 70
+    wing >= 45,
+    wing <= 70
   ) %>% 
   ggplot() +
   aes(
@@ -702,7 +706,11 @@ dc_birds %>%
   theme_bw()
 ```
 
+The above two plots really demonstrate how aesthetic mappings can influence what you are communicating about your data!
+
 #### Density
+
+With a density plot, we typically map a variable to the fill color aesthetic and a second variable to facets. Let's look at the statistical density distributions of wing lengths for each species and sex:
 
 ```{r}
 dc_birds %>% 
@@ -711,7 +719,8 @@ dc_birds %>%
     str_detect(spp, "^CA|HOW"),
     age == "AHY",
     sex != "U",
-    wing < 70
+    wing >= 45,
+    wing <= 70
   ) %>% 
   ggplot() +
   aes(
@@ -726,7 +735,7 @@ dc_birds %>%
   theme_bw()
 ```
 
-If we were more interested in communicating the wing length differences of a given sex between species, this plot is much more clear:
+This plot does not demonstrate differences in sex by species as clearly as the boxplot, but it does communicate both differences in sex and differences in species more successfully overall. We can make differences between species even more apparent by switching our aesthetic and facet mappings:
 
 ```{r}
 dc_birds %>% 
@@ -735,7 +744,8 @@ dc_birds %>%
     str_detect(spp, "^CA|HOW"),
     age == "AHY",
     sex != "U",
-    wing < 70
+    wing >= 45,
+    wing <= 70
   ) %>% 
   ggplot() +
   aes(
@@ -750,9 +760,11 @@ dc_birds %>%
   theme_bw()
 ```
 
+If we were more interested in communicating the wing length differences of a given sex between species, this plot is much more clear!
+
 #### Density with violin plots
 
-Violin plots provide a clear visualization for comparing for differences in distributions across multiple groups. They are great for comparing the shapes of distributions between groups.
+Violin plots provide a clear visualization of differences in the shapes of distributions across multiple groups. Let's look at the differences in wing length between sexes for each species using `geom_violin()`:
 
 ```{r}
 dc_birds %>% 
@@ -761,7 +773,8 @@ dc_birds %>%
     str_detect(spp, "^CA|HOW"),
     age == "AHY",
     sex != "U",
-    wing < 70
+    wing >= 45,
+    wing <= 70
   ) %>% 
   ggplot() +
   aes(
@@ -773,7 +786,7 @@ dc_birds %>%
   theme_bw()
 ```
 
-Violin plats are actually density plots, but the right- and left-hand sides of the violin are mirrored density distributions. Note, however, that the values of density in this violin plots are not shown, just the shape of the distribution.
+Violin plots are actually density plots, but the right- and left-hand sides of each violin are mirrored density distributions. Note, however, that the values of statistical density in violin plots are not shown, just the shape of the distribution.
 
 Because we are often used to seeing statistical density displayed on the vertical axis, I typically flip the coordinate system of my violin plots:
 
@@ -784,7 +797,8 @@ dc_birds %>%
     str_detect(spp, "^CA|HOW"),
     age == "AHY",
     sex != "U",
-    wing < 70
+    wing >= 45,
+    wing <= 70
   ) %>% 
   ggplot() +
   aes(
@@ -796,6 +810,8 @@ dc_birds %>%
   coord_flip() +
   theme_bw()
 ```
+
+By flipping the coordinate system, we can clearly visualize the differences between sexes and species. 
 
 ## Fine tuning distribution plots with scales
 
