@@ -4,14 +4,14 @@
 # question 1 --------------------------------------------------------------
 
 # Before opening your script file for this problem set, change the name of
-# the `problem_set_4.R` to "problem_set_4_[last name]_[first name].R" using
-# a snake case naming convention. *Note: You will submit this script file 
-# as your assignment*.
+# `problem_set_4.R` to "problem_set_4_[last name]_[first name].R" using a snake
+# case naming convention. *Note: You will submit this script file as your
+# assignment*.
 
 # question 2 --------------------------------------------------------------
 
-# Open the script file in RStudio and attach the tidyverse metapackage to 
-# your current R session.
+# Open the script file in RStudio and attach the core tidyverse packages to your
+# current R session.
 
 library(tidyverse)
 
@@ -34,8 +34,7 @@ cicada_list <-
 # * Subset to research grade observations (variable = `quality_grade`);
 # * Change the variable name `scientific_name` to `species`
 # * Remove the columns `city`, `state`, and `quality_grade`;
-# * Globally assign the name cicada_research_quality to the resultant 
-#   object.
+# * Globally assign the resultant object to the name `cicada_research_quality`.
 
 cicada_research_quality <- 
   cicada_list %>% 
@@ -55,10 +54,10 @@ cicada_research_quality <-
 # 5 -----------------------------------------------------------------------
 
 # This study is focused on the three species of Brood X cicada. Without using
-# `filter()` please:
+# `filter()`, please:
 
-# * Subset the `cicada_research_quality` to Brood X species;
-# * Globally assign the name `brood_x_observations` to the resultant object.
+# * Subset `cicada_research_quality` to Brood X species;
+# * Globally assign the resultant object to the name `brood_x_observations`.
 
 brood_x_observations <- 
   cicada_research_quality %>% 
@@ -89,12 +88,13 @@ not_parks <-
 
 # 7 -----------------------------------------------------------------------
 
-# Subset brood_x to such that the resultant object:
+# Subset `brood_x_observations` such that:
 
 # * The `address` variable contains "park", "Park", or "Zoo";
 # * The `address` is *not* found in the vector assigned to the name
 #   `not_parks`;
-# * Is globally assigned to the name `brood_x_parks`.
+# * The resultant object is a tibble data frame that is globally assigned to 
+#   the name `brood_x_parks`.
 
 brood_x_parks <- 
   brood_x_observations %>% 
@@ -105,12 +105,12 @@ brood_x_parks <-
 
 # 8 -----------------------------------------------------------------------
 
-# Using `brood_x_parks`, provide a summary table that:
+# Using `brood_x_parks`, generate a summary table that:
 
 # * Provides the number of observations of brood X cicada within parks where 
-#   more than 40 cicadas have been observed
-# * Is arranged from the highest to lowest number of cicada observations
-# * Is globally assigned to the name brood_x_park_summary
+#   more than 40 cicadas have been observed;
+# * Is arranged from the highest to lowest number of cicada observations;
+# * Is globally assigned to the name `brood_x_park_summary`.
 
 brood_x_park_summary <- 
   brood_x_parks %>% 
@@ -131,31 +131,45 @@ brood_x_park_summary <-
 # We want to start placing our ARUs at the four locations with the greatest
 # number of cicada observations and at the locations where brood X cicadas
 # emerged the earliest. We will use a density plot to visualize the time of
-# emergence. Use brood_x_park summary to subset brood_x_parks to the
-# observations at the four parks with the greatest number of cicada
-# observations. Then generate a density plot in which:
+# emergence. Using `brood_x_park_summary` and `brood_x_parks`, in a single 
+# piped code block:
 
-# * Your plot is titled "Density distribution of Brood X cicada emergence by
-#   date"
-# * The date variable is mapped to the x axis and labeled as "Date"
-# * The y-axis is density and is labeled "Density"
-# * The legend of your plot is labeled "Species"
-# * The fill color mapped to species using `scale_fill_brewer()`
-# * Each park is placed on its own facet
-# * All of the facets are positioned in a single column
-# * The scale of the y-axis is determined by the range of density values within
-#   a given park
-# * The densities of the species are displayed on top of one another (i.e., 
-#   stacked)
-# * The background of the plot is not gray and does not contain grid lines.
-# * The x and y axis are colored black and 0.5 mm wide (see `?element_line`)
-# * All text in your plot is in Times New Roman
+# * Subset `brood_x_parks` to the four parks with the greatest number of
+#   cicada observations;
+# * Subset the resultant object to the observations in April of 2021;
+# * Generate a density plot, in which:
+#   * The date variable is mapped to the x-axis;
+#   * The fill color is mapped to `species`;
+#   * The y-axis represents the statistical densities of the species 
+#     occurrence, with each species on top of one another (i.e., stacked);
+#   * Each park is placed within its own facet;
+#   * All of the facets are positioned in a single column;
+#   * The scale of the y-axis is determined by the range of density values 
+#     within a given park and is displayed from 0 to a value of 0.05 above the
+#     maximum density for that park;
+#   * The scale of the x-axis does *not* vary by park;
+#   * The color scale associated with `species` is determined using 
+#     `scale_fill_brewer()`;
+#   * Your plot is titled "Density distribution of Brood X cicada observations
+#     by date"
+#   * The x-axis is labeled as "Date";
+#   * The y-axis is labeled "Density";
+#   * The legend of your plot is labeled "Species";
+#   * The background of the plot is not gray, does not contain grid lines, and
+#     is bordered with a black line;
+#   * All text in your plot is in Times New Roman;
+#   * The plot title is in 14 pt font;
+#   * The facet strip text and axis title is in 12 pt font;
+#   * The axis labels are in 10 pt font
 
 brood_x_parks %>% 
   semi_join(
     brood_x_park_summary %>% 
       slice_max(n, n = 4),
     by = "address"
+  ) %>% 
+  filter(
+    str_detect(date, "2021-04")
   ) %>% 
   ggplot() +
   aes(
@@ -166,17 +180,17 @@ brood_x_parks %>%
   facet_wrap(
     ~ address,
     ncol = 1,
-    scales = "free"
+    scales = "free_y"
   ) +
-  scale_fill_brewer(palette = "Set1") +
   scale_y_continuous(
     expand =
       expansion(
         add = c(0, 0.05)
       )
   ) +
+  scale_fill_brewer(palette = "Set1") +
   labs(
-    title = "Density distribution of Brood X cicada emergence by date",
+    title = "Density distribution of Brood X cicada observations by date",
     x = "Date",
     y = "Density",
     fill = "Species"
@@ -188,11 +202,16 @@ brood_x_parks %>%
         fill = "#ffffff"
       ),
     panel.grid = element_blank(),
-    axis.line = 
-      element_line(
-        color = "black",
-        linewidth = 0.5
-      ),
-    text = element_text(family = "Times")
+    strip.background = element_rect(color = "black"),
+    # axis.line = 
+    #   element_line(
+    #     color = "black",
+    #     linewidth = 0.5
+    #   ),
+    text = element_text(family = "Times"),
+    plot.title = element_text(size = 14),
+    axis.title = element_text(size = 12),
+    strip.text = element_text(size = 12),
+    # axis.text = element_text(size = 10),
   )
 
