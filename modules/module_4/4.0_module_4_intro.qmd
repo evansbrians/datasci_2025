@@ -36,7 +36,7 @@ Before continuing, please be sure that you have completed all of the preliminary
 
 ## Module overview
 
-This module (and *most* of module 5) are a little different in that almost all of the new content is provided in videos. Written tutorial content is meant only to support your understand of the the video content. This module is divided into the following sections:
+This module (and *most* of module 5) are a little different in that almost all of the new content is provided in videos. Most of the written tutorial content (except 4.1) is meant only to support your understand of the the video content. This module is divided into the following sections:
 
 -   **4.1 Data visualization with ggplot II: Exploring continuous distributions**: In this written lesson you will learn the geometries that are most often used to explore continuous distributions and when different geometries should be applied to a given visualization. Along the way, you will also continue to develop your understanding of plot elements for generating great data visualizations.
 -   **4.2. Advanced filtering**: In this video lesson (runtime -- 28:51) and compendium tutorial, we will review basic filtering and break new ground on how to reduce repetition when filtering multiple variables, how to filter grouped data, and how to use *stringr* to filter based on partial string matching.
