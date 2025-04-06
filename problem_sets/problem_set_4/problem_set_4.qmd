@@ -77,21 +77,40 @@ Points may be deducted from each question's total:
 
 In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
 
+* `.Primitive, (...)`
 * `.Primitive, <-`
 * `.Primitive, =`
-* `.Primitive, ()`
-* `.Primitive, ~`
-* `.Primitive, !`
 * `.Primitive, ==`
+* `.Primitive, !`
+* `.Primitive, >`
+* `.Primitive, ~`
+* `.Primitive, c`
+* `.Primitive, is.na`
 * `base::%in%`
-* `base::is.na`
 * `base::library`
 * `base::unique`
+* `dplyr::arrange`
+* `dplyr::desc`
 * `dplyr::filter`
 * `dplyr::n`
 * `dplyr::pull`
 * `dplyr::select`
 * `dplyr::semi_join`
+* `dplyr::slice_max`
+* `dplyr::summarize`
+* `ggplot2::+`
+* `ggplot2:aes+`
+* `ggplot2::element_blank`
+* `ggplot2::element_rect`
+* `ggplot2::element_text`
+* `ggplot2::expansion`
+* `ggplot2::facet_wrap`
+* `ggplot2::geom_density`
+* `ggplot2::ggplot`
+* `ggplot2::labs`
+* `ggplot2::scale_fill_brewer`
+* `ggplot2::scale_y_continuous`
+* `ggplot2::theme`
 * `magrittr::%>%`
 * `purrr::keep`
 * `purrr::pluck`
