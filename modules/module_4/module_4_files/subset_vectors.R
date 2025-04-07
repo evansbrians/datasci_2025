@@ -13,7 +13,7 @@ library(tidyverse)
 # Data for this lesson:
 
 garden <- 
-  read_rds("data/raw/my_covid_garden.rds")
+  read_rds("data/raw/my_covid_garden_tidy.rds")
 
 instruments <- 
   read_rds("data/raw/four_instruments.rds")
