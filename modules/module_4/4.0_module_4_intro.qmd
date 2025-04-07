@@ -20,7 +20,7 @@ editor_options:
 
 <div>
 
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 Welcome to **Module 4: Focus on subsetting**! This set of lessons dives more deeply into the realm of subsetting data -- the process of reducing the number of items in a list (including columns in a data frame!), rows in a data frame, or values in an atomic vector. In this module, we will review the basics of filtering, you will get a bit more practice with tidying (i.e. normalizing) data, and you will learn how to:
 
@@ -45,7 +45,7 @@ This module (and *most* of module 5) are a little different in that almost all o
 
 ## Getting started
 
-Please download the attached zip file [module_4_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have (e.g., [source_script.R]{.mono} ), please overwrite the previous file.
+Please download the attached zip file [module_4_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script or data files that you already have, please overwrite the previous file.
 
 ## About this week's data
 
@@ -53,16 +53,13 @@ This week we will use the following data files in our exercises:
 
 **[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visit backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
 
-**iris.rds{.mono}**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164)!).
-
-**[my_covid_garden.csv]{.mono}**: This is a tabular dataset that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
+**[my_covid_garden.csv]{.mono}** and **[my_covid_garden_tidy.rds]{.mono}**: This is a tabular dataset that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
 
 **[spotted_lanternfly.rd]{.mono}**: This is a tabular dataset of [iNaturalist observation of spotted lanternfly (*Lycorma delicatula*)](https://www.inaturalist.org/projects/spotted-lanternfly){target="_blank"}, an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application. The data were downloaded using the R package *rinat*.
 
 ## Readings and resources
 
-<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
-
+<button class="accordion">Glossary of terms (I am a button ... click me!)</button>
 ::: panel
 ::: glossary_table
 
@@ -86,7 +83,7 @@ get_glossary_table_module(module = 4) %>%
 :::
 :::
 
-<button class="accordion" style="margin-bottom:1em">Functions used through the end of this module (I am a button ... click me!)</button>
+<button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>
 
 ::: panel
 **Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
@@ -119,4 +116,21 @@ file.path(
     -   [14: Strings](https://r4ds.had.co.nz/strings.html){target="_blank"}
     
 - Wickham: [4: Subsetting](https://adv-r.hadley.nz/subsetting.html){target="_blank"}
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
 
