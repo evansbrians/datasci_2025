@@ -58,7 +58,7 @@ This week we will use the following data files in our exercises:
 
 **[my_covid_garden.csv]{.mono}** and **[my_covid_garden_tidy.rds]{.mono}**: This is a tabular dataset that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
 
-**[spotted_lanternfly.rd]{.mono}**: This is a tabular dataset of [iNaturalist observation of spotted lanternfly (*Lycorma delicatula*)](https://www.inaturalist.org/projects/spotted-lanternfly){target="_blank"}, an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application. The data were downloaded using the R package *rinat*.
+**[spotted_lanternfly.rds]{.mono}**: This is a tabular dataset of [iNaturalist observation of spotted lanternfly (*Lycorma delicatula*)](https://www.inaturalist.org/projects/spotted-lanternfly){target="_blank"}, an invasive pest species whose spread is of commercial and ecological concern. Each row is an observation submitted by a community science participant via a web or smartphone application. The data were downloaded using the R package *rinat*.
 
 ## Readings and resources
 
