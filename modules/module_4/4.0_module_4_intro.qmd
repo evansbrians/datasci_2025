@@ -45,7 +45,10 @@ This module (and *most* of module 5) are a little different in that almost all o
 
 ## Getting started
 
-Please download the attached zip file [module_4_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script or data files that you already have, please overwrite the previous file.
+Please download the attached zip file [module_4_files.zip]{.mono} and:
+
+* Place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files that you already have, please overwrite the previous file.
+* Place any data files ([*.csv]{.mono} and [*.rds]{.mono}) in the [data/raw]{.mono} folder. If there are any data files you already have, please overwrite the previous file.
 
 ## About this week's data
 
