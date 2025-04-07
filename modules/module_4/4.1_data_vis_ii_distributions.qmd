@@ -1681,7 +1681,25 @@ dc_birds %>%
   )
 ```
 
-We can then change the font size of each text element by specifying the component to modify and using the `element_text()` argument `size = ...`. Here, we will set the font size of the
+Note: The argument `family = "Times"` only works on Mac computers. If you are a Windows user, you can instead specify the argument as `family = "serif"`. Another option for Windows users is to run the following in your console pane:
+
+```{r eval = FALSE}
+install.packages("extrafont")
+
+extrafont::font_import()
+```
+
+After loading the fonts, you will have to add:
+
+```{r eval = FALSE}
+extrafont::loadfonts(device = "win")
+```
+
+Then you can change the font in your theme with `element_text(family = "Times New Roman")`!
+
+After that aside, we will now return to modifying our plots theme.
+
+We can change the font size of each text element by specifying the component to modify and using the `element_text()` argument `size = ...`. Here, we will set the font size of the
 
 * Plot title to 18
 * Axis titles to 16
