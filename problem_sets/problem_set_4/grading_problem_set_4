@@ -36,7 +36,7 @@ Grading Problem Set 4
     9.3.4 (facets in single column)
     9.3.5 (scale = free_y)
     9.3.6 (scale = free_y to maintain x-axis range)
-    9.3.7 (scale_y_continuous with expand)
+    9.3.7 (scale_y_continuous with expansion)
     9.3.8 (scale_fill_brewer)
     9.3.9 (plot title)
     9.3.10 (x-axis label)

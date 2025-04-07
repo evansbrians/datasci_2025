@@ -36,9 +36,9 @@ Before continuing, please be sure that you have completed all of the preliminary
 
 ## Module overview
 
-This module (and *most* of module 5) are a little different in that almost all of the new content is provided in videos. Written tutorial content is meant only to support your understand of the the video content. This module is divided into the following sections:
+This module (and *most* of module 5) are a little different in that almost all of the new content is provided in videos. Most of the written tutorial content (except 4.1) is meant only to support your understand of the the video content. This module is divided into the following sections:
 
--   **4.1. Data visualization with ggplot II: Exploring distributions**: In this written lesson ... 
+-   **4.1 Data visualization with ggplot II: Exploring continuous distributions**: In this written lesson you will learn the geometries that are most often used to explore continuous distributions and when different geometries should be applied to a given visualization. Along the way, you will also continue to develop your understanding of plot elements for generating great data visualizations.
 -   **4.2. Advanced filtering**: In this video lesson (runtime -- 28:51) and compendium tutorial, we will review basic filtering and break new ground on how to reduce repetition when filtering multiple variables, how to filter grouped data, and how to use *stringr* to filter based on partial string matching.
 -   **4.3. Filtering strings**: This video lesson (runtime -- 41:39) and compendium tutorial provides the basics of using regular expressions (literal characters and metacharacters) to filter strings.
 -   **4.4. Subsetting vectors**:  In the final video lesson (runtime -- 21:12) and compendium tutorial we will address how to subset vectors (atomic vectors and lists) by position, name, and logic.
@@ -51,7 +51,9 @@ Please download the attached zip file [module_4_files.zip]{.mono} and place any 
 
 This week we will use the following data files in our exercises:
 
-**iris.rds**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164)!).
+**[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visit backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
+
+**iris.rds{.mono}**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164)!).
 
 **[my_covid_garden.csv]{.mono}**: This is a tabular dataset that describes a pretty unsuccessful raised bed garden at my home in Takoma Park, Maryland.
 
@@ -110,8 +112,10 @@ file.path(
 :::
 :::
 
+- [Data to Vis](https://www.data-to-viz.com/#chord){target="_blank"}: A handy guide for when to use different kinds of plots!
+
 - Wickham and Grolemund (1st edition): 
-    -   [5.2: Filter rows with filter](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
+    -   [5.2: Filter rows with filter](https://r4ds.had.co.nz/transform.html#filter-rows-with-filter){target="_blank"}
     -   [14: Strings](https://r4ds.had.co.nz/strings.html){target="_blank"}
     
 - Wickham: [4: Subsetting](https://adv-r.hadley.nz/subsetting.html){target="_blank"}

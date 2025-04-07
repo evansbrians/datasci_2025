@@ -106,8 +106,8 @@
 #   * The position of values on the y-axis for each facet is determined by the
 #     range of density values within a given park;
 #   * The position of values on the x-axis does *not* vary by park;
-#   * The scale of the y-axis for a given park ranges from 0 to a value of 0.05 
-#     above the maximum density for that park;
+#   * The scale of the y-axis for a given park ranges from 0 to a value of 0.20 
+#     times above the maximum brood X observation density for that park;
 #   * The color scale associated with `species` is determined using
 #     `scale_fill_brewer()`;
 #   * The plot is titled "Density distribution of Brood X cicada observations
