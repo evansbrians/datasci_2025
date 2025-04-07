@@ -44,7 +44,7 @@ rm(has_annotations)
 <div>
 ![](../../images/hex_complex.png){.intro_image}
 
-The rules that govern **tidy data** (each variable forms a column, each observation forms a row, and each level of observation forms a table) are so important to ecological data management that I decided to dedicate another lesson to the subject. In this lesson, you will have the opportunity to practice applying **tidy data** rules (i.e. *normalizing a data set*) by using *tidyr* and *dplyr* tools to reformat a very messy weather dataset ([messy_weather.csv]{.mono}). Although I have personally made these data much (infinitely?) less tidy than the original version, the format of these data closely reflects many of the problems that I have observed with environmental and ecological data. While pre-processing these data, you will how to:
+The rules that govern **tidy data** (each variable forms a column, each observation forms a row, and each level of observation forms a table) are so important to ecological data management that I decided to dedicate another lesson to the subject. In this lesson, you will have the opportunity to practice applying **tidy data** rules (i.e. *normalizing a data set*) by using *tidyr* and *dplyr* tools to reformat a very messy weather dataset ([messy_weather.csv]{.mono}). Although I have personally made these data much (infinitely?) less tidy than the original version, the format of these data closely reflects many of the problems that I have observed with environmental and ecological data. While pre-processing these data, you will learn how to:
 
 * Build pre-processing into your scripts;
 * Utilize piping in your pre-processing steps;
