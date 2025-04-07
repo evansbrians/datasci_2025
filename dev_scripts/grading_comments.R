@@ -53,6 +53,9 @@
 # * Indentation: Closing parentheses should be indented to the same level as
 #   the start of the function.
 
+# * Indentation: The line following the first pipe in a piped code block should
+#   be indented two spaces (one tab stop) relative to the line above.
+
 # Single spaces:
 
 # * The extraction ($) and colon (:, ::) infix operators should not be preceded
@@ -101,6 +104,9 @@
 
 # * If you provide three or more arguments to a function, place each argument
 #   on its own line.
+
+# * If you have more than one = in a function, place each argument on its own
+#   line.
 
 # * Code and comments should not be on the same line.
 
