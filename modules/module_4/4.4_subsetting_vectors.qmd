@@ -37,6 +37,12 @@ knitr::opts_chunk$set(
   error = TRUE)
 
 rm(has_annotations)
+
+instruments <- 
+  read_rds("data/raw/four_instruments.rds")
+
+garden <- 
+  read_rds("data/raw/my_covid_garden_tidy.rds")
 ```
 
 <hr>
@@ -44,25 +50,22 @@ rm(has_annotations)
 <div>
 ![](../../images/hex_complex.png){.intro_image}
 
-Once we have adopted the tidyverse workflow, we might find ourselves annoyed that many tidyverse tools (especially *dplyr* functions) do not translate well to working with data other than data frames. For example, the *dplyr* functions `select` and `filter` *only* work with data frames! Historically, there was little that could be done about this -- you coded in the modern, tidyverse style when working with data frames and back in ye-olde-base-R style when working with vectors. Luckily, we now have plenty of tidyverse tools at our disposal for working with vectors! In this video lesson (25:56) and compendium tutorial (this one is a reference only), you will learn how to subset atomic vectors and lists by:
+Once we have adopted the tidyverse workflow, we might find ourselves annoyed that many tidyverse tools (especially *dplyr* functions) do not translate well to working with data other than data frames. For example, the *dplyr* functions `select` and `filter` *only* work with data frames! Historically, there was little that could be done about this -- you coded in the modern, tidyverse style when working with data frames and back in ye-olde-base-R style when working with vectors. Luckily, we now have plenty of tidyverse tools at our disposal for working with vectors! In this video lesson (24:50) and compendium tutorial (this one is a reference only), you will learn how to subset atomic vectors and lists by:
 
 * Position (though I do not recommend this!)
 * Name (just like `select()`!)
 * Logic (just like `filter()`!)
 
-*Note: The video lesson also demonstrates how to use filtering, ggplot, string matching, and a knowledge of the natural history of your study system to explore and interpret your data!*
-
 **Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
 
 </div>
-
 
 ## Data for this lesson
 
 <button class="accordion">Please click this button to explore the metadata for this lesson!
 </button>
 ::: panel
-In the video portion of this lesson, we will explore the file [my_covid_garden.rds]{.mono}. The data are formatted as a list of the following tibble data frames:
+In the video portion of this lesson, we will explore the file `my_covid_garden_tidy.rds`. The data are formatted as a list of the following tibble data frames:
 
 [garden_beds]{.mono}
 
@@ -86,7 +89,7 @@ In the video portion of this lesson, we will explore the file [my_covid_garden.r
 * [date]{.mono}, date: The date in which an observation was made or action was taken on a given plant, or fungus. This variable, combination with [species]{.mono}, represents the compound key of the table.
 * [event]{.mono}, character: An observation made, or action taken, on a plant or fungus.
 
-We will also use the file [four_instruments.rds]{.mono} ... this is a named character vector that we use for simple examples.
+We will also use the file `four_instruments.rds` ... this is a named character vector that we use for simple examples.
 
 :::
 
@@ -96,11 +99,16 @@ Please do the following to ensure that you are working in a clean session:
 
 1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
-3. Open the script file [summarize_lanternfly.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+3. Open the script file `subset_vectors.R` (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
 ## Video content
 
-{{< video https://youtu.be/JaE6PZtD8qo?si=knGEFMf4R-2CE8y1 >}}
+Before you begin, some notes on the video content:
+
+* I did not include hanging parentheses when using magrittr::extract to subset a list by multiple names.
+* I did not include hanging parentheses when using negated selection with partial string matching
+
+{{< video https://www.youtube.com/watch?v=EDTDH8evIRM >}}
 
 ## Written tutorial
 
@@ -130,7 +138,7 @@ instruments %>%
   magrittr::extract(1)
 ```
 
-Likewise, we can use the *purrr* function `pluck` to extract the data by position (*purrr* is loaded with the core tidyverse):
+Likewise, we can use the *purrr* function `pluck` to extract the data by position (*purrr* is loaded with the **core tidyverse**):
 
 ```{r}
 instruments %>% 
@@ -166,7 +174,7 @@ garden %>%
   class()
 ```
 
-Notice in the above that `magrittr::extract()` subsets a list and returns a list, whereas the other two functions (`[[...]]` and `pluck()`) return the list item itself.
+Notice in the above that `magrittr::extract()` subsets a list and returns a list, whereas the other two functions (`[[...]]` and `pluck()`) return the list item itself (a tibble data frame).
 
 Because the resultant object of `magrittr::extract()` is a list, we cannot run functions built for data frames:
 
@@ -201,7 +209,7 @@ garden %>%
   magrittr::extract(1:2)
 ```
 
-We *cannot* use *purrr's* `pluck()` for either operation, however, as this will only extract a single list item!
+We *cannot* use *purrr's* `pluck()` for either operation, however, as this can only extract a single list item!
 
 ```{r}
 instruments %>% 
@@ -213,7 +221,7 @@ garden %>%
 
 ### Subset by name
 
-We have learned a base R method for extracting a value from a vector by name with the function `[[...]]`:
+We have learned a base R method for extracting a value from a vector by name with the double square brackets function, `[[...]]`:
 
 ```{r}
 instruments %>% 
@@ -266,7 +274,8 @@ If we want to extract multiple items with `pluck()` we are given an error messag
 ```{r}
 garden %>% 
   pluck(
-    c("garden_beds", "plants_and_shrooms"))
+    c("garden_beds", "plants_and_shrooms")
+  )
 ```
 
 ... but we are empowered to do so with `magrittr::extract()`:
@@ -274,12 +283,13 @@ garden %>%
 ```{r}
 garden %>% 
   magrittr::extract(
-    c("garden_beds", "plants_and_shrooms"))
+    c("garden_beds", "plants_and_shrooms")
+  )
 ```
 
 So what's not to like? Personally, I have become accustomed to tidyverse functions passing the bindings of an object to the next function. As such, I do not think that the quotation marks should be necessary. To do this, *dplyr*, *tidyr*, and other tidyverse packages employ the function `select` from the *tidyselect* package under-the-hood. Unfortunately, *tidyselect* is not universally applied across tidyverse packages! We can explicitly call the function by using the operator `:::` (this is a sneaky way to call a function that was not intended to be exported).
 
-This allows us to subset a list without quotation marks (just like using `select()` with a data frame!):
+This allows us to subset a list without quotation marks (just like using `dplyr::select()` with a data frame!):
 
 ```{r}
 garden %>% 
@@ -290,15 +300,18 @@ This even empowers us to use negated selection:
 
 ```{r}
 garden %>% 
-  tidyselect:::select(!c(garden_events, food_events))
+  tidyselect:::select(
+    !c(garden_events, food_events)
+  )
 ```
 
-... and even partial string matching!
+... and partial string matching!
 
 ```{r}
 garden %>% 
   tidyselect:::select(
-    !matches("events"))
+    !matches("events")
+  )
 ```
 
 ### Subset with logic
@@ -309,18 +322,20 @@ Consider the operation below:
 
 ```{r}
 instruments %>% 
-  keep(~ str_detect(.x, "^g"))
+  keep(
+    ~ str_detect(.x, "^g")
+  )
 ```
 
 Above, we:
 
-* Use `keep()` to specify that we are subsetting the vector
-* Use the formula operator, `~` to specify the formula upon which we will base our subsetting operation
-* Define the subsetting function with `str_detect()`
-* Define the variable we wish to subset with `.x`
-* Describe the pattern that we are search for (because this is `str_replace()`, after all)
+* Use `keep()` to specify that we are subsetting the vector;
+* Use the formula operator, `~` to specify the formula upon which we will base our subsetting operation;
+* Define the subsetting function with `str_detect()`;
+* Define the variable we wish to subset with `.x`;
+* Describe the pattern that we are searching for (because this is `str_detect()`, after all).
 
-If we wanted to search for values of a given value where the value is equal to "guitar", this would be:
+If we wanted to search for values that are equal to "guitar", this would be:
 
 ```{r}
 instruments %>% 
@@ -350,30 +365,23 @@ Notice that, in the above, values that pass the test are maintained, whereas the
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The function operator that specifies that the object right-hand-side (RHS) the LHS is a function of the data supplied on the RHS
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
-* `.Primitive, :::`: Infix operator that can be used to access a non-exported function from a package environment without attaching the whole package environment to your current session
-* `.Primitive, $`: Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
-* `.Primitive, ==`: Infix relational operator (is equal to)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, class`: Print the class of an object as a one-value character vector
-* `base::%in%`: Infix relational operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
-* `base::[]`: Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
-* `base::[[]]`: Extraction operator used to index a single value from a data object (LHS) based on the position or values specified inside the brackets
-* `base::list.files`: List files in a specified folder on your computer's hard drive
-* `dplyr::filter`: Subset a data frame by logical condition
-* `magrittr::extract`: Extract a value from an atomic vector or list item by position or name
-* `purrr::keep`: Subset a vector with logic
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
-* `stringr::str_detect`: Logical test of whether a pattern (string) is contained within a character value
-* `tidyselect::matches`: When used with select, this allows you to subset names with string matching
-* `tidyselect:::select`: Extract by name from any named object (without quotes!)
+::: function_table
 
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_4.4_subsetting_vectors.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 
 :::
 
@@ -403,7 +411,7 @@ The most common keyboard shortcuts are provided below for Windows and Mac operat
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
