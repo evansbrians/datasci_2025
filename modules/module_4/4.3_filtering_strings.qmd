@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -206,12 +206,12 @@ The vector below, `nina_and_maude`, contains two famous thoughts on birds:
 ```{r}
 nina_and_maude <-
   c(
-    nina = "I wish I could fly like a bird in the sky",
+    nina = "I wish I could be like a bird in the sky",
     maude = "To me they will always be glorious birds"
   )
 ```
 
-<button class="accordion" style = "margin-bottom: 18px">Using the search pattern "bird", evaluate this statement such that both Nina **and** Maude's reference to birds evaluate to `TRUE`.</button>
+<button class="accordion" style = "margin-bottom: 18px">Using the search pattern "bird", evaluate this statement such that both Nina *and* Maude's reference to birds evaluate to `TRUE`.</button>
 
 ::: panel
 
@@ -405,7 +405,7 @@ c(
 
 ### Or
 
-The *or* metacharacter (`...|...`) is used to evaluate whether a symbol or set of symbols matches a string *or* whether another symbol or set of symbols is found in a string.
+The **or metacharacter** (`...|...`) is used to evaluate whether a symbol or set of symbols matches a string *or* whether another symbol or set of symbols is found in a string.
 
 For example, the following can be used to detect "gray", "grey" or "graying", but not "stingray":
 
@@ -1117,7 +1117,7 @@ c(
 
 <button class="accordion">Glossary</button>
 ::: panel
-* **Core tidyverse package** or **Core tidyverse**: A subset of the *tidyverse* packages that are attached with `library(tidyverse)`.
+* **Core tidyverse package**: A subset of the *tidyverse* packages that are attached with `library(tidyverse)`.
 * **Literal character**: In regex, this is used to search for exact character matches in the case (i.e., lower vs. upper) and order of characters.
 * **Metacharacter**: Special characters used to modify the conditions of a regex search string (such a a choice of letters or position of literal characters in a string). Note: Metacharacters are not R functions!
 * **Metacharacter, alternation constraint**: Metacharacter that allows us to assess groups of symbols.
@@ -1173,17 +1173,17 @@ When you are given a list of functions that you may use in a given problem set, 
 :::
 
 * **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
-* **Anchor**, `^...`: Specify the start of a string
-* **Anchor**, `...$`: Specify the end of a string
-* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
-* **Optional match**, `?`: Specify that the preceding symbol is optional
-* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
-* **Or**, `...|...`: Specify a match of one string "or" another string
-* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
-* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
-* **Repetition**, `{...}`: Specify the number of times a symbol should appear
-* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
-* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+* **Anchor metacharacter**, `^...`: Specify the start of a string
+* **Anchor metacharacter**, `...$`: Specify the end of a string
+* **Character class metacharacter**, `[...]`: Define a *set* of symbols that you would like to match
+* **Optional match metacharacter**, `?`: Specify that the preceding symbol is optional
+* **Range metacharacter** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or metacharacter**, `...|...`: Specify a match of one string "or" another string
+* **Repetition metacharacter**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition metacharacter**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition metacharacter**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition metacharacter**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card metacharacter**, `.`: Specify that a character value at a given location can be any symbol
 :::
 
 
