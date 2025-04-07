@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -62,7 +62,8 @@ This week we will use the following data files in our exercises:
 
 ## Readings and resources
 
-<button class="accordion">Glossary of terms (I am a button ... click me!)</button>
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
+
 ::: panel
 ::: glossary_table
 
@@ -111,6 +112,8 @@ file.path(
 
 :::
 :::
+
+<br>
 
 - [Data to Vis](https://www.data-to-viz.com/#chord){target="_blank"}: A handy guide for when to use different kinds of plots!
 
