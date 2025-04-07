@@ -79,27 +79,19 @@ get_glossary_table_lesson <-
     lesson
   ) {
     lesson_terms <-
-      get_lesson_terms(module, lesson)
+      get_lesson_terms(module, lesson) %>% 
+      tolower()
     if(
-      length(lesson_terms) > 0) {
-      lesson_terms %>% 
-      str_to_lower() %>% 
-        map_dfr(
-          ~ glossary_table %>% 
-            filter(
-              str_to_lower(Term) == .x|
-                str_detect(
-                  str_to_lower(Term), 
-                  .x,
-                ),
-              !str_detect(
-                Term, 
-                "^R$|Rstudio|Projected|Projection|CRS|[Dd]istance|Geodetic|sfc"
-              )
-            )
-        ) %>% 
-        distinct() %>% 
-        arrange(Term)
+      length(lesson_terms) > 0
+    ) {
+      glossary_table %>% 
+        filter(
+          tolower(Term) %in% lesson_terms,
+          !str_detect(
+            Term,
+            "^R$|Rstudio|Projected|Projection|CRS|[Dd]istance|Geodetic|sfc"
+          )
+        )
     }
   }
 
@@ -111,7 +103,7 @@ get_glossary_table_module <-
       here::here(),
       str_c("modules/module_", module)
     ) %>% 
-    list.files(pattern = "qmd$") %>% 
+      list.files(pattern = "qmd$") %>% 
       keep(
         ~ !str_detect(.x, "[0-9]{1}\\.0")
       ) %>% 
