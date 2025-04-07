@@ -39,12 +39,21 @@ get_grade_summaries <-
     
     # Calculate grades:
     
-    grades <- 
-      gradebook %>% 
-      summarize(
-        grade = 10 - sum(points_off),
-        .by = student_name_last
-      )
+    if(!problem_set == 3) {
+      grades <- 
+        gradebook %>% 
+        summarize(
+          grade = 10 - sum(points_off),
+          .by = student_name_last
+        )
+    } else {
+      grades <- 
+        gradebook %>% 
+        summarize(
+          grade = (12 - sum(points_off)) / 12 * 10,
+          .by = student_name_last
+        )
+    }
     
     just_grades <-
       grades %>% 
