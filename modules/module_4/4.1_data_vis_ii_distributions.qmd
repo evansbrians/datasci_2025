@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
 
 ![](../../images/hex_complex.png){.intro_image}
 
-In this written lesson (no video content), we will continue our exploration of using the core tidyverse package *ggplot* to visualize data. We will use explore different ways to visualize the distribution of a variable. We will pay special attention on what unique perspective, or what sort of information, each type of plot offers for understanding data distributions.
+In this written lesson (no video content), we will continue our exploration of using the core tidyverse package *ggplot* to visualize data. We will explore different ways to visualize the distribution of a variable. We will pay special attention on what unique perspective, or what sort of information, each type of plot offers for understanding data distributions.
 
 Throughout, you will enhance your knowledge on:
 
@@ -45,7 +45,6 @@ Throughout, you will enhance your knowledge on:
 * The coordinate system
 * Labels
 * Themes
-* Saving plots
 
 ## Review
 
@@ -459,7 +458,7 @@ The above successfully communicates that females, on average, have shorter wings
 
 #### Density
 
-Density plots are great for comparing distributional differences among groups. Let's look a closer look at the distribution of male and female House wren wing lengths:
+Density plots are great for comparing distributional differences among groups. Let's take a closer look at the distribution of male and female House wren wing lengths:
 
 ```{r}
 dc_birds %>% 
@@ -1275,7 +1274,7 @@ dc_birds %>%
   )
 ```
 
-Next, we should decide on our grid lines. Gridlines are only useful as guides for our eyes to be drawn to important information in the plot. If we would like for our readers to see specific values associated with our bars in this plot, it makes sense to include horizontal gridlines. Let's add major gridlines that are colored light gray:
+Next, we should decide on our gridlines. Gridlines are guides for our eyes to be drawn to important information in the plot and should not be included if this is not necessary. If we would like for our readers to see specific values associated with our bars in this plot, it makes sense to include horizontal gridlines. Let's add major gridlines that are colored light gray:
 
 ```{r}
 dc_birds %>% 
@@ -1328,7 +1327,7 @@ dc_birds %>%
   )
 ```
 
-Minor gridlines (`panel.grid.minor = ...`) are spaced halfway between major gridlines. These can help readers align geometries with values on a given axis.
+Minor gridlines (`panel.grid.minor = ...`) are spaced halfway between major gridlines. These can further help readers align geometries with values on a given axis (if necessary).
 
 ```{r}
 dc_birds %>% 
@@ -1766,12 +1765,15 @@ dc_birds %>%
 <button class="accordion">Glossary</button>
 ::: panel
 * **Aesthetic mappings**: How the data are mapped to visual attributes.
+* **Core tidyverse**:Packages that are attached with `library(tidyverse)`.
 * **Data** (in the Grammar of Graphics): The information being plotted.
+* **Hinges**: Graphical representation of the 1st and 3rd quartiles of the range (25th and 75th percentiles);
 * **Layers (geometries)**: Expression of the data in the plot.
 * **Scales**: Maps from data to aesthetic space.
 * **Coordinate system**: Projection of data (e.g., x and y Cartesian coordinates).
 * **Facets**: Subsets of data within a given plot (i.e., plots are broken into subplots based on some grouping variable).
 * **Theme**: Styling of non-data elements in a plot.
+* **Whisker**: Graphical representation of values that are no further than 1.5 times the interquartile range relative to the hinges;
 :::
 
 <button class="accordion">Functions</button>
