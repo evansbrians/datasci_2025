@@ -1,0 +1,41 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!=,Infix relational operator (is not equal to)
+.Primitive,|,Prefix logical operator (or)
+.Primitive,<,Infix relational operator (less than)
+.Primitive,>=,Infix relational operator (greater than or equal to)
+.Primitive,<=,Infix relational operator (less than or equal to)
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,^,Infix arithmetic operator (to the power of)
+.Primitive,c,Combine values to form an atomic vector
+base,factor,Convert a character vector to a factor
+base,library,Attach the package environment for a given package to the current R session
+base,unit,Set or create a unit object
+dplyr,filter,Subset a data frame by logical condition
+dplyr,mutate,Add or modify a column in a data frame
+ggplot2,+,ggplot's pipe operator (adds a layer to a plot)
+ggplot2,aes,Define aesthetics
+ggplot2,coord_flip,Switch the mapping to the horizontal and vertical coordinates
+ggplot2,element_blank,Remove a thematic element
+ggplot2,element_line,Set the theme for a line element
+ggplot2,element_rect,Set the theme for a shape element
+ggplot2,element_text,Set the theme for a text element
+ggplot2,expansion,Set upper and lower values of a plot axis based on the range of data
+ggplot2,facet_wrap,Split plot into facets
+ggplot2,geom_boxplot,Create a boxplot geometry
+ggplot2,geom_density,Create a (statistical) density geometry
+ggplot2,ggplot,"Set the data and, potentially, the aesthetics of a plot"
+ggplot2,labs,Add or modify the labels of a plot
+ggplot2,scale_y_continuous,Set the scale of the y axis
+ggplot2,theme,Define the theme elements of a plot
+ggplot2,theme_bw,Generate a pre-packaged light background theme for a plot
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,pluck,Extract a list item from a list
+readr,read_rds,Read an RDS file into R
+stringr,str_detect,Logical test of whether a pattern (string) is contained within a character value
+tidyr,drop_na,Remove rows that contain NA values

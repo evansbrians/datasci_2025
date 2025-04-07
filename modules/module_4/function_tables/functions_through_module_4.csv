@@ -23,7 +23,7 @@ Package,Function,First lesson used,Definition
 .Primitive,-,0.2-values,Infix arithmetic operator (subtract) or prefix negative symbol operator
 .Primitive,*,3.1_mutation,Infix arithmetic operator (multiply)
 .Primitive,/,0.3-objects,Infix arithmetic operator (divide)
-.Primitive,^,4.3_filtering_strings,Infix arithmetic operator (to the power of)
+.Primitive,^,4.1_data_vis_ii_distributions,Infix arithmetic operator (to the power of)
 .Primitive,as.character,0.2-values,Transform an atomic vector to a character vector
 .Primitive,as.integer,0.2-values,Transform an atomic vector to an integer vector
 .Primitive,as.numeric,0.2-values,"Transform an atomic vector to an double numeric vector (i.e., decimal numbers)"
@@ -58,7 +58,7 @@ base,summary,1.4_importing_exploring_exporting,Print summary stats for a data ob
 base,tolower,1.5_assignments,Convert a character vector to lowercase
 base,table,1.4_importing_exploring_exporting,Count the number of unique observations in an atomic vector
 base,typeof,0.2-values,Print a one-value character vector that represents how a data object is stored on our computer
-base,unit,4.1_intro_to_data_vis,Set or create a unit object
+base,unit,4.1_data_vis_ii_distributions,Set or create a unit object
 base,unique,1.4_importing_exploring_exporting,Subset an atomic vector to the unique values in the set
 dplyr,anti_join,3.4_joins,A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
 dplyr,arrange,1.4_importing_exploring_exporting,Sort the rows of a data frame by the values in a variable or variables
@@ -92,20 +92,20 @@ dplyr,summarize,1.6_course_style_guide_part_1,Calculate one or more summary stat
 dplyr,transmute,3.1_mutation,Mutate a data frame while subsetting the columns to those specified in the function
 dplyr,ungroup,3.3_summarizing,Remove any grouping on a data frame
 ggplot2,aes,2.4_intro_to_data_vis,Define aesthetics
-ggplot2,coord_flip,4.1_intro_to_data_vis,Switch the mapping to the horizontal and vertical coordinates
-ggplot2,element_line,4.1_intro_to_data_vis,Set the theme for a line element
-ggplot2,element_rect,4.1_intro_to_data_vis,Set the theme for a shape element
+ggplot2,coord_flip,4.1_data_vis_ii_distributions,Switch the mapping to the horizontal and vertical coordinates
+ggplot2,element_blank,4.1_data_vis_ii_distributions,Remove a thematic element
+ggplot2,element_line,4.1_data_vis_ii_distributions,Set the theme for a line element
+ggplot2,element_rect,4.1_data_vis_ii_distributions,Set the theme for a shape element
 ggplot2,element_text,2.4_intro_to_data_vis,Set the theme for a text element
-ggplot2,expansion,4.1_intro_to_data_vis,Set upper and lower values or proportions to expand an axis by
+ggplot2,expansion,4.1_data_vis_ii_distributions,Set upper and lower values of a plot axis based on the range of data
 ggplot2,facet_wrap,2.4_intro_to_data_vis,Split plot into facets
-ggplot2,geom_bar,4.1_intro_to_data_vis,Create a bar geometry
+ggplot2,geom_boxplot,4.1_data_vis_ii_distributions,Create a boxplot geometry
+ggplot2,geom_density,4.1_data_vis_ii_distributions,Create a (statistical) density geometry
 ggplot2,geom_point,2.4_intro_to_data_vis,Create a point geometry
 ggplot2,geom_smooth,2.4_intro_to_data_vis,Add a line-of-best-fit geometry
 ggplot2,ggplot,2.4_intro_to_data_vis,"Set the data and, potentially, the aesthetics of a plot"
-ggplot2,ggsave,4.1_intro_to_data_vis,Save a ggplot to your computer
 ggplot2,labs,2.4_intro_to_data_vis,Add or modify the labels of a plot
 ggplot2,scale_color_manual,2.4_intro_to_data_vis,Manually define the colors of a geometry
-ggplot2,scale_fill_brewer,4.1_intro_to_data_vis,Fill a geometry with colors from a RColorBrewer palette
 ggplot2,scale_x_continuous,2.4_intro_to_data_vis,Set the scale of the x axis
 ggplot2,scale_y_continuous,2.4_intro_to_data_vis,Set the scale of the y axis
 ggplot2,theme,2.4_intro_to_data_vis,Define the theme elements of a plot
@@ -130,7 +130,7 @@ stats,median,1.4_importing_exploring_exporting,Calculate the median value of a n
 stats,sd,1.4_importing_exploring_exporting,Calculate the standard deviation of a numeric vector and return as a one-value double numeric vector
 stats,var,1.4_importing_exploring_exporting,Calculate the variance of a numeric vector and return as a one-value double numeric vector
 stringr,str_c,0.1-intro_to_r_and_rstudio,"Concatenate strings, with or without (default) a separator"
-stringr,str_detect,4.2_advanced_filtering,Logical test of whether a pattern (string) is contained within a character value
+stringr,str_detect,4.1_data_vis_ii_distributions,Logical test of whether a pattern (string) is contained within a character value
 terra,extract,4.4_subsetting_vectors,Extract raster values to a shapefile based on location
 terra,plot,0.2-values,Apply a base R-style plot to a terra raster object
 tibble,lst,2.3_tidy_data_review,Combine objects into a list while maintaining any names assigned to the global environment
