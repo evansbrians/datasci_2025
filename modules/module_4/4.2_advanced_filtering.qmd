@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -468,7 +468,7 @@ When conducting repetitive filtering tasks, the use of `if_all()` and `if_any()`
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_4.2_mutation.csv"
+  "functions_4.2_advanced_filtering.csv"
 ) %>% 
   read_csv() %>% 
 kableExtra::kable(
