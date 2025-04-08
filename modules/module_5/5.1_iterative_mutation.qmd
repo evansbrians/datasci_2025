@@ -272,9 +272,9 @@ weather_numeric %>%
   )
 ```
 
-In the above, we can see that the name assigned to each function are included within the column names. This is because when functions are provided as a named list, the column names are assigned with the convention `{.col}_{.fn}` (see `.names = ...` in `?across`).
+In the above, we can see that the name assigned to each function is included within the column names. This is because when functions are provided as a named list, the column names are assigned with the convention `{.col}_{.fn}` (see `.names = ...` in `?across`).
 
-We can also apply `across()` to multiple variables *while* applying a single function to other variables. For example, in the below, I use `as_date()` to convert the character vector `date` to a date class object (more on this in ***5.4. Dates and times***) *while* converting all of the weather variables to numeric in the original `weather_observations` dataset.
+We can also apply `across()` to multiple variables *while* applying a single function to other variables by specifying multiple arguments within `mutate()`. For example, in the below, I use `as_date()` to convert the character vector `date` to a date class object (more on this in ***Lesson 5.4: Dates and times***) *while* converting all of the weather variables to numeric in the original `weather_observations` dataset.
 
 ```{r}
 weather_observations %>% 
@@ -305,7 +305,7 @@ weather_observations %>%
   )
 ```
 
-... but we could have also used negated selection (`!`) to select the columns the we *do not* want to modify"
+... but we could have also used negated selection (`!`) to select the columns the we *do not* want to modify:
 
 ```{r}
 weather_observations %>% 
@@ -319,7 +319,7 @@ weather_observations %>%
 
 #### Review: regex & `across()`
 
-We can use regex and `matches()` to select our columns of interest. In the code below, I calculate the `mean()` of variables whose name contains the pattern `"temp"`.
+We can use regex and `matches()` to select our columns of interest. In the code below, I calculate the `mean()` of variables whose name contains the pattern "temp".
 
 ```{r}
 weather_numeric %>% 
@@ -466,7 +466,7 @@ weather_observations %>%
 
 We have covered this before, but it is important to recognize that data frames may be grouped within `mutate()` and `summarize()` using `group_by()` *or* with the new argument `.by = ...`.
 
-As such, the following code that uses `group_by()` and `summarize()`:
+As such, the following code that uses `group_by()` and `summarize()`...
 
 ```{r}
 weather_numeric %>% 
@@ -507,7 +507,7 @@ weather_numeric %>%
   distinct()
 ```
 
-*But do not forget the benefits of `group_by()` as covered in **Lesson 4.1 Advanced Filtering: Grouped filters**! 
+*But do not forget the benefits of `group_by()` as covered in **Lesson 4.1 Advanced Filtering: Grouped filters**!* 
 
 ## Reference
 
@@ -534,31 +534,23 @@ weather_numeric %>%
 * The *tidyselect* functions in this lesson are also made available with `library(tidyverse)`.
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The function operator that specifies that the object right-hand-side (RHS) the LHS is a function of the data supplied on the RHS
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, as.numeric`: Transform an atomic vector to an double numeric vector (i.e., decimal numbers)
-* `.Primitive, max`: Return the highest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
-* `.Primitive, min`: Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
-* `dplyr::across`: Apply a function across multiple variables in a data frame
-* `dplyr::distinct`: Subset a data frame by removing duplicate rows
-* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `dplyr::transmute` (superseded): Mutate a data frame while subsetting the columns to those specified in the function
-* `lubridate::as_date`: Convert properly formatted date, stored as a character or datetime vector, to a date class object
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
-* `tidyselect::matches`: When used with select, this allows you to subset names with string matching
-* `tidyselect::where`: Select a variable with a function that returns `TRUE` or `FALSE` 
-* `utils::str`: View the structure of a data object
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_5.1_iterative_mutation.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 
 :::
 
@@ -590,7 +582,7 @@ The most common keyboard shortcuts are provided below for Windows and Mac operat
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
