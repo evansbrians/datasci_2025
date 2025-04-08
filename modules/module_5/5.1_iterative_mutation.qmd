@@ -42,9 +42,9 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-It is often necessary to repeat the same process on multiple variables. This can lead to code that is unnecessarily repetitive. The resultant code is often unnecessarily long and thus difficult to read. More importantly, this can also mean that edits made to a repeated process must be made for *each* repetition separately. Luckily, as of 2020, the *dplyr* package provides us with tools for iterating a process across multiple variables in a data frame -- this is known as **column-wise iteration** (often referred to as colwise iteration, in short). In this video lesson (19:02) and compendium tutorial, which is a review except sections denoted by **New content**, we will explore some new *dplyr* tools and you will learn how to:
+It is often necessary to repeat the same process on multiple variables. This can lead to code that is unnecessarily repetitive, long, and thus difficult to read. More importantly, this can also mean that edits made to a repeated process must be made for *each* repetition separately. Luckily, as of 2020, the *dplyr* package provides us with tools for iterating a process across multiple variables in a data frame -- this is known as **column-wise iteration** (often referred to as colwise iteration, in short). In this video lesson (19:02) and compendium tutorial, which is a review except for the sections denoted by **New content**, we will explore some new *dplyr* tools and you will learn how to:
 
 * Conduct column-wise mutation with `across()`;
 * Subset columns with `mutate()` (a replacement for `transmute()`);
@@ -100,11 +100,16 @@ Please do the following to ensure that you are working in a clean session:
 
 1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
-3. Open the script file [colwise_mutation.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+3. Open the script file `colwise_mutation.R` (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
 ## Video content
 
-*Note: Although I describe that `transmute()` was superseded with a good bit of melodrama, I have since decided that there are many instances in which I prefer the use of the function.*
+Before you begin, some notes on the video content:
+
+* Although I describe that `transmute()` was superseded with a good bit of melodrama, I have since decided that there are many instances in which I prefer the use of the function.
+* I do not conform to the Course Style Guide in this video! The biggest violations were:
+  * I much prefer using double quotes rather than single quotes
+  * I do not include hanging parentheses with `mutate()` or `select()`
 
 {{< video https://www.youtube.com/embed/DmIevt-Xt5c >}}
 
@@ -112,7 +117,7 @@ Please do the following to ensure that you are working in a clean session:
 
 In this written portion of the tutorial, we will again attach the **core tidyverse packages** to our current session and:
 
-* Read in [data/processed/weather_tidy.rds]{.mono};
+* Read in `data/processed/weather_tidy.rds`;
 * Extract the list item assigned to the name `observations` with `pluck()`;
 * Globally assign the object to the name `weather_observations`.
 
@@ -130,26 +135,34 @@ weather_observations <-
   pluck("observations")
 ```
 
-*Note: Recall that you created the list [weather_tidy.rds]{.mono} in **Lesson 3.1 Tidy data review** by normalizing the untidy dataset [messy_weather.csv]{.mono}.*
+*Note: Recall that you created the list `weather_tidy.rds` in **Lesson 3.3 Tidy data review** by normalizing the untidy dataset `messy_weather.csv`.*
 
-The tibble globally assigned to `weather_observations` conforms to the rules of **tidy data**, but that does not mean that it is easy to work with! Let's look at the **structure** of the tibble:
+The tibble globally assigned to `weather_observations` conforms to the rules of **tidy data**, but that does not mean that it is easy to work with! Let's look at the structure of the tibble:
 
 ```{r}
 str(weather_observations)
 ```
 
-We can see that the variables `precip`, `snow`, `temperature_min`, and `temperature_max` are all character vectors. Based on the description of these variables (above), it is safe to assume that these variables should instead be numeric. To do so, we must apply a **mutation**, and in fact the *same* mutation, to each of these variables ...
+We can see that the variables `precip`, `snow`, `temperature_min`, and `temperature_max` are all character vectors. Based on the description of these variables (see "Data for this lesson"), it is safe to assume that these variables should instead be numeric. To do so, we must apply a **mutation**, and in fact the *same* mutation, to each of these variables ...
 
 ### Repetitive mutation
 
-We are often called to repeat the same mutation on multiple variables in a dataset. We have a number of (ill-advised) ways that we can do this. For example, we *could* chain together multiple mutate statements with a pipe and apply the function, `as.numeric()` to convert the class of the character vector:
+We are often need to repeat the same mutation on multiple variables in a dataset. We have a number of (ill-advised) ways that we can do this. For example, we *could* chain together multiple mutate statements with a pipe and apply the function `as.numeric()` to convert the class of the character vector:
 
 ```{r}
 weather_observations %>% 
-  mutate(precip = as.numeric(precip)) %>% 
-  mutate(snow = as.numeric(snow)) %>% 
-  mutate(temperature_min = as.numeric(temperature_min)) %>% 
-  mutate(temperature_max = as.numeric(temperature_max))
+  mutate(
+    precip = as.numeric(precip)
+  ) %>% 
+  mutate(
+    snow = as.numeric(snow)
+  ) %>% 
+  mutate(
+    temperature_min = as.numeric(temperature_min)
+  ) %>% 
+  mutate(
+    temperature_max = as.numeric(temperature_max)
+  )
 ```
 
 The above works, but is *super* unparsimonious. You rarely need to chain together separate mutate statements. Instead, you could mutate each variable within the *same* mutate statement:
@@ -160,14 +173,15 @@ weather_observations %>%
     precip = as.numeric(precip),
     snow = as.numeric(snow),
     temperature_min = as.numeric(temperature_min),
-    temperature_max = as.numeric(temperature_max))
+    temperature_max = as.numeric(temperature_max)
+  )
 ```
 
 It should be obvious that the above is still not very parsimonious -- there is a lot of repetition in this code. There *must* be a better way ...
 
 ### Colwise mutation basics with `across()`
 
-We can modify multiple variables at once by nesting the function `across` inside of `mutate()`. Inside of `across()`, we supply (at least) two arguments:
+We can modify multiple variables at once by nesting the function `across()` inside of `mutate()`. Inside of `across()`, we supply (at least) two arguments:
 
 * `.cols`: A selection of column names to modify (quotes are not necessary because this function uses tidy selection)
 * `.fns`: The function or functions to apply to each variable, often specifying a formula with `~` and the variable to modify with `.x`. 
@@ -184,7 +198,7 @@ weather_observations %>%
   )
 ```
 
-The above can be considered to be an iteration. You might describe this operation as: "For each variable in precipitation through temperature_max, apply the function `as.numeric()` to each variable". Adding in the components of the process this would be described as: "For each (`across`) variable (`.cols = ...`) in `precip:temperature_max`, apply (`.fns = ~ ...`) the function `as.numeric()` to each variable (`.x`)".
+The above can be considered to be an iteration. You might describe this operation as: "For each variable in `precipitation` through `temperature_max`, apply the function `as.numeric()`". Adding in the components of the process this would be described as: "For each (`across`) variable (`.cols = ...`) in `precip:temperature_max`, apply (`.fns = ~ ...`) the function `as.numeric()` to each variable (`.x`)".
 
 Because the first argument of `across()` is the selection of columns and the second argument is the function to apply to each variable, the names of each argument are rarely written out. Instead, I would typically write this as:
 
@@ -205,7 +219,7 @@ weather_numeric <-
   weather_observations %>% 
   mutate(
     across(
-      !station:date,
+      precip:temperature_max,
       ~ as.numeric(.x)
     )
   )
@@ -213,7 +227,7 @@ weather_numeric <-
 
 ### Summarize & `across()`
 
-You can use `across()` to generating statistical summaries of your data with the `summarize` function. For example, we can calculate the mean of `temperature_min` and `temperature_max` at each weather station in `weather_numeric`:
+You can use `across()` to generate statistical summaries of your data with the `summarize` function. For example, we can calculate the mean of `temperature_min` and `temperature_max` at each weather station in `weather_numeric`:
 
 ```{r}
 weather_numeric %>% 
@@ -226,7 +240,7 @@ weather_numeric %>%
   )
 ```
 
-If we are *only* interested in the mean of the two temperature variables from the original dataset, we can avoid the intermediate assignment:
+If we are *only* interested in the mean of the two temperature variables from the original dataset, we can avoid the intermediate assignment by converting our weather variables to numeric within the same `across()`:
 
 ```{r}
 weather_observations %>% 
@@ -258,9 +272,9 @@ weather_numeric %>%
   )
 ```
 
-In the above, we can see that the name assigned to each function are included within the column names. This is because when functions are provided as a named list, the column names are assigned with the convention `{.col}_{.fn}` (see `.names = ...` in `?across`).
+In the above, we can see that the name assigned to each function is included within the column names. This is because when functions are provided as a named list, the column names are assigned with the convention `{.col}_{.fn}` (see `.names = ...` in `?across`).
 
-We can also apply `across()` to multiple variables *while* applying a single function to other variables. For example, in the below, I use `as_date()` to convert the character vector `date` to a date class object (more on this in ***5.4. Dates and times***) *while* converting all of the weather variables to numeric in the original `weather_observations` dataset.
+We can also apply `across()` to multiple variables *while* applying a single function to other variables by specifying multiple arguments within `mutate()`. For example, in the below, I use `as_date()` to convert the character vector `date` to a date class object (more on this in ***Lesson 5.4: Dates and times***) *while* converting all of the weather variables to numeric in the original `weather_observations` dataset.
 
 ```{r}
 weather_observations %>% 
@@ -291,7 +305,7 @@ weather_observations %>%
   )
 ```
 
-... but we could have also used negated selection (`!`) to select the columns the we *do not* want to modify"
+... but we could have also used negated selection (`!`) to select the columns the we *do not* want to modify:
 
 ```{r}
 weather_observations %>% 
@@ -305,7 +319,7 @@ weather_observations %>%
 
 #### Review: regex & `across()`
 
-We can use regex and `matches()` to select our columns of interest. In the code below, I calculate the `mean()` of variables whose name contains the pattern `"temp"`.
+We can use regex and `matches()` to select our columns of interest. In the code below, I calculate the `mean()` of variables whose name contains the pattern "temp".
 
 ```{r}
 weather_numeric %>% 
@@ -452,7 +466,7 @@ weather_observations %>%
 
 We have covered this before, but it is important to recognize that data frames may be grouped within `mutate()` and `summarize()` using `group_by()` *or* with the new argument `.by = ...`.
 
-As such, the following code that uses `group_by()` and `summarize()`:
+As such, the following code that uses `group_by()` and `summarize()`...
 
 ```{r}
 weather_numeric %>% 
@@ -493,7 +507,7 @@ weather_numeric %>%
   distinct()
 ```
 
-*But do not forget the benefits of `group_by()` as covered in **Lesson 4.1 Advanced Filtering: Grouped filters**! 
+*But do not forget the benefits of `group_by()` as covered in **Lesson 4.1 Advanced Filtering: Grouped filters**!* 
 
 ## Reference
 
@@ -520,31 +534,23 @@ weather_numeric %>%
 * The *tidyselect* functions in this lesson are also made available with `library(tidyverse)`.
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The function operator that specifies that the object right-hand-side (RHS) the LHS is a function of the data supplied on the RHS
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, as.numeric`: Transform an atomic vector to an double numeric vector (i.e., decimal numbers)
-* `.Primitive, max`: Return the highest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
-* `.Primitive, min`: Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
-* `dplyr::across`: Apply a function across multiple variables in a data frame
-* `dplyr::distinct`: Subset a data frame by removing duplicate rows
-* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `dplyr::transmute` (superseded): Mutate a data frame while subsetting the columns to those specified in the function
-* `lubridate::as_date`: Convert properly formatted date, stored as a character or datetime vector, to a date class object
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
-* `tidyselect::matches`: When used with select, this allows you to subset names with string matching
-* `tidyselect::where`: Select a variable with a function that returns `TRUE` or `FALSE` 
-* `utils::str`: View the structure of a data object
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_5.1_iterative_mutation.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 
 :::
 
@@ -576,7 +582,7 @@ The most common keyboard shortcuts are provided below for Windows and Mac operat
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
