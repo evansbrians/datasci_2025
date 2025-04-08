@@ -100,7 +100,7 @@ Please do the following to ensure that you are working in a clean session:
 
 1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
 2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
-3. Open the script file [colwise_mutation.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+3. Open the script file `colwise_mutation.R` (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
 ## Video content
 
@@ -117,7 +117,7 @@ Before you begin, some notes on the video content:
 
 In this written portion of the tutorial, we will again attach the **core tidyverse packages** to our current session and:
 
-* Read in [data/processed/weather_tidy.rds]{.mono};
+* Read in `data/processed/weather_tidy.rds`;
 * Extract the list item assigned to the name `observations` with `pluck()`;
 * Globally assign the object to the name `weather_observations`.
 
@@ -135,26 +135,34 @@ weather_observations <-
   pluck("observations")
 ```
 
-*Note: Recall that you created the list [weather_tidy.rds]{.mono} in **Lesson 3.1 Tidy data review** by normalizing the untidy dataset [messy_weather.csv]{.mono}.*
+*Note: Recall that you created the list `weather_tidy.rds` in **Lesson 3.3 Tidy data review** by normalizing the untidy dataset `messy_weather.csv`.*
 
-The tibble globally assigned to `weather_observations` conforms to the rules of **tidy data**, but that does not mean that it is easy to work with! Let's look at the **structure** of the tibble:
+The tibble globally assigned to `weather_observations` conforms to the rules of **tidy data**, but that does not mean that it is easy to work with! Let's look at the structure of the tibble:
 
 ```{r}
 str(weather_observations)
 ```
 
-We can see that the variables `precip`, `snow`, `temperature_min`, and `temperature_max` are all character vectors. Based on the description of these variables (above), it is safe to assume that these variables should instead be numeric. To do so, we must apply a **mutation**, and in fact the *same* mutation, to each of these variables ...
+We can see that the variables `precip`, `snow`, `temperature_min`, and `temperature_max` are all character vectors. Based on the description of these variables (see "Data for this lesson"), it is safe to assume that these variables should instead be numeric. To do so, we must apply a **mutation**, and in fact the *same* mutation, to each of these variables ...
 
 ### Repetitive mutation
 
-We are often called to repeat the same mutation on multiple variables in a dataset. We have a number of (ill-advised) ways that we can do this. For example, we *could* chain together multiple mutate statements with a pipe and apply the function, `as.numeric()` to convert the class of the character vector:
+We are often need to repeat the same mutation on multiple variables in a dataset. We have a number of (ill-advised) ways that we can do this. For example, we *could* chain together multiple mutate statements with a pipe and apply the function `as.numeric()` to convert the class of the character vector:
 
 ```{r}
 weather_observations %>% 
-  mutate(precip = as.numeric(precip)) %>% 
-  mutate(snow = as.numeric(snow)) %>% 
-  mutate(temperature_min = as.numeric(temperature_min)) %>% 
-  mutate(temperature_max = as.numeric(temperature_max))
+  mutate(
+    precip = as.numeric(precip)
+  ) %>% 
+  mutate(
+    snow = as.numeric(snow)
+  ) %>% 
+  mutate(
+    temperature_min = as.numeric(temperature_min)
+  ) %>% 
+  mutate(
+    temperature_max = as.numeric(temperature_max)
+  )
 ```
 
 The above works, but is *super* unparsimonious. You rarely need to chain together separate mutate statements. Instead, you could mutate each variable within the *same* mutate statement:
@@ -165,14 +173,15 @@ weather_observations %>%
     precip = as.numeric(precip),
     snow = as.numeric(snow),
     temperature_min = as.numeric(temperature_min),
-    temperature_max = as.numeric(temperature_max))
+    temperature_max = as.numeric(temperature_max)
+  )
 ```
 
 It should be obvious that the above is still not very parsimonious -- there is a lot of repetition in this code. There *must* be a better way ...
 
 ### Colwise mutation basics with `across()`
 
-We can modify multiple variables at once by nesting the function `across` inside of `mutate()`. Inside of `across()`, we supply (at least) two arguments:
+We can modify multiple variables at once by nesting the function `across()` inside of `mutate()`. Inside of `across()`, we supply (at least) two arguments:
 
 * `.cols`: A selection of column names to modify (quotes are not necessary because this function uses tidy selection)
 * `.fns`: The function or functions to apply to each variable, often specifying a formula with `~` and the variable to modify with `.x`. 
@@ -189,7 +198,7 @@ weather_observations %>%
   )
 ```
 
-The above can be considered to be an iteration. You might describe this operation as: "For each variable in precipitation through temperature_max, apply the function `as.numeric()` to each variable". Adding in the components of the process this would be described as: "For each (`across`) variable (`.cols = ...`) in `precip:temperature_max`, apply (`.fns = ~ ...`) the function `as.numeric()` to each variable (`.x`)".
+The above can be considered to be an iteration. You might describe this operation as: "For each variable in `precipitation` through `temperature_max`, apply the function `as.numeric()`". Adding in the components of the process this would be described as: "For each (`across`) variable (`.cols = ...`) in `precip:temperature_max`, apply (`.fns = ~ ...`) the function `as.numeric()` to each variable (`.x`)".
 
 Because the first argument of `across()` is the selection of columns and the second argument is the function to apply to each variable, the names of each argument are rarely written out. Instead, I would typically write this as:
 
@@ -210,7 +219,7 @@ weather_numeric <-
   weather_observations %>% 
   mutate(
     across(
-      !station:date,
+      precip:temperature_max,
       ~ as.numeric(.x)
     )
   )
@@ -218,7 +227,7 @@ weather_numeric <-
 
 ### Summarize & `across()`
 
-You can use `across()` to generating statistical summaries of your data with the `summarize` function. For example, we can calculate the mean of `temperature_min` and `temperature_max` at each weather station in `weather_numeric`:
+You can use `across()` to generate statistical summaries of your data with the `summarize` function. For example, we can calculate the mean of `temperature_min` and `temperature_max` at each weather station in `weather_numeric`:
 
 ```{r}
 weather_numeric %>% 
@@ -231,7 +240,7 @@ weather_numeric %>%
   )
 ```
 
-If we are *only* interested in the mean of the two temperature variables from the original dataset, we can avoid the intermediate assignment:
+If we are *only* interested in the mean of the two temperature variables from the original dataset, we can avoid the intermediate assignment by converting our weather variables to numeric within the same `across()`:
 
 ```{r}
 weather_observations %>% 
