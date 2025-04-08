@@ -18,7 +18,9 @@ tibble(values = 1:10) %>%
         values, 
         breaks =  c(1, 5, 10),
         include.lowest = FALSE,
-        right = TRUE))
+        right = TRUE
+      )
+  )
 
 # Now you! Modify the code below such that impervious surface values that are
 # greater than 40 percent impervious surface are classified as high all other
@@ -29,7 +31,9 @@ cicadas %>%
     urban_intensity = 
       cut(
         imp, 
-        breaks =  c(0, 40, 100)))
+        breaks =  c(0, 40, 100)
+      )
+  )
 
 # if_else -----------------------------------------------------------------
 
@@ -39,7 +43,9 @@ tibble(values = 1:10) %>%
       if_else(
         values <= 3,
         "low",
-        "high"))
+        "high"
+      )
+  )
 
 # Now you! NCLD land cover classes 41 through 43 represent different types of
 # forest. Tabulate the number of forest and non-forest observations.
@@ -56,12 +62,15 @@ bad_coords %>%
       if_else(
         longitude > 0,
         latitude, 
-        longitude),
+        longitude
+      ),
     latitude = 
       if_else(
         latitude < 0,
         longitude,
-        latitude))
+        latitude
+      )
+  )
 
 # a stringr interlude -----------------------------------------------------
 
@@ -89,7 +98,9 @@ birds %>%
         # Your code is correct, mine was not ...
         
         "Juvenile",
-        age)) %>% 
+        age
+      )
+  ) %>% 
   pull(age) %>% 
   unique()
 
@@ -97,7 +108,8 @@ birds %>%
 
 birds %>% 
   mutate(
-    age) %>% 
+    age
+  ) %>% 
   pull(age) %>% 
   unique()
 
@@ -106,7 +118,8 @@ birds %>%
 
 nlcd_key %>% 
   mutate(
-    name)
+    name
+  )
 
 # case_when ---------------------------------------------------------------
 
@@ -118,7 +131,9 @@ tibble(values = 1:10) %>%
       case_when(
         values <= 3 ~ "low",
         values <= 7 ~ "medium",
-        values <= 10 ~ "high"))
+        values <= 10 ~ "high"
+      )
+  )
 
 # Now you! Modify the code below, using impervious surface and case_when to
 # classify developed land into low (<= 20%), medium (<=  60%), and high
@@ -136,6 +151,8 @@ birds %>%
       case_when(
         age == "Juvenile" ~ age,
         age %in% c("Nestling", "Fledgling") ~ "Juvenile",
-        TRUE ~ "Adult")) %>% 
+        TRUE ~ "Adult"
+      )
+  ) %>% 
   distinct()
 
