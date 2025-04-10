@@ -29,7 +29,7 @@
 # * Subset `cicada_list` to `cicada_observations_2021`
 # * Without using `c()` or `%in%`, subset to observations in Maryland, 
 #   Virginia, and the District of Columbia ("MD", "VA", and "DC");
-# * Subset to observations where data values are not `NA`;
+# * Subset to observations where date values are not `NA`;
 # * Subset to research grade observations (variable = `quality_grade`);
 # * Change the variable name `scientific_name` to `species`
 # * Remove the columns `city`, `state`, and `quality_grade`;
