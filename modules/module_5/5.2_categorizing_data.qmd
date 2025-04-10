@@ -62,7 +62,7 @@ Classifying and reclassifying objects is a common task associated with cleaning,
 ::: panel
 In this lesson, we will explore the file [birds_cicadas_lc.rds]{.mono}. The data are formatted as a list of the following tibble data frames:
 
-**[birds]{.mono}**: This is a point shapefile that represents sick birds that were brought to City Wildlife, a wildlife rehabilitation center in the District of Columbia, in the spring of 2021. These data were obtained directly from City Wildlife staff. Location information for birds brought into the center were obtained by Brian through geocoding addresses via the Google Maps API with the R package *ggmap*. The CRS for these data is EPSG 4326. Relevant variables include:
+**[birds]{.mono}**: This is a point shapefile that represents sick birds that were brought to City Wildlife, a wildlife rehabilitation center in the District of Columbia, in the spring of 2021. These data were obtained directly from City Wildlife staff. Location information for birds brought into the center were obtained by Brian through geocoding addresses via the Google Maps API with the R package *ggmap*. Relevant variables include:
 
 * [patient_id]{.mono}, character: The **primary key** for each patient, assigned to bird upon intake.
 * [admission_date]{.mono}, date: The date that a bird was brought to City Wildlife.
@@ -83,8 +83,8 @@ In this lesson, we will explore the file [birds_cicadas_lc.rds]{.mono}. The data
 **[bad_coords]{.mono}**: Coordinates of birds that were brought to the wildlife rehabilitation center. Brian intentionally messied these data to prove a point!
 
 * [id]{.mono}, character: The **primary key** for each patient, assigned to bird upon intake.
-* [longitude]{.mono}, numeric: The longitudinal coordinate of where a bird was found (EPSG 4326) ... note that longitudes in the Western Hemisphere should always be negative!
-* [latitude]{.mono}, numeric: The latitudinal coordinate of where a bird was found (EPSG 4326)... note that latitudes in the Northern Hemisphere should always be positive!
+* [longitude]{.mono}, numeric: The longitudinal coordinate of where a bird was found... note that longitudes in the Western Hemisphere should always be negative!
+* [latitude]{.mono}, numeric: The latitudinal coordinate of where a bird was found... note that latitudes in the Northern Hemisphere should always be positive!
 
 **[nlcd_key]{.mono}**: A key to the [Multi-Resolution Land Characteristics (MRLC) Consortium](https://www.mrlc.gov/){target="_blank"} land cover classes. Variables include:
 
@@ -664,57 +664,10 @@ The tidyverse package *stringr* offers easy-to-use tools for finding information
 
 ### Detecting strings
 
-We use the function `str_detect()` to determine whether a string matches a provided pattern. This function is a type of logical test, thus the output of the test will be `TRUE` or `FALSE`. We supply a character vector and the pattern to search for. The arguments for `str_detect()` are:
+We have previously used the function `str_detect()` to determine whether a string matches a provided pattern. This function is a type of logical test, thus the output of the test will be `TRUE` or `FALSE`. We supply a character vector and the pattern to search for. As a reminder, the arguments for `str_detect()` are:
 
 * `string = ...`: The character vector (or assigned name) that we would like to modify;
 * `pattern = ...`: The pattern to search for.
-
-In the below, `str_detect()` searches the string for the symbol "r" at any position in the string "gray":
-
-```{r}
-str_detect(
-  string = "gray", 
-  pattern = "r"
-)
-```
-
-We can use `str_detect()` to detect multiple symbols:
-
-```{r}
-str_detect(
-  string = "gray", 
-  pattern = "gr"
-)
-```
-
-... but `str_detect()` evaluates symbols in the order that they appear. For example, the `str_detect()` function below is testing whether the pattern "gry" is contained within the character string "gray":
-
-```{r}
-str_detect(
-  string = "gray", 
-  pattern = "gry"
-)
-```
-
-Although the characters `g`, `r`, and `y` all occur in the string `gray`, they do not appear in that order -- thus, the statement above evaluates to `FALSE`.
-
-We can also apply `str_detect()` to character vectors that contain more than one value. Let's conduct a logical test to search for the pattern "rr" in `example_df$fruit`. Below, I add a new column, `test_fruit`, which is the results of the test.
-
-```{r}
-example_df %>% 
-  mutate(
-    test_fruit = str_detect(fruit, pattern = "rr")
-  )
-```
-
-If we wanted to search for values in `fruit` that *do not* contain the pattern "rr", we can precede `str_detect()` with the negation operator, `!`:
-
-```{r}
-example_df %>% 
-  mutate(
-    test_fruit = !str_detect(fruit, pattern = "rr")
-  )
-```
 
 Because the output of `str_detect()` is a logical vector, we can use the function in conjunction with `filter()` to subset a data frame.
 
@@ -727,7 +680,7 @@ example_df %>%
   )
 ```
 
-Likewise, I can subset `example_df` to rows where `fruit` does not contain the pattern "rr" with:
+I can also subset `example_df` to rows where `fruit` does not contain the pattern "rr" with:
 
 ```{r}
 example_df %>% 
@@ -832,22 +785,6 @@ example_df %>%
   )
 ```
 
-Searching for character vectors using the `%in%` operator can sometimes be a bit cumbersome. For example, if we wanted to subset `example_df` to just rows where the fruit is "banana", blackberry", or "boysenberry" we would typically use:
-
-```{r}
-example_df %>% 
-  filter(
-    fruit %in% 
-      c(
-        "banana", 
-        "blackberry", 
-        "boysenberry"
-      )
-  )
-```
-
-That can be okay when there are so few choices, but there is *sometimes* a better way! 
-
 **The "or" metacharacter**: We can search for multiple potential strings by separating strings with an or metacharacter (`|`). We simply provide the symbols that we would like to search for, with each set of symbols separated by `|`:
 
 ```{r}
@@ -902,7 +839,7 @@ Botanically, bilberries and blueberries are true berries (baccae). We can use th
 * `pattern = ...`: The pattern to search for;
 * `replacement = ...`: The string to replace the pattern with.
 
-Let's replace the pattern "bil" or "blue" with "true  ":
+Let's replace the pattern "bil" or "blue" with "true\ ":
 
 ```{r}
 example_df %>% 
@@ -947,7 +884,7 @@ Given that these are all berries, the suffix "berry" does not contain any new in
 * `string = ...`: The character vector (or assigned name) that we would like to modify;
 * `pattern = ...`: The pattern to search for and remove.
 
-For example, we can remove the string `"berry"` with:
+For example, we can remove the string "berry" with:
 
 ```{r}
 example_df %>% 
@@ -977,7 +914,7 @@ example_df %>%
 
 ### *stringr* and labels
 
-A big part of working with a GIS is making maps. The rules that apply to field names when wrangling data are, however, quite different than those associated with reporting data. Does your boss/advisor/dog want to see your results in snake_case? No, they do not.
+The rules that apply to variable names when wrangling data are quite different than those associated with reporting data. Does your boss/advisor/dog want to see your results in snake_case? No, they do not.
 
 You can modify a string to "sentence case" using the function `str_to_sentence()`. This will capitalize the first letter of the string. To use the function, you simply provide the name assigned to the string that you would like to convert to sentence case:
 
@@ -1032,7 +969,7 @@ I have just barely scratched the surface of using stringr and regex here. I cons
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_6.1_categorizing_data.csv"
+  "functions_5.2_categorizing_data.csv"
 ) %>%
   read_csv() %>%
   kableExtra::kable(
