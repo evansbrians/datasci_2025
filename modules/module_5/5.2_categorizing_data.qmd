@@ -1,5 +1,5 @@
 ---
-title: "6.1. Categorizing data"
+title: "5.2 Categorizing data"
 format:
   html:
     embed-resouces: true
@@ -62,7 +62,7 @@ Classifying and reclassifying objects is a common task associated with cleaning,
 ::: panel
 In this lesson, we will explore the file [birds_cicadas_lc.rds]{.mono}. The data are formatted as a list of the following tibble data frames:
 
-**[birds]{.mono}**: This is a point shapefile that represents sick birds that were brought to City Wildlife, a wildlife rehabilitation center in the District of Columbia, in the spring of 2021. These data were obtained directly from City Wildlife staff. Location information for birds brought into the center were obtained by Brian through geocoding addresses via the Google Maps API with the R package *ggmap*. The CRS for these data is EPSG 4326. Relevant variables include:
+**[birds]{.mono}**: This is a point shapefile that represents sick birds that were brought to City Wildlife, a wildlife rehabilitation center in the District of Columbia, in the spring of 2021. These data were obtained directly from City Wildlife staff. Location information for birds brought into the center were obtained by Brian through geocoding addresses via the Google Maps API with the R package *ggmap*. Relevant variables include:
 
 * [patient_id]{.mono}, character: The **primary key** for each patient, assigned to bird upon intake.
 * [admission_date]{.mono}, date: The date that a bird was brought to City Wildlife.
@@ -83,8 +83,8 @@ In this lesson, we will explore the file [birds_cicadas_lc.rds]{.mono}. The data
 **[bad_coords]{.mono}**: Coordinates of birds that were brought to the wildlife rehabilitation center. Brian intentionally messied these data to prove a point!
 
 * [id]{.mono}, character: The **primary key** for each patient, assigned to bird upon intake.
-* [longitude]{.mono}, numeric: The longitudinal coordinate of where a bird was found (EPSG 4326) ... note that longitudes in the Western Hemisphere should always be negative!
-* [latitude]{.mono}, numeric: The latitudinal coordinate of where a bird was found (EPSG 4326)... note that latitudes in the Northern Hemisphere should always be positive!
+* [longitude]{.mono}, numeric: The longitudinal coordinate of where a bird was found... note that longitudes in the Western Hemisphere should always be negative!
+* [latitude]{.mono}, numeric: The latitudinal coordinate of where a bird was found... note that latitudes in the Northern Hemisphere should always be positive!
 
 **[nlcd_key]{.mono}**: A key to the [Multi-Resolution Land Characteristics (MRLC) Consortium](https://www.mrlc.gov/){target="_blank"} land cover classes. Variables include:
 
@@ -107,7 +107,7 @@ Please do the following to ensure that you are working in a clean session:
 
 Notes: 
 
-* You will see me complain about my usage of hanging parentheses ... but that is now (usually) my preference!
+* You will see me complain about my usage of hanging parentheses ... but that is now my preference!
 * Your script will not exactly match my video script. Wherever possible, I have modified the script to adhere to the course style guide (e.g., indentation) and replaced single quotes with double quotes.
 * I talk about error messages that you will receive with [NA]{.values} in `if_else()` and `case_when()` ... this no longer produced an error (as of early 2023)!
 
@@ -133,7 +133,15 @@ library(tidyverse)
 cicadas <-
   read_rds("data/processed/birds_cicadas_lc.rds") %>% 
   pluck("cicadas")
+```
 
+Let's also create a toy tibble data frame to help us in our exploration. We will:
+
+* Create a variable named `numbers` that contains values ranging from 0 to 100 in increments of 10;
+* Create a variable named `fruit` that contains the first 11 values from the sample vector `fruit` that is included in the *stringr* package (see `?fruit`);
+* Globally assign the resultant object to the name `example_df`.
+
+```{r}
 # Run the following to create an example data frame that we will use:
 
 example_df <-
@@ -150,9 +158,9 @@ example_df <-
 
 ### Numeric to factor with `cut()`
 
-The base R function `cut` can help us convert a numeric variable into an **ordinal factor**. Ordinal factors are variables that clearly represent ordered levels (e.g., "small" and "big"; "low", "medium", and "high"). I personally find the `cut()` to be a bit painful, but I believe that it is worthwhile to understand how to use it.
+The base R function `cut()` can help us convert a numeric variable into an **ordinal factor**. Ordinal factors are variables that clearly represent ordered levels (e.g., "small" and "big"; "low", "medium", and "high"). I personally find `cut()` to be a bit painful, but I believe that it is worthwhile to understand how to use it.
 
-To see how this works, let's start with a tibble with a single column that contains integers with the values 1 through 5:
+To see how this works, let's start with a tibble with a single column that contains integer values 1 through 5:
 
 ```{r}
 tibble(x = 1:5)
@@ -191,13 +199,17 @@ To understand this, it is useful to understand what is meant by "open" and "clos
 * An **open boundary** does not include the boundary value and is signified with `(` for a lower open boundary and `)` for an upper open boundary. 
 * A **closed boundary** includes the boundary value and is signified with `[` for a lower closed boundary and `]` for an upper closed boundary.
 
-So, matching the descriptions of the overly-dense notation with our output above, we can see that the value `1` evaluated to `NA` because the first factor level is defined as values greater than `1` (the lower boundary is defined as "open"). The value `3` belongs to the first class `(1,3]` because that class includes the value `3` and the upper boundary is defined as "closed". Likewise, the value `5` is included because that upper boundary is "closed" and is thus included in the class `(3, 5]`.
+So, matching the descriptions of the overly-dense notation with our output above, we can see that:
+
+* The value `1` evaluated to `NA` because the first factor level is defined as values greater than `1` (the lower boundary is defined as "open");
+* The value `3` belongs to the first class `(1,3]` because that class includes the value `3` and the upper boundary is defined as "closed";
+* The value `5` is included in the class `(3, 5]` because that upper boundary is "closed".
 
 Confused yet? If so, it is going to get worse before it gets better. This behavior can be modified with two arguments of `cut()`, `include_lowest = ...` and `right = ...`. By default, these arguments are `include.lowest = FALSE` and `right = TRUE`.
 
-The easier of the two is `right = ...`, so we will start there. If `right = TRUE`, the default, this means that the interval is open on the left (lower boundary) and closed on the right (upper) boundary. This is the default behavior and is why our resultant classes were noted as `(x,y]`. Conversely, if `right = FALSE`, the interval is closed on the left and open on the right.  
+The easier of the two is `right = ...`, so we will start there. If `right = TRUE`, the default, this means that the interval is open on the left (lower boundary) and closed on the right (upper) boundary. This is the default behavior and is why our resultant classes were noted as `(x,y]`. 
 
-Let's specify `right = FALSE` and see what happens:
+Conversely, if `right = FALSE`, the interval is closed on the left and open on the right.  Let's specify `right = FALSE` and see what happens:
 
 ```{r}
 tibble(x = 1:5) %>% 
@@ -275,7 +287,7 @@ tibble(x = 1:5) %>%
   )
 ```
 
-We are through with the tough stuff (*Phew! That was hell!* ), so let's get to the fun part. Once we have our classes, we can use the `labels = ...` argument and a character vector of labels to assign to add labels to our classes:
+We are through with the tough stuff (*Phew! That was hell!* ), so let's get to the fun part. Once we have our classes, we can use the `labels = ...` argument and a character vector of labels to assign to our classes:
 
 ```{r}
 tibble(x = 1:5) %>% 
@@ -291,7 +303,7 @@ tibble(x = 1:5) %>%
   )
 ```
 
-Now that is a result I wrap my brain around!
+Now that is a result I can wrap my brain around!
 
 ::: mysecret
 
@@ -306,7 +318,7 @@ I do use this function a lot, but mainly just to test the boundary behavior of c
 If you are still with me, let's use `cut()` to classify our impervious surface data (`imp`) into "rural", "suburban", and "urban", and count the number of cicada observations in each class. We will classify these data such that values:
 
 * Below 10% impervious surface are classified as "rural";
-* Between 10 and <40% impervious surface are classified as "suburban";
+* Ranging from 10 to <40% impervious surface are classified as "suburban";
 * Greater than or equal to 40% impervious surface are classified as "urban".
 
 Before I apply the above to real data, I like to generate a toy data frame with which to test the boundary behavior. We can use the base R function `seq` for this, the arguments of which are:
@@ -445,10 +457,12 @@ tibble(x = 1:5) %>%
   )
 ```
 
-We can also add categories for missing values. By default, these will be [NA]{.mono}:
+We can also add categories for missing values. By default, these will be classified as [NA]{.mono}:
 
 ```{r}
-tibble(x = c(NA, 1:5)) %>% 
+tibble(
+  x = c(NA, 1:5)
+) %>% 
   mutate(
     x_classified = 
       if_else(
@@ -462,7 +476,9 @@ tibble(x = c(NA, 1:5)) %>%
 With the `missing = ...` argument, we can specify a new value for those data:
 
 ```{r}
-tibble(x = c(NA, 1:5)) %>% 
+tibble(
+  x = c(NA, 1:5)
+) %>% 
   mutate(
     x_classified = 
       if_else(
@@ -605,7 +621,7 @@ cicadas %>%
   theme_bw()
 ```
 
-As you might imagine, we can simplify the above. Because `case_when` statements are evaluated in order, we can avoid lengthy arguments like `imp >= 10 & imp < 40 & canopy <= 40` by avoiding our more extreme `imp` values first:
+As you might imagine, we can simplify the above. Because `case_when` statements are evaluated in order, we can avoid lengthy arguments like `imp >= 10 & imp < 40 & canopy <= 40` by classifying our more extreme `imp` values first:
 
 ```{r}
 cicadas %>% 
@@ -644,61 +660,14 @@ cicadas %>%
 
 ## Classifying and reclassifying strings
 
-The tidyverse package *stringr* offers easy-to-use tools for finding information about strings, modifying strings, and replacing them. Using *stringr* functions, we do not need to supply all of the characters in a character vector -- we are searching for matches in only a portion of a string. As such, this process is known as **partial string matching**. Herein, I will focus our attention in this section on stringr tools that I use most frequently when I am working with spatial objects.
+The tidyverse package *stringr* offers easy-to-use tools for finding information about strings, modifying strings, and replacing them. Using *stringr* functions, we do not need to supply all of the characters in a character vector -- we are searching for matches in only a portion of a string. As such, this process is known as **partial string matching**. Herein, I will focus our attention in this section on stringr tools that I use most frequently when classifying strings.
 
 ### Detecting strings
 
-We use the function `str_detect` to determine whether a string matches a provided pattern. This function is a type of logical test, thus the output of the test will be `TRUE` or `FALSE`. We supply a character vector and the pattern to search for. The arguments for `str_detect()` are:
+We have previously used the function `str_detect()` to determine whether a string matches a provided pattern. This function is a type of logical test, thus the output of the test will be `TRUE` or `FALSE`. We supply a character vector and the pattern to search for. As a reminder, the arguments for `str_detect()` are:
 
 * `string = ...`: The character vector (or assigned name) that we would like to modify;
 * `pattern = ...`: The pattern to search for.
-
-In the below, `str_detect()` searches the string for the symbol "r" at any position in the string "gray":
-
-```{r}
-str_detect(
-  string = "gray", 
-  pattern = "r"
-)
-```
-
-We can use `str_detect()` to detect multiple symbols:
-
-```{r}
-str_detect(
-  string = "gray", 
-  pattern = "gr"
-)
-```
-
-... but `str_detect()` evaluates symbols in the order that they appear. For example, the `str_detect()` function below is testing whether the pattern "gry" is contained within the character string "gray":
-
-```{r}
-str_detect(
-  string = "gray", 
-  pattern = "gry"
-)
-```
-
-Although the characters `g`, `r`, and `y` all occur in the string `gray`, they do not appear in that order -- thus, the statement above evaluates to `FALSE`.
-
-We can also apply `str_detect()` to character vectors that contain more than one value. Let's conduct a logical test to search for the pattern "rr" in `example_df$fruit`. Below, I add a new column, `test_fruit`, which is the results of the test.
-
-```{r}
-example_df %>% 
-  mutate(
-    test_fruit = str_detect(fruit, pattern = "rr")
-  )
-```
-
-If we wanted to search for values in `fruit` that *do not* contain the pattern "rr", we can precede `str_detect()` with the negation operator, `!`:
-
-```{r}
-example_df %>% 
-  mutate(
-    test_fruit = !str_detect(fruit, pattern = "rr")
-  )
-```
 
 Because the output of `str_detect()` is a logical vector, we can use the function in conjunction with `filter()` to subset a data frame.
 
@@ -711,7 +680,7 @@ example_df %>%
   )
 ```
 
-Likewise, I can subset `example_df` to rows where `fruit` does not contain the pattern "rr" with:
+I can also subset `example_df` to rows where `fruit` does not contain the pattern "rr" with:
 
 ```{r}
 example_df %>% 
@@ -792,11 +761,11 @@ example_df %>%
   )
 ```
 
-The above first searched for strings that contain both "rr" *and* "bl" and assigned the value "contains rr and bl" to those classes. It was safe to assign the results of the next test to "contains rr" because character values that contained both "rr" and "bl" were already assigned.
+The above first searched for strings that contain both "rr" *and* "bl", and assigned the value "contains rr and bl" to those classes. It was safe to assign the results of the next test to "contains rr" because character values that contained both "rr" and "bl" were already assigned.
 
 ### Metacharacters
 
-A search pattern can refer to literal characters or a combination of literal and metacharacters. A **literal character** is a symbol representing the value of a single symbol within a string. A **metacharacter** is a symbol that has a special meaning during pattern processing. Combined, literal and metacharacters make up **regular expressions** (regex), which are sequences of characters that describe search patterns. In the examples above, I only provided literal characters. There are a number of metacharacters that can enhance our ability to efficiently search for patterns. We will only cover a couple of these in this class, but it is a key topic of our <a href="https://smconservation.gmu.edu/programs/graduate-and-professional/ecological_data-ol/" target="_blank">introductory class on Data Science</a>!
+A search pattern can refer to literal characters or a combination of literal and metacharacters. A **literal character** is a symbol representing the value of a single symbol within a string. A **metacharacter** is a symbol that has a special meaning during pattern processing. Combined, literal and metacharacters make up **regular expressions** (regex), which are sequences of characters that describe search patterns. In the examples above, I only provided literal characters. There are a number of metacharacters that can enhance our ability to efficiently search for patterns.
 
 **Anchor metacharacters** define the start and end of strings. We can search for a symbol at the start of a string by preceding a symbol with a `^`. Here, we'll search for fruit that start with "a":
 
@@ -815,22 +784,6 @@ example_df %>%
     str_detect(fruit, pattern = "y$")
   )
 ```
-
-Searching for character vectors using the `%in%` operator can sometimes be a bit cumbersome. For example, if we wanted to subset `example_df` to just rows where the fruit is "banana", blackberry", or "boysenberry" we would typically use:
-
-```{r}
-example_df %>% 
-  filter(
-    fruit %in% 
-      c(
-        "banana", 
-        "blackberry", 
-        "boysenberry"
-      )
-  )
-```
-
-That can be okay when there are so few choices, but there is *sometimes* a better way! 
 
 **The "or" metacharacter**: We can search for multiple potential strings by separating strings with an or metacharacter (`|`). We simply provide the symbols that we would like to search for, with each set of symbols separated by `|`:
 
@@ -880,13 +833,13 @@ example_df %>%
   )
 ```
 
-Botanically, bilberries and blueberries are true berries (baccae). We can use the function `str_replace` to replace part of a string. The arguments for `str_replace()` are:
+Botanically, bilberries and blueberries are true berries (baccae). We can use the function `str_replace()` to replace part of a string. The arguments for `str_replace()` are:
 
 * `string = ...`: The character vector (or assigned name) that we would like to modify;
 * `pattern = ...`: The pattern to search for;
 * `replacement = ...`: The string to replace the pattern with.
 
-Let's replace the pattern "bil" or "blue" with "true  ":
+Let's replace the pattern "bil" or "blue" with "true\ ":
 
 ```{r}
 example_df %>% 
@@ -931,7 +884,7 @@ Given that these are all berries, the suffix "berry" does not contain any new in
 * `string = ...`: The character vector (or assigned name) that we would like to modify;
 * `pattern = ...`: The pattern to search for and remove.
 
-For example, we can remove the string `"berry"` with:
+For example, we can remove the string "berry" with:
 
 ```{r}
 example_df %>% 
@@ -961,7 +914,7 @@ example_df %>%
 
 ### *stringr* and labels
 
-A big part of working with a GIS is making maps. The rules that apply to field names when wrangling data are, however, quite different than those associated with reporting data. Does your boss/advisor/dog want to see your results in snake_case? No, they do not.
+The rules that apply to variable names when wrangling data are quite different than those associated with reporting data. Does your boss/advisor/dog want to see your results in snake_case? No, they do not.
 
 You can modify a string to "sentence case" using the function `str_to_sentence()`. This will capitalize the first letter of the string. To use the function, you simply provide the name assigned to the string that you would like to convert to sentence case:
 
@@ -1016,7 +969,7 @@ I have just barely scratched the surface of using stringr and regex here. I cons
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_6.1_categorizing_data.csv"
+  "functions_5.2_categorizing_data.csv"
 ) %>%
   read_csv() %>%
   kableExtra::kable(
