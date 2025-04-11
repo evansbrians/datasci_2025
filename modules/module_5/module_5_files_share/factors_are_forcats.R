@@ -4,8 +4,6 @@
 
 library(tidyverse)
 
-source("scripts/source_script.R")
-
 read_rds("data/raw/forcats_data.rds") %>% 
   list2env(.GlobalEnv)
 
@@ -27,7 +25,11 @@ bad_age
 
 # Factors can be ordered:
 
-c("small", "medium", "large")
+c(
+  "small", 
+  "medium", 
+  "large"
+)
 
 # Now you! Convert the character vector "spring" to a factor object where
 # month levels are ordered by when they occur then tally the number
@@ -67,21 +69,26 @@ bird_measures
 
 bird_measures %>% 
   group_by(common_name) %>% 
-  filter(n() > 10) %>% 
+  filter(
+    n() > 10
+  ) %>% 
   ungroup() %>%
   mutate(
     common_name = 
-      factor(common_name)) %>% 
+      factor(common_name)
+  ) %>% 
   ggplot() +
   aes(
     x = common_name,
-    y = wing) +
+    y = wing
+  ) +
   geom_boxplot(fill = "#dcdcdc") +
   coord_flip() +
   labs(
     title = "Wing length by bird species",
     x = "Species",
-    y = "Wing") +
+    y = "Wing"
+  ) +
   theme_minimal()
 
 # Plot wing length of Gray Catbirds by age class:
@@ -89,23 +96,28 @@ bird_measures %>%
 bird_measures %>% 
   filter(
     age != "U",
-    common_name == "Gray Catbird") %>% 
+    common_name == "Gray Catbird"
+  ) %>% 
   mutate(
     age = 
       age %>%
       fct_collapse(
         Juvenile = "HY",
         "Young adult" = "SY",
-        Adult = c("AHY", "ASY"))) %>% 
+        Adult = c("AHY", "ASY")
+      )
+  ) %>% 
   ggplot() +
   aes(
     x = age,
-    y = wing) +
+    y = wing
+  ) +
   geom_boxplot(fill = "#dcdcdc") +
   labs(
     title = "Gray Catbird wing length by age class",
     x = "Age Class",
-    y = "Wing") +
+    y = "Wing"
+  ) +
   theme_classic()
 
 # Now you! Modify the plotting code below such that it displays the months in
@@ -113,19 +125,24 @@ bird_measures %>%
 
 bird_measures %>% 
   group_by(common_name) %>% 
-  filter(n() > 10) %>% 
+  filter(
+    n() > 10
+  ) %>% 
   ungroup() %>%
   filter(common_name == "Gray Catbird") %>% 
   ggplot() +
   aes(
     x = month,
-    y = mass) +
+    y = mass
+  ) +
   geom_boxplot(fill = "#dcdcdc") +
   scale_y_continuous(
     limits = c(30, 45),
-    expand = c(0, 0)) +
+    expand = c(0, 0)
+  ) +
   labs(
     title = "Wing length by bird species",
     x = "Month",
-    y = "Mass") +
+    y = "Mass"
+  ) +
   theme_light()

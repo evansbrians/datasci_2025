@@ -1,5 +1,5 @@
 ---
-title: "6.2. Factors are forcats"
+title: "5.3 Factors are forcats"
 format:
   html:
     embed-resouces: true
