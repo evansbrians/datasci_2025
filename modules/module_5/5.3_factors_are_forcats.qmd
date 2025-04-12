@@ -180,7 +180,7 @@ c(
   levels()
 ```
 
-We can see that, although the character vector that we converted to a factor starts with "small", the levels are arranged as "large", "medium", then "small". That is because levels are assigned alphabetically by default. That is most likely an issue with this factor, as it is clearly an **ordinal variable**. We can address this by specifying the order of the levels with the `levels = ...` argument of `factor()`:
+We can see that, although the character vector that we converted to a factor starts with "small", the levels are arranged as "large", "medium", then "small". That is because levels are assigned alphabetically by default. That is most likely an issue with this factor, as it is clearly an **ordinal variable**, or a variable that is represented as categorical ordered levels. We can address this by specifying the order of the levels with the `levels = ...` argument of `factor()`:
 
 ```{r}
 c(
@@ -274,7 +274,7 @@ It is pretty clear that the above does not match our intended outcome!
 
 ### Reclassifying before `factor()`
 
-When creating a factor variable, we often need to repair misspellings or reclassify character values. We can do so *before* creating the factor (or during factor creation, as described in the sections below).
+When creating a factor variable, we often need to repair misspellings or reclassify character values. We can do so before *or* during factor creation. For now, we will focus on conducting these operations prior to creating the factor.
 
 #### Using *stringr*
 
@@ -407,7 +407,7 @@ bird_measures %>%
   count(age)
 ```
 
-If we plot the resultant data, we might notice that the variable, which should probably be an ordinal factor, is arranged alphabetically:
+If we plot the resultant data, we might notice that the `age` variable, which should probably be an ordinal factor, is arranged alphabetically:
 
 ```{r}
 bird_measures %>% 
@@ -678,7 +678,7 @@ case_when(
   table()
 ```
 
-The above is, by far, my choice for modifying this problem. It is the most parsimonious of the methods that we used above and does a great job of communicating which values in the character vector are being modified.
+That last example is, by far, my choice for modifying this problem. It is the most parsimonious of the methods that we used above and does a great job of communicating which values in the character vector are being modified.
 
 Let's convert the character vector to an ordinal factor and count the number of observations:
 
@@ -843,7 +843,7 @@ While I still often modify character vector values *before* converting the vecto
 
 #### Recode factors by hand
 
-If there are not a lot of values in a variable, the *forcats* function `fct_recode` provides you with the tools to create a factor.
+If there are not a lot of values in a variable, the *forcats* function `fct_recode()` provides you with the tools to create a factor.
 
 Let's look again at the distribution of values in `age`:
 
@@ -1163,7 +1163,7 @@ c(
   as.integer()
 ```
 
-Have a look at how the integer values are mapped with `fct_rev`:
+Have a look at how the integer values are mapped with `fct_rev()`:
 
 ```{r}
 c(
@@ -1275,9 +1275,9 @@ Although the above is more parsimonious, my preference is to conduct such operat
 
 #### Reorder factors by a variable
 
-Finally, we can also reorder factors in a tibble based on another variable using `fct_reorder()`.
+Finally, we can also reorder factors in a tibble based on the values of another variable using `fct_reorder()`.
 
-Let's do a very simple example first. 
+Let's do a very simple example first where we create a new variable `z` that represents the variable `x` converted to a factor using `mutate()` and `factor()`. 
 
 ```{r}
 # Generate a two-column tibble:
@@ -1299,12 +1299,14 @@ tibble(
   as.integer()
 ```
 
-As we might expect, the levels are mapped to their integer values in alphabetical order.
+As we might expect, the levels are mapped to their integer values in alphabetical order ("boy" = 1 and "howdy" = 2).
 
 We can reorder `x` by the values in `y` using `fct_reorder()`.  We specify:
 
 * The character or factor vector that will be reordered
 * The variable that specifies the order of the resultant factor vector
+
+Let's create a variable `z` that represents the values in the variable `x` converted to a factor, and map the factor levels to the integer values in variable `y`:
 
 ```{r}
 # Generate a two-column tibble:
@@ -1325,6 +1327,8 @@ tibble(
   pull(z) %>% 
   as.integer()
 ```
+
+Now our levels correspond to the integer values contained in the variable `y` ("boy" = 2 and "howdy" = 1)!
 
 Let's apply this to our most recent plot in which we plotted the counts of the species with the most observations, with the vertical axis in reverse alphabetical order:
 
@@ -1354,8 +1358,7 @@ bird_measures %>%
   theme_bw()
 ```
 
-This plot is *just okay*. It's pretty easy to distinguish the species that were encountered the most often, but does not do a great job at visualizing the distribution of encounters. Instead of `fct_rev()`, to arrange the levels in reverse alphabetical order, we can use `fct_reorder()` to arrange the levels by the count column, `n`:
-
+This plot is *just okay*. It is pretty easy to distinguish the species that were encountered the most often, but does not do a great job at visualizing the distribution of encounters. Instead of using `fct_rev()` to arrange the levels in reverse alphabetical order, we can use `fct_reorder()` to arrange the levels by the count column, `n`:
 
 ```{r}
 bird_measures %>% 
@@ -1374,7 +1377,8 @@ bird_measures %>%
   # Arrange factor levels by the number of observations:
   
   mutate(
-    common_name = fct_reorder(common_name, n)
+    common_name = 
+      fct_reorder(common_name, n)
   ) %>% 
   
   # Plot the data:
@@ -1495,7 +1499,7 @@ Fin!
 ```{r, message = FALSE, echo = FALSE}
 file.path(
   "function_tables",
-  "functions_6.2_factors_are_forcats.csv"
+  "functions_5.3_factors_are_forcats.csv"
 ) %>%
   read_csv() %>%
   kableExtra::kable(
