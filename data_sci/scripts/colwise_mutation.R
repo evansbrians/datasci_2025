@@ -150,7 +150,7 @@ weather %>%
     .by = station
   )
 
-# Now you! Calculate the average sepal length and width for each species 
+# Now you! Calculate the average sepal and petal width for each species 
 # using only the named functions summarize, across, and matches:
 
 iris %>% 
