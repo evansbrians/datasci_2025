@@ -62,8 +62,7 @@ bad_coords %>%
       if_else(
         longitude > 0,
         latitude, 
-        longitude
-      ),
+        longitude),
     latitude = 
       if_else(
         latitude < 0,
@@ -94,9 +93,6 @@ birds %>%
     age = 
       if_else(
         age %in% c("Nestling", "Fledgling"),
-        
-        # Your code is correct, mine was not ...
-        
         "Juvenile",
         age
       )
