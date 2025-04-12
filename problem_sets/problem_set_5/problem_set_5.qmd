@@ -1,0 +1,300 @@
+---
+title: "Problem set 5: District cats"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+<!-- knitr setup --> 
+
+```{r knitr_setup, include = FALSE}
+options(knitr.table.format = "html")
+
+knitr::opts_chunk$set(eval = FALSE)
+
+library(tidyverse)
+```
+
+<hr>
+
+![](https://lh3.googleusercontent.com/SYglWoOIpXr92kWX0StEOWYHiCuhrlbEEHWEnum1PyjpTnfy5Q5nts8rqLYLc384QREgdzi086HUlOMYvRZR7VBJ4PmkktHrOlfBRKDaE1VOcjeCL0SXZuXu1jvflyXC5ZbcZy50sNw=w600-h315-p-k?source=screenshot.guru){.intro_image}
+
+In this exercise, you will explore data associated with a study of outdoor cat abundance in metropolitan Washington D.C. ([Bennett and Evans et al. 2021](https://www.frontiersin.org/articles/10.3389/fevo.2021.643845/full?utm_source=S-TWT&utm_medium=SNET&utm_campaign=ECO_FEVO_XXXXXXXX_auto-dlvrit){target="_blank"}). In this study, we wanted to determine which land cover and socioeconomic variables were most predictive of outdoor cat abundance. Our team walked linear transects in neighborhoods across greater Washington D.C. and counted all of the outdoor cats and other mammals that we observed. We derived land cover data from Multi-Resolution Land Characteristics Consortium (USGS) and socioeconomic data from the US Census Bureau. 
+
+Here, you will join us in our study by exploring cat abundance within a subset of our data.
+
+## Grading
+
+The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="score"}).
+
+Points may be deducted from each question's total: 
+
+* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Include only assignments specified in the question;
+* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
+* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
+* [[10%]]{class="subscore"} Ensure that your code is as parsimonious as possible;
+* [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
+
+*Note: The maximum deduction is the total points value for a given question*
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Click the blue button below to view the functions that you may use in completing this problem set. Make sure that you know what each function does (use `?[function name]` if you do not). Do not use any functions outside of this list!
+:::
+
+<!-- Note, the below is an accordion, which was styled in the css section -->
+
+::: Accordion
+<button class="accordion">Functions that you may use in this assignment</button>
+
+::: {.panel}
+
+**Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *purrr*, *readr*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library. Regex metacharacters are not R functions and may be used as needed!
+
+In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
+
+* `.Primitive, ()`
+* `.Primitive, <-`
+* `.Primitive, =`
+* `.Primitive, :`
+* `.Primitive, ~`
+* `.Primitive, <`
+* `.Primitive, ==`.
+* `.Primitive, as.numeric`
+* `.Primitive, c`
+* `.Primitive, sum`
+* `base::library`
+* `dplyr::across`
+* `dplyr::anti_join`
+* `dplyr::case_when`
+* `dplyr::filter`
+* `dplyr::full_join`
+* `dplyr::left_join`
+* `dplyr::mutate`
+* `dplyr::summarize`
+* `forcats::fct_relevel`
+* `ggplot2::+`
+* `ggplot2::aes`
+* `ggplot2::geom_boxplot`
+* `ggplot2::ggplot`
+* `lubridate::as_date`
+* `magrittr::%>%`
+* `purrr::pluck`
+* `readr::read_rds`
+* `stringr::str_replace`
+* `tidyr::replace_na`
+* `tidyr::unite`
+
+:::
+
+:::
+
+## About the data 
+
+To explore socioeconomic and land cover predictors of outdoor cat abundance, we conducted distance sampling along linear transects (length = 100 meters). The data include the following files:
+
+**[sites]{.mono}**: Information about the sites that were visited
+
+* [site_id]{.mono}: Primary key
+* [percent_impervious]{.mono}: Proportion of impervious surface (e.g., pavement, rooftops) within 100 m of the center of the geographic site center
+* [percent_college]{.mono}: Proportion of adults with at least an associate degree within a site's US Census tract
+* [population_density]{.mono}: People per km^2^ within a site's US Census tract
+* [median_income]{.mono}: Median household income within a site's US Census tract
+
+**[visits]{.mono}**: Information on a visit to a site on a given day
+
+* [visit_id]{.mono}: Primary key
+* [site_id]{.mono}: Foreign key to the ]{.mono}sites]{.mono} table
+* [year]{.mono}: The year a site was visited
+* [month]{.mono}: The full name of the month in which a site was visited
+* [day]{.mono}: The day of the month in which a site was visited
+    
+**[detections]{.mono}**: Information of observations recorded during a transect count
+
+* [detection_id]{.mono}: Primary key
+* [visit_id]{.mono}: Foreign key to the ]{.mono}visits]{.mono} table
+* [species]{.mono}: The type of animal that was detected, which should be cats, dogs, and squirrels
+* [count]{.mono}: The number of animals detected on a given visit and at a given distance from the transect line
+* [distance]{.mono}: The distance, in meters, between the transect line and the detected animal
+
+Note: The remaining files are what I call **lifelines**. The names of these files are equivalent to those that you are asked to assign during the problem set. If you get stuck on a given question, please feel free to use a lifeline file to help you solve the subsequent questions!
+
+## Setup
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i>  Remember that it is best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
+:::
+
+::: now_you
+
+1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_5_[last name]_[first name].R". For example, I would name my file `problem_set_5_evans_brian.R`.
+
+:::
+
+::: now_you
+
+2\. [[0.50]]{class="score"} Attach the tidyverse metapackage to your current R session.
+
+:::
+
+::: now_you
+
+3\. [[0.50]]{.score} Read in `district_cats.rds` as a list file and globally assign the list object to the name `dc_cats`.
+
+:::
+
+## Data tidying
+
+Whenever you first receive a dataset, you must ensure that the data follow tidy data conventions. If they do not, you should always normalize the data prior to proceeding.
+
+::: now_you
+
+4\. [[1.5]]{.score} The table represented by the list item `visits` is unfortunately not tidy. Normalize this list item:
+
+* [[0.25]]{.subscore} Extract `visits` from `dc_cats`.
+* [[0.50]]{.subscore} Combine the date columns into a single ISO 8601 date column.
+* [[0.25]]{.subscore} Assign to the global environment with the name `visits_tidy`.
+
+:::
+
+It is a good idea to poke around the structure of your data a bit. For example, technicians in the field told us that they recorded at least one observation of an animal during each visit. This may be important information for how our data are stuctured (and may be useful!).
+
+::: now_you
+
+5\. [[0.5]]{.score} Using `visits_tidy`, `detections` (a list item in `dc_cats`), and a join, verify that each visit had at least one recorded animal detection.
+
+:::
+
+## Data cleaning
+
+The data cleaning process comes after data tidying. Data cleaning does not represent fixing violations of tidy data rules (i.e., data normalization). Instead, this is the process in which we get to know the values in our data and search for and repair potential problems with the values themselves.
+
+One problem that we often encounter is that a variable, or variables, may not be stored in the appropriate class or classes.
+
+::: now_you
+
+6\. [[1.5]]{.score} The data frame represented by the list item named `sites` has a primary key and a few columns of interest that should be numeric but are currently character vectors.
+
+* [[0.25]]{.subscore} Extract `sites` from `dc_cats`
+* [[0.50]]{.subscore} As parsimoniously as possible, convert `percent_impervious` and
+  `population_density` to numeric
+* [[0.50]]{.subscore} Maintain only the primary key and the two columns that you converted to numeric
+* [[0.25]]{.subscore} Assign to your global environment with the name
+ `site_characteristics`.
+
+:::
+
+All sorts of things can go wrong when we are dealing with character values! ...
+
+::: now_you
+
+7\. [[1.5]]{.score} The list item `detections` in the list `district_cats` contains misspellings, inconsistencies in the species column, and more information than we are currently interested in.
+
+* [[0.75]]{.subscore} As parsimoniously as possible, and without using `if_else()` or `case_when()`, repair the spelling of the species such that the species
+  names are provided as "cat", "dog" and "squirrel"
+* [[0.50]]{.subscore} Generate a summary table that displays the total count of animals observed per species and `visit_id`
+* [[0.25]]{.subscore} Assign to your global environment with the name `observations`
+
+:::
+
+## Derived variables
+
+With our data tidy and clean, it is now time to think about our question. 
+
+### Land cover
+
+Among other things, our team is interested in how cat abundance varies at different levels of human land use intensity. We use the proportion of impervious surface as a proxy measure of this and often bin the data into "low", "medium", and "high" land use intensities.
+
+We will use the following table to classify the numeric values:
+
+```{r class_table, echo = FALSE, eval = TRUE}
+tribble(
+  ~ "Impervious surface", ~"Classified land-use intensity",
+  "0 - 10%", "Low",
+  "> 10 - 30%", "Medium",
+  "> 30%", "High") %>% 
+  knitr::kable(format = "html") %>% 
+  kableExtra::kable_styling()
+```
+
+<br>
+
+::: now_you
+
+8\. [[1.5]]{.score} Classify `percent_impervious` in the data frame `site_characteristics` as described in the table above [[0.5]]{.subscore}. In doing so:
+
+* [[0.25]]{.subscore} Assign the name `urban_intensity` to the derived column.
+* [[0.50]]{.subscore} Maintain only fields `site_id` and `urban_intensity`. 
+* [[0.25]]{.subscore} Assign to your global environment with the name `land_use`.
+
+:::
+
+### Cat abundance
+
+Now it's time to think of cat abundance. In this section you will summarize and visualize the number of cats observed during visits. If you explore the data, you will notice that there were no cats observed during most of the visits!
+
+::: now_you
+
+9\. [[1.5]]{.score} Using `observations` and `visits_tidy` (or their lifelines):
+
+* [[0.50]]{.subscore}  Create a summary table that shows the number of cat observations for each `site_id` and `visit_id` (zero values are important!);
+* [[0.25]]{.subscore}  Assign the name `n_per_visit` to the derived variable;
+* [[0.50]]{.subscore}  Maintain the variables `visit_id`, `site_id`, and `n_per_visit` in the resultant obect;
+* [[0.25]]{.subscore}  Assign the summary table to your global environment with the name `cats_per_visit`.
+
+*Note: I do not believe that we have covered `sum()` but you will need it here! If you are not clear on its usage please see `?sum`.*
+
+:::
+
+
+::: {.now_you}
+
+10\. [[0.5]]{.score} Generate a boxplot where the x-axis is the classified urban intensity and the y-axis is the number of observations [[0.25]]{.subscore}. In doing so, arrange the levels of `urban_intensity` from "Low" to "High" [[0.25]]{.subscore}.
+
+:::
+
+*Warning: The plot above will look very unimpressive! Although these data represent just a subset of the real data, we did discover that our camera traps were much more effective at detecting cats than our transect counts!*
+
+<hr>
+
+<!-- Note: The below is the javascript that I use to make the accordion button work -->
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
