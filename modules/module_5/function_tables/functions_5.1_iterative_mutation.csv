@@ -1,0 +1,28 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,!,Prefix logical operator (not)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,as.numeric,"Transform an atomic vector to an double numeric vector (i.e., decimal numbers)"
+.Primitive,list,"Combine multiple objects of any type into a single, recursive, data object"
+.Primitive,max,Return the highest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+.Primitive,min,Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+base,library,Attach the package environment for a given package to the current R session
+base,mean,Generate a one-value double numeric vector that describes the mean of a vector
+dplyr,across,Apply a function across multiple variables in a data frame
+dplyr,distinct,Subset a data frame by removing duplicate rows
+dplyr,group_by,Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,select,Subset columns in a data frame by name (without quotes!)
+dplyr,summarize,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+dplyr,transmute,Mutate a data frame while subsetting the columns to those specified in the function
+lubridate,as_date,"Convert properly formatted date, stored as a character or datetime vector, to a date class object"
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,pluck,Extract a list item from a list
+readr,read_rds,Read an RDS file into R
+tidyselect,matches,"When used with select, this allows you to subset names with string matching"
+tidyselect,where,Select a variable with a function that returns `TRUE` or `FALSE`
+utils,str,View the structure of a data object

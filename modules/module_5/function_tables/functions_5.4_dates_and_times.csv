@@ -1,0 +1,33 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,[…],Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,^,Infix arithmetic operator (to the power of)
+.Primitive,as.character,Transform an atomic vector to a character vector
+.Primitive,as.numeric,"Transform an atomic vector to an double numeric vector (i.e., decimal numbers)"
+.Primitive,class,Print the class of an object as a one-value character vector
+base,library,Attach the package environment for a given package to the current R session
+base,list2env,Assign the items in a list to a specified environment
+base,typeof,Print a one-value character vector that represents how a data object is stored on our computer
+dplyr,bind_rows,Combine rows of two or more tibbles to create a new tibble
+dplyr,filter,Subset a data frame by logical condition
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,pull,Extract a column from a data frame as a vector
+lubridate,as_date,"Convert properly formatted date, stored as a character or datetime vector, to a date class object"
+lubridate,dmy,"Convert a date formatted as day, month, year (European date format) to a date class object"
+lubridate,hour,Get hour-of-day from an ISO-8601 formatted object with a date and time.
+lubridate,mdy,"Convert a date formatted as month, day, year (US date format) to a date class object"
+lubridate,month,Extract the month from a properly formatted date value
+lubridate,wday,Extract the day of the week from a properly formatted date value
+lubridate,yday,Calculate the day of year from a properly formatted date object
+lubridate,year,Extract the year from a properly formatted date value
+lubridate,ymd_hms,Generate a date-time class object with an character vector of the format yyyy-mm-dd hh:mm:ss
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+readr,read_rds,Read an RDS file into R
+stringr,str_detect,Logical test of whether a pattern (string) is contained within a character value
+tibble,tribble,Row-wise creation of a tibble data frame
+tidyr,unite,Combine columns in a data frame to create a single column
