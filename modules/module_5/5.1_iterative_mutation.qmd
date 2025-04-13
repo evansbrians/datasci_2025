@@ -1,5 +1,5 @@
 ---
-title: "5.1. Iterative mutation"
+title: "5.1 Iterative mutation"
 format:
   html:
     embed-resouces: true
@@ -104,12 +104,7 @@ Please do the following to ensure that you are working in a clean session:
 
 ## Video content
 
-Before you begin, some notes on the video content:
-
-* Although I describe that `transmute()` was superseded with a good bit of melodrama, I have since decided that there are many instances in which I prefer the use of the function.
-* I do not conform to the Course Style Guide in this video! The biggest violations were:
-  * I much prefer using double quotes rather than single quotes
-  * I do not include hanging parentheses with `mutate()` or `select()`
+Note: Although I describe that `transmute()` was superseded with a good bit of melodrama, I have since decided that there are many instances in which I prefer the use of the function.
 
 {{< video https://www.youtube.com/embed/DmIevt-Xt5c >}}
 
@@ -513,6 +508,7 @@ weather_numeric %>%
 
 <button class="accordion">Glossary</button>
 ::: panel
+* **Iteration**: The repeating of a given process a set number of times.
 * **Mutation**: The process of adding columns to a data frame and or modifying existing columns (or adding/modifying list items to/in a list).
 * **Reference tree**: A visualization of the storage locations and names of parent and child objects.
 * **Regular expressions (regex)**: An algorithm used to search strings (character values).
