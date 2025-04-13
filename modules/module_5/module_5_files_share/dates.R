@@ -2,7 +2,6 @@
 # setup -------------------------------------------------------------------
 
 library(tidyverse) 
-library(lubridate)
 
 read_rds('data/raw/dates.rds') %>% 
   list2env(.GlobalEnv)
