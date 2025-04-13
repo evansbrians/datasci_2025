@@ -101,16 +101,16 @@
 # intensity class. Using `cat_occurrence` and `land_use` (or their lifelines), 
 # generate a bar plot where:
 
-# * The x-axis represents the classified urban intensity
+# * The x-axis represents the classified urban intensity;
 # * The y-axis is the proportion of visits in which a cat was observed (number
 #   of visits where cats were present / total number of visits);
 # * The levels of `urban_intensity` are arranged in the order "Rural",
-#   "Low-intensity suburb", "High-intensity suburb" and "Urban.
+#   "Low-intensity suburb", "High-intensity suburb" and "Urban";
 # * The x-axis is titled "Urban intensity", the y-axis is titled "Proportion of
 #   visits with cats present", and the plot is titled "Proportion of cat
-#   detections across urban intensity classes".
-# * The y-axis ranges from 0 to 0.8.
-# * Use three or more arguments of `theme()` to modify the theme elements of
-#   the plot however you like!
+#   detections across urban intensity classes";
+# * The y-axis ranges from 0 to 0.8;
+# * You use three or more arguments of `theme()` to modify the theme elements
+#   of the plot however you like!
 
 
