@@ -105,13 +105,7 @@ Please do the following to ensure that you are working in a clean session:
 
 ## Video content
 
-Notes: 
-
-* You will see me complain about my usage of hanging parentheses ... but that is now my preference!
-* Your script will not exactly match my video script. Wherever possible, I have modified the script to adhere to the course style guide (e.g., indentation) and replaced single quotes with double quotes.
-* I talk about error messages that you will receive with [NA]{.values} in `if_else()` and `case_when()` ... this no longer produced an error (as of early 2023)!
-
-{{< video https://www.youtube.com/embed/r9k-GdyiH4U >}}
+{{< video https://www.youtube.com/watch?v=BmbDQMb4y7U >}}
 
 ## Written tutorial
 
