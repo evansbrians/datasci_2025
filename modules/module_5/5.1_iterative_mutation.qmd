@@ -44,7 +44,7 @@ rm(has_annotations)
 <div>
 ![](../../images/hex_complex.png){.intro_image}
 
-It is often necessary to repeat the same process on multiple variables. This can lead to code that is unnecessarily repetitive, long, and thus difficult to read. More importantly, this can also mean that edits made to a repeated process must be made for *each* repetition separately. Luckily, as of 2020, the *dplyr* package provides us with tools for iterating a process across multiple variables in a data frame -- this is known as **column-wise iteration** (often referred to as colwise iteration, in short). In this video lesson (19:02) and compendium tutorial, which is a review except for the sections denoted by **New content**, we will explore some new *dplyr* tools and you will learn how to:
+It is often necessary to repeat the same process on multiple variables. This can lead to code that is unnecessarily repetitive, long, and thus difficult to read. More importantly, this can also mean that edits made to a repeated process must be made for *each* repetition separately. Luckily, as of 2020, the *dplyr* package provides us with tools for iterating a process across multiple variables in a data frame -- this is known as **column-wise iteration** (often referred to as colwise iteration, in short). In this video lesson (17:43) and compendium tutorial, which is a review except for the sections denoted by **New content**, we will explore some new *dplyr* tools and you will learn how to:
 
 * Conduct column-wise mutation with `across()`;
 * Subset columns with `mutate()` (a replacement for `transmute()`);

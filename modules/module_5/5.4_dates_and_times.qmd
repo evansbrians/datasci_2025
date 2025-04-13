@@ -44,7 +44,7 @@ rm(has_annotations)
 <div>
 ![](../../images/hex_complex.png){.intro_image}
 
-Nothing strikes fear in a data manager more than poorly formatted dates ("... why on Earth did you think that was an appropriate date format to use?"). In the base R universe, there is a layer of hell dedicated to spending eternity fixing all of the various date formats that our technicians use in the field. Luckily, a little bit of regex and *a lot* of the *lubridate* package (now a member of the **core tidyverse**) has made date problems a thing of the past! This lesson includes a video (runtime -- 19:34) and a written tutorial. The written tutorial for this lesson includes very little new material (specified with the heading "new content:"). Herein, you will learn:
+Nothing strikes fear in a data manager more than poorly formatted dates ("... why on Earth did you think that was an appropriate date format to use?"). In the base R universe, there is a layer of hell dedicated to spending eternity fixing all of the various date formats that our technicians use in the field. Luckily, a little bit of regex and *a lot* of the *lubridate* package (now a member of the **core tidyverse**) has made date problems a thing of the past! This lesson includes a video (runtime -- 18:28) and a written tutorial. The written tutorial for this lesson includes very little new material (specified with the heading "new content:"). Herein, you will learn:
 
 * The international date and time standard (ISO 8601);
 * How to convert common dates to standard dates;
