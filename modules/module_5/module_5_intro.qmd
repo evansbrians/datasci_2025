@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -20,11 +20,12 @@ editor_options:
 
 <div>
 
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-Welcome to **Module 5: Focus on mutation**! The name of this module is a bit of a misnomer, because we will not really learn *too* much more about the `mutate()` function itself (there is really not much more to say ... it is pretty straightforward). Instead, we will explore common mutations that we do while managing ecological data. You will learn how to:
+Welcome to **Module 5: Focus on mutation**! The name of this module is a bit of a misnomer, because we will not really learn *too* much more about the `mutate()` function itself (there is not much more to say ... it is pretty straightforward). Instead, we will explore common mutations that we do while managing ecological data. You will learn how to:
 
--   Perform iterative mutation tasks with `if_any()`, `if_all()`, `group_by`, `.by = ...`;
+-   Perform iterative mutation tasks with `across()`;
+-   Subset columns with `mutate()`;
 -   Classify and reclassify data with `if_else()`, `case_when()`, and functions from the *forcats* package;
 -   Modify strings with the *stringr* package (e.g., `str_replace()`);
 -   Use the *lubridate* and *hms* packages to conform dates and times to the international standard date format (ISO 8601) and derive date and time information from standard dates and times.
@@ -35,19 +36,24 @@ Before continuing, please be sure that you have completed all of the preliminary
 
 ## Module overview
 
-Like Module 4, almost all of the new content in Module 5 is provided in videos. With some minor exceptions, written tutorial content is meant to support your understand of the video content. This module is divided into the following sections:
+Like Module 4, almost all of the new content in Module 5 is provided in videos. With some minor exceptions, written tutorial content is meant to support your understanding of the video content. This module is divided into the following sections:
 
--   **5.1. Iterative mutation**: This video lesson (runtime -- 19:02) and compendium tutorial will demonstration *dplyr* tools that will empower you reduce repetition in your code through iteration. In other words, you will learn how to multiple mutations in a single step.
--   **5.2. Categorizing data**: In this video lesson (runtime -- 28:06) and compendium tutorial you will learn *dplyr* methods for classifying and reclassifying data.
--   **5.3. Factors are forcats**:  This video lesson (runtime -- 25:46) and compendium tutorial will really unlock the power of using the *forcats* package for classifying and reclassifying factors.
--   **5.4. Dates and times**:  In the final video lesson (runtime -- 19:35) and tutorial of this module, we will address how to convert character dates and times to date, datetime, and time objects with the *lubridate* and *hms* packages. *Note: The written tutorial content is predominantly review but does include some new content!*
--   **Addendum: Glossary of terms and functions, Modules 1-5**: Herein, I provide a written documentation of all of the terminology and functions we have used thus far. 
+-   **5.1. Iterative mutation**: This video lesson (runtime -- 17:43) and compendium tutorial demonstrate *dplyr* tools that will empower you to reduce repetition in your code through iteration. In other words, you will learn how to conduct multiple mutations in a single step.
+-   **5.2. Categorizing data**: In this video lesson (runtime -- 24:43) and compendium tutorial you will learn *dplyr* methods for classifying and reclassifying data.
+-   **5.3. Factors are forcats**:  This video lesson (runtime -- 24:30) and compendium tutorial will really unlock the power of using the *forcats* package for classifying and reclassifying factors.
+-   **5.4. Dates and times**:  In the final video lesson (runtime -- 18:28) and tutorial of this module, we will address how to convert character dates and times to date, datetime, and time objects with the *lubridate* and *hms* packages. *Note: The written tutorial content is predominantly review but does include some new content!*
 
 *Note: In the above, I specify tutorial sections that include new content with **New content** in the heading for the section.*
 
 ## Getting started
 
-Please download the attached zip file [module_5_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have (e.g., [source_script.R]{.mono} ), please overwrite the previous file. Place the data file [birds_cicadas_lc.rds]{.mono} in the folder [data_sci/data/processed]{.mono}. Place any remaining data files in [data_sci/raw]{.mono} -- if there are any data files you already have (e.g., [my_covid_garden.rds]{.mono}), please overwrite them as well.
+Please download the attached zip file [module_5_files.zip]{.mono}:
+
+* Place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder.
+* Place the data file [birds_cicadas_lc.rds]{.mono} in the folder [data_sci/data/processed]{.mono}. 
+* Place any remaining data files in the folder [data_sci/data/raw]{.mono}.
+
+If there are any files you already have, please overwrite the previous file.
 
 ## About this week's data
 
@@ -55,7 +61,7 @@ This week we will use the following data files in our exercises:
 
 **[birds_cicadas_lc.rds]{.mono}**: This is a list object associated with a Smithsonian Migratory Bird Center study on a bird mortality event that occurred in 2021 (you can read about the event at [this link](https://www.scientificamerican.com/article/suspect-list-narrows-in-mysterious-bird-die-off/){target="_blank"}). The data includes information on sick birds, cicada observations, and the land cover associated with each observation. The bird data are from a wildlife rescue agency in the District of Columbia, the land cover data were obtained from the [Multi-Resolution Land Characteristics (MRLC) Consortium](https://www.mrlc.gov/){target="_blank"}, and the cicada data were obtained from iNaturalist using the R package *rinat*.
 
-**[dates.rds]{.mono}**: This is a list object that contains four different versions of a natural disaster dataset, with each version stored as a tibble. The data were obtained from the US Federal Emergency Management Agency (FEMA).The data frames represent the same data but the dates are stored in different formats.
+**[dates.rds]{.mono}**: This is a list object that contains four different versions of a natural disaster dataset, with each version stored as a tibble. The data were obtained from the US Federal Emergency Management Agency (FEMA). Each data frame represents the same data but the dates are stored in different formats.
 
 **[forcats_data.rds]{.mono}**: This is a list object with example data that we will use in our *forcats* lesson. The list contains three character vectors and a small subset of the Smithsonian Migratory Bird Center's banding data that we have used in the past.
 
@@ -64,6 +70,59 @@ This week we will use the following data files in our exercises:
 **[weather_tidy.rds]{.mono}**: This is a list object that represents the tidy version of the weather data that we have used in the past. You created this file in ***3.1 Tidy data review***. The data were collected from 2010-2020 at five NOAA weather stations located in California, North Carolina, New York, and Wisconsin. The file contains measures of precipitation, snow, and temperatures during the month of March.
 
 ## Readings and resources
+
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
+
+::: panel
+::: glossary_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  here::here(),
+  "dev_scripts/glossary/glossary_source.R"
+) %>% 
+  source()
+
+get_glossary_table_module(module = 5) %>%
+  kableExtra::kable(
+    align = c("l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+:::
+
+<button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>
+
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  "function_tables",
+  "functions_through_module_5.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+:::
+
+<br>
 
 There are lots of resources that will help you as our material becomes more complex!
 
@@ -87,3 +146,20 @@ There are lots of resources that will help you as our material becomes more comp
 
 * R for Data Science (2^nd^ edition), [17: Dates and times](https://r4ds.hadley.nz/datetimes.html){target="_blank"}
 * [Dates and times with lubridate cheatsheet](https://rstudio.github.io/cheatsheets/lubridate.pdf){target="_blank"}
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
