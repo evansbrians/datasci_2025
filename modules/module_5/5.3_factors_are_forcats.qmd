@@ -1017,7 +1017,7 @@ You might notice that the `other_level` is assigned to the last level. We can ch
 
 With base R methods, we had the opportunity to change the levels of a factor variable while creating the factor variable. This could have also been completed using ye olde assignment method (which I have not demonstrated because it is lame and super dated). Luckily, *forcats* has provided us with a great alternative!
 
-We can supply factor levels *while* creating a factor by simply providing a vector of the factor levels in the specified order:
+We can supply factor levels *while* creating a factor by simply providing the factor levels in the specified order:
 
 ```{r}
 # Reclassify age:
@@ -1031,11 +1031,9 @@ if_else(
   # Define the order of factor levels:
   
   fct_relevel(
-    c(
-      "juvenile",
-      "adult",
-      "unknown"
-    )
+    "juvenile",
+    "adult",
+    "unknown"
   ) %>% 
   table()
 ```
@@ -1064,11 +1062,9 @@ bird_measures %>%
       # Define the order of factor levels:
       
       fct_relevel(
-        c(
-          "Juvenile",
-          "Adult",
-          "Unknown"
-        )
+        "Juvenile",
+        "Adult",
+        "Unknown"
       )
   ) %>% 
   count(age)
@@ -1101,7 +1097,8 @@ bird_measures %>%
       # Define the order of factor levels:
       
       fct_relevel(
-        c("Juvenile","Adult")
+        "Juvenile", 
+        "Adult"
       )
   ) %>%
   
