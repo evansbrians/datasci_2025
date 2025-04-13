@@ -45,7 +45,7 @@ rm(has_annotations)
 <div>
 ![](../../images/hex_complex.png){.intro_image}
 
-I am going to admit that I spent years avoiding factors in my R coding. Working with factors can be a bear in base R because they are so restrictive, modifying factor variables in base R sometimes generates unexpected results, and their necessity is largely a myth (e.g., many functions that *require* them actually convert characters to factors on-the-fly). As such, unless a factor variable was absolutely necessary, I avoided working with them by converting them to character class objects (which I found more straightforward, due to regex). This all changed when the tidyverse released the *forcats* package in 2016. This is a *super* useful package that has taken the pain out of working with factors! In this video lesson (25:56) and compendium tutorial (reference only -- with the exception of ***Reclassifying factors with forcats, Re-level factors***), you will:
+I am going to admit that I spent years avoiding factors in my R coding. Working with factors can be a bear in base R because they are so restrictive, modifying factor variables in base R sometimes generates unexpected results, and their necessity is largely a myth (e.g., many functions that *require* them actually convert characters to factors on-the-fly). As such, unless a factor variable was absolutely necessary, I avoided working with them by converting them to character class objects (which I found more straightforward, due to regex). This all changed when the tidyverse released the *forcats* package in 2016. This is a *super* useful package that has taken the pain out of working with factors! In this video lesson (24:30) and compendium tutorial (reference only -- with the exception of ***Reclassifying factors with forcats, Re-level factors***), you will:
 
 * Develop a deeper understanding of the structure of factors;
 * Modify the levels and labels of factors;
@@ -91,7 +91,7 @@ Please do the following to ensure that you are working in a clean session:
 
 ## Video content
 
-{{< video https://www.youtube.com/watch?v=Aihy0DXGOo8 >}}
+{{< video https://www.youtube.com/watch?v=8QaWgP3Zo8Q >}}
 
 ## Compendium tutorial
 
