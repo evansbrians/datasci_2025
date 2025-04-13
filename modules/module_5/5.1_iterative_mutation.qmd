@@ -106,7 +106,7 @@ Please do the following to ensure that you are working in a clean session:
 
 Note: Although I describe that `transmute()` was superseded with a good bit of melodrama, I have since decided that there are many instances in which I prefer the use of the function.
 
-{{< video https://www.youtube.com/embed/DmIevt-Xt5c >}}
+{{< video https://www.youtube.com/watch?v=Aihy0DXGOo8 >}}
 
 ## Compendium tutorial
 
