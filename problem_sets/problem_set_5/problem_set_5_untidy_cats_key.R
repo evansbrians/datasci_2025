@@ -1,27 +1,37 @@
-# Problem set 5
+
+# Script file for problem set 5: District cats
+
+# 1 -----------------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# `problem_set_4.R` to "problem_set_4_[last name]_[first name].R" using a snake
+# case naming convention. *Note: You will submit this script file as your
+# assignment*.
 
 # 2 -----------------------------------------------------------------------
 
-# Attach the tidyverse metapackage to your current R session.
+# Open the script file in RStudio and attach the core tidyverse packages to your
+# current R session.
 
 library(tidyverse)
 
 # 3 -----------------------------------------------------------------------
 
-# Read in `district_cats.rds` as a list file and globally assign the list
-# object to the name `dc_cats`.
+# Read in `district_cats.rds` and globally assign the list object to the name
+# `dc_cats`.
 
 dc_cats <- 
   read_rds("data/raw/district_cats.rds")
 
 # 4 -----------------------------------------------------------------------
 
-# The table represented by the list item visits is unfortunately not tidy.
+# The table represented by the list item `visits` is unfortunately not tidy.
 # Normalize this list item:
 
-# * Extract visits from `dc_cats.`
-# * Combine the date columns into a single ISO 8601 date column.
-# * Assign to the global environment with the name `visits_tidy.`
+# * Extract `visits` from `dc_cats.`
+# * Combine the columns `year`, `month`, and `day` into a single ISO 8601
+#   formatted date class column.
+# * Globally assign the resultant object to the name `visits_tidy`.
 
 visits_tidy <- 
   dc_cats %>% 
@@ -37,36 +47,16 @@ visits_tidy <-
 
 # 5 -----------------------------------------------------------------------
 
-# Using `visits_tidy`, `detections` (a list item in dc_cats), and a join, 
-# verify that each visit had at least one recorded animal detection.
-
-visits_tidy %>% 
-  anti_join(
-    dc_cats %>% 
-      pluck("detections"),
-    by = "visit_id"
-  )
-
-# This is also fine:
-
-visits_tidy %>% 
-  anti_join(
-    pluck(dc_cats, "detections"),
-    by = "visit_id"
-  )
-
-# 6 -----------------------------------------------------------------------
-
 # The data frame represented by the list item named sites has a primary key
 # and a few columns of interest that should be numeric but are currently
 # character vectors.
 
-# * Extract sites from `dc_cats`.
+# * Extract sites from `dc_cats`;
 # * As parsimoniously as possible, convert `percent_impervious` and 
-#   `population_density` to numeric.
+#   `population_density` to numeric;
 # * Maintain only the primary key and the two columns that you converted 
-#   to numeric.
-# * Assign to your global environment with the name `site_characteristics`,
+#   to numeric;
+# * Globally assign the resultant object to the name `site_characteristics`.
 
 site_characteristics <- 
   dc_cats %>% 
@@ -80,18 +70,18 @@ site_characteristics <-
     .keep = "none"
   )
 
-# 7 -----------------------------------------------------------------------
+# 6 -----------------------------------------------------------------------
 
-# The list item `detections` contains misspellings and inconsistencies
-# in the species column and more information than we're currently interested
-# in.
+# The list item `detections` in the list `district_cats` contains misspellings,
+# inconsistencies in the species column, and more information than we are
+# currently interested in.
 
-# * As parsimoniously as possible, and without using `if_else()` or
-#   `case_when()`, repair the spelling of the species such that the species
-#   names are provided as "cat", "dog" and "squirrel".
-# * Generate a summary table that displays the total count of animals
-#   observed per species and `visit_id`.
-# * Assign to your global environment with the name `observations`.
+# * As parsimoniously as possible, and without using `if_else()` or 
+#   `case_when()`, repair the spelling within the `species` variable such 
+#   that the values are provided as "cat", "dog" and "squirrel";
+# * Generate a summary table where the variable `count` displays the total
+#   count of animals observed per `species` and `visit_id`;
+# * Globally assign the resultant object to the name `observations`.
 
 observations <- 
   dc_cats %>% 
@@ -108,21 +98,36 @@ observations <-
     .by = visit_id:species
   )
 
-# 8 -----------------------------------------------------------------------
+# Or (for regex enthusiasts):
 
-tribble(
-  ~"Impervious surface", ~"Classified land-use intensity",
-  "0 - 10%",             "Low",
-  "> 10 - 30%",          "Medium",
-  "> 30%",               "High"
-)
+dc_cats %>% 
+  pluck("detections") %>% 
+  mutate(
+    species =
+      species %>%
+      str_replace(".*g", "dog") %>%
+      str_replace(".*t", "cat") %>%
+      str_replace("^[Ss].*", "squirrel")
+  ) %>%
+  summarize(
+    count = sum(count),
+    .by = visit_id:species
+  )
 
-# Classify percent_impervious in the data frame `site_characteristics` as
+# 7 -----------------------------------------------------------------------
+
+# | Impervious surface | Classified land-use intensity |
+# |    0 - 15%         |   Rural                       |  
+# |    > 15 - 25%      |   Low-intensity suburb        |
+# |    > 25 - 40%      |   High-intensity suburb       |
+# |    > 40%           |   Urban                       |
+
+# Classify `percent_impervious` in the data frame `site_characteristics` as
 # described in the table above. In doing so:
 
-# * Assign the name urban_intensity to the derived column.
-# * Maintain only fields site_id and urban_intensity.
-# * Assign to your global environment with the name land_use.
+# * Assign the name `urban_intensity` to the derived column;
+# * Maintain only the fields `site_id` and `urban_intensity`;
+# * Globally assign the resultant object to the name `land_use`.
 
 land_use <- 
   site_characteristics %>% 
@@ -130,43 +135,45 @@ land_use <-
     site_id,
     urban_intensity = 
       case_when(
-        percent_impervious < 10 ~ "Low",
-        percent_impervious < 30 ~ "Medium", 
-        TRUE ~ "High"),
+        percent_impervious <= 15 ~ "Rural",
+        percent_impervious <= 25 ~ "Low-intensity suburb", 
+        percent_impervious <= 40 ~ "High-intensity suburb", 
+        TRUE ~ "Urban"
+      ),
     .keep = "none"
   )
 
-# 9 -----------------------------------------------------------------------
+# Or:
+
+land_use <- 
+  site_characteristics %>% 
+  mutate(
+    site_id,
+    urban_intensity =
+      case_when(
+        percent_impervious <= 15 ~ "Rural",
+        percent_impervious <= 25 ~ "Low-intensity suburb", 
+        percent_impervious <= 40 ~ "High-intensity suburb", 
+        .default = "Urban"
+      ),
+    .keep = "none"
+  )
+
+# 8 -----------------------------------------------------------------------
 
 # Using `observations` and `visits_tidy` (or their lifelines):
 
-# * Create a summary table that shows the number of cat observations 
-#   for each site_id and visit_id.
-# * Assign the name "n_per_visit" to the derived variable.
-# * Maintain the variables visit_id, site_id, and n_per_visit in the
-#   resultant object.
-# * Assign the summary table to your global environment with the name
-#   `cats_per_visit`.
+# * Create a column that contains the value 1 for visits where at least  
+#   one cat was detected and the value 0 for visits where no cats were 
+#   detected;
+# * Assign the name `presence_absence` to the derived variable;
+# * Maintain only the variables `visit_id`, `site_id`, and `presence_absence`  
+#   in the resultant object;
+# * Globally assign the resultant object to the name `cat_occurrence`.
 
-cats_per_visit <- 
+cat_occurrence <- 
   observations %>% 
-  filter(species == "cat") %>% 
-  full_join(
-    visits_tidy,
-    by = "visit_id"
-  ) %>% 
-  mutate(
-    count = replace_na(count, 0)) %>% 
-  summarize(
-    n_per_visit = sum(count, na.rm = TRUE),
-    .by = c(visit_id, site_id)
-  )
-
-# Or (even better)
-
-cats_per_visit <- 
-  observations %>% 
-  filter(species == "cat") %>% 
+  filter(species == "cat") %>%
   full_join(
     visits_tidy,
     by = "visit_id"
@@ -174,32 +181,73 @@ cats_per_visit <-
   mutate(
     site_id,
     visit_id,
-    n_per_visit = 
-      replace_na(count, 0),
+    presence_absence =
+      if_else(
+        is.na(count),
+        0,
+        1
+      ),
     .keep = "none"
-  )
+  ) 
 
-# 10 ----------------------------------------------------------------------
+# 9 -----------------------------------------------------------------------
 
-# Generate a boxplot where the x-axis is the classified urban intensity and
-# the y-axis is the number of observations. In doing so, arrange the levels
-# of `urban_intensity` from "Low" to "High".
+# Let's visualize the proportion of visits with cat detections for each urban
+# intensity class. Using `cat_occurrence` and `land_use` (or their lifelines), 
+# generate a bar plot where:
 
-cats_per_visit %>% 
+# * The x-axis represents the classified urban intensity
+# * The y-axis is the proportion of visits in which a cat was observed (number
+#   of visits where cats were present / total number of visits);
+# * The levels of `urban_intensity` are arranged in the order "Rural",
+#   "Low-intensity suburb", "High-intensity suburb" and "Urban.
+# * The x-axis is titled "Urban intensity", the y-axis is titled "Proportion of
+#   visits with cats present", and the plot is titled "Proportion of cat
+#   detections across urban intensity classes".
+# * The y-axis ranges from 0 to 0.8.
+# * Use three or more arguments of `theme()` to modify the theme elements of
+#   the plot however you like!
+
+cat_occurrence %>% 
   left_join(land_use, by = "site_id") %>% 
+  summarize(
+    prop_cats = sum(presence_absence) / n(),
+    .by = urban_intensity
+  ) %>% 
   mutate(
     urban_intensity = 
       urban_intensity %>% 
       fct_relevel(
-        "Low",
-        "Medium",
-        "High"
+        "Rural",
+        "Low-intensity suburb",
+        "High-intensity suburb",
+        "Urban"
       )
   ) %>% 
   ggplot() +
   aes(
     x = urban_intensity,
-    y = n_per_visit
+    y = prop_cats
   ) +
-  geom_boxplot()
-
+  geom_bar(stat = "identity") +
+  scale_y_continuous(
+    limits = c(0, 0.8),
+    expand = c(0, 0)
+  ) +
+  labs(
+    x = "Urban intensity",
+    y = "Proportion of visits with cats present",
+    title = "Proportion of cat detections across urban intensity classes"
+  ) +
+  theme(
+    panel.background = 
+      element_rect(
+        color = "#000000",
+        fill = "#ffffff"
+      ),
+    panel.grid = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(size = 20),
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 12)
+  )

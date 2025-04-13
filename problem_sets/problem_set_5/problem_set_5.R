@@ -1,101 +1,116 @@
-# Problem set 5
+
+# Script file for problem set 5: District cats
+
+# 1 -----------------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# `problem_set_4.R` to "problem_set_4_[last name]_[first name].R" using a snake
+# case naming convention. *Note: You will submit this script file as your
+# assignment*.
 
 # 2 -----------------------------------------------------------------------
 
-# Attach the tidyverse metapackage to your current R session.
+# Open the script file in RStudio and attach the core tidyverse packages to your
+# current R session.
 
 
 
 # 3 -----------------------------------------------------------------------
 
-# Read in `district_cats.rds` as a list file and globally assign the list
-# object to the name `dc_cats`.
+# Read in `district_cats.rds` and globally assign the list object to the name
+# `dc_cats`.
 
 
 
 # 4 -----------------------------------------------------------------------
 
-# The table represented by the list item visits is unfortunately not tidy.
+# The table represented by the list item `visits` is unfortunately not tidy.
 # Normalize this list item:
 
-# * Extract visits from `dc_cats.`
-# * Combine the date columns into a single ISO 8601 date column.
-# * Assign to the global environment with the name `visits_tidy.`
+# * Extract `visits` from `dc_cats.`
+# * Combine the columns `year`, `month`, and `day` into a single ISO 8601
+#   formatted date class column.
+# * Globally assign the resultant object to the name `visits_tidy`.
 
 
 
 # 5 -----------------------------------------------------------------------
 
-# Using `visits_tidy`, `detections` (a list item in dc_cats), and a join, 
-# verify that each visit had at least one recorded animal detection.
+# The data frame represented by the list item named sites has a primary key
+# and a few columns of interest that should be numeric but are currently
+# character vectors.
+
+# * Extract sites from `dc_cats`;
+# * As parsimoniously as possible, convert `percent_impervious` and 
+#   `population_density` to numeric;
+# * Maintain only the primary key and the two columns that you converted 
+#   to numeric;
+# * Globally assign the resultant object to the name `site_characteristics`.
 
 
 
 # 6 -----------------------------------------------------------------------
 
-# The data frame represented by the list item named sites has a primary key
-# and a few columns of interest that should be numeric but are currently
-# character vectors.
+# The list item `detections` in the list `district_cats` contains misspellings,
+# inconsistencies in the species column, and more information than we are
+# currently interested in.
 
-# * Extract sites from `dc_cats`.
-# * As parsimoniously as possible, convert `percent_impervious` and 
-#   `population_density` to numeric.
-# * Maintain only the primary key and the two columns that you converted 
-#   to numeric.
-# * Assign to your global environment with the name `site_characteristics`,
+# * As parsimoniously as possible, and without using `if_else()` or 
+#   `case_when()`, repair the spelling within the `species` variable such 
+#   that the values are provided as "cat", "dog" and "squirrel";
+# * Generate a summary table where the variable `count` displays the total
+#   count of animals observed per `species` and `visit_id`;
+# * Globally assign the resultant object to the name `observations`.
 
 
 
 # 7 -----------------------------------------------------------------------
 
-# The list item `detections` contains misspellings and inconsistencies
-# in the species column and more information than we're currently interested
-# in.
+# | Impervious surface | Classified land-use intensity |
+# |    0 - 15%         |   Rural                       |  
+# |    > 15 - 25%      |   Low-intensity suburb        |
+# |    > 25 - 40%      |   High-intensity suburb       |
+# |    > 40%           |   Urban                       |
 
-# * As parsimoniously as possible, and without using `if_else()` or
-#   `case_when()`, repair the spelling of the species such that the species
-#   names are provided as "cat", "dog" and "squirrel".
-# * Generate a summary table that displays the total count of animals
-#   observed per species and `visit_id`.
-# * Assign to your global environment with the name `observations`.
+# Classify `percent_impervious` in the data frame `site_characteristics` as
+# described in the table above. In doing so:
+
+# * Assign the name `urban_intensity` to the derived column;
+# * Maintain only the fields `site_id` and `urban_intensity`;
+# * Globally assign the resultant object to the name `land_use`.
 
 
 
 # 8 -----------------------------------------------------------------------
 
-tribble(
-  ~"Impervious surface", ~"Classified land-use intensity",
-  "0 - 10%",             "Low",
-  "> 10 - 30%",          "Medium",
-  "> 30%",               "High")
+# Using `observations` and `visits_tidy` (or their lifelines):
 
-# Classify percent_impervious in the data frame `site_characteristics` as
-# described in the table above. In doing so:
-
-# * Assign the name urban_intensity to the derived column.
-# * Maintain only fields site_id and urban_intensity.
-# * Assign to your global environment with the name land_use.
+# * Create a column that contains the value 1 for visits where at least  
+#   one cat was detected and the value 0 for visits where no cats were 
+#   detected;
+# * Assign the name `presence_absence` to the derived variable;
+# * Maintain only the variables `visit_id`, `site_id`, and `presence_absence`  
+#   in the resultant object;
+# * Globally assign the resultant object to the name `cat_occurrence`.
 
 
 
 # 9 -----------------------------------------------------------------------
 
-# Using `observations` and `visits_tidy` (or their lifelines):
+# Let's visualize the proportion of visits with cat detections for each urban
+# intensity class. Using `cat_occurrence` and `land_use` (or their lifelines), 
+# generate a bar plot where:
 
-# * Create a summary table that shows the number of cat observations 
-#   for each site_id and visit_id.
-# * Assign the name "n_per_visit" to the derived variable.
-# * Maintain the variables visit_id, site_id, and n_per_visit in the
-#   resultant object.
-# * Assign the summary table to your global environment with the name
-#   `cats_per_visit`.
-
-
-
-# 10 ----------------------------------------------------------------------
-
-# Generate a boxplot where the x-axis is the classified urban intensity and
-# the y-axis is the number of observations. In doing so, arrange the levels 
-# of `urban_intensity` from "Low" to "High".
+# * The x-axis represents the classified urban intensity
+# * The y-axis is the proportion of visits in which a cat was observed (number
+#   of visits where cats were present / total number of visits);
+# * The levels of `urban_intensity` are arranged in the order "Rural",
+#   "Low-intensity suburb", "High-intensity suburb" and "Urban.
+# * The x-axis is titled "Urban intensity", the y-axis is titled "Proportion of
+#   visits with cats present", and the plot is titled "Proportion of cat
+#   detections across urban intensity classes".
+# * The y-axis ranges from 0 to 0.8.
+# * Use three or more arguments of `theme()` to modify the theme elements of
+#   the plot however you like!
 
 
