@@ -101,7 +101,9 @@ Please do the following to ensure that you are working in a clean session:
 
 ## Video content
 
-{{< video https://www.youtube.com/embed/404L_pyTWgk >}}
+Note: In the video, I use single quotes instead of double quotes when reading in the data. Double quotes are my preference!
+
+{{< video https://www.youtube.com/watch?v=2jESNLSQeeQ >}}
 
 ## Compendium tutorial
 

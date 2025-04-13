@@ -3,7 +3,7 @@
 
 library(tidyverse) 
 
-read_rds('data/raw/dates.rds') %>% 
+read_rds("data/raw/dates.rds") %>% 
   list2env(.GlobalEnv)
 
 # good dates --------------------------------------------------------------
