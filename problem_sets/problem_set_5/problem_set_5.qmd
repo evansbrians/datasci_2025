@@ -232,7 +232,7 @@ With our data tidy and clean, it is now time to think about our question.
 
 ### Land cover
 
-Among other things, our team is interested in how cat abundance varies at different levels of human land use intensity. We use the proportion of impervious surface as a proxy measure of this and often bin the data into "low", "medium", and "high" land use intensities.
+Among other things, our team is interested in how the presence of outdoor cats varies at different levels of human land use intensity. We use the proportion of impervious surface as a proxy measure of this and often bin the data into "rural", "low-intensity suburb", "high-intensity suburb", and "urban" land use classes
 
 We will use the following table to classify the numeric values:
 
@@ -279,17 +279,14 @@ Now it's time to think of cat occurrence. In this section you will summarize and
 
 9\. [[0.5]]{.score} Let's visualize the proportion of visits with cat detections for each urban intensity class. Using `cat_occurrence` and `land_use` (or their lifelines), generate a bar plot where:
 
-* The x-axis represents the classified urban intensity
+* The x-axis represents the classified urban intensity;
 * The y-axis is the proportion of visits in which a cat was observed (number of visits where cats were present / total number of visits);
-* The levels of `urban_intensity` are arranged in the order "Rural", "Low-intensity suburb", "High-intensity suburb" and "Urban.
-* The x-axis is titled "Urban intensity", the y-axis is titled "Proportion of visits with cats present", and the plot is titled "Proportion of cat detections across urban intensity classes".
-* The y-axis ranges from 0 to 0.8.
-* Use three or more arguments of `theme()` to modify the theme elements of the plot however you like!
-
+* The levels of `urban_intensity` are arranged in the order "Rural", "Low-intensity suburb", "High-intensity suburb" and "Urban";
+* The x-axis is titled "Urban intensity", the y-axis is titled "Proportion of visits with cats present", and the plot is titled "Proportion of cat detections across urban intensity classes";
+* The y-axis ranges from 0 to 0.8;
+* You use three or more arguments of `theme()` to modify the theme elements of the plot however you like!
 
 :::
-
-*Warning: The plot above will look a bit unimpressive! Although these data represent just a subset of the real data, we did discover that our camera traps were much more effective at detecting cats than our transect counts!*
 
 <hr>
 
