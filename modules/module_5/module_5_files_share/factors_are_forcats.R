@@ -63,16 +63,15 @@ bird_measures %>%
 
 bird_measures
 
-# forcats, drop ---------------------------------------------------------
+# forcats, reorder --------------------------------------------------------
 
 # Plot wing length by species:
 
 bird_measures %>% 
-  group_by(common_name) %>% 
   filter(
-    n() > 10
+    n() > 10,
+    .by = common_name
   ) %>% 
-  ungroup() %>%
   mutate(
     common_name = 
       factor(common_name)
@@ -124,11 +123,6 @@ bird_measures %>%
 # the order that they occur.
 
 bird_measures %>% 
-  group_by(common_name) %>% 
-  filter(
-    n() > 10
-  ) %>% 
-  ungroup() %>%
   filter(common_name == "Gray Catbird") %>% 
   ggplot() +
   aes(
