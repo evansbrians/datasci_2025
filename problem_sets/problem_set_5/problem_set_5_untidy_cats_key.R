@@ -100,7 +100,8 @@ observations <-
 
 # Or (for regex enthusiasts):
 
-dc_cats %>% 
+observations <- 
+  dc_cats %>% 
   pluck("detections") %>% 
   mutate(
     species =
