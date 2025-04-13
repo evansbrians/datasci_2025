@@ -285,7 +285,8 @@ mixed_month_names %>%
 
 mixed_month_names %>% 
   filter(
-    str_detect(date, "^[A-Za-z]"))
+    str_detect(date, "^[A-Za-z]")
+  )
 ```
 
 ... and convert each date column using `dmy()` or `mdy()`:

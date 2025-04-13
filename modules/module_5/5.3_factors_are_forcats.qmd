@@ -91,9 +91,7 @@ Please do the following to ensure that you are working in a clean session:
 
 ## Video content
 
-Note: Your script will not exactly match my video script. Wherever possible, I have modified the script to adhere to the course style guide (e.g., indentation) and replaced single quotes with double quotes.
-
-{{< video https://www.youtube.com/embed/P3XYEeKaolY >}}
+{{< video https://www.youtube.com/watch?v=Aihy0DXGOo8 >}}
 
 ## Compendium tutorial
 
