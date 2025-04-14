@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -20,7 +20,7 @@ editor_options:
 
 <div>
 
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 Welcome to **Module 6: Programming I**! At this point, you have learned the primary tools that we use to generate and work with tidy data. This module is dedicated to enhancing the efficiency of your code. You will learn how to:
 

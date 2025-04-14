@@ -1,5 +1,5 @@
 ---
-title: "6.3. Control flow with if else"
+title: "8.2. Control flow with if else"
 format:
   html:
     embed-resouces: true
@@ -12,7 +12,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -43,11 +43,9 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-In our previous lesson, I introduced **control flow** operations with for loops and `purrr::map()`. Recall that I defined control flow operations as a process that modifies the order in which your computer executes code (and sometimes whether that code is executed at all!). In this lesson, which includes only a video, we will deal with operations that determine whether a given code is run or not run -- this is the purview of *if else* or, as it is written in R, `if(TRUE) {this} else {that}`. Along the way, we will review and look at applications of `purrr::map()` where the function is actually useful! 
-
-*Note: I introduce this lesson as being important for Shiny ... it is, but we will not be covering Shiny apps until the last week of this course.*
+**Control flow** operations are processes that modify the order in which your computer executes code (and sometimes whether that code is executed at all!). We have used control flow operations previously -- for example, when we use `purrr::map()` we are conducting a control flow operation. In this lesson, which includes only a video, we will deal with operations that determine whether a given code is run or not run -- this is the purview of *if else* or, as it is written in R, `if(TRUE) {this} else {that}`. Along the way, we will review and look at applications of `purrr::map()` where the function is super useful! 
 
 **Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
 
@@ -98,6 +96,8 @@ Please do the following to ensure that you are working in a clean session:
 3. Open the script file [control_flow_if_else.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
 
 ## Video content
+
+Note: In this lesson, we use the triple colon operator (i.e., `tidyselect:::select()`). This is similar to the double colon `::`, however, it gives us access to functions that are intended to be only used internally by other packages. For example, the `select()` function in *dplyr* internally calls `tidyselect:::select()`. Tara and I like `tidyselect:::select()` so much, that we like to break the rules a bit.
 
 {{< video https://www.youtube.com/embed/ct3dBs3uCXM >}}
 

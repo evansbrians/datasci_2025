@@ -1,0 +1,2034 @@
+---
+title: "7.5. Big data"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE,
+  message = FALSE,
+  warning = FALSE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../../images/hex_complex.png){.intro_image}
+
+The methods that I have demonstrated in this course are built to run effectively and smoothly for most datasets. In many instances, I have purposefully shown methodology that works for big data although performance improvements for the small teaching datasets that I use in this were negligable or nonexistent. Herein, I will address how to use our course methods when confronted with (fairly) big data. We will cover:
+
+* Nested data structures (an often attractive option for tidy data);
+* How to generate primary and foreign keys to make your datasets fully database-ready;
+* How to create and work with a SQL database;
+* How to use the *data.table* package with tidyverse tools;
+* How to use the *arrow* package.
+
+You will also get a touch more practice with benchmarking, tons more practice with writing custom functions, and iteration with *purrr* (including a couple of new mapping functions)!
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
+
+</div>
+
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+In this lesson, we will explore the file [birds_cicadas_lc.rds]{.mono}. The data are formatted as a list of the following tibble data frames:
+
+**[messy_birds.rds]{.mono}**: These data are a toy dataset of bird banding data and represent an untidy tibble. Variables include:
+
+* [capture_id]{.mono}, character: The primary key for a unique capture record.
+* [band_number]{.mono}, character: The numbers assigned to an aluminum band that has been placed on a bird.
+* [spp]{.mono}, character: A species code for the captured bird.
+* [scientific_name]{.mono}, character: The common names for each species, as used in the United States.
+* [common_name]{.mono}, character: The common names for each species, as used in the United States.
+* [foraging]{.mono}, character: The foraging strategy of each species.
+* [diet]{.mono}, character: The dietary niche of each species.
+* [wing]{.mono}, numeric: The length of a bird's wing (unflattened wing chord), in millimeters.
+* [mass]{.mono}, numeric: The weight of a bird, in grams.
+
+**[amke_detections.csv]{.mono}**: These are real data collected by a team of researchers that included Joe and myself! We placed radio receivers, called "nodes" in a ~ 2 km x 2 km grid with each node spaced at a distance of roughly 150 m. Birds were tagged with radio transmitters and the detected signals were used to determine the position of the birds within the grid.
+
+* [time]{.mono}, datetime: The date and time that a tagged bird was detected, in ISO-8601 (yyyy-mm-dd hh:mm:ss).
+* [tag_id]{.mono}, character: A unique identifier for each radio transmitter worn by a tagged bird. *Note: In the full dataset, this column is a foreign key to a tag deployment table*.
+* [node_id]{.mono}, character: A unique identifier for each node (radio receiver) that was placed at a fixed location in the field. *Note: In the full dataset, this column is a foreign key to a table that describes the locations of nodes*.
+* [rssi]{.mono}, numeric: Received Signal Strength Indicator -- the strength of the received radio signal from a tagged bird. Higher values typically represent tags that are closer to receivers (nodes).
+:::
+
+## Before you begin
+
+Please do the following to ensure that you are working in a clean session:
+
+1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
+2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+3. Open the script file [categorize.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}).
+
+We will use a number of new packages in this lesson, please install them before continuing:
+
+```{r, eval = FALSE}
+install.packages(
+  c("arrow",
+    "data.table",
+    "DBI",
+    "RSQLite")
+)
+```
+
+Other new packages that we will use in this lesson were installed with the tidyverse metapackage.
+
+Please run the following setup section at the top of your script:
+
+```{r, message = FALSE}
+# Code for lesson on big data
+
+# setup -------------------------------------------------------------------
+
+# Load libraries:
+
+library(arrow)
+library(bench)
+library(data.table)
+library(DBI)
+library(lobstr)
+library(RSQLite)
+library(tidyverse)
+
+# Note: The package bench is currently my go-to package for benchmarking!
+
+# Read in messy birds (but remove the primary key field, capture_id, we 
+# will make our own primary key):
+
+messy_birds <-
+  read_rds("data/raw/messy_birds.rds") %>% 
+  select(!capture_id)
+
+# Read in detections from our automated radio telemetry system (this is a
+# fairly big file and may take a while to read in):
+
+amke_memory <-
+  read_csv("data/raw/amke_detections.csv")
+```
+
+## Custom function practice
+
+We are going to be writing a number of custom functions in this lesson, so please make a new code section (Ctrl or command + shift + R) for storing them:
+
+```{r}
+# custom functions --------------------------------------------------------
+
+```
+
+Some of our custom functions may be challenging, so let's start with a bit of practice in function writing. 
+
+One task that we will do in this lesson is to check a vector for duplicate values. To test if a vector contains a duplicated value, we can compare the length of the vector against the length of unique values in the vector. If they are equivalent there are no duplicates. If they are *not* equivalent, there *are* duplicates. For example:
+
+```{r}
+x <- c(1, 1, 2)
+
+length(x) ==
+  unique(x) %>% 
+  length()
+
+y <- 1:3
+
+length(y) ==
+  unique(y) %>% 
+  length()
+
+rm(x, y)
+```
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Write a custom function that:
+
+* Will test whether any atomic vector contains duplicates;
+* Will return a value of `TRUE` if the vector *does* contain duplicates;
+* Will return a value of `TRUE` if the vector *does not* contain duplicates;
+* Is globally assigned to the name `contains_duplicates`.
+
+*Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+# Function to benchmark a process and return just the median processing
+# time and total memory allocated:
+
+contains_duplicates <-
+  function(x) {
+    length(x) !=
+      unique(x) %>% 
+      length()
+  }
+```
+:::
+:::
+
+Let's test whether your function works!
+
+```{r}
+c(1, 1, 2) %>% 
+  contains_duplicates()
+
+c(1:3) %>% 
+  contains_duplicates()
+```
+
+It does!
+
+## Tidy data, nested objects
+
+Please make a new code section and call it "tidy data, nested objects":
+
+```{r}
+# tidy data, nested objects -------------------------------------------
+
+```
+
+Have a look at the `messy_birds` data frame:
+
+```{r}
+messy_birds
+```
+
+The data frame `messy_birds` is at two levels of observation, one associated with the capture records and the other the life history of the species. This is a violation of the third **tidy data** rule -- "Every level of observation forms a table" (Note: An indication of this problem is that we have repeated information for Song Sparrow).
+
+As such, these data should be split into two different tables:
+
+```{r}
+messy_birds %>% 
+  select(band_number:spp, wing:mass)
+
+messy_birds %>% 
+  select(spp:diet) %>% 
+  distinct()
+```
+
+We can combine these data frames into a single object with `list()`. Let's do so and globally assign the resultant object to the name `tidy_birds`:
+
+```{r}
+tidy_birds <-
+  list(
+    captures = 
+      messy_birds %>% 
+      select(band_number:spp, wing:mass),
+    life_history =
+      messy_birds %>% 
+      select(spp:diet) %>% 
+      distinct()
+  )
+```
+
+### Nested lists 
+
+The object that we created above is a list of tibbles and, given that a data frame is a restrictive class of list, a list of lists. As such the object is a list of lists.
+
+We can extract information from a nested list by providing the name we assigned to values at each level of the list. For example, we can extract the `life_history` table with:
+
+```{r}
+tidy_birds %>% 
+  pluck("life_history")
+```
+
+... and the `spp` character vector *within* the `life_history` table with:
+
+```{r}
+tidy_birds %>% 
+  pluck("life_history", "spp")
+```
+
+Storing tidy tables as items in a list is handy (and we have done it a lot), but such structures are often not effectively resistant to change. For example, if one of the `spp` codes changed in my `tidy_birds` object, I would need to remember change the `spp` field (foreign key to the life history table) in the `captures` *and* `life_history` tables. Because official species codes *do* change, this leaves us open to errors. 
+
+An alternative structure is to combine the two tibbles by nesting both tibbles by species.
+
+Let's create a unique character vector of species codes in `messy_birds`:
+
+```{r}
+tidy_species <-
+  messy_birds %>% 
+  pull(spp) %>% 
+  unique() %>% 
+  sort()
+```
+
+We can iterate across this character vector to create a life history table for each species:
+
+```{r}
+tidy_species %>% 
+  set_names(tidy_species) %>% 
+  map(
+    \(x) {
+      messy_birds %>% 
+        filter(spp == x) %>% 
+        select(scientific_name:diet) %>% 
+        distinct()
+    }
+  )
+```
+
+We can create a nested list that include captures by combining our data frames inside of the map's body with `list()`:
+
+```{r}
+nested_list <- 
+  tidy_species %>% 
+  set_names(tidy_species) %>% 
+  map(
+    \(x) {
+      list(
+        life_history = 
+          messy_birds %>% 
+          filter(spp == x) %>% 
+          select(scientific_name:diet) %>% 
+          distinct(),
+        captures =
+          messy_birds %>% 
+          filter(spp == x) %>% 
+          select(band_number, wing:mass)
+      )
+    }
+  )
+```
+
+Let's have a look at the structure of our nested list:
+
+```{r}
+str(nested_list)
+```
+
+We can now use a *tidyselect* function (that we are not meant to use, thus `:::`), `rename`, to change the name of one of our list items without having to change each of the component data frames in our list:
+
+```{r}
+nested_list %>% 
+  tidyselect:::rename(boy_howdy = SOSP) %>% 
+  str()
+```
+
+By removing the key column and instead structuring the data *around* our key, we have made these data much more resistant to change.
+
+### Nested data frames
+
+Of course, as I am sure that you have discovered, the trouble with lists is that they can be difficult to work with! Although the *purrr* package has this process a lot easier, it can still be challenging.
+
+An alternative method is to combine the levels of observation into a nested list column. We can do so with the *tidyr* function `nest`. We simply provide:
+
+* The data that we would like to nest (usually passed with a pipe operator);
+* A name for the nested column;
+* A selection of columns that we would like to nest together
+
+I generally nest the individual observation-level data inside of the data that represent the larger scale. Let's nest the capture records for each species and globally assign the resultant object to the name `nested_birds`:
+
+```{r}
+nested_birds <-
+  messy_birds %>% 
+  nest(
+    capture_records = c(band_number, wing:mass))
+
+nested_birds
+```
+
+*Note that, during the nesting process, the rows were subset to unique combinations of non-nested values!*
+
+The nested data now contains a list column, where each item in the list is a tibble. This can give us a tool to quickly (in terms of processing time) and easily modify the parent object with a function that we may be more comfortable with:
+
+```{r}
+nested_birds %>% 
+  mutate(
+    spp =
+      if_else(
+        spp == "SOSP", 
+        "boy_howdy",
+        spp)
+  )
+```
+
+... or subset the data to the records that we are interested in:
+
+```{r}
+nested_birds %>% 
+  filter(spp == "GRCA")
+```
+
+... and subset the data to the variables that we are interested in:
+
+```{r}
+nested_birds %>% 
+  filter(spp == "GRCA") %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records)
+```
+
+We can use unnest to return all of the variables from our nested list column:
+
+```{r}
+nested_birds %>% 
+  filter(spp == "GRCA") %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  unnest(cols = capture_records)
+```
+
+If we wanted to filter values by a variable in a nested column, we *could* `unnest()` the data, apply a `filter()`, and then `nest()` the data again:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  unnest(cols = capture_records) %>% 
+  filter(mass < 20) %>% 
+  nest(
+    capture_records = c(band_number, wing:mass)
+  )
+```
+
+That is, of course, not a very parsimonious solution. We can, instead, `map()` across the tibbles in our list. Below, I modify each item in our list column, subsetting each data frame to where the mass is less than 20:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  mutate(
+    capture_records = 
+      map(
+        capture_records,
+        ~ filter(.x, mass < 20))
+  )
+```
+
+Notice that we have not reduced the subset the larger data frame but rather the dimensions of each tibble have changed. Only the tibble in the row associated with "Carolina Wren" contains any rows (`<tibble [1 × 3]>`).
+
+If we want to remove the rows, we can `unnest()` the data:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  mutate(
+    capture_records = 
+      map(
+        capture_records, ~ filter(.x, mass < 20))
+  ) %>% 
+  unnest(capture_records)
+```
+
+The above removes the rows in which the list item is a data frame with 0 rows.
+
+We could then nest the data again ...
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  mutate(
+    capture_records = 
+      map(
+        capture_records, ~ filter(.x, mass < 20))
+  ) %>% 
+  unnest(capture_records) %>% 
+  nest(
+    capture_records = c(band_number, wing:mass))
+```
+
+... but we are even less parsimonious than we were before!
+
+If we want to subset the data without un-nesting it, we can add a column that describes the number of records that match a condition:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  mutate(
+    n_records = 
+      map_dbl(
+        capture_records, ~ filter(.x, mass < 20) %>% 
+          nrow())
+  )
+```
+
+... and filter to just matching rows:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  mutate(
+    n_records = 
+      map_dbl(
+        capture_records, 
+        \(x) {
+          filter(x, mass < 20) %>% 
+            nrow()
+        }
+      )
+  ) %>% 
+  filter(n_records > 0)
+```
+
+This is better, but it was not necessary to assign `n_records`:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  filter(
+    map_dbl(
+      capture_records, 
+      \(x) {
+        filter(x, mass < 20) %>% 
+          nrow()
+      }
+    ) > 0)
+```
+
+The above works (and with the functions that we already know!), and is fairly parsimonious. It would however, be a lot to write if we needed to repeat this multiple times. As such, we can convert the above to a custom function. Our function must have the following three arguments:
+
+* If we want our function to work on any nested data set, we must include the data frame as one of the arguments of our function. Here our data is `nested_birds` and we will refer to this in our custom function with the variable `.data`.
+* We must include the name of our list column in the custom function, which we will refer to with the variable `.list_column`.
+* We must include the logical test. In tidyverse speak, this is known as a **predicate** function, which is a function that returns logical values (TRUE or FALSE).
+
+Please navigate to the "custom functions" section of your code section and ...
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Write a custom function that will filter a nested data frame based on a given list column and predicate. *Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+# Function to filter a data frame by a variable in a list column:
+
+filter_nested_frame <-
+  function(.data, .list_column, .predicate) {
+    .data %>% 
+      filter(
+        map_dbl(
+          {{ .list_column }}, 
+          \(x) {
+            filter(x, {{ .predicate }}) %>% 
+              nrow()
+          }
+        ) > 0)
+  }
+```
+:::
+:::
+
+Let's run the function to ensure that it works:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  filter_nested_frame(
+    .list_column = capture_records, 
+    mass < 20)
+```
+
+... and really make sure by applying our custom function to a different logical test:
+
+```{r}
+nested_birds %>% 
+  select(
+    spp, 
+    common_name, 
+    capture_records) %>% 
+  filter_nested_frame(
+    .list_column = capture_records, 
+    wing > 70)
+```
+
+A benefit to the above is that our function subsets our life history data to the conditions in our captures data without the necessity of a join! This is roughly equivalent to the much more complex subsetting operation that would be required for a list:
+
+```{r}
+tidy_birds %>% 
+  pluck("life_history") %>% 
+  semi_join(
+    tidy_birds %>% 
+      pluck("captures") %>% 
+      filter(wing > 70),
+    by = "spp"
+  )
+```
+
+To conserve memory, let's finish this section by removing assigned names that we will no longer need for this lesson:
+
+```{r}
+rm(
+  tidy_species,
+  nested_list,
+  nested_birds
+)
+```
+
+
+## Primary and foreign keys
+
+We have discussed primary keys and foreign keys considerably within the context of joins. A **primary key** is a column that in which each value uniquely identifies a given observation (row). A **foreign key** is a column in which each value represents the primary key of a different table. These keys allow us to query data across tables in a dataset and thus give us database-like functionality.
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [An Excel file is not a database!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+Although we can follow the **tidy data** rules to structure a dataset as though it was comprised of database tables, a spreadsheet is not a true database. A database unites the the data into a hierarchical object that provides a consistent, safe method for querying across tables.
+:::
+
+Unless data are stored in a database, most datasets do not contain an explicit primary or foreign key. As such, if I am using other people's data, I typically have to give thought to which variables represent the primary and foreign keys. For storing my own data, I like to assign primary and foreign keys to the tables.
+
+### Best practices for key values
+
+There are a couple of "best practice" rules to consider when generating keys:
+
+* Do not create a primary key that is associated with the values in your data;
+* Do not create a primary key that refers to the order of observations in your data table.
+
+Both rules can be summarized more succinctly as "Do not create a primary key that has any human-readable meaning".
+
+Let's take the first rule, and use `spp` and `band_number` to generate a primary key for the `captures` table in `tidy_birds`:
+
+```{r}
+tidy_birds %>% 
+  pluck("captures") %>% 
+  mutate(
+    captures_key = 
+      str_c(
+        spp, 
+        band_number, 
+        sep = "_"),
+    .before = band_number
+  )
+```
+
+There are two big problems with the above:
+
+* We have generated a transitive column.
+* Upon data cleaning you may discover that either the species should not be "GRCA" or that the band number was incorrect. A less-than-careful data manager may feel compelled to modify the key!
+
+The latter point is most important. Several years ago, I foolishly used the first four letters of program participants' last names as part of a primary key and participant login ID in a data entry portal for a complex database. When a participant got a divorce and wanted to change their login, I had to make major, time-consuming modifications to loads of database tables!
+
+It is very common to use an integer value as a primary key. For example, we might add a key with:
+
+```{r}
+tidy_birds %>% 
+  pluck("captures") %>% 
+  mutate(
+    captures_key = 
+      row_number(),
+    .before = band_number
+  )
+```
+
+This is a problem because users may be compelled to modify the key if the order of the rows has changed:
+
+```{r}
+tidy_birds %>% 
+  pluck("captures") %>% 
+  mutate(
+    captures_key = 
+      row_number(),
+    .before = band_number
+  ) %>% 
+  arrange(spp)
+```
+
+I have also experienced the problem with this method first-hand, when using data entered and stored in Excel. A user was cataloging specimen records and noticed that they missed a few specimens. The records were being input in the order of date collected, so they changed the primary key of the file (with ye-olde-drag-an-Excel-cell method). Unbeknownst to them, there was a foreign key in another table that pointed to the primary key of the specimen table! It took many days to fix that one ... alas.
+
+### Creating robust key values
+
+Adhering to our best practices for primary and foreign keys presents its own challenge ... how can we create keys that follow these principles?
+
+My method is to use base R's `sample` function. This function will randomly sample a vector (and has loads of applications beyond generating keys!). For example, we can `sample()` an integer vector of numbers by providing the integers upon which to sample and the number of samples to return:
+
+```{r}
+sample(0:9, size = 2)
+```
+
+We can then concatenate the values together with `str_c()`:
+
+```{r}
+sample(0:9, size = 2) %>% 
+  str_c(collapse = "")
+```
+
+The above has a pretty limited number of potential values with two symbols though. There are only 100 potential unique values. We can verify this with the *purrr* function `expand_grid`, which provides all potential combinations of two data objects:
+
+```{r}
+expand_grid(0:9, 0:9) %>% 
+  nrow()
+```
+
+We can add a character vector of `letters` to sample from (`letters` are a built-in constant in base R):
+
+```{r}
+sample(
+  c(0:9,
+    letters),
+  size = 2) %>% 
+  str_c(collapse = "")
+```
+
+We are now up to 1,296 potential combinations with two symbols (which still does not leave us a lot of options):
+
+```{r}
+expand_grid(
+  c(0:9, letters), 
+  c(0:9, letters)
+) %>% 
+  nrow()
+```
+
+Let's add a character vector of upper-case `LETTERS` (another built-in constant in base R):
+
+```{r}
+sample(
+  c(0:9,
+    letters,
+    LETTERS),
+  size = 2) %>% 
+  str_c(collapse = "")
+```
+
+We now have 3,844 unique combinations with just two symbols:
+
+```{r}
+expand_grid(
+  c(0:9, letters, LETTERS), 
+  c(0:9, letters, LETTERS)
+) %>% 
+  nrow()
+```
+
+That still is not a lot of potential key values, especially if we are working with big data. Let's turn this into a function where the argument of the function will be the number of symbols to use. Please head to the `custom functions` code section and ...
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Working in the `custom functions` code section:
+
+* Write a custom function that will repeat the sampling process above for a given number of symbols.
+* Globally assign the name `random_alpha_numeric` to the function.
+
+*Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+random_alpha_numeric <-
+  function(n_symbols) {
+    sample(
+      c(0:9, 
+        letters, 
+        LETTERS),
+      n_symbols
+    ) %>% 
+      str_c(collapse = "")
+  }
+```
+
+:::
+:::
+
+Let's create a key for messy birds. We can use the *purrr* map function `map_chr` -- like all maps the input is a vector, but the suffix tells us that the output will be a character vector. To create a key, we: 
+
+* Iterate across the number of observations in `messy_birds`;
+* Use `random_alpha_numeric` to create a key that contains 4 symbols.
+
+```{r}
+map_chr(
+  1:nrow(messy_birds),
+  ~ random_alpha_numeric(4)
+)
+```
+
+Let's assign the resultant object to the name `id` in `messy_birds`:
+
+```{r}
+messy_birds %>% 
+  mutate(
+    id = 
+      map_chr(
+        1:nrow(.),
+        ~ random_alpha_numeric(4)
+      ),
+    .before = 1
+  )
+```
+
+Note: In the above we:
+
+* Used the placeholder, `.`, inside of `nrow()` to refer to the parent frame;
+* Included the argument `.before = 1` to specify the location of my key column as the first column in the data.
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Working in the `custom functions` code section:
+
+* Use the above and the function `random_alpha_numeric`, create a function that will add a primary key to any data frame
+* Globally assign the name `add_key_to_frame` to the function. 
+
+*Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+add_key_to_frame <-
+  function(.data, n_symbols) {
+    .data %>% 
+      mutate(
+        id = 
+          map_chr(
+            1:nrow(.),
+            ~ random_alpha_numeric(n_symbols)
+          ),
+        .before = 1
+      )
+  }
+```
+:::
+:::
+
+Let's run the function we created above and globally assign the resultant object to the name `messy_birds_keyed`:
+
+```{r}
+messy_birds_keyed <-
+  messy_birds %>% 
+  add_key_to_frame(n_symbols = 4)
+```
+
+A potential danger to our method is that it possible to generate duplicate key values. To test this, we must determine whether any of the key values are duplicated. We can use our custom function `contains_duplicates` (from the start of our lesson) to test this:
+
+```{r}
+c(1, 1, 2) %>% 
+  contains_duplicates()
+```
+
+Let's use `contains_duplicates()` to test if there are duplicated key values:
+
+```{r}
+messy_birds_keyed %>% 
+  pull(id) %>% 
+  contains_duplicates()
+```
+
+Our key does not contain duplicate values, so is safe to use! This is not surprising because there are almost 15 million potential values when we use 4 symbols and our data frame has only 5 rows. The probability of generating a duplicate for these data is nearly 1 in 3 million! This is good, because we *really* do not want to add a duplicate key.
+
+Of course, it *is* still possible to generate duplicate key values. As such ...
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Working in the `custom functions` code section, modify `add_key_to_frame` to the function such that:
+
+* If there *are* duplicate values return "Error: duplicate key values detected!"
+* If there are *no* duplicate key values, the data frame is returned (with the primary key column);
+
+*Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+add_key_to_frame <-
+  function(.data, n_symbols) {
+    keyed_data <-
+      .data %>% 
+      mutate(
+        id = 
+          map_chr(
+            1:nrow(.),
+            ~ random_alpha_numeric(n_symbols)
+          ),
+        .before = 1
+      )
+    
+    if(
+      keyed_data %>% 
+      pull(id) %>% 
+      contains_duplicates()
+    ) {
+      "Error: duplicate key values detected!"
+    } else {
+      keyed_data
+    }
+  }
+```
+:::
+:::
+
+Let's check to see if our function worked. We will first give it a try on `messy_birds`:
+
+```{r}
+messy_birds %>% 
+  add_key_to_frame(4)
+```
+
+We will have to force the issue to generate a failure. If there is just one symbol in our key, there are 62 potential values:
+
+```{r}
+c(0:9, 
+  letters, 
+  LETTERS) %>% 
+  length()
+```
+
+... so let's create a data frame with 63 values and run `add_key_to_frame()` with just one symbol:
+
+```{r}
+tibble(a = 1:63) %>% 
+  add_key_to_frame(1)
+```
+
+It worked!
+
+As we have verified that we have a working function, let's add a primary key to `messy_birds` and globally assign the name `messy_birds_w_key` to the resultant object:
+
+```{r}
+messy_birds_w_key <-
+  messy_birds %>% 
+  add_key_to_frame(n_symbols = 4) %>% 
+  rename(observation_id = id)
+```
+
+As you know, our table is at two levels of observations and we will need to separate them. Luckily, it is a bit easier to generate a foreign key. Because a function that is run on grouped data is run on each group separately, we can add a foreign key and globally assign the resultant object with:
+
+```{r}
+messy_birds_w_primary_and_foreign_keys <-
+  messy_birds_w_key %>% 
+  mutate(
+    spp_id =
+      random_alpha_numeric(5),
+    .by = spp,
+    .before = spp
+  )
+```
+
+We should *still* ensure that our foreign key is unique to its level of observation. We can do so by comparing the number of unique rows associated with the `spp_id` column with the number of rows of the data frame subset to life history:
+
+```{r}
+messy_birds_w_primary_and_foreign_keys %>% 
+  distinct(spp_id) %>% 
+  nrow() ==
+  messy_birds_w_primary_and_foreign_keys %>% 
+  select(spp:diet) %>% 
+  distinct() %>% 
+  nrow()
+```
+
+The above verifies that we have successfully created our primary and foreign keys. So let's split the data based on the levels or observation (the third tidy data rule):
+
+```{r}
+messy_birds_w_primary_and_foreign_keys %>% 
+  select(
+    observation_id,
+    band_number:spp_id,
+    wing:mass)
+
+messy_birds_w_primary_and_foreign_keys %>% 
+  select(spp_id:diet) %>% 
+  distinct()
+```
+
+... and bask in our tidy glory:
+
+```{r}
+my_tidy_list <-
+  list(
+    captures = 
+      messy_birds_w_primary_and_foreign_keys %>% 
+      select(
+        observation_id,
+        band_number:spp_id,
+        wing:mass),
+    life_history = 
+      messy_birds_w_primary_and_foreign_keys %>% 
+      select(spp_id:diet) %>% 
+      distinct()
+  )
+
+my_tidy_list
+```
+
+To conserve memory, please remove assigned names that we will no longer need for this lesson:
+
+```{r}
+rm(
+  messy_birds,
+  messy_birds_keyed,
+  messy_birds_w_primary_and_foreign_keys
+)
+```
+
+## Databases: SQLite and dbplyr
+
+If we wanted to store the data above using the methods that I have taught in this course thus far, we would  have created a list and stored it on our hard drives as an rds file:
+
+```{r}
+my_tidy_list %>% 
+  write_rds("data/processed/captures_and_birds.rds")
+```
+
+As I have previously described, "RDS" files have the limitation that these objects can only be read by R. Additionally, when we read in an RDS file, we read the whole file at once into our memory. This is not a great solution for big data!
+
+### Create a database
+
+We will instead learn how to generate a true database. We will make a SQLite database with two packages, *DBI* (`dbConnect()`) and *RSQLite* (`SQLite()`). Please run the following to write a blank database to your hard drive:
+
+```{r}
+captures_database <-
+  dbConnect(
+    SQLite(),
+    "data/processed/captures_and_birds.sqlite"
+  )
+```
+
+In the above:
+
+* The function `dbConnect` can be used to create a new database and connect to an existing database. Here, it does both tasks simultaneously.
+* The function `SQLite` specifies that the new database will be SQLite database.
+* Our global assignment, `captures_database`, assigns the connection of the database to the global environment (not the database itself).
+
+To write a table to our database, we use the *DBI* function `dbWriteTable`. We supply:
+
+* `conn = ...`: The connection to the database;
+* `name = ...`: The name of the table we would like to write
+* `value = ...`: The data frame that we would like to add.
+
+Let's add `captures` from `my_tidy_list` to the database:
+
+```{r}
+dbWriteTable(
+  conn = captures_database, 
+  name = "captures",
+  value = pluck(my_tidy_list, "captures")
+)
+```
+
+We can verify that the table has been written with `dbListTables`:
+
+```{r}
+dbListTables(conn = captures_database)
+```
+
+By default, we cannot write a table that already exists:
+
+```{r}
+dbWriteTable(
+  conn = captures_database, 
+  name = "captures",
+  value = pluck(my_tidy_list, "captures")
+)
+```
+
+If we *do* want to overwrite an existing table, we can add the argument `overwrite = TRUE` to `dbWriteTable()` (but use carefully!):
+
+```{r}
+dbWriteTable(
+  conn = captures_database, 
+  name = "captures",
+  value = pluck(my_tidy_list, "captures"),
+  overwrite = TRUE
+)
+```
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Use `map()` to add both of the tidy tables (`captures` and `life_history`) into our database in a single step (use `overwrite = TRUE`).
+
+*Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+my_tidy_list %>% 
+  names() %>% 
+  map(
+    \(x) {
+      dbWriteTable(
+        conn = captures_database, 
+        name = x,
+        value = pluck(my_tidy_list, x),
+        overwrite = TRUE)
+    }
+  )
+```
+:::
+:::
+
+### Connect to a table
+
+We can establish a connection between our current R session and a database table with the tidyverse function `tbl` (from the dplyr package). We supply the name of the connection (`captures_database`) and the name of the table that we would like to read in (in quotes):
+
+```{r}
+tbl(captures_database, "life_history")
+```
+
+Notice that the above is a bit different than our typical tibble output. We see the `Source`, which describes the tibble itself, and `Database`, which describes the database where the table is located. We have not read the table into R, we have just connected to the table and printed a preview of its contents.
+
+### Query across tables
+
+Let's subset the database table `life_history` to birds in which the diet is "insectivore":
+
+```{r}
+tbl(captures_database, "life_history") %>% 
+  filter(diet == "insectivore")
+```
+
+When we work with databases, `dplyr` uses `dbplyr` functions. Under-the-hood, `dbplyr` transformed the operation to a SQL query (and conducted with SQL, not R). We can observe this by passing the above into `show_query()`:
+
+```{r}
+tbl(captures_database, "life_history") %>% 
+  filter(diet == "insectivore") %>% 
+  show_query()
+```
+
+The real power in a database, however, comes from queries across tables (i.e., joins). To subset `captures` to those in which the diet is "insectivore" (from the `life_history` table), we would use:
+
+```{r}
+my_tidy_list %>% 
+  pluck("captures") %>% 
+  semi_join(
+    my_tidy_list %>% 
+      pluck("life_history") %>% 
+      filter(diet == "insectivore"),
+    by = "spp_id"
+  )
+```
+
+To do so with our sqlite database, we would use:
+
+```{r}
+tbl(captures_database, "captures") %>% 
+  semi_join(
+    tbl(captures_database, "life_history") %>% 
+      filter(diet == "insectivore"),
+    by = "spp_id"
+  )
+```
+
+Let's look at the database operation that we completed above:
+
+```{r}
+tbl(captures_database, "captures") %>% 
+  semi_join(
+    tbl(captures_database, "life_history") %>% 
+      filter(diet == "insectivore"),
+    by = "spp_id"
+  ) %>% 
+  show_query()
+```
+
+### SQL database with big data
+
+We would not see any performance improvements with data that are this small (in fact, the performance is considerably worse!). Below, I use the *bench* function `mark` to evaluate the operation above completed with a list stored in memory and with a database:
+
+```{r}
+# Benchmark - list operation:
+
+mark(
+  list(
+    my_tidy_list %>% 
+      pluck("captures") %>% 
+      semi_join(
+        my_tidy_list %>% 
+          pluck("life_history") %>% 
+          filter(diet == "insectivore"),
+        by = "spp_id"
+      )
+  )
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - database operation:
+
+mark(
+  tbl(captures_database, "captures") %>% 
+    semi_join(
+      tbl(captures_database, "life_history") %>% 
+        filter(diet == "insectivore"),
+      by = "spp_id"
+    )
+) %>% 
+  select(median, mem_alloc)
+```
+
+The database operation is *way* slower and requires much more memory than the operation in which the data are stored in our memory!
+
+This is, in part, because more memory is allocated to the connection with the database ...
+
+```{r}
+obj_size(
+  tbl(captures_database, "captures")
+)
+```
+
+... than the memory allocated to the object itself:
+
+```{r}
+obj_size(
+  pluck(my_tidy_list, "captures")
+)
+```
+
+More memory and processing time was also required because our operation:
+
+1. Converted *dplyr* code to *dbplyr* code
+2. Converted *dplyr* code to SQL code
+3. Used SQL to conduct the query (sort of ... more on this in a bit)
+4. Sent a preview of the output back to R
+
+As such, we will not see performance improvements with small data.
+
+Let's look at the performance with big data. `amke_memory` is a pretty big file (there are more than 3 million records) and only represents a small subset of the data that we collected:
+
+```{r}
+amke_memory
+```
+
+Because `amke_memory` contains a lot of records, considerable memory is allocated to the object and the efficiency of operations conducted on the object may be limited. Let's create a database for these data:
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; Please create a blank SQLite database in `data/processed` called `amke.sqlite` and globally assign the database connection to the name `amke_db`.
+
+*Click this button to see my solution!*
+
+</button>
+::: panel
+
+```{r, results = "hide"}
+amke_db <-
+  dbConnect(
+    SQLite(),
+    "data/processed/amke.sqlite"
+  )
+```
+:::
+:::
+
+Let's add `amke_memory` as a table in our database:
+
+```{r}
+dbWriteTable(
+  conn = amke_db, 
+  name = "detections",
+  value = amke_memory)
+```
+
+We can then connect to the table with:
+
+```{r}
+tbl(amke_db, "detections")
+```
+
+Notice that the time data got transformed into numbers! These numbers represent the number of seconds since (positive values) or before (negative values) 1970-01-01 00:00:00 UTC (the unix timestamp). To get around this, we can transform the time column into a character vector before writing the table:
+
+```{r}
+amke_memory %>% 
+  mutate(time = as.character(time)) %>% 
+  dbWriteTable(
+    conn = amke_db, 
+    name = "detections",
+    value = .,
+    overwrite = TRUE)
+```
+
+Let's verify that this worked:
+
+```{r}
+tbl(amke_db, "detections")
+```
+
+You might have noticed that, once the data are written to the database, the read operation is much faster for the database:
+
+```{r, message = FALSE, warning = FALSE}
+# Benchmark - connecting to a database table:
+
+mark(
+  tbl(amke_db, "detections")
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - reading into memory:
+
+mark(
+  read_csv("data/raw/amke_detections.csv")
+) %>% 
+  select(median, mem_alloc)
+```
+
+This is because the data are not transferred into our memory:
+
+```{r, message = FALSE, warning = FALSE}
+# Object size, database table connection:
+
+obj_size(
+  tbl(amke_db, "detections")
+)
+
+# Object size, data frame in memory:
+
+obj_size(
+  amke_memory
+)
+```
+
+The performance improvements do not stop with just reading in the data. In the below, I test what it takes to filter the data:
+
+```{r}
+# Benchmark - filter a database table:
+
+mark(
+  tbl(amke_db, "detections") %>% 
+    filter(
+      month(time) == 7,
+      rssi > -90,
+      node_id == "377c42")
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - filter a data frame in memory:
+
+mark(
+  amke_memory %>% 
+    filter(
+      month(time) == 7,
+      rssi > -90,
+      node_id == "377c42")
+) %>% 
+  select(median, mem_alloc)
+```
+
+This is a huge savings in both memory allocation and processing time!
+
+Admittedly, however, much of the performance improvement is generated by the fact that we are talking to the database, but not actually storing the data in our memory. To move the database to our memory, we need to use the function `collect`:
+
+```{r}
+tbl(amke_db, "detections") %>% 
+  filter(
+    month(time) == 7,
+    rssi > -90,
+    node_id == "377c42") %>% 
+  collect()
+```
+
+Passing the results of our query to memory *does* negate the performance improvements in terms of processing time:
+
+```{r}
+mark(
+  tbl(amke_db, "detections") %>% 
+    filter(
+      month(time) == 7,
+      rssi > -90,
+      node_id == "377c42") %>% 
+    collect()
+) %>% 
+  select(median, mem_alloc)
+```
+
+But notice in the above that the memory required to complete the operation above is considerably lower!
+
+Also, if we include the initial reading process in our operation ...
+
+```{r}
+
+# Benchmark - connect to, filter a database table, and collect the results:
+
+mark({
+  
+  # Establish connection:
+  
+  temp <-
+    dbConnect(
+      SQLite(),
+      "data/processed/amke.sqlite")
+  
+  # Filter and collect:
+  
+  tbl(temp, "detections") %>% 
+    filter(
+      month(time) == 7,
+      rssi > -90,
+      node_id == "377c42") %>% 
+    collect()
+}) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - read in and filter a table in memory:
+
+mark({
+  read_csv("data/raw/amke_detections.csv") %>% 
+    filter(
+      month(time) == 7,
+      rssi > -90,
+      node_id == "377c42")
+}) %>% 
+  select(median, mem_alloc)
+```
+
+The advantage of the database method is, therefore, that we:
+
+* Do not have to read the entire dataset into memory;
+* Perform our queries in SQL, which is faster than R.
+
+### Delete a record
+
+`dblyr` helps a ton once you have read in a file. Knowing a bit of the SQL language, however, is necessary if you wish to modify the database itself. For example, here is how to delete records for a given `tag_id`:
+
+```{r}
+dbExecute(
+  amke_db,
+  "DELETE FROM detections WHERE (tag_id = '78195233');")
+```
+
+Above, I used `dbExecute()` to execute a SQLite function. I then had to write a SQL function for identifying the data to remove and deleting the records.
+
+Let's verify that the tag has been removed:
+
+```{r}
+tbl(amke_db, "detections") %>% 
+  summarize(
+    n_detections = n(),
+    .by = tag_id
+  )
+```
+
+It has (and we verified it with the much-more-comfortable `dplyr` functions)!
+
+If SQL is new for you, I recommend learning by showing the query every time you use `dbplyr`:
+
+```{r}
+tbl(amke_db, "detections") %>% 
+  summarize(
+    n_detections = n(),
+    .by = tag_id
+  ) %>% 
+  show_query()
+```
+
+### Add records
+
+A HUGE advantage of using a database is the ability to add rows without reading in and writing the whole dataset. In database lingo, this is known as "appending a table". As an example, let's write our data subset to a new csv file:
+
+```{r}
+tbl(amke_db, "detections") %>% 
+  collect() %>%
+  write_csv("data/processed/append_example.csv")
+```
+
+Now we will use the tibble stored in our memory to create a data frame of just observations of `tag_id` "78195233":
+
+```{r}
+amke_78195233 <- 
+  amke_memory %>% 
+  filter(tag_id == "78195233")
+```
+
+*Note: We had to use `amke_memory` because we just removed data associated with that tag from our database.*
+
+If we wanted to add these data to the csv file (`append_example.csv`), we would have to read in the whole file, add the new observations (with `bind_rows()`), and then write the data again. 
+
+```{r}
+mark(
+  read_csv("data/processed/append_example.csv") %>% 
+    bind_rows(amke_78195233) %>% 
+    write_csv("data/processed/append_example.csv")
+) %>% 
+  select(median, mem_alloc)
+```
+
+This process took a very long time and required a huge amount of allocated memory!
+
+To append a SQL table, we use the DBI function `dbAppendTable`:
+
+```{r}
+mark(
+  dbAppendTable(
+    conn = amke_db,
+    name = "detections",
+    value = amke_78195233
+  )
+) %>% 
+  select(median, mem_alloc)
+```
+
+That is WAY faster ... a huge advantage with big data!
+
+### End a database session
+
+When you are done working with a database, it is best to close the connection. 
+
+We will no longer use `captures_database` or `amke_db` again. As such, we should close the connections:
+
+```{r}
+dbDisconnect(captures_database)
+
+dbDisconnect(amke_db)
+```
+
+And, let's free up some memory by removing assigned names that we will no longer need for this lesson:
+
+```{r}
+rm(
+  my_tidy_list,
+  captures_database,
+  nested_birds,
+  amke_78195233
+)
+```
+
+### Databases and you!
+
+The database method above provides simple solutions for managing your team's data. You can have your team enter their new data into spreadsheets, use R to clean the data, and then add the data to your database when you have done so. For many of my projects, I create a data entry website (a Shiny app) that serves as a Graphical User Interface (GUI) for my field team and the website does all of the database operations. 
+
+Before we leave this portion of the lesson, I want to note that I have used SQLite because it is a very common database format. Similar methods can be applied to other database programs (e.g., PostgreSQL or Mongo databases).
+
+## *data.table* and *dtplyr*
+
+The *data.table* package provides an option for working with big data that are stored as tabular data. 
+
+We can read in a tabular dataset as a data table object with the *data.table* function `fread`:
+
+```{r}
+fread("data/raw/amke_detections.csv")
+```
+
+Reading in a data table with `fread()` is much faster than `read_csv()`:
+
+```{r}
+# Benchmark - read an object into R as a data table:
+
+mark(
+  fread("data/raw/amke_detections.csv")
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - read an object into R as a tibble:
+
+mark(
+  read_csv("data/raw/amke_detections.csv")
+) %>% 
+  select(median, mem_alloc)
+```
+
+The object returned by `fread()` is a data.table class object:
+
+```{r}
+fread("data/raw/amke_detections.csv") %>% 
+  class()
+```
+
+Let's globally assign the name `amke_dt` to the resultant object:
+
+```{r}
+amke_dt <-
+  fread("data/raw/amke_detections.csv")
+```
+
+The tidyverse package *dtplyr* allows us to work with data tables as though they were tibbles. Under-the-hood, tidyverse functions are transformed to *data.table* functions:
+
+```{r}
+# Benchmark - native dt version:
+
+mark(
+  amke_dt[tag_id == "78195233", ]
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - dtplyr version:
+
+mark(
+  amke_dt %>% 
+    filter(tag_id == "78195233")
+) %>% 
+  select(median, mem_alloc)
+```
+
+The tidyverse version is considerably slower and less memory efficient than using native *data.table* functions, but I greatly prefer the syntax. We can speed up the processing time by creating an object called a "lazy data table" by passing the data table to the *dtplyr* function `lazy_dt`.
+
+```{r}
+amke_lazy <-
+  fread("data/raw/amke_detections.csv") %>% 
+  dtplyr::lazy_dt()
+
+mark(
+  amke_lazy %>% 
+    filter(tag_id == "78195233")
+) %>% 
+  select(median, mem_alloc)
+```
+
+The performance of the above is much faster and more memory efficient than even the native dt version. This is because you are not actually generating the resultant dataset, just previewing the operation. If you print the results, you can see the a preview of the results and the *data.table* code used:
+
+```{r}
+amke_lazy %>% 
+  filter(tag_id == "78195233")
+```
+
+As the message in the above states, we can access the results with `as_tibble()`:
+
+```{r}
+amke_lazy %>% 
+  filter(tag_id == "78195233") %>% 
+  as_tibble()
+```
+
+Of course, in doing so, our performance is once again reduced:
+
+```{r}
+# Benchmark - keep it lazy:
+
+mark(
+  amke_lazy %>% 
+    filter(tag_id == "78195233")
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - transform to a tibble:
+
+mark(
+  amke_lazy %>% 
+    filter(tag_id == "78195233") %>% 
+    as_tibble()
+) %>% 
+  select(median, mem_alloc)
+```
+
+The "lazy data table" method is useful because you can test out your code while running tidyverse functions, and only pass the resultant object to a tibble once all processing steps have been completed. Given that most of our coding time is spent processing data objects, the cost of using tidyverse functions is minimized. Moreover, any costs are greatly offset by the enhanced power and readability that tidyverse functions provide us.
+
+Consider the following operation:
+
+```{r}
+amke_lazy %>% 
+  summarize(
+    n_detections = n(),
+    .by = tag_id
+  )
+```
+
+You can see in "Call", above that summarizing this dataset would require a whole new syntax:
+
+```{r, eval = FALSE}
+amke_dt[, .(n_detections = .N), keyby = .(tag_id)]
+```
+
+Although the native *data.table* version is fast:
+
+```{r}
+mark(
+  amke_dt[, .(n_detections = .N), keyby = .(tag_id)]
+) %>% 
+  select(median, mem_alloc)
+```
+
+I will gladly exchange readability and familiar functions for what is often a very minor speed improvement:
+
+```{r}
+mark(
+  amke_lazy %>% 
+    summarize(
+      n_detections = n(),
+      .by = tag_id
+    ) %>% 
+    as_tibble()
+) %>% 
+  select(median, mem_alloc)
+```
+
+## *arrow*
+
+Our final topic of this lesson will be the simplest -- the *arrow* package. I use this package a lot for big data that are stored as csv files. Like the database operations above, the advantage of this package is that files are not stored in your memory until it is necessary to do so.
+
+With *arrow*, we establish a connection with a csv dataset with the function `open_csv_dataset`:
+
+```{r}
+open_csv_dataset("data/raw/amke_detections.csv")
+```
+
+You probably noticed that was super fast. It is *much* faster and more memory efficient than even `fread()`:
+
+```{r}
+
+# Benchmark - connect to file with arrow:
+
+mark(
+  open_csv_dataset("data/raw/amke_detections.csv")
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - connect to file with data.table:
+
+mark(
+  fread("data/raw/amke_detections.csv")
+) %>% 
+  select(median, mem_alloc)
+```
+
+Like our database operations with *dtplyr*, the improvement is due to the fact that the full object is not actually being read into R:
+
+```{r}
+
+# Object size - arrow:
+
+obj_size(
+  open_csv_dataset("data/raw/amke_detections.csv")
+)
+
+# Object size - data.table:
+
+obj_size(
+  fread("data/raw/amke_detections.csv")
+)
+```
+
+Let's globally assign a name to the resultant arrow object:
+
+```{r}
+amke_arrow <- 
+  open_csv_dataset("data/raw/amke_detections.csv")
+```
+
+Like working with data tables with *dtplyr* and database tables with *dbplyr*, *arrow* allows us to use tidyverse functions when processing data. Applying tidyverse functions to arrow objects is incredibly fast and memory efficient:
+
+```{r}
+mark(
+  amke_arrow %>% 
+    filter(tag_id == "78195233")
+) %>% 
+  select(median, mem_alloc)
+```
+
+Like *dbplyr*, which transforms a query into SQL, and *dtplyr*, which transforms a query into *data.table* syntax, *arrow* is transforming our tidyverse code into a query that the Apache C++ library understands. 
+
+Unlike with *dbplyr* and *dtplyr*, however, the output is perhaps not very helpful for viewing the results:
+
+```{r}
+amke_arrow %>% 
+  filter(tag_id == "78195233")
+```
+
+The above output can be challenging in that the printed information does not allow us to see the results.
+
+We can use the *pillar* function `glimpse` (which we are given access to with `library(tidyverse)`) to get *some* information on the object (similar to what we might retrieve with `utils::str()` for regular data frames):
+
+```{r}
+amke_arrow %>% 
+  filter(tag_id == "78195233") %>% 
+  glimpse()
+```
+
+We can view the resultant object by passing it into memory with `collect()`:
+
+```{r}
+amke_arrow %>% 
+  filter(tag_id == "78195233") %>% 
+  collect()
+```
+
+However, in doing so, we lose our speed and memory advantage:
+
+```{r}
+# Benchmark - filter arrow and pass to memory:
+
+mark(
+  amke_arrow %>% 
+    filter(tag_id == "78195233") %>% 
+    collect()
+) %>% 
+  select(median, mem_alloc)
+```
+
+So it might seem that we lose *an*y advantage when we use *arrow,* but this is not the case! Although we have to code a bit blind, if we know what we want and how to code a given operation (e.g., it does not require exploration during pre-processing), this is a very effective method.
+
+For example, the field team for the American kestrel study would often track birds using a handheld directional antenna. As such, they often wanted to know where a tagged bird was observed on a previous day. Pulling out a record for a single day and a single tag_id would look something like:
+
+```{r}
+open_csv_dataset("data/raw/amke_detections.csv") %>% 
+  filter(
+    tag_id == "19332D2D",
+    as_date(time) == "2023-06-30") %>% 
+  collect()
+```
+
+This is way faster and more memory efficient than the data table version:
+
+```{r}
+# Benchmark - read, filter, and collect; arrow:
+
+mark(
+  open_csv_dataset("data/raw/amke_detections.csv") %>% 
+    filter(
+      tag_id == "19332D2D",
+      as_date(time) == "2023-06-30") %>% 
+    collect()
+) %>% 
+  select(median, mem_alloc)
+
+# Benchmark - read, filter, and collect; data.table:
+
+mark(
+  fread("data/raw/amke_detections.csv") %>% 
+    dtplyr::lazy_dt() %>% 
+    filter(
+      tag_id == "19332D2D",
+      as_date(time) == "2023-06-30") %>% 
+    as_tibble()
+) %>% 
+  select(median, mem_alloc)
+```
+
+We can continue to fine-tune our search and gain further performance improvements. For example, perhaps the field team is going to get up early and wants to know where the bird slept on the previous night:
+
+```{r}
+open_csv_dataset("data/raw/amke_detections.csv") %>% 
+  filter(
+    tag_id == "19332D2D",
+    as_date(time) == "2023-06-30",
+    hour(time) > 20) %>% 
+  collect()
+```
+
+The rssi value is a measure of signal strength -- higher values means that the bird was closer to the node. As such, we might want to know the three closest nodes to where the bird was the night before:
+
+```{r}
+open_csv_dataset("data/raw/amke_detections.csv") %>% 
+  filter(
+    tag_id == "19332D2D",
+    as_date(time) == "2023-06-30",
+    hour(time) > 20) %>% 
+  
+  # Calculate the average rssi by node_id:
+  
+  summarize(
+    rssi = mean(rssi),
+    .by = node_id
+  ) %>% 
+  
+  # Subset to the three nodes with the highest rssi:
+  
+  slice_max(
+    rssi, 
+    n = 3,
+    with_ties = FALSE) %>% 
+  collect()
+```
+
+*Note: Some operations available in dplyr and not yet available with arrow. Above, I could not use `slice_max()` on grouped data and needed to specify `with_ties = FALSE`. More and more tidyverse operations are being integrated into arrow, so this will likely change in the future.*
+
+The above will give a solid start for our field team's search! Importantly, because the data did not have to be read into memory until the final step in the process, this operation was fast and memory efficient:
+
+```{r}
+mark(
+  open_csv_dataset("data/raw/amke_detections.csv") %>% 
+    filter(
+      tag_id == "19332D2D",
+      as_date(time) == "2023-06-30",
+      hour(time) > 20) %>% 
+    
+    # Calculate the average rssi by node_id:
+    
+    summarize(
+      rssi = mean(rssi),
+      .by = node_id
+    ) %>% 
+    
+    # Subset to the three nodes with the highest rssi:
+    
+    slice_max(
+      rssi, 
+      n = 3,
+      with_ties = FALSE) %>% 
+    collect()
+) %>% 
+  select(median, mem_alloc)
+```
+
+Here is the memory allocation and processing time for completing the operation with *data.table* and *dtplyr*:
+
+```{r}
+mark(
+  fread("data/raw/amke_detections.csv") %>% 
+    dtplyr::lazy_dt() %>% 
+    filter(
+      tag_id == "19332D2D",
+      as_date(time) == "2023-06-30",
+      hour(time) > 20) %>% 
+    
+    # Calculate the average rssi by node_id:
+    
+    summarize(
+      rssi = mean(rssi),
+      .by = node_id
+    ) %>% 
+    
+    # Subset to the three nodes with the highest rssi:
+    
+    slice_max(
+      rssi, 
+      n = 3,
+      with_ties = FALSE) %>% 
+    as_tibble()
+) %>% 
+  select(median, mem_alloc)
+```
+
+... and here is how long it would have taken with `read_csv()`:
+
+```{r}
+mark(
+  read_csv("data/raw/amke_detections.csv") %>% 
+    dtplyr::lazy_dt() %>% 
+    filter(
+      tag_id == "19332D2D",
+      as_date(time) == "2023-06-30",
+      hour(time) > 20) %>% 
+    
+    # Calculate the average rssi by node_id:
+    
+    summarize(
+      rssi = mean(rssi),
+      .by = node_id
+    ) %>% 
+    
+    # Subset to the three nodes with the highest rssi:
+    
+    slice_max(
+      rssi, 
+      n = 3,
+      with_ties = FALSE) %>% 
+    as_tibble()
+) %>% 
+  select(median, mem_alloc)
+```
+
+The choice of which big data solution to choose depends on your situation. The full dataset from which `amke_detection.csv` was derived was considerably larger and I had to conduct operations like the above often. The *data.table* package was not fast nor memory efficient enough for the dataset. As such, I chose the *arrow* option for this process. If the data were smaller, I may have chosen *data.table* because I do prefer to see a snapshot of my data.
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Foreign key**: A variable in a data frame that refers to the primary key of another data frame.
+* **Predicate**: a function that returns logical values (TRUE or FALSE).
+* **Primary key**: A variable in a data frame that is used to identify unique records.
+* **Tidy data** (noun): A data format developed by Hadley Wickham (based on Codd's rules) in which every row represents an observation, every column represents a variable, and every level of observation represents a table.
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+:::{style=background-color:#ffffff}
+```{r, message = FALSE, echo = FALSE}
+read_csv("_7.1_functions_frame.csv") %>% 
+  arrange(
+    package, 
+    fun,
+    .locale = "en") %>% 
+  kableExtra::kable()
+```
+:::
+
+:::
+
+
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+|Task                         | Windows          | Mac
+|:----------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
+| Open an existing script     | Ctrl + O         | command + O
+| Create a new script         | Ctrl + shift + N | command + shift + N
+| Save script file            | Ctrl + S         | command + S
+| Execute code                | Ctrl + Enter     | command + return
+| Copy                        | Ctrl + C         | command + C
+| Paste                       | Ctrl + V         | command + V
+| Add a pipe operator         | Ctrl + shift + M | command + shift + M
+| Add an assignment operator  | Alt + dash       | option + dash
+| Add a new code section      | Ctrl + shift + R | command + shift + R
+| Indent code                 | Ctrl + I         | command + I
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
