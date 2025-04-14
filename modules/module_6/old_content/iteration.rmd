@@ -1,0 +1,962 @@
+---
+title: Iteration with purrr
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" />
+</head>
+
+```{css more_styles, echo = FALSE}
+code {
+  background-color:#efefef;
+  border-radius: 25px;
+  font-size: 1.25rem !important;
+}
+ 
+span.co{
+  color:#000080;
+  font-weight: bold;
+}
+ 
+img {
+  display: block;
+  padding-left: 15px;
+  padding-right: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+p {
+  text-align: left;
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+  padding-bottom: 6px;
+}
+
+ul, ol{
+  line-height: 2rem;
+  text-align: left;
+  font-size: 1.75rem;
+  margin-left: 0px;
+  margin-top: 18px;
+}
+ 
+blockquote{
+  font-size: 18px;
+  border-left: 8px solid #292093;
+  background-color: #e6ffff;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+ 
+.row{
+  margin: auto;
+}
+ 
+table {
+  border-collapse: collapse;
+}
+
+table, td, th {
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+ 
+ /* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.roundBorder {
+  border-radius: 25px;
+  border: 5px solid #30288C;
+  background: #D6EAF8;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.roundBorderBlack {
+  border-radius: 25px;
+  border: 10px solid #D3D3D3;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.roundBorderBlackEx {
+  border-radius: 5px;
+  border: 5px solid #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.roundBorderEx {
+  border-radius: 3px;
+  border: 5px solid #30288C;
+  background: #D6EAF8;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.tt {
+    position: relative;
+    display: inline-block;
+    class: inline; 
+    font-weight: bold;
+    font-family: "Avenir";
+    font-size: 18px;
+    border-bottom: 1px black;
+}
+
+/* Tooltip text */
+.tt .ttText {
+    visibility: hidden;
+    font-weight: normal;
+    font-size: 18px;
+    width: 200px;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    text-align: left;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tt:hover .ttText {
+    visibility: visible;
+}
+
+div.tocify {
+    width: 40%;
+    max-width: 260px;
+    max-height: 85%;
+}
+
+
+hr {
+  margin-top: 12px;
+  margin-bottom: 18px
+}
+
+.topic {
+  font-size: 19px !important;
+}
+
+h1 {
+  font-size: 3.5em;
+}
+
+h2 {
+  font-size: 2.2em;
+  padding-bottom: 22px;
+  margin-top: 22px;
+  margin-bottom: 22px;
+}
+
+h3 {
+  font-size: 1.75em;
+  margin-bottom: 18px;
+  margin-bottom: 18px;
+}
+
+h4 {
+  font-size: 1.25em;
+  margin-bottom: 18px;
+}
+
+h5 {
+  font-size: 1.1em;
+}
+
+pre {
+  font-size: 16px !important;
+  background-color: #efefef;
+  margin-top: 0em;
+  margin-bottom: 2em;
+}
+
+/* Accordion style */
+.accordion {
+  background-color: #e6f0ff;
+  color: #000000;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ffffff;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #80b3ff; 
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+
+table {
+  margin-top: 18px;
+}
+
+.mysecret {
+  border: 1px solid #999999;
+  border-style: solid; 
+  padding: 20px; 
+  border-radius: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+```
+
+## Overview
+
+<div class = "row">
+<a title = "Data Science hex">
+  <img  src = "www/hex_complex.png"
+        alt="Hex sticker for data science class"
+        style = "float: right; padding-left: 2em; padding-bottom: 2em; padding-right: 3em; width: 40%; height: auto;">
+  </img>
+</a>
+
+This tutorial will guide you through the often daunting process of **iteration** in R. In this context, iteration means writing code that will repeat a given process a set number of times. Without iteration, our code is often repetitive -- we end up copying and pasting the same functions over and over. This leads to code that is *way* longer than it needs to be, hard to read, and prone to errors. Learning how to develop code that includes iteration is a crucial skill for your R toolkit.
+
+In this worksheet, we will focus most of our attention on **split-apply-combine** operations. These are operations in which we split a data set into multiple parts, apply a function to each part, and then recombine the data at the end. We've already covered iteration with tables using the dplyr package, so we will only briefly cover that material here.
+
+* **The need for iteration**: A quick look at why iteration is necessary.
+
+* **Maps in purrr**: The purrr package in R can iterate across anything -- atomic vectors, data frames, or even the most unstructured of lists.
+
+</div>
+
+Please be sure that you have watched all of this week's video lectures prior to working on this lesson!
+
+<hr>
+
+## Reference material
+
+Below is some handy reference material that you can refer to throughout this lesson. Please click on the menu item to expand it.
+
+<div>
+<button class="accordion">R Studio panes</button>
+<div class="panel">
+<br>
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<br>
+<img src = 'www/rstudio_panes.png' style = "max-width: 100%; height: auto; margin-top:15px;"></img>
+<br>
+</div>
+</div>
+
+<div>
+<button class="accordion">Keyboard shortcuts</button>
+<div class="panel">
+<br>
+The Keyboard shortcuts we will use in this lesson are listed below for Windows and Mac operating systems.
+
+<hr>
+<div>
+<button class="accordion">Windows</button>
+<div class="panel">
+* Indent lines: Ctrl + I
+* Roughly autoformat code: Ctrl + Shift + A
+* Add a pipe operator: Ctrl + Shift + M
+* View all keyboard shortcuts: Ctrl + Alt + K
+* Execute code: Ctrl + Enter
+* Add assignment operator: Alt + dash
+* Add a new code section: Ctrl + shift + R
+* Create a new script file: Ctrl + shift + N
+* Save file: Ctrl + S
+* Copy: Ctrl + C
+* Paste: Ctrl + V
+</div>
+</div>
+
+<div>
+<button class="accordion">Mac</button>
+<div class="panel">
+* Indent lines: Command + I
+* Roughly autoformat code: Command + Shift + A
+* Add a pipe operator: Command + Shift + M
+* View all keyboard shortcuts: Command + option + K
+* Execute code: Command + Enter
+* Add assignment operator: Option + dash
+* Add a new code section: Command + shift + R
+* Create a new script file: Command + shift + N
+* Save file: Command + S
+* Copy: Command + C
+* Paste: Command + V
+</div>
+</div>
+
+<hr>
+<div style = "margin-bottom: 5px;">
+<i class="fas fa-user-secret"></i></img>I strongly suggest using a keyboard shortcut whenever possible. It can be hard to do at first, using your mouse to click a button or typing a few characters is initially **way** easier than remembering the keyboard shortcut. If you force yourself to do it though, you won't regret it -- it saves a lot of time in the end.
+</div>
+</div>
+</div>
+
+<div>
+<button class="accordion">Glossary of terms</button>
+<div class="panel">
+<br>
+Throughout this lesson, I will use terminology (i.e., jargon) that may be new to you. This menu item can be clicked at any point if you an encounter a term that you do not know or understand. Be sure to visit this menu for each lesson, because new items will be added (Never removed) as the course content expands.
+
+* **Chained code**: Code in which a given process is dependent on the outcome of a previous step.
+* **Global environment**: The location where objects are stored locally during the current session
+* **Menu bar**: The bar at the top of the RStudio window
+* **Nested code**: Code in which a function is written inside of another function
+* **Non-nested code**: Code in which a function is not written inside of another function
+* **Pane**: The RStudio window is divided into four sections, called panes
+* **Partially nested code**: Code in a chained process in which a portion of the code is nested and a portion is non-nested
+* **Pipe operator**: A connector between steps in a chained process in which the information in the previous step is, by default, passed to the first argument of the next step.
+* **Session**: Everything you do in RStudio in a single sitting
+* **Tab**: Each pane has a tab on the top of it. For example, I will often refer to the Environment or History tabs of the workspace pane.
+* **Working directory**: The location on your computer's operating system where R will attempt to read or write files
+* <i class="fas fa-user-secret"></i>: Any time you see this icon (which is the *font-awesome* icon user secret), it means that there is a tip that you should pay attention to that will improve your data science workflow.
+
+</div>
+</div>
+
+
+<div style =  "margin-bottom: 2em;">
+<button class="accordion">Cheat sheets</button>
+<div class="panel">
+<br>
+I strongly recommend downloading and printing the various cheatsheets that have been built by the team at RStudio. They're super helpful!
+<br>
+
+
+<!-- importing data -->
+
+<div class="row pt-5">
+<div class="col-md-7">
+<h4 id="data-importcheatsheet">Data Import&nbsp;Cheatsheet</h4>
+<p>The Data Import cheatsheet reminds you how to read in flat files with <a href="http://readr.tidyverse.org/">http://readr.tidyverse.org/</a>, work with the results as tibbles, and reshape messy data with <a href="http://tidyr.tidyverse.org/">tidyr</a>. Use tidyr to reshape your tables into tidy data, the data format that works the most seamlessly with R and the <a href="http://tidyverse.org/">tidyverse</a>. Updated January 17.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf" class="btn btn-primary">Download</a></p>
+</div>
+<div class="col-md-5">
+<a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf"> <img class="cheatsheet-img" style="width:100%" src="https://d33wubrfki0l68.cloudfront.net/b7142a24f47a959b8a4b67910c67db8b41036f28/ac9a2/wp-content/uploads/2018/08/data-import.png"></a>
+</div>
+</div>
+
+<br>
+
+<!--- tidyr  --->
+
+<div class="row pt-5">
+<div class="col-md-7">
+<h4 id="data-transformationcheatsheet">Data Transformation&nbsp;Cheatsheet</h4>
+<p>tidyr provides you with tools to transform untidy data into tidy data in R. This cheatsheet will guide you through the grammar, reminding you how to join, filter, arrange, mutate, summarise, group, and join data frames and tibbles. (<a href="https://github.com/rstudio/cheatsheets/raw/master/tidyr.pdf">Previous version</a>) Updated January 17.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf" class="btn btn-primary">Download</a></p>
+</div>
+<div class="col-md-5">
+<a href="https://github.com/rstudio/cheatsheets/raw/master/tidyr.pdf"> <img class="cheatsheet-img" style="width:100%" src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/tidyr.png"></a>
+</div>
+</div>
+
+<br>
+
+<!-- purrr -->
+
+<div class="row pt-5">
+<div class="col-md-7">
+<h4 id="purrrcheatsheet">Purrr&nbsp;Cheatsheet</h4>
+<p>The purrr package makes it easy to work with lists and functions. This cheatsheet will remind you how to manipulate lists with purrr functions as well as how to apply functions iteratively to each element of a list or vector using map functions. Updated July 2021.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf" class="btn btn-primary">Download</a></p>
+</div>
+<div class="col-md-5">
+<a href="https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf"> 
+<img class="cheatsheet-img" style="width:100%" src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/purrr.png"></a>
+</div>
+</div>
+
+<br>
+
+<!-- dplyr -->
+
+<div class="row pt-5">
+<div class="col-md-7">
+<h4 id="dplyrcheatsheet">dplyr&nbsp;Cheatsheet</h4>
+<p>dplyr provides a grammar for manipulating tables in R. This cheatsheet will guide you through the grammar, giving you a quick reference on how to select, filter, arrange, mutate, summarize, group, and join data frames and tibbles. (<a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Previous version</a>) Updated January 17.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf" class="btn btn-primary">Download</a></p>
+</div>
+<div class="col-md-5">
+<a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf"> <img class="cheatsheet-img" style="width:100%" src="https://d33wubrfki0l68.cloudfront.net/db69c3d03699d395475d2ac14d64f611054fa9a4/e98f3/wp-content/uploads/2018/08/data-transformation.png"></a>
+</div>
+</div>
+
+<br>
+
+<!-- ggplot -->
+
+<div class="row pt-5">
+<div class="col-md-7">
+<h4 id="data-visualization-cheatsheet">Data Visualization Cheatsheet</h4>
+<p>The ggplot2 package lets you make beautiful and customizable plots of your data. It implements the grammar of graphics, an easy to use system for building plots. See <a href="https://ggplot2.tidyverse.org/">ggplot2.tidyverse.org</a> for more. Updated November 16.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf" class="btn btn-primary">Download</a></p>
+</div>
+<div class="col-md-5">
+<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf"> <img class="cheatsheet-img" style="width:100%" src="https://d33wubrfki0l68.cloudfront.net/21d683072b0c21cbd9b41fc0e37a587ad26b9525/cbf41/wp-content/uploads/2018/08/data-visualization-2.1.png"></a>
+</div>
+</div>
+
+<br>
+
+<!--- RStudio --->
+
+<div class="row pt-5">
+<div class="col-md-7">
+<h4 id="rstudio-idecheatsheet">RStudio IDE&nbsp;Cheatsheet</h4>
+<p>The <a href="https://www.rstudio.com/products/rstudio/">RStudio IDE</a> is the most popular integrated development environment for R. Do you want to write, run, and debug your own R code? Work collaboratively on R projects with version control? Build packages or create documents and apps?&nbsp;No matter what you do with R, the RStudio IDE can help you do it faster. This cheatsheet will guide you through the most useful features of the IDE, as well as the long list of keyboard shortcuts built into the RStudio IDE. Updated January 16.</p>
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf" class="btn btn-primary">Download</a></p>
+</div>
+<div class="col-md-5">
+<a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf"> <img class="cheatsheet-img" style="width:100%" src="https://d33wubrfki0l68.cloudfront.net/0dc0efccfaf638de8be4ce43e2bab8a91541d3d2/c4fdc/wp-content/uploads/2018/08/rstudio-ide.png"></a>
+</div>
+</div>
+<br>
+</div>
+</div>
+
+<hr>
+
+## Setup
+
+Please first obtain the file `countries_world_bank.rds` from your course data folder and save it in `data_sci/data/raw`.
+
+Open R Studio. Remember that it's best practice to start with a clean R Studio session. Please do the following before continuing:
+
+1. If there are any script files open in your source pane, close them. If any of the file titles are blue, save them prior to closing.
+
+1. In the *Environment* tab of your **workspace pane**, ensure that your **global environment** is empty. If it is not, click the *broom* to remove all objects.
+
+1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+
+
+Now we'll set up our script file:
+
+1. Open a new script file.
+
+1. Save the file right away as `data_sci/scripts/worksheet_iteration.R`
+
+1. Add a new code section and call it "setup"
+
+1. After a space between your section break, include and run the following:
+
+```{r eval = TRUE, results = 'hide', message = FALSE}
+library(tidyverse)
+
+# Read in the data:
+
+portal <- 
+  read_csv('data/raw/portal.csv')
+```
+
+The data for this lesson include the mammal observations from the Portal data set (see Week 1 material).
+
+<hr>
+
+## Why iterate?
+ 
+When we first learn R, our code rarely includes iteration (*at least knowingly*). Our scripts are long, repetitive, and often filled with errors. If you've got to remember where to put your comma 100 times in a single script, chances are you're going to get it wrong more than a few times along the way.
+
+Let's look at our `portal` data set.
+
+If we wanted to calculate mean hindfoot length of the species *Neotoma albigula*, the White-throated woodrat, in base R we do so with indexing as:
+
+```{r}
+mean(
+  portal[portal$species == 'Neotoma albigula', ]$hindfoot_length,
+  na.rm = TRUE)
+```
+
+In the tidyverse, we could use the filter function to do this, with:
+
+```{r}
+portal %>% 
+  filter(species == 'Neotoma albigula') %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+What if we want to do this with multiple species though? Things get a little convoluted:
+
+```{r}
+mean(
+  portal[portal$species == 'Neotoma albigula', ]$hindfoot_length,
+  na.rm = TRUE)
+
+mean(
+  portal[portal$species == 'Dipodomys merriami', ]$hindfoot_length,
+  na.rm = TRUE)
+```
+
+Without iteration, it's going to be repetitive in the tidyverse as well:
+
+```{r}
+portal %>% 
+  filter(species == 'Neotoma albigula') %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+
+portal %>% 
+  filter(species == 'Dipodomys merriami') %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+So, we might simplify this issue by writing ourselves a custom function:
+
+```{r}
+get_spp_mean <-
+  function(x) {
+    mean(
+      portal[portal$species == x, ]$hindfoot_length,
+      na.rm = TRUE)
+  }
+
+get_spp_mean('Neotoma albigula')
+
+get_spp_mean('Dipodomys merriami')
+```
+
+What if want to do it with all of the species in `portal` though? How many are there?
+
+```{r}
+# Base R:
+
+length(
+  unique(portal$species))
+
+# tidyverse: 
+
+portal %>% 
+  pull(species) %>% 
+  unique() %>% 
+  length()
+```
+
+Ack! There's 29 species. That's a lot of repetitive code! There must be a better way ...
+
+<hr>
+
+## Map functions
+
+The `map()` family of functions, in the tidyverse package `purrr`, are functions that run *for loops*. They are written to be easy to read and efficient to process (i.e., they won't eat a lot of memory or processing time).
+
+The `map()` functions include:
+
+* A **sequence statement**: The locations for which the loop will run;
+* A **body**: What happens in each iteration, in other words the instructions for what will occur during each iteration of the loop.
+
+We can map by index (i.e., position):
+
+```{r}
+portal_spp <-
+  unique(portal$species)
+
+my_map <-
+  map(
+    
+    # Sequence statement:
+    
+    1:length(portal_spp),
+    function(i) {
+      
+      # Split the data:
+      
+      species_subset <-
+        filter(portal, species == portal_spp[i])
+      
+      # Output per iteration:
+      
+      tibble(
+        species = portal$species[i],
+        
+        # Apply a function:
+        
+        value = 
+          mean(
+            species_subset$hindfoot_length,
+            na.rm = TRUE))
+    })
+
+# Combine the output:
+
+bind_rows(my_map)
+```
+
+Let's look into what happened here.
+
+The portion of the code that is recreated below created a vector of indices , which are integer values:
+
+```{r}
+1:length(portal_spp)
+```
+
+Each integer value represents a position in the vector `portal_spp`:
+
+```{r}
+portal_spp[3]
+```
+
+The map function will iterate across the sequence of provided values. That means it will run the **body** of the loop once for each of the provided values in the **sequence**. 
+
+For example, the third value in the sequence is the integer `3`. Let's set `i` equal to `3`:
+
+```{r}
+i <-
+  3
+
+portal_spp[i]
+```
+
+In the body of the `map()`, I first subset the data (split):
+
+```{r}
+# Split the data:
+
+species_subset <-
+  filter(portal, species == portal_spp[i])
+
+species_subset
+```
+
+And then applied a function to the subset:
+
+```{r}
+tibble(
+  species = portal$species[i],
+  
+  # Apply a function:
+  
+  value = 
+    mean(
+      species_subset$hindfoot_length,
+      na.rm = TRUE))
+```
+
+Outside of the loop I combined the output to generate a single data frame object:
+
+```{r}
+bind_rows(my_map)
+```
+
+### Map by row
+
+I consider `map()` a "family of functions" because there are several different options for mapping. The one that I use the most is `map_dfr()`, which does the `bind_rows()` at the end of our code block for us. Let's take a look (*Note: In the below, I don't even have to assign anything to the object that I create, which is usually my preference*):
+
+```{r}
+portal_spp <-
+  unique(portal$species)
+
+map_dfr(
+  
+  # Sequence statement:
+  
+  1:length(portal_spp),
+  function(i) {
+    
+    # Split the data:
+    
+    species_subset <-
+      filter(portal, species == portal_spp[i])
+    
+    # Output per iteration:
+    
+    tibble(
+      species = portal$species[i],
+      
+      # Apply a function:
+      
+      value = 
+        mean(
+          species_subset$hindfoot_length,
+          na.rm = TRUE))
+  })
+```
+
+Now we're getting a good bit more concise. Things get even nicer when we specify the variables themselves, rather than the index of positions in a variable.
+
+```{r}
+portal_spp <-
+  unique(portal$species)
+
+map_dfr(
+  
+  # Sequence statement:
+  
+  portal_spp,
+  function(x) {
+    
+    # Split the data:
+    
+    species_subset <-
+      filter(portal, species == x)
+    
+    # Output per iteration:
+    
+    tibble(
+      species = x,
+      
+      # Apply a function:
+      
+      value = 
+        mean(
+          species_subset$hindfoot_length,
+          na.rm = TRUE))
+  })
+```
+
+Notice in the above that instead of specifying species by position, I can just specify the species as the variable `x` in my formula. Here, for each iteration, `x` is replaced by the species in `portal_spp`.
+
+I typically don't like to assign an object to the global environment if I don't need to. As such, we can rewrite the above as:
+
+```{r}
+map_dfr(
+  
+  # Sequence statement:
+  
+  unique(portal$species),
+  function(x) {
+    
+    # Split the data:
+    
+    species_subset <-
+      filter(portal, species == x)
+    
+    # Output per iteration:
+    
+    tibble(
+      species = x,
+      
+      # Apply a function:
+      
+      value = 
+        mean(
+          species_subset$hindfoot_length,
+          na.rm = TRUE))
+  })
+```
+
+It was also unnecessary to assign an intermediate object inside of the body of the `map()`. I like my code to be much simpler than this. I can rearrange the above as follows:
+
+```{r}
+map_dfr(
+  
+  # Sequence statement:
+  
+  unique(portal$species),
+  function(x) {
+    
+    # Output per iteration:
+  
+    tibble(
+      species = x,
+      value = 
+        
+        # Split the data:
+        
+        filter(portal, species == x) %>% 
+        
+        # Apply a function:
+        
+        pull(hindfoot_length) %>% 
+        mean(na.rm = TRUE))
+  })
+```
+
+Finally, I often pipe the sequence statement into the map, thus rearranging the code block as:
+
+```{r}
+# Sequence statement:
+
+unique(portal$species) %>% 
+  
+  map_dfr(
+    function(x) {
+      
+      # Output per iteration:
+      
+      tibble(
+        species = x,
+        value = 
+          
+          # Split the data:
+          
+          filter(portal, species == x) %>% 
+          
+          # Apply a function:
+          
+          pull(hindfoot_length) %>% 
+          mean(na.rm = TRUE))
+    })
+```
+
+### Testing your map
+
+Just like with *for loops*, it's super important to test out your `map()`.
+
+Here, I'll specify a value for our variable `x`:
+
+```{r}
+x <-
+  'Peromyscus leucopus'
+```
+
+Then, to make sure everything works as expected, examine any function inside the `map()` body that includes `x`:
+
+```{r}
+x
+
+filter(portal, species == x)
+
+filter(portal, species == x) %>% 
+  pull(hindfoot_length)
+
+filter(portal, species == x) %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+
+tibble(
+      species = x,
+      value = 
+        filter(portal, species == x) %>% 
+        pull(hindfoot_length) %>% 
+        mean(na.rm = TRUE))
+```
+
+In practice, I wouldn't really type these out. Instead, I would highlight the various sections with my mouse and run the highlighted code. I call this "piping around my code".
+
+Once I'm confident that my `map()` works as expected, I remove the object `x` (or any other objects associated with this test) from my global environment:
+
+```{r}
+rm(x)
+```
+
+
+### The tilde operator
+
+The tilde separates the left- right-hand sides of a formula. In the tidyverse, we use the `~` often in conjunction with `.x`, which represents a variable to apply to the formula. We can replace `function(x)` and the curly braces above using `~` in place of the function and `.x` in place of `x`:
+
+```{r}
+# Sequence statement:
+
+unique(portal$species) %>% 
+  
+map_dfr(
+  ~ tibble(
+      species = .x,
+      value = 
+        
+        # Split the data:
+        
+        filter(portal, species == .x) %>% 
+        
+        # Apply a function:
+        
+        pull(hindfoot_length) %>% 
+        mean(na.rm = TRUE)))
+```
+
+## Group by ...
+
+The example above could have been solved much more simply using `dplyr` tools, as we have done in previous lessons. The function `group_by()` can help us avoid *for loops* and `map()` functions if the data and, especially the variables of interest, are stored in a single data frame. 
+
+Here, we'll use `group_by()` to solve this split-apply-combine problem much more parsimoniously:
+
+```{r}
+portal %>% 
+  # Split the data:
+  
+  group_by(species) %>% 
+  
+  # Apply a function and combine the data:
+  
+  summarize(
+    value = 
+      mean(
+        hindfoot_length, 
+        na.rm = TRUE))
+```
+
+In the above statement, the data were **split** by `group_by()`, the **apply** occurred inside of `summarize()` with the function `mean()`, and `summarize()` **combined** the results of the analysis.
+
+<div class = "mysecret">
+<i class="fas fa-user-secret"></i> Because split-apply-combine operations are easy to read and write with `group_by()`, I always suggest using the `dplyr` functions whenever appropriate.
+</div>
+
+<hr>
+
+## Why loop?
+
+#### But I'm a data frame person ...
+
+I can picture some of you thinking "why do I need to use maps (and/or for loops)? I deal with data frames". Tabular data are great. Certainly more than 90% of the data that I work with on a day-to-day basis are in tables. I do use `map()` functions in almost every coding session though.
+
+If the data are tabular, isn't dplyr's `group_by()` functions easier? The answer is mostly yes, but sometimes no. Modifying a data frame with `group_by()` is awesome in its power and simplicity but, if you avoid `map()` functions, you're going to find your code suffers whenever you stray from the comfortable world of data frames. There are loads of times, even when working with data frames, that you'll find yourselves in an untidy and repetitive workflow unless you employ a loop.
+
+<hr>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>

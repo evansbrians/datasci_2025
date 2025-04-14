@@ -1,0 +1,62 @@
+---
+title: "Module 6: Programming I"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<hr>
+
+<div>
+
+![](../images/hex_complex.png){.intro_image}
+
+Welcome to **Module 6: Programming I**! At this point, you have learned the primary tools that we use to generate and work with tidy data. This module is dedicated to enhancing the efficiency of your code. You will learn how to:
+
+-   Write and use custom functions;
+-   Use base R control flow functions (`for` loops and `if(...) {...} else {...}` operations);
+-   Conduct iteration tasks with `purrr::map()`;
+
+Before continuing, please be sure that you have completed all of the preliminary course content (Preliminary lessons 1-4) and all of the content from Modules 1-5.
+
+</div>
+
+## Module overview
+
+-   **6.1. Focus on functions**: This lesson includes *only* a written tutorial (the video was *terrible* ). In completing this lesson, you will learn how to write custom functions and gain a new perspective on some of the functions that you have (secretly) already written in this course.
+-   **6.2. Iteration with for loops and purrr**:  This lesson includes a (very long) tutorial and video lesson (runtime -- 18:38) in which you will review indexing (incorporating the additional tools that we have learned), learn how to construct base R *for loops*, and use the `map()` function for iteration.
+-   **6.3 Control flow with if else**: The final lesson of this module is a video (runtime -- 22:46; no tutorial) in which you will learn some cool applications of `purrr::map()` and we will break new ground
+-   **Addendum: Glossary of terms and functions, Modules 1-6**: Herein, I provide a written documentation of all of the terminology and functions we have used thus far. 
+
+## Getting started
+
+Please download the attached zip file [module_6_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have (e.g., [source_script.R]{.mono} ), please overwrite the previous file. Please store the file [populations_co2.rds]{.mono} in the folder [data/processed]{.mono}. All remaining files should be placed in [data/raw]{.mono}. If there are any data files you already have (e.g., [my_covid_garden.rds]{.mono}), please overwrite them as well.
+
+## About this week's data
+
+This week we will use the following data files in our exercises:
+
+**[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
+
+**[iris.rds]{.mono}**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164){target="_blank"}!).
+
+**[populations_co2.rds]{.mono}**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx){target="_blank"} and provide information on the emissions of greenhouse gases and the populations of countries around the world. We have worked with these data before, but as an untidy dataset (in ***Problem set 3***). I have normalized these data and saved them as a list file.
+
+**[portal.csv]{.mono}**: This dataset provides measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at [this link](https://portal.weecology.org/).
+
+## Readings and resources
+
+* R for Data Science (2^nd^ edition), [26: Iteration](https://r4ds.hadley.nz/iteration){target="_blank"}
+* [Purrr cheatsheet](https://rstudio.github.io/cheatsheets/purrr.pdf){target="_blank"}
+

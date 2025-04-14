@@ -1,0 +1,1336 @@
+---
+title: "6.2 Iteration with purrr and for loops"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../images/hex_complex.png){.intro_image}
+
+This tutorial will guide you through the often daunting process of **iteration** in R. In this context, iteration means writing code that will repeat a given process a set number of times. Without iteration, our code is often repetitive -- we end up copying and pasting the same functions over and over. This leads to code that is *way* longer than it needs to be, hard to read, and prone to errors. Learning how to develop code that includes iteration is a crucial skill for your R toolkit.
+
+In this tutorial, we will focus most of our attention on **split-apply-combine** operations. These are operations in which we split a data set into multiple parts, apply a function to each part, and then recombine the data at the end. This lesson is going to be *quite* different from the others in that I first include tutorial material (iteration review and introduction to for loops) *then* provide a video followed by *more* tutorial content. In successfully completing this tutorial, you will learn:
+
+* **The need for iteration**: A quick look at why iteration is necessary.
+* **For loops**: In base R, iteration is the realm of the *apply* family of functions (e.g., lapply) and *for loops*. With *for loops*, you have an incredible degree of control over how to iterate your data.
+* **Maps in purrr**: The purrr package in makes iteration easy!.
+
+*Note: I have focused the content of this tutorial on for loop and `map()` iteration operations that can be completed more simply using other functions (e.g., `summarize(..., .by = ...)`). Iteration can be challenging, so I first want to ensure that you have the hang of it before we start applying it in meaningful ways!*
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary and previous lessons!
+
+</div>
+
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+We will used two datasets for this lesson, both of which we should have considerable familiarity with by now. 
+
+**[iris.rds]{.mono}**: A modified version of the `iris` dataset that is provided with the *datasets* package in the base R distribution. This is a tibble data frame in which each row represents observations of an individual plant (*Note: There is no primary key for the data frame* ).
+
+* [species]{.mono}, character: The species of iris that was measured (*Note: There are three species in the dataset* ).
+* [sepal_length]{.mono}, double numeric: The sepal length of a measured flower, in centimeters.
+* [sepal_width]{.mono}, double numeric: The sepal width of a measured flower, in centimeters.
+* [petal_length]{.mono}, double numeric: The petal length of a measured flower, in centimeters.
+* [petal_width]{.mono}, double numeric: The petal width of a measured flower, in centimeters.
+
+**[portal.csv]{.mono}**: A tabular dataset describing measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona.
+
+* [record_id]{.mono}, double numeric: A unique identifier for each row (but not a good one!)
+* [date]{.mono}, date: The date in which a rodent was captured
+* [plot_id]{.mono}, character: The plot in which the rodent was captured
+* [sex]{.mono}, character: The sex of the rodent
+* [hindfoot_length]{.mono}, double numeric: The hindfoot length of the rodent, in mm
+* [species]{.mono}, character: The species of rodent observed
+
+:::
+
+## Set up your session
+
+Please do the following to ensure that you are working in a clean session:
+
+1. In the *Environment* tab of your *workspace pane*, ensure that your *Global Environment* is empty. If it is not, click the *broom* to remove all objects. *Note: Conversely, you can remove all items with `rm(list = ls())`*.
+2. In the *History* tab of your *workspace pane*, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+3. Open the script file [iteration.R]{.mono} (Windows: [Ctrl + O]{.mono}; Mac: [Cmd + O]{.mono}). *Note: You will use [purrr.R]{.mono} during the video portion of this tutorial*.
+4. Run the setup section of the script.
+
+```{r eval = TRUE, results = 'hide', message = FALSE}
+library(tidyverse)
+
+# Read in the data:
+
+portal <- 
+  read_csv('data/raw/portal.csv')
+```
+
+## Review of indexing
+
+Recall that **indexing** (verb) describes the process of subsetting or extracting elements of a data object by position. The position of a value or values in an object is known as an **index**.
+
+Below I create a vector containing the values from 6 through 11 and globally assign the vector to the name `my_vector`:
+
+```{r}
+my_vector <- 6:11
+
+my_vector
+```
+
+Although the values of the vector are 6 through 11, the indices (i.e., positions) of the vector are the values 1 through 6. For example, the value at the second position of `my_vector` is 7 and the values at the second and third positions of `my_vector` is 7 and 8.
+
+### Extract to a single position with `[[...]]`
+
+We can index a data object to a single position using the double-square brackets extraction operator, `[[...]]`. To index an atomic vector or list to a single position, we supply a number that refers to the position of a value in the vector inside of `[[...]]`:
+
+```{r}
+my_vector[[2]]
+```
+
+We can also index two-dimensional objects to the value at a single position with `[[...]]`. Let's convert `my_vector` to a matrix and globally assign the name `my_matrix` to the resultant object:
+
+```{r}
+my_matrix <- 
+  matrix(
+    my_vector, 
+    nrow = 3, 
+    ncol = 2
+  )
+
+my_matrix
+```
+
+To index `my_matrix` to a single position with `[[...]]`, we supply the row position and column position, in that order, separated by a comma (i.e., `[[row, column]]`. For example, the value 11 is in the third row and second column of `my_matrix`. We can verify this using indexing with:
+
+```{r}
+my_matrix[[3, 2]]
+```
+
+The above also works with data frames. Let's look at our `portal` data frame (a **tibble** data frame):
+
+```{r}
+portal
+```
+
+The value in the third row and sixth column is the species *Dipodomys merriami*. We can extract this value with:
+
+```{r}
+portal[[3, 6]]
+```
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [A data frame is a list and a matrix is an atomic vector!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+It is worth remembering that a data frame is actually a type of list -- the columns in a data frame are list items. Because of this, we can extract columns just as we would from a vector. For example, we can view a unique vector of species with:
+
+```{r}
+unique(portal[[6]])
+```
+
+Given the above, we might assume that `my_matrix` ...
+
+```{r}
+my_matrix
+```
+
+... at the second index should be the values 9 through 11:
+
+```{r}
+my_matrix[[2]]
+```
+
+It is not! That is because `my_matrix` is just an atomic vector arranged in rows and columns. Thus `my_matrix[[2]]` is the second value in the vector, not the second column!
+
+:::
+
+### Extract to a single position in the tidyverse
+
+With tidyverse functions, we can extract vectors to a single position with the function `pluck`.
+
+For example, we can use `pluck()` to extract the second value in `my_vector` with:
+
+```{r}
+pluck(my_vector, 2)
+```
+
+... the second value in my_matrix with:
+
+```{r}
+pluck(my_matrix, 2)
+```
+
+... and generate a unique vector of species from the 6^th^ column (i.e., list item) of `portal`:
+
+```{r}
+portal %>% 
+  pluck(6) %>% 
+  unique()
+```
+
+For the latter, however, I would typically use `pull()`, as that function is reserved for data frames, thus its usage is more specific:
+
+```{r}
+portal %>% 
+  pull(6) %>% 
+  unique()
+```
+
+### Extract or subset to multiple positions with `[...]`
+
+We can index a data object to multiple positions using the single-square brackets extraction operation, `[...]`. For example, we can use indexing to extract the second and third positions in `my_vector` with:
+
+```{r}
+my_vector[2:3]
+```
+
+We can also use the single square brackets to subset lists to multiple positions. For example, we can treat `portal` as a list object and subset to the second and third list items (columns) by position with:
+
+```{r}
+portal[2:3]
+```
+*Notice that the object returned is a `tibble` ... as such, we have subset the tibble, but we have not extracted the values!*
+
+Because a data frame is two-dimensional we can also use `[row, column]` to subset by position. Below, I subset `portal` to the first four rows of the 6^th^ column (`species`): 
+
+```{r}
+portal[1:4, 6]
+```
+
+... and here, I subset portal to the first four columns of the 6^th^ row:
+
+```{r}
+portal[6, 1:4]
+```
+
+If we want to return *all* of the rows or columns for a given subset, we can leave a row or column argument in `[row, column]` blank:
+
+```{r}
+portal[, 1:4]
+
+portal[1:4, ]
+```
+
+### Extract or subset to multiple positions with the tidyverse
+
+Under-the-hood, the function `pluck()` is basically a more communicative way to express `[[...]]`. As such, it is reserved for use cases in which we extract at a single position. Because of that, the following produces an error:
+
+```{r}
+pluck(portal, 5:6)
+```
+
+If we are attempting to subset to multiple items in a list, a way around this is to use `tidyselect:::select()`:
+
+```{r}
+tidyselect:::select(portal, 5:6)
+```
+
+If we are working with a data frame (and we are), we can use the `select` function in the `dplyr` package instead:
+
+```{r}
+select(portal, 5:6)
+```
+
+If we wish to instead subset by row position, we use the *dplyr* function `slice`:
+
+```{r}
+slice(portal, 1)
+```
+
+... this also works with multiple positions:
+
+```{r}
+slice(portal, 1:2)
+```
+
+### Nested indexing
+
+We often need to conduct multiple subsetting and/or extraction operations for a given process.
+
+For example, perhaps we want to extract the first five observations of `species` in the `portal` dataset. We *could* subset the data frame to the first five observations and globally assign a name to the resultant object:
+
+
+```{r}
+first_5_observed <- 
+  portal[1:5, ]
+```
+
+... and then extract the 6^th^ column (`species`) as an atomic vector:
+
+```{r}
+first_5_observed[[6]]
+```
+
+But recall that the name `first_5_species` is just a reference to the data object created with `portal[[6]]`. As such, the intermediate assignment is not necessary and this can be simplified to:
+
+```{r}
+portal[1:5, ][[6]]
+```
+
+Reading (and modifying) the above can be challenging. As object become more deeply nested, the challenge grows! For example, what if `portal` was a list item in a large list? In the code block below I nest `portal` inside of a list and complete the same operation:
+
+```{r}
+list(portal)[[1]][1:5, ][[6]]
+```
+
+Although the tidyverse version of the code block below requires more functions, the readability of this code block is greatly enhanced:
+
+```{r}
+list(portal) %>% 
+  pluck(1) %>% 
+  slice(1:5) %>% 
+  pull(6)
+```
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [Using the tidyverse can be a trade off!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+Although one of the missions of the tidyverse is to simplify the R language into as few functions as possible, you might have noticed that there is quite an imbalance in the number of extraction and subsetting functions used in the base R and tidyverse versions above. In our examples thus far, our base R version used only three functions (`[...]`, `[[...]]`, and `:`) when subsetting/extracting. In contrast, our tidyverse method used six functions for the same operations (`:`, `pluck()`, `pull()`, `select()`, `slice()`, and `tidyselect:::select()`)!
+
+As such, sometimes we have to sacrifice code parsimony, in terms of the number of functions used, for code readability!
+:::
+
+### Indices and/or names
+
+Indexing is useful, especially with iteration (we will get there in a moment!), but numbered indices does a poor job of communicating what is happening in our scripts. As such, I recommend using assigned name whenever possible. 
+
+We can set names to an atomic vector using the *rlang* function `set_names` (*Note: This function is made available to use with `library(tidyverse)`):
+
+```{r}
+my_vector_named <-
+  my_vector %>% 
+  set_names(
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven"
+  )
+
+my_vector_named
+```
+
+We can use base R to extract a value from an atomic vector by name, as long as we place the name in quotes:
+
+```{r}
+my_vector_named[["seven"]]
+```
+
+This also works with extracting list items:
+
+```{r}
+portal[1:5, ][["species"]]
+```
+
+... or columns in a data frame:
+
+```{r}
+portal[, "species"]
+```
+
+The function `pluck` can be used (names in quotes!) for extracting a list item by name (I do not run this below, but just because it is super long):
+
+```{r, eval = FALSE}
+portal %>% 
+  pluck("species")
+```
+
+I often choose to instead use `tidyselect:::select` when subsetting from a list (because quotes are not necessary; but note that this operation is subset, not an extraction):
+
+```{r}
+portal %>% 
+  tidyselect:::select(species)
+```
+
+Because our list actually *is* a data frame, we can use the *dplyr* `select` function for subsetting:
+
+```{r}
+portal %>% 
+  select(species)
+```
+
+... or use `pull()` for extracting a vector from the data frame (again, not run here because of the length of the output):
+
+```{r, eval = FALSE}
+portal %>% 
+  pull(species)
+```
+
+## Why iterate?
+
+When we first learn R, our code rarely includes iteration (*at least knowingly*). Our scripts are long, repetitive, and often filled with errors. If you have got to remember where to put your comma 100 times in a single script, chances are you are going to get it wrong more than a few times along the way.
+
+Let's look again at our `portal` data set.
+
+```{r}
+portal
+```
+
+If we wanted to calculate mean hindfoot length of the species *Neotoma albigula*, the White-throated woodrat, in base R, we do so with indexing as:
+
+```{r}
+mean(
+  portal[portal$species == "Neotoma albigula", ]$hindfoot_length,
+  na.rm = TRUE)
+```
+
+In the tidyverse, we could use the filter function to do this, with:
+
+```{r}
+portal %>% 
+  filter(species == "Neotoma albigula") %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+What if we want to do this with multiple species though? Things get a little convoluted:
+
+```{r}
+mean(
+  portal[portal$species == "Neotoma albigula", ]$hindfoot_length,
+  na.rm = TRUE)
+
+mean(
+  portal[portal$species == "Dipodomys merriami", ]$hindfoot_length,
+  na.rm = TRUE)
+```
+
+Without iteration, it is *still* going to be super repetitive with tidyverse functions:
+
+```{r}
+portal %>% 
+  filter(species == "Neotoma albigula") %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+
+portal %>% 
+  filter(species == "Dipodomys merriami") %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+So, we might simplify this issue by writing ourselves a custom function:
+
+```{r}
+get_spp_mean <-
+  function(x) {
+    portal %>% 
+      filter(species == x) %>% 
+      pull(hindfoot_length) %>% 
+      mean(na.rm = TRUE)
+  }
+
+get_spp_mean("Neotoma albigula")
+
+get_spp_mean("Dipodomys merriami")
+```
+
+What if want to do it with all of the species in `portal` though? How many species are there?
+
+```{r}
+# Base R:
+
+length(
+  unique(portal$species))
+
+# tidyverse: 
+
+portal %>% 
+  pull(species) %>% 
+  unique() %>% 
+  length()
+```
+
+Ack! There's 29 species. That's a lot of repetitive code. There must be a better way ...
+
+## For loops
+
+A *for loop* iterates along values in a vector and applies a function using each value as its input. It is a type of **control flow** operation, which describes a process that modifies the order in which your computer executes code (and sometimes whether that code is executed at all!). Writing *for loops* requires following these steps:
+
+1. Input variable: An atomic vector that provides the values to iterate across (*Note: For some for loops an input vector is not necessary!* )
+2. Output container: An object for storing output (e.g., an empty atomic vector, matrix, or list)
+3. Sequence: The locations for which the loop will run
+4. Body: The instructions for what will occur during each iteration of the loop
+
+### Simple for loop
+
+Like our lesson on functions, we are going to start with simple for loop and expand to more applied uses. In our first for loop, we will add the number 1 to a series of numbers from 6 through 10.
+
+We will supply an input variable, an integer vector that contains the values six through ten:
+
+```{r, eval = TRUE}
+target_vector <- 6:10
+
+target_vector
+```
+
+We next need to build our output container. For this, we will use the `vector` function -- for the function's arguments we define:
+
+* The **class** of resultant vector, in quotes;
+* The **length** of the output, which we will define as the length of our input variable.
+
+At this point, the setup for our for loop operation is:
+
+```{r, eval = TRUE}
+target_vector <- 6:10
+
+output_container <-
+  vector(
+    "numeric", 
+    length = length(target_vector) 
+  )
+
+output_container
+```
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [Why do I need an ouptut container for my for loop?]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+The output container should always be specified and should represent an object that is the length of target variable. While it is possible to run a *for loop* on a container that is less than the length of the desire output (or an object of no specified length), doing so forces R to "grow" the output container with each iteration. This can take up an undue amount of memory and can eat up your processing time.
+:::
+
+
+Now we are ready to build our actual for loop statement. We initiate our for loop by specifying the for loop sequence:
+
+* `for` followed by parentheses;
+* The name of the variable -- for a non-nested for loop, I typically use `i` when referring to a position, `t` when referring to a time step, and `x` when referring to a name;
+* The sequence of values to iterate across.
+
+Continuing with our for loop set up above, incorporating the sequence statement in our for loop might look something like (do not run):
+
+```{r, eval = FALSE}
+target_vector <- 6:10
+
+output_container <-
+  vector(
+    "numeric", 
+    length = length(target_vector) 
+  )
+
+for(i in 1:5) ...
+```
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [The sequence statement ... lots of options!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+The above sequence statement, `for(i in 1:5)` works, but we might want to choose a sequence of integers that is less vulnerable to changes in the length of our target variable. For example, we can choose a sequence from 1 through the length of the target variable with:
+
+```{r}
+1:length(target_vector)
+```
+
+Which would yield the sequence statement (do not run):
+
+```{r, eval = FALSE}
+for(i in 1:length(target_vector))
+  ```
+
+We can also use the `seq_along` function to generate a vector of indices in a vector:
+  
+  ```{r}
+seq_along(target_vector)
+```
+
+With in our sequence statement, this would be written as  (do not run):
+
+```{r, eval = FALSE}
+for(i in seq_along(target_vector)) ...
+```
+
+:::
+  
+We next supply the for loop body inside of `{...}` -- the for loop body is the instructions for what occurs during each iteration. Our goal here is to add the value `1` to each value in `target_vector`, so we might write (you can run this one!):
+  
+```{r}
+target_vector <- 6:10
+
+output_container <-
+  vector(
+    "numeric", 
+    length = length(target_vector) 
+  )
+
+for(i in seq_along(target_vector)) {
+  output_container[[i]] <-
+    target_vector[[i]] + 1
+}
+```
+*Notice in the above that, during each iteration, we are assigning a new value to the output container at position `[[i]]`.*
+
+Let's take a look at the values in the `output_container`:
+
+```{r}
+output_container
+```
+
+To check to see if your for loop worked, I *strongly* suggest assigning your variable (which here is `i`) to the global environment and evaluating what happens in a single iteration:
+
+```{r}
+i <- 2
+
+target_vector[[i]] + 1
+```
+
+Our for loop worked, and generated the correct results, but we actually could have completed the same operation with `target_vector + 1`. Let's look at some more useful applications ...
+
+### For loops applied: A population model
+
+For loops can be very useful when modeling things like population growth. In this section we will use for loops to calculate the populations sizes using two common populations models.
+
+For our first population model, let's explore the growth of a population that doubles in each time step. We could consider this as:
+
+$$
+N_{t} = 2 \times N_{t-1}
+$$
+
+We will calculate the population over 10 generations.
+
+In this case, we will start by generating a numeric vector of length 10 (this will be our output container):
+
+```{r}
+population <-
+  vector("numeric", length = 10)
+```
+
+Let's have a look at our numeric vector:
+
+```{r}
+population
+```
+
+We will next set the value of the population at the first time step:
+
+```{r}
+population[[1]] <- 10
+```
+
+Let's have a look again at our numeric vector:
+
+```{r}
+population
+```
+
+Now we will use a for loop to iterate across our vector. Because we have already defined the starting population, we need to evaluate from the *second* value in `population` to the last value. Our sequence statement might look like (do not run):
+
+```{r, eval = FALSE}
+for(t in 2:length(population)) ...
+```
+
+Now let's turn to our population model itself. Our population model can be written in code as:
+
+```{r, eval = FALSE}
+population[[t]] <- 2 * population[[t - 1]]
+```
+
+This represents the body of our for loop so, putting it all together:
+
+```{r}
+# Create output container:
+
+population <-
+  vector("numeric", length = 10)
+
+# Assign a value to the first position of the output container:
+
+population[1] <- 10
+
+# For loop sequence statement:
+
+for(t in 2:length(population)) {
+  
+  # For loop body:
+  
+  population[[t]] <- 2 * population[[t - 1]]
+}
+
+population
+```
+
+Notice again that we are assigning a new value in our output container, `population` at position `[[t]]`.
+
+### For loops applied: Split-apply-combine basics
+
+Let's turn back to the problem that I referred to in the ***Why iterate?*** section above. Therein, we were challenged with calculating the mean "hindfoot" length of each species in `portal`. Doing so for a single species looked something like (tidyverse version):
+
+```{r}
+portal %>% 
+  filter(species == "Neotoma albigula") %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+It would take a lot of repetitive coding to do this with *every* species in the data set. In data science, this is often referred to as a split-apply-combine problem -- we split a data object into parts, apply a function each part, and combine the resultant values into a new object.
+
+Luckily, for loops make problems like this fairly straightforward. 
+
+We will start by generating our input variable. Here, that target vector will be the unique `species` in the `portal` dataset:
+
+```{r}
+portal_species <-
+  portal %>% 
+  pull(species) %>% 
+  unique()
+
+portal_species
+```
+
+Next, we will create an output container for storing our values:
+
+```{r}
+hindfeet <-
+  vector(
+    "numeric", 
+    length = 
+      length(portal_species)
+  )
+
+hindfeet
+```
+
+The `seq_along()` function works well in this scenario (because we can start at index 1), so our sequence statement might look something like (do not run):
+
+```{r, eval = FALSE}
+for(i in seq_along(portal_species)) ...
+```
+
+The sequence portion of this statement is:
+
+```{r}
+seq_along(portal_species)
+```
+
+Now we have to think about our for loop body. Let's look again at the code block that generates our desired results for one species:
+
+```{r}
+portal %>% 
+  filter(species == "Neotoma albigula") %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+To iterate the above, we need to consider which portion of the code block *must* be repeated and which portion of the code block will vary. To repeat this process for a different species, the only thing that we will have to change is `"Neotoma albigula"`.
+
+Before building the for loop, it is good to consider how we might refer to the variable by index rather than by value:
+
+```{r}
+i <- 1
+
+portal_species[[i]]
+
+portal %>% 
+  filter(species == portal_species[[i]]) %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+We might even want to try assigning a different index and ensuring that the resultant value changes:
+
+```{r}
+i <- 3
+
+portal_species[[i]]
+
+portal %>% 
+  filter(species == portal_species[[i]]) %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+Once we are certain that the above works *outside* of a for loop, we are ready to iterate:
+
+```{r}
+# Specify input variable:
+
+portal_species <-
+  portal %>% 
+  pull(species) %>% 
+  unique()
+
+# Create output container:
+
+hindfeet <-
+  vector(
+    "numeric", 
+    length = 
+      length(portal_species)
+  )
+
+# For loop sequence statement:
+
+for(i in seq_along(portal_species)) {
+  
+  # For loop body:
+  
+  hindfeet[[i]] <-
+    portal %>% 
+    
+    # Split:
+    
+    filter(species == portal_species[[i]]) %>% 
+    pull(hindfoot_length) %>% 
+    
+    # Apply:
+    
+    mean(na.rm = TRUE)
+}
+```
+
+### For loops applied: Split-apply-combine to data frames
+
+We often (historically at least) want to generate an output that is a data frame rather than a simple vector.
+
+For example, consider the following operation:
+
+```{r}
+portal %>% 
+  summarize(
+    hindfeet = mean(hindfoot_length, na.rm = TRUE),
+    .by = species
+  )
+```
+
+The above, like all grouped operations in *dplyr*, is actually an iteration (as is `across()`, `keep()`, and many other tidyverse functions)! Can we repeat the above with a for loop? In the old days we had to! Let's see how we can do it.
+
+Rather than generating an output container as a `numeric` vector, we can create a list:
+
+```{r}
+hindfeet_frame <-
+  vector(
+    "list", 
+    length = 
+      length(portal_species)
+  )
+```
+
+Now we want to think about how we might assemble a data frame for just one of the species (without summarize, as that would be cheating) ...
+
+```{r}
+tibble(
+  species = "Neotoma albigula",
+  hindfeet =
+    portal %>% 
+    filter(species == "Neotoma albigula") %>% 
+    pull(hindfoot_length) %>% 
+    mean(na.rm = TRUE)
+)
+```
+
+... and replace our variable with indexing:
+
+```{r}
+tibble(
+  species = portal_species[[i]],
+  hindfeet =
+    portal %>% 
+    filter(species == portal_species[[i]]) %>% 
+    pull(hindfoot_length) %>% 
+    mean(na.rm = TRUE)
+)
+```
+
+Given this information, we should now be able to create a for loop. Our full operation would be:
+
+```{r}
+# Specify input variable:
+
+portal_species <-
+  portal %>% 
+  pull(species) %>% 
+  unique()
+
+# Create output container:
+
+hindfeet_frame <-
+  vector(
+    "list", 
+    length = 
+      length(portal_species)
+  )
+
+# For loop sequence statement:
+
+for(i in seq_along(portal_species)) {
+  
+  # For loop body:
+  
+  hindfeet_frame[[i]] <-
+    tibble(
+      species = portal_species[[i]],
+      hindfeet =
+        portal %>% 
+        
+        # Split:
+        
+        filter(species == portal_species[[i]]) %>% 
+        pull(hindfoot_length) %>% 
+        
+        # Apply:
+        
+        mean(na.rm = TRUE)
+    )
+}
+```
+
+The whole list would be a lot to look at, so let's use `tidyselect::select()` to subset the list to the first three list items:
+
+```{r}
+hindfeet_frame[1:3]
+```
+
+As a final step, we can simply combine the list item by row, with `bind_rows()`, to generate a data frame:
+
+```{r}
+# Combine:
+
+bind_rows(hindfeet_frame)
+```
+
+### A better sequence statement (sometimes)
+
+While we sometimes *need* to specify the sequence statement using an index, it is usually clearer to specify our variable as the value that we are iterating across. 
+
+To do so, I typically generate a named list with `set_names()`:
+
+```{r}
+hindfeet <-
+  vector(
+    "list", 
+    length = length(portal_species)
+  ) %>% 
+  set_names(portal_species)
+```
+
+I can refer to species `x` in our portal species by typing this sequence statement:
+
+```{r, eval = FALSE}
+for(x in portal_species) ...
+```
+
+In the for loop body, I replace indices that refer to the species with the variable `x`:
+  
+```{r}
+# Specify input variable:
+
+portal_species <-
+  portal %>% 
+  pull(species) %>% 
+  unique()
+
+# Create output container:
+
+hindfeet <-
+  vector(
+    "list", 
+    length = length(portal_species)
+  ) %>% 
+  set_names(portal_species)
+
+# For loop sequence statement:
+
+for(x in portal_species) {
+  
+  # For loop body:
+  
+  hindfeet[[x]] <-
+    tibble(
+      species = x,
+      hindfeet =
+        portal %>% 
+        
+        # Split:
+        
+        filter(species == x) %>% 
+        pull(hindfoot_length) %>% 
+        
+        # Apply:
+        
+        mean(na.rm = TRUE)
+    )
+}
+
+# Combine:
+
+bind_rows(hindfeet)
+```
+
+When this option is available to us, specifying the variable rather than the index yields more readable code! The above would be the recommended method for most split-apply-combine operations were it not for ...
+
+## Video content (interlude): Introduction to `purrr::map()`
+
+*Note: You will notice that the video ends pretty abruptly and the video code continues with "mapping when it matters". We will get to applications of purrr maps soon!*
+
+{{< video https://www.youtube.com/embed/yBLxvveHrA0 >}}
+
+## `purrr::map()` compendium
+
+The `map()` family of functions, in the tidyverse package `purrr`, are functions that run for loops. They are written to be easy to read and efficient to process (i.e., they will typically not use a lot of memory or require long processing times).
+
+Writing `map()` function is much more straightforward than for loops in that you only need to provide:
+
+* Input variable: The locations or a *vector* of values upon which the loop will run;
+* Body: What happens in each iteration, in other words the instructions for what will occur during each iteration of the loop.
+
+### `map()` by index
+
+Like a for loop, we can map by position in a vector. This is a *huge* advantage over for loops! Below, I reconstruct our for loop by index above with a `map()` operation -- this will be followed by an explanation.
+
+```{r}
+# Target vector:
+
+portal_spp <-
+  unique(portal$species)
+
+map(
+  
+  # Sequence statement:
+  
+  1:length(portal_spp),
+  
+  # Body:
+  
+  function(i) {
+    tibble(
+      species = portal_spp[[i]],
+      hindfeet =
+        portal %>% 
+        
+        # Split the data:
+        
+        filter(species == portal$species[[i]]) %>% 
+        pull(hindfoot_length) %>% 
+        
+        # Apply a function:
+        
+        mean(na.rm = TRUE)
+    )
+  }
+) %>% 
+  
+  # Combine the output:
+  
+  bind_rows()
+```
+
+Let's look into what happened here.
+
+The portion of the code that is recreated below created a vector of indices, which are integer values:
+
+```{r}
+1:length(portal_spp)
+```
+
+Each integer value represents a position in the vector `portal_spp`:
+
+```{r}
+portal_spp[[3]]
+```
+
+The map function iterates across the sequence of provided values. That means it will run the body of the loop once for each of the provided values in the sequence. 
+
+For example, the third value in the sequence is the integer `3`. Let's set `i` equal to `3`:
+
+```{r}
+i <- 3
+
+portal_spp[[i]]
+```
+
+In the body of the `map()`, I first subset the data (split):
+
+```{r}
+portal %>% 
+  filter(species == portal$species[[i]])
+```
+
+And then applied a function to the subset:
+
+```{r}
+portal %>% 
+  filter(species == portal$species[[i]]) %>% 
+  pull(hindfoot_length) %>% 
+  mean(na.rm = TRUE)
+```
+
+Outside of the loop I combined the output to generate a single data frame object with `bind_rows()`.
+
+### Map by values in a variable
+
+Things get even nicer when we specify the variables themselves, rather than an index of positions in a variable.
+
+```{r}
+# Target vector: (and sequence statement!)
+
+unique(portal$species) %>% 
+  map(
+    
+    # Body:
+    
+    function(x) {
+      tibble(
+        species = x,
+        hindfeet =
+          portal %>% 
+          
+          # Split the data:
+          
+          filter(species == x) %>% 
+          pull(hindfoot_length) %>% 
+          
+          # Apply a function:
+          
+          mean(na.rm = TRUE)
+      )
+    }
+  ) %>% 
+  
+  # Combine the output:
+  
+  bind_rows()
+```
+
+Notice in the above that instead of specifying species by position, I can just specify the species as the variable `x` in my formula. Here, for each iteration, `x` is replaced by the species in `portal_spp`.
+
+### Specifying your formula
+
+There are three ways to specify the formula in a purrr. Above, we specified the formula with `function(x)`. 
+
+A 2021 update of base R allows us to use `\(x)` as a shorthand for `function(x)`:
+
+```{r}
+# Target vector: (and sequence statement!)
+
+unique(portal$species) %>% 
+  map(
+    
+    # Body:
+    
+    \(x) {
+      tibble(
+        species = x,
+        hindfeet =
+          portal %>% 
+          
+          # Split the data:
+          
+          filter(species == x) %>% 
+          pull(hindfoot_length) %>% 
+          
+          # Apply a function:
+          
+          mean(na.rm = TRUE)
+      )
+    }
+  ) %>% 
+  
+  # Combine the output:
+  
+  bind_rows()
+```
+
+Another option is to use the operator `~` in place of `function(x)` (or `\(x)`). In doing so, we must replace `x` with `.x`:
+
+```{r}
+# Target vector: (and sequence statement!)
+
+unique(portal$species) %>% 
+  map(
+    
+    # Body:
+    
+    ~ tibble(
+        species = .x,
+        hindfeet =
+          portal %>% 
+          
+          # Split the data:
+          
+          filter(species == .x) %>% 
+          pull(hindfoot_length) %>% 
+          
+          # Apply a function:
+          
+          mean(na.rm = TRUE)
+      )
+  ) %>% 
+  
+  # Combine the output:
+  
+  bind_rows()
+```
+
+### Before we go ...
+
+It is important to recognize that **any vector can be iterated across with `map()`** and that there are many classes of map outputs (see `?map`). I chose to focus on lists in the written portion of this tutorial because they are the most flexible.
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Class**: A blueprint that describes an object's structure.
+* **Control flow**: A process that modifies the order in which your computer executes code (and sometimes whether that code is executed at all!).
+* **Index** (noun): The numeric position of a value or values in a data object.
+* **Index** (verb): The process of subsetting or extracting elements of a data object by position.
+* **Split-apply-combine problem**: A data challenge in which you must split a data object into parts, apply a function each part, and combine the resultant values into a new object.
+* **Tibble**: A type of data frame with great benefits!
+
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The functions `magrittr::%>%`, `rlang::{{}}`, `rlang::set_names` are attached with `library(tidyverse)`
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula
+* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
+* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+* `.Primitive, :::`: Infix operator that can be used to access a function that is not meant to be exported!
+* `.Primitive, ==`: Infix relational operator (is equal to)
+* `.Primitive, *`: Infix arithmetic operator (multiply)
+* `.Primitive, length`: Return the number of values in an atomic vector or the number of list items in a list (or data frame!) as a one-value integer vector
+* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
+* `.Primitive, seq_along`: Generate an integer vector representing the indices (positions) in a vector (list or atomic)
+* `base::[]`: Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+* `base::[[]]`: Extraction operator used to index a single value from a data object (LHS) based on the position or values specified inside the brackets
+* `base::for(var in seq)`: Initiate a for loop
+* `base::function`: Initiate the creation of a custom function
+* `base::library`: Attach the package environment for a given package to the current R session
+* `base::matrix`: Generate a matrix object by adding dimensional attributes to an atomic vector
+* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
+* `base::unique`: Subset an atomic vector to the unique values in the set
+* `base::vector`: Generate a vector (list or atomic)
+* `dplyr::bind_rows`: Combine rows of two or more tibbles to create a new tibble
+* `dplyr::filter`: Subset a data frame by logical condition
+* `dplyr::pull`: Extract a column from a data frame as a vector
+* `dplyr::select`: Subset columns in a data frame by name
+* `dplyr::slice`: Subset a data frame by row or rows using the row position(s)
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `purrr::map`: Iterate across a vector and return a list
+* `purrr::pluck`: Extract a list item from a list
+* `rlang::set_names`: Assign names to values in a vector or items in a list
+* `tibble::tibble`: Column-wise creation of a tibble data frame
+* `tidyselect:::select`: Extract by name from any named object (without quotes!)
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Metacharacter escape**, `\\`: Treat a metacharacter as a literal character
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+:::
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+|Task                         | Windows          | Mac
+|:----------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
+| Open an existing script     | Ctrl + O         | command + O
+| Create a new script         | Ctrl + shift + N | command + shift + N
+| Save script file            | Ctrl + S         | command + S
+| Execute code                | Ctrl + Enter     | command + return
+| Copy                        | Ctrl + C         | command + C
+| Paste                       | Ctrl + V         | command + V
+| Add a pipe operator         | Ctrl + shift + M | command + shift + M
+| Add an assignment operator  | Alt + dash       | option + dash
+| Add a new code section      | Ctrl + shift + R | command + shift + R
+| Indent code                 | Ctrl + I         | command + I
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>

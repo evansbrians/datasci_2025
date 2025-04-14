@@ -1,0 +1,721 @@
+---
+title: "Applied iteration with for loops and purrr"
+output:
+  html_document:
+    theme: yeti
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+library(lubridate)
+library(RCurl)
+library(lubridate)
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = FALSE)
+```
+
+<!--- head ------->
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="www/styles.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+## Overview
+<hr>
+
+<div class = "row" style = "margin-left: 1em;">
+<a title = "Data Science hex">
+<img  src = "www/hex_complex.png"
+alt="Hex sticker for data science class"
+style = "float: right; padding-left: 2em; padding-bottom: 2em; padding-right: 3em; width: 40%; height: auto;">
+</img>
+</a>
+
+Redundancy is *one of* the first things that I look at when I help people with their code. Repetition makes code hard to read and generates unnecessarily long and error-prone scripts. As we've learned, iteration is our primary tool for reducing repetition. In our previous content on iteration with  *for loops* and `map` functions, almost all of the operations we conducted could have been completed more simply using dplyr's iteration functions, such as `group_by()` and `across()`. In this lesson we will explore how iteration in base R and purrr can really improve our workflow. We will address content from our **Programming workflow** lecture and, in doing so, offer an alternative pipeline to custom functions and source scripts.
+
+</div>
+
+
+## Reference material
+<hr>
+
+Below is some handy reference material that you can refer to throughout this lesson. Please click on the menu item to expand it.
+
+<div>
+<button class="accordion">R Studio panes</button>
+<div class="panel">
+<br>
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<br>
+<img src = 'www/rstudio_panes.png' style = "max-width: 100%; height: auto;"></img>
+<br>
+</div>
+</div>
+
+<div>
+<button class="accordion">Keyboard shortcuts</button>
+<div class="panel">
+<br>
+The Keyboard shortcuts we will use in this lesson are listed below for Windows and Mac operating systems.
+
+<hr>
+<div>
+<button class="accordion">Windows</button>
+<div class="panel">
+<br>
+
+* View all keyboard shortcuts: Ctrl + Alt + K
+* Execute code: Ctrl + Enter
+* Add assignment operator: Alt + dash
+* Add a new code section: Ctrl + shift + R
+* Save file: Ctrl + S
+* Copy: Ctrl + C
+* Paste: Ctrl + V
+
+<br>
+</div>
+</div>
+
+<div>
+<button class="accordion">Mac</button>
+<div class="panel">
+<br>
+
+* View all keyboard shortcuts: Command + option + K
+* Execute code: Command + Enter
+* Add assignment operator: Option + dash
+* Add a new code section: Command + shift + R
+* Save file: Command + S
+* Copy: Command + C
+* Paste: Command + V
+
+<br>
+</div>
+</div>
+
+<hr>
+<div style = "margin-bottom: 5px;">
+<i class="fas fa-user-secret" style = "font-size: 36px;"></i> I strongly suggest using a keyboard shortcut whenever possible. It can be hard to do at first, using your mouse to click a button or typing a few characters is initially **way** easier than remembering the keyboard shortcut. If you force yourself to do it though, you won't regret it -- it saves a lot of time in the end.
+</div>
+</div>
+</div>
+
+<!-- To me they will always be glorious birds To me they will always be glorious birds -->
+
+<div>
+<button class="accordion">R functions</button>
+<div class="panel">
+<br>
+Throughout this lesson and others there are several R functions we will run. Make sure you understand how these functions work by running `?` and the function name in your Console. Today's named functions (not operators) are:
+
+* **base::c**: Combine values into an atomic vector
+* **base::for**: Initiate a *for loop* statement
+* **base::library**: Load a package into your current R session for use in a session
+* **base::list**: Combine objects into a list
+* **base::seq_along**: Get a sequence of all indices in a vector
+* **base::vector**: Generate an empty vector of a given length and class
+* **dplyr::join_by**: Use logic to define the primary and foreign keys of a join
+* **dplyr::left_join**: Join a source table, on the right, with the target table, on the left, by a common variable
+* **dplyr::matches**: Select columns using regex
+* **dplyr::n**: Calculate the number of observations (rows)
+* **dplyr::select**: Subset variables in a data frame
+* **purrr::map**: Iterate an operation over a vector
+* **purrr::pluck**: Subset a list to a *single* list item
+* **readr::read_rds**: Read an RDS file into R
+* **rlang::set_names**: Set the names attribute of a vector or list
+* **tidyselect:::select**: Select vectors in an object without quotation marks
+
+<br>
+</div>
+</div>
+
+<br>
+
+## Reading in files
+<hr>
+
+We're going to start simply -- here, we'll use iteration to read files into R.
+
+Let's start by reading in files into R. We'll read in the file `district_birds.rds`, extract the tables `counts` and `captures`, and store the output as a list object:
+
+```{r}
+list(
+  
+  # Read in count data and assign to list:
+  
+  counts = 
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("counts"),
+  
+  # Read in capture data and assign to list:
+  
+  captures = 
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("captures"))
+```
+*Note: I am avoiding the output here because it would generate a very long tutorial (we're going to read these data in a lot). Please replicate this code within your own script file and run it to explore the output.*
+
+The above code is short, given its simplicity, but it is quite repetitive. When evaluating a script, shared code elements indicate a need for iteration. Elements that are not shared provide a clue of the variable upon which to base the iteration. Notice that the only thing that changes for each list item is the name of the table being extracted by pluck.
+
+### Reading in data with a for loop
+
+An alternative to the above is to use a *for loop*. We start by creating a vector of values to iterate across:
+
+```{r}
+tables <-
+  c("counts", "captures")
+```
+
+Create an empty container for storing our output:
+
+```{r}
+out_list <-
+  vector("list", length = 2)
+```
+
+And use a *for loop* to read in the data. Here, I'm reading the data in by index (position) using the function `seq_along()`:
+
+```{r}
+for(i in seq_along(tables)) {
+  out_list[[i]] <-
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck(tables[[i]])
+}
+```
+
+To mirror the output of the redundant data-reading operation above, we'll need to set the names for our list:
+
+```{r}
+out_list %>% 
+  set_names(tables)
+```
+
+Putting this all together, our *for loop* data reading operation is:
+
+```{r}
+# Vector to iterate across:
+
+tables <-
+  c("counts", "captures")
+
+# Container for storing values:
+
+out_list <-
+  vector("list", length = 2)
+
+# Read in the files:
+
+for(i in seq_along(tables)) {
+  out_list[[i]] <-
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck(tables[[i]])
+}
+
+# Set file names:
+
+out_list %>% 
+  set_names(tables)
+```
+
+This is a lot of code for just reading in two files though. We can simplify this a bit by omitting the step in which we generated a vector of tables. In the version below, I iterate across the variable `x`, which represents the names of `out_list`, instead of using indexing:
+
+```{r}
+# Container for storing values:
+
+out_list <-
+  vector("list", length = 2) %>% 
+  set_names(
+    c("counts", "captures"))
+
+# Read in the files:
+
+for(x in names(out_list)) {
+  out_list[[x]] <-
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck(x)
+}
+
+out_list
+```
+
+The above is more compact but still takes up a lot more script real estate (16 lines of code) than the repetitive version of the reading operation (13 lines of code). Relative to the first *for loop*, this version has the added benefit that it reduced the number of global assignments to just the `out_list` itself. Relative to the original data-reading operation, this version is more parsimonious *despite* its length because it reduced repetition.
+
+### Reading in data with a purrr map
+
+The `purrr::map()` function affords us with a convenient and concise way to iterate across list items. We supply a vector (list or atomic) to iterate across and the formula to apply to each item in the vector:
+
+```{r}
+# Vector of values:
+
+c("counts", "captures") %>% 
+  
+  # Read in values and extract the list item:
+  
+  map(
+    ~ read_rds("data/raw/district_birds.rds") %>% 
+      pluck(.x)) %>% 
+  
+  # Set names of each list item: 
+  
+  set_names(
+    c("counts", "captures"))
+```
+
+We can increase our parsimony with a bit of a trick. When you run `set_names()` on an atomic vector, the values of the vector are assigned as the names of each value:
+
+```{r}
+c("counts", "captures") %>% 
+  set_names()
+```
+
+Applying this to the map function:
+
+```{r}
+# Vector of values:
+
+c("counts", "captures") %>% 
+  
+  # Assign the values of the vector as names:
+  
+  set_names() %>% 
+  
+  # Read in values and extract the list item:
+  
+  map(
+    ~ read_rds("data/raw/district_birds.rds") %>% 
+      pluck(.x))
+```
+
+This `map()` is way more parsimonious than the original data reading version and is of equivalent length.
+
+Of course, we've learned a method for reading in and subsetting a list that is more parsimonious still:
+
+```{r}
+read_rds("data/raw/district_birds.rds") %>% 
+  tidyselect:::select(counts, captures)
+```
+
+The above has the added benefit of only reading in the list once -- at this size, this is not a big concern but as the size of our files increase, this could become an issue!
+
+## Read & wrangle files
+<hr>
+
+The benefits of iteration on code parsimony should become more apparent as we modify the files when we read them in. In the script below, I read in `counts` and `captures` and join bird life history data (`birds`) to each file.
+
+```{r}
+# Read in counts and captures and join with life history information:
+
+list(
+  
+  # Count data:
+  
+  counts = 
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("counts") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)),
+  
+  # Capture data:
+  
+  captures = 
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("captures") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)))
+```
+
+The above really illustrates how code parsimony can begin to suffer without iteration (we're up to 31 lines of very repetitive code!).
+
+To iterate this using a *for loop*, we once again need to assess which elements of the above are repeated and which are unique. Here, the join code block is equivalent for both operations and the unique elements are simply the names of the list times. As such, we can simply add the join statement to our *for loop* body and construct the loop as we had previously:
+
+```{r}
+# Container for storing values:
+
+out_list <-
+  vector("list", length = 2) %>% 
+  set_names(
+    c("counts", "captures"))
+
+for(x in names(out_list)) {
+  
+  # Read in the files:
+  
+  out_list[[x]] <-
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck(x) %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species))
+}
+
+out_list
+```
+
+The *for loop* code above is now shorter than the original reading and wrangling operation and much less repetitive.
+
+To address this with `purrr::map()` we can once again simply modify the body/instructions by adding the joining code block:
+
+```{r}
+# Vector of values:
+
+c("counts", "captures") %>% 
+  
+  # Assign the values of the vector as names:
+  
+  set_names() %>% 
+  
+  # Read in values and extract the list item:
+  
+  map(
+    ~ read_rds("data/raw/district_birds.rds") %>% 
+      pluck(.x) %>% 
+      
+      # Join common names and diet:
+      
+      left_join(
+        read_rds("data/raw/district_birds.rds") %>% 
+          pluck("birds") %>% 
+          select(species, common_name, diet),
+        by = join_by(spp == species)))
+```
+
+This takes up a little less code real estate than the *for loop* version and is, at least for those who know what a `map` function does, much more readable.
+
+We've got an extra option available to us that can really improve our code. Because a `purrr::map()` can be an atomic vector or list, we can use our `tidyselect:::select()` function to make this a lot more concise:
+
+```{r}
+# Read in the list and extract the list items:
+
+read_rds("data/raw/district_birds.rds") %>% 
+  tidyselect:::select(counts, captures) %>% 
+  
+  # Join common names and diet to each list item:
+  
+  map(
+    ~ left_join(
+      .x,
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)))
+```
+
+We're now down to just 14 lines of very communicable code!
+
+## When names aren't shared
+<hr>
+
+Adding another layer of complexity, sometimes names are not shared across lists that we would like to iterate across. For each of the list items below, I read in the data, join as we had previously, and then select my columns of interest.
+
+```{r}
+list(
+  
+  # Count data:
+  
+  counts = 
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("counts") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)) %>% 
+    
+    # Select columns of interest:
+    
+    select(common_name, diet, count),
+  
+  # Capture data:
+  
+  captures = 
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("captures") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)) %>% 
+    
+    # Select columns of interest:
+    
+    select(common_name, diet, mass))
+```
+
+In the above that we see that the list items now have two things that are different -- the names of the list items themselves and the observation variable that we wish to extract from each item (`count` or `mass`). How can we address this?
+
+Recall that the tidyverse has a selection function that employs regex -- `matches()`. We can supply a match to where the variable in question contains a string that matches "count" or "mass".
+
+For example, we can extract "count" or "mass" from our `count` data using:
+
+```{r, eval = TRUE}
+read_rds("data/raw/district_birds.rds") %>% 
+  pluck("counts") %>% 
+  
+  # Join common names and diet:
+  
+  left_join(
+    read_rds("data/raw/district_birds.rds") %>% 
+      pluck("birds") %>% 
+      select(species, common_name, diet),
+    by = join_by(spp == species)) %>% 
+  
+  # Select columns of interest:
+  
+  select(
+    common_name, 
+    diet, 
+    matches("count|mass"))
+```
+
+... and extract "count" or "mass" from our `captures` data using:
+
+```{r, eval = TRUE}
+read_rds("data/raw/district_birds.rds") %>% 
+  pluck("captures") %>% 
+  
+  # Join common names and diet:
+  
+  left_join(
+    read_rds("data/raw/district_birds.rds") %>% 
+      pluck("birds") %>% 
+      select(species, common_name, diet),
+    by = join_by(spp == species)) %>% 
+  
+  # Select columns of interest:
+  
+  select(
+    common_name, 
+    diet, 
+    matches("count|mass"))
+```
+*Perhaps you are beginning to see why regex is such an important skill?*
+
+Let's apply this to our *for loop* (that now includes `select()`):
+
+```{r}
+# Container for storing values:
+
+out_list <-
+  vector("list", length = 2) %>% 
+  set_names(
+    c("counts", "captures"))
+
+for(x in names(out_list)) {
+  
+  # Read in the file:
+
+  out_list[[x]] <-
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck(x) %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)) %>% 
+    
+    # Select columns of interest:
+    
+    select(
+      common_name, 
+      diet, 
+      matches("count|mass"))
+}
+
+out_list
+```
+
+This is vast improvement over the original. Of course, the `purrr::map()` function is even better:
+
+```{r}
+# Read in the list and extract the list items:
+
+read_rds("data/raw/district_birds.rds") %>% 
+  tidyselect:::select(counts, captures) %>% 
+  
+  # Join common names and diet to each list item:
+  
+  map(
+    ~ left_join(
+      .x,
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)) %>% 
+      
+      # Select columns of interest:
+      
+      select(
+        common_name, 
+        diet, 
+        matches("count|mass")))
+```
+
+We've achieved the same result in 21 lines of communicable, non-repetitive code (versus 32 lines of code for the *for loop* version and 37 lines of code for the original, repetitive, version).
+
+<br>
+<blockquote>
+<i class="fas fa-user-circle" style='font-size:36px'></i>&nbsp;&nbsp;<span style = 'font-size: 36px;'>Now you!</span>
+
+The code block below reads in and wrangles `counts` by "diet" and "foraging" guild:
+
+```{r}
+list(
+  
+  # Count data:
+  
+  counts = 
+    read_rds('data/raw/district_birds.rds') %>% 
+    pluck("counts") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      dc_birds %>% 
+        pluck("birds") %>% 
+        select(species, common_name, diet),
+      by = join_by(spp == species)),
+  
+  # Capture data:
+  
+  captures = 
+    read_rds('data/raw/district_birds.rds') %>% 
+    pluck("counts") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      dc_birds %>% 
+        pluck("birds") %>% 
+        select(species, common_name, foraging),
+      by = join_by(spp == species)))
+```
+
+* Repeat the above using a *for loop*: 
+
+<button class="accordion" style = "margin-bottom: 18px">My answer</button>
+
+<div class="panel">
+```{r}
+out_list <-
+  vector("list", length = 2) %>% 
+  set_names(
+    c("diet", "foraging"))
+
+for(x in names(out_list)) {
+  
+  # Read in the file:
+  
+  out_list[[x]] <-
+    read_rds("data/raw/district_birds.rds") %>% 
+    pluck("counts") %>% 
+    
+    # Join common names and diet:
+    
+    left_join(
+      read_rds("data/raw/district_birds.rds") %>% 
+        pluck("birds") %>% 
+        select(species, common_name, matches(x)),
+      by = join_by(spp == species)) %>% 
+    
+    # Select columns of interest:
+    
+    select(
+      common_name, 
+      matches(x), 
+      count)
+}
+
+out_list
+```
+</div>
+
+* Repeat the above using a `map()`:
+
+<button class="accordion" style = "margin-bottom: 18px">My answer</button>
+<div class="panel">
+```{r}
+c("foraging", "diet") %>% 
+  set_names() %>% 
+  purrr::map(
+    ~ read_rds("data/raw/district_birds.rds") %>% 
+      pluck("counts") %>% 
+      
+      # Join common names and diet:
+      
+      left_join(
+        read_rds("data/raw/district_birds.rds") %>% 
+          pluck("birds") %>% 
+          select(species, common_name, matches(.x)),
+        by = join_by(spp == species)) %>% 
+      
+      # Select columns of interest:
+      
+      select(
+        common_name, 
+        matches(.x), 
+        count))
+```
+</div>
+</blockquote>
+
+<hr>
+
+While I still write custom functions often, I use them much less frequently than I used to. Instead, my code relies heavily on `purrr::map()` (and the purrr family of functions). Likewise, although I still use source scripts for most of my projects, the number of operations in these scripts (and thus the number of functions contained therein) has declined greatly over the years due to the simplicity and effectivess of `purrr::map()`.
+
+<hr>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>

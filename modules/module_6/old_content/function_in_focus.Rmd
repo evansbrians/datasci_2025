@@ -1,0 +1,753 @@
+---
+title: "The function in focus"
+output:
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="www/styles.css" />
+<link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+      type="image/png" 
+      href = "www/hex_icon.png" />
+</head>
+
+```{css more_styles, echo = FALSE}
+/* I can add custom classes with a period symbol. See usage of this class below */
+.score {
+font-weight: bold;
+font-size: 16px;
+color: red;
+background-color: #ffff80;
+}
+
+.subscore {
+font-size: 14px;
+color: red;
+}
+
+/* Accordion style, the accordion is the section "Functions that you may use in this assignment" */
+
+.accordion {
+background-color: #e6f0ff;
+color: #000000;
+cursor: pointer;
+padding: 18px;
+width: 100%;
+border-style: solid;
+border-width: 2px;
+border-color: #ffffff;
+text-align: left;
+outline: none;
+font-size: 15px;
+transition: 0.4s;
+}
+
+/* When you hover your mouse over the accordion button, it changes color. */
+
+.active, .accordion:hover {
+background-color: #80b3ff; 
+color: #ffffff;
+font-weight: bold;
+}
+
+/* This is where the content of the accordion is placed. */
+
+.panel {
+padding: 0 18px;
+display: none;
+background-color: #eeffff;
+overflow: hidden;
+}
+
+/* Here, I add a custom class for area surrounding the graded portions of this
+assignment.*/
+
+.now_you {
+border-left: 8px solid #292093;
+background-color: #e6ffff;
+padding: 16px;
+margin-top: 15px;
+margin-bottom: 15px;
+}
+
+/* This is where tips and tricks are formatted. */
+
+.mysecret {
+border: 1px solid #999999;
+border-style: solid; 
+background-color: #efefef;
+padding: 20px; 
+border-radius: 25px;
+margin-top: 15px;
+margin-bottom: 15px;
+}
+
+h1, h2 {
+margin-bottom: 4px;
+}
+
+hr {
+margin-top: 0px;
+}
+
+```
+
+```{r setup, include=FALSE}
+library(lubridate)
+library(RCurl)
+library(lubridate)
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+```
+
+## Overview
+<hr>
+
+<div class = "row">
+<a title = "Data Science hex">
+  <img  src = "www/hex_complex.png"
+        alt="Hex sticker for data science class"
+        style = "float: right; padding-left: 2em; padding-bottom: 2em; padding-right: 0em; width: 40%; height: auto;">
+  </img>
+</a>
+
+At its most basic, anything that exists in R is an object and anything that happens is a function (<a href="http://user2014.r-project.org/files/chambers.pdf" target = "_blank">John Chambers, userR!2014</a>). Early in the R learning process, R seems to be an endless, and often overwhelming, collection of functions. The R learner is typically engaged with how to complete the tasks before them (e.g., statistical analyes) and finds themselves slowly gathering a series of functions that will become the foundation of their R toolkit.  A side effect of this process is that it leaves the false impression that developing R skills *is* the process of adding functions to that toolkit. Learning new functions is certainly a part of learning R, but I would argue that it's far from the most important component (which I believe is understanding the language ... ***why** things work the way they do*).
+
+The search for functions that characterizes the early R learning process will eventually (or quickly) lead us to some of the thousands of R packages (libraries) that have been built by the R community. Packages are predominantly comprised of functions (*though they often have example data and some packages only contain data*). These packages allow the user to complete long or complicated processes in just a few simple steps. The importance of community-built packages can't be overstated -- they are an awesome part of R. If I, an ecologist, wanted to include a model of global temperatures in my analysis, it is amazing that I can load functions built by actual climatologists to do so. 
+
+Overreliance on community packages, however, limits our ability to develop our R skills. We end up spending tons of time on StackOverflow searching for functions that complete simple tasks without thinking through how we could do those tasks with the functions we already know. Too often, this search leads us to new, unnecessary packages that we now have to add to our script. My early R scripts started with a dozen or more lines of `library()`, with most of those libraries used in just a few processes that I couldn't (or wouldn't) figure out on my own. I call this process *package hunting*. It should be avoided at all costs.
+
+In this lesson we're going to learn how to avoid package hunting by building custom functions. 
+
+**Important!** Before starting this tutorial, be sure that you have completed all preliminary lessons and the previous lessons in this week's material.
+
+</div>
+
+
+## Reference material
+<hr>
+
+Below is some handy reference material that you can refer to throughout this lesson. Please click on the menu item to expand it.
+
+<div>
+<button class="accordion">R Studio panes</button>
+<div class="panel">
+<br>
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = 'www/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 20px"></img>
+</div>
+</div>
+
+<div>
+<button class="accordion">Named R functions used in this lesson</button>
+<div class="panel">
+<br>
+With the exception of operators, the functions used in this lesson include:
+
+Base R: 
+
+* body
+* environment
+* formals
+* library
+* list2env
+* return
+
+Tidyverse:
+
+* readr::read_rds
+
+</div>
+</div>
+
+<div>
+<button class="accordion">Keyboard shortcuts</button>
+<div class="panel">
+<br>
+The Keyboard shortcuts we will use in this lesson are listed below for Windows and Mac operating systems.
+
+<hr>
+<div>
+<button class="accordion">Windows</button>
+<div class="panel">
+<br>
+
+* Create a new script: Ctrl + shift + N
+* View all keyboard shortcuts: Ctrl + Alt + K
+* Execute code: Ctrl + Enter
+* Add an assignment operator: Alt + dash
+* Add a new code section: Ctrl + shift + R
+* Save file: Ctrl + S
+* Copy: Ctrl + C
+* Paste: Ctrl + V
+
+<br>
+</div>
+</div>
+
+<div>
+<button class="accordion">Mac</button>
+<div class="panel">
+<br>
+
+* Create a new script: Command + shift + N
+* View all keyboard shortcuts: Command + option + K
+* Execute code: Command + Enter
+* Add an assignment operator: Option + dash
+* Add a new code section: Command + shift + R
+* Save file: Command + S
+* Copy: Command + C
+* Paste: Command + V
+
+<br>
+</div>
+</div>
+
+
+
+<hr>
+::: {.secret-div}
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;  I strongly suggest using a keyboard shortcut whenever possible. It can be hard to do at first, using your mouse to click a button or typing a few characters is initially **way** easier than remembering the keyboard shortcut. If you force yourself to do it though, you won't regret it -- it saves a lot of time in the end.
+:::
+
+</div>
+</div>
+
+<div>
+<button class="accordion">Glossary of terms</button>
+<div class="panel">
+<br>
+Throughout this lesson, I will use terminology (i.e., jargon) that may be new to you. This menu item can be clicked at any point if you an encounter a term that you do not know or understand. Be sure to visit this menu for each lesson, because new items will be added (Never removed) as the course content expands.
+
+* Body: The set of instructions inside of a function
+* Environment: The location of a functions variables
+* Formals: A set of controls on a function (also called arguments)
+* Primitive functions: Functions that call C directly and contain no R code
+* Super assignment operator: Passes a name from an environment to the global environment
+
+<br>
+</div>
+</div>
+
+## Data for this lesson
+<hr>
+
+**Global populations and CO~2~ emissions**: The data for this lesson were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx) and provides information on the emissions of greenhouse gases and the populations of countries around the world. I have modified these data into a list named `making_functions_and_avoiding_them.rds` for this lesson. The list contains two named objects:
+
+* **populations_co2**: A tibble with the population and per capita CO~2~ emissions from 1960-2020 for all countries in the dataset.
+* **countries**: A tibble that describes the county name, region, georegion, and land area of each country.
+
+## Set up your session
+<hr>
+
+An R Studio **session** represents the time spent and operations conducted since opening R (*Note: sessions may be saved and loaded to avoid lost work*). At the beginning of each session, I like to do a series of housekeeping steps. Please do the following before continuing:
+
+1. Open your RStudio project (*Note: Always work from inside of a project!*).
+
+1. If there are any script files open in your source pane. Close them. *Note: If any of your script titles are blue, you might want to save them prior to closing!*
+
+1. In the *Environment* tab of your **workspace pane**, ensure that your **Global Environment** is empty. If it is not, click the *broom* to remove all objects.
+
+1. In the *History* tab of your **workspace pane**, ensure that your history is empty. If it is not, click the *broom* to remove your history.
+
+By completing the steps above, your current session will be dedicated, in its entirety, to the task at hand. That really helps organize your workflow during a given session.
+
+Now that we're working in a clean session:
+
+1. Create a script file (Windows: Ctrl + Shift + N; Mac: Cmd + Shift + N)
+
+2. Add metadata (e.g., `# My code for the tutorial: reading, exploring, and writing data`)
+
+3. Following your metadata, create a new code section (Windows: Ctrl + Shift + R; Mac: Cmd + Shift + R) and call it "setup" (*Note: A **code section** is a portion of a script file that is delineated by a section header*)
+
+4. Following your section header, load the tidyverse library (`library(tidyverse)`)
+
+5. Read in the data. Copy-and-paste the following into your script file to read in the data for this lesson:
+
+```{r}
+# Read in country, populations, and CO2 data:
+
+list2env(
+  read_rds('data/raw/making_functions_and_avoiding_them.rds'),
+  envir = .GlobalEnv)
+```
+
+*Note: The function above,* `list2env()`*, reads in a list object and assigns the names of the individual list items to a specified environment (which here is defined as the global environment with* `.GlobalEnv`*).* 
+
+At this point, your script should look something like:
+
+```{r eval = FALSE}
+# My code for the tutorial: functions in focus
+
+# setup --------------------------------------------------------
+
+library(tidyverse)
+
+# Read in country, populations, and CO2 data:
+
+list2env(
+  read_rds('data/raw/making_functions_and_avoiding_them.rds'),
+  envir = .GlobalEnv)
+```
+
+## Primitive functions
+<hr>
+
+When we use R, we typically use a combination of primitive functions and functions that are written in the R language. 
+
+**Primitive functions** call C directly and contain no R code. Examples of primitive functions include:
+
+* The assignment operator, `<-` associates values stored in memory with names stored in a given environment.
+
+* The assignment operator `=` also associates values stored in memory with names stored in a given environment.
+
+* The extract operators `[`, `[[`, `]`, and `]]` indexes vectors, data frames, and matrices
+
+* The extract operator `$` can be use to extract a named object from the object's parent environment.
+
+* Logical operators, such as `==` and `|` , are used to conduct logical tests
+
+You can see if a function is primitive or an R function in your command line by wrapping the function in backtick quotes and hitting enter:
+
+        
+```{r}
+`<-`
+
+`%in%`
+```
+
+You can see a help file for primitive functions by adding the question function `?` before the function name. Operators must be surrounded by backticks.
+
+Run the following lines of code in your console and see what you get in response:
+     
+```{r, eval = FALSE}
+?`?`
+
+?`??`
+```
+
+<blockquote>
+<i class="fas fa-user-circle" style='font-size:36px'></i>&nbsp;&nbsp;<span style = 'font-size: 36px;'>Now you!</span>
+<hr>
+What does `::` operator do? Is it a primitive or R function?
+</blockquote>
+
+<div class = 'secret-div'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i> Whenever you see an operator or function that you don't know, be sure to use `?` to look at the help file!</div>
+
+## R function structure
+<hr>
+
+An R function has three parts (From Wickham, <a href = "https://adv-r.hadley.nz/" target = "_blank" >Advanced R</a>):
+
+* **formals**: A set of controls on the function
+
+* **body**: The set of instructions inside the function
+
+* **environment**: The location of the functions variables
+
+Let's make a simple function called `multiple_by_two`:
+
+```{r}
+multiply_by_two <- 
+  function (x) {
+    x*2
+  }
+```
+
+This function takes some value, `x`, which is defined in the **formals**, and carries out a set of instructions, `x*2`, which is defined in the **body**. We can explore this using the `formals` and `body` functions:
+        
+```{r}
+formals(multiply_by_two)
+
+body(multiply_by_two)
+```
+
+The environment of the function is actually our global working environment:
+
+```{r}
+environment(multiply_by_two)
+```  
+
+There's a catch though! Unless specified otherwise, only the last object in the body will be passed to the global environment. The others only exist in the environment of the functions body:
+
+```{r, error = TRUE}
+losing_a_y <- 
+  function (x) {
+    y <- x
+    y*2
+  }
+
+losing_a_y(3)
+```
+
+Does y exist in our global environment? Let's see:
+
+```{r, error = TRUE}
+y
+```
+
+Why did we get an error here? Have a look in the environment tab of your workspace pane. Notice that the object name `y` does not exist in your global environment. That's because it was only assigned in the environment of your function.
+
+So we can see that a function has its own internal environment, though it works within its parent environment (in this case the global environment). This has been the source of woes for many-an-R-user, but once you get the hang of it, it's an easily avoidable problem. It actually gives you a bit more control on what you're adding to your environment.
+
+When debugging/QCing big functions, I sometimes use `return` to view values at various points in the **body**. Have a look at the below and give a thought to the output:
+
+```{r, error = TRUE}
+losing_a_y <- 
+  function (x) {
+    y <- x
+    return(y)
+    y*2
+  }
+
+losing_a_y(3)
+
+y
+```
+
+So `return()` gave us the value of `y`, but `y` is still not in our global environment.
+
+<div class = 'secret-div'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp;</i> By default, the last operation in your function is sent to the global environment. You don't ever need to include `return()` at the end of your function!</div>
+
+If you really insist that your environment deserves the intermediate y, you can hard code it in there with `<<-`, the **super assignment operator**. Let's see if we have stored the object in our global environment now:
+
+```{r}
+losing_a_y <- 
+  function (x) {
+    y <<- x
+    y*2
+  }
+
+losing_a_y(3)
+
+y  
+```
+
+## The custom function
+<hr>
+
+Custom functions are crucial tools for our data science skillset. Writing custom functions:
+
+* Helps you understand other functions used in the R community
+
+* Gives you tools to modify functions that you find in the R community
+
+* Helps you avoid repetitive code
+
+That last point is crucial. Let's use an example to see how writing custom functions might help you (*Note: This is just an example! There are much easier ways to do this!*).
+
+In your global environment you have the dataset names `countries` and `populations_co2`. Both datasets are from the World Bank.
+
+Our goal current will be to calculate the population density of a given country on a given year. For this example, we'll use base R tools to complete our operation.
+
+First, we'll use indexing to get the land area of our country of interest from the `countries` data set. Let's start with Mexico.
+
+Recall from our preliminary lessons that we can use indexing to subset `countries` to Mexico:
+
+```{r}
+countries[
+    countries$country_name == "Mexico",]
+```
+
+Likewise, we can extract the `land_area` variable from the tibble using the `$` operator:
+
+```{r}
+countries[
+    countries$country_name == "Mexico",]$land_area
+```
+
+Thus, we can extract the land area from Mexico and assign it to our global environment with: 
+
+```{r}
+land_area_mexico <-
+  countries[
+    countries$country_name == "Mexico",]$land_area
+
+land_area_mexico
+```
+
+Next, we'll use indexing to get the population of Mexico on a given year from the `population` data set. Here, we'll have to subset the data using two criteria, one for the variable `country` and the other for the `year` variable. Let's use the year 2000:
+
+```{r}
+population_mexico_2000 <-
+  populations_co2[
+    populations_co2$country == "Mexico" &
+      populations_co2$year == 2000,]$population
+
+population_mexico_2000
+```
+
+We can use the output from above to calculate the population density of Mexico in 2000.
+
+```{r}
+population_mexico_2000/land_area_mexico
+```
+
+What if we wanted to repeat the above for Mexico in 2010? We would have to modify our existing code (not a great practice) or create a new object to do this: 
+
+```{r}
+population_mexico_2010 <-
+  populations_co2[
+    populations_co2$country == "Mexico" &
+      populations_co2$year == 2010,]$population
+
+population_mexico_2010/land_area_mexico
+```
+
+Now, we might want to do the same to calculate the population of Honduras in 2010:
+
+```{r}
+land_area_honduras <-
+  countries[
+    countries$country_name == "Honduras",]$land_area
+
+population_honduras_2010 <-
+  populations_co2[
+    populations_co2$country == "Honduras" &
+      populations_co2$year == 2010,]$population
+
+population_honduras_2010/land_area_honduras
+```
+
+It should be easy to see that, if we needed to explore the populations of different countries and different years, our code is going to get cumbersome. It's also going to be really easy to make mistakes (e.g., "Did I subset both data frames by the same country each time?").
+
+To address this, we'll write a custom function. We'll put our `land_area` calculation inside of a custom function that will calculate the land area of any country. We'll set `country` as the formals of this function. 
+
+```{r}
+get_land_area <-
+  function (country) {
+    countries[
+      countries$country_name == country,]$land_area
+  }
+```
+
+Let's run this function with "Mexico" to see if it works:
+
+```{r}
+get_land_area("Mexico")
+```
+
+It does! Now we can write a function that calculates the population on a given year. Here, we'll have to have two formals, `country` and `year`:
+
+```{r}
+get_population_year <-
+  function (country, year) {
+    populations_co2[
+      populations_co2$country == country &
+        populations_co2$year == year,]$population
+  }
+```
+
+Let's see if it works:
+
+```{r}
+get_population_year("Mexico", 2010)
+```
+
+Yup. So we could calculate population density in Mexico in 2010 like this:
+
+```{r}
+get_population_year("Mexico", 2010)/get_land_area("Mexico")
+```
+
+It works, but we still have to type "Mexico" twice, which isn't great. There's excess typing and room for making mistakes (especially if you're prone to typos like I am).
+
+There are a few ways we can address this.
+
+Let's start by creating a new function that uses our previous two functions as input. 
+
+```{r}
+# Function to get the land area of a given country:
+
+get_land_area <-
+  function (country) {
+    countries[
+      countries$country_name == country,]$land_area
+  }
+
+# Function to get the population of a given country on a given year:
+
+get_population_year <-
+  function (country, year) {
+    populations_co2[
+      populations_co2$country == country &
+        populations_co2$year == year,]$population
+  }
+
+# Function to calculate the population density:
+
+get_population_density__year_3_steps <-
+  function (country, year) {
+    get_population_year(country, year)/get_land_area(country)
+  }
+
+get_population_density__year_3_steps(
+  "Mexico",
+  2010)
+```
+
+That works, but we're going to end up with a lot of functions in our code. We could also nest our population density functions:
+
+```{r}
+# Function to calculate the population density:
+
+get_population_density_year_nested_functions <-
+  function (country, year) {
+    
+    # Function to get the land area of a given country:
+    
+    get_land_area <-
+      function (country) {
+        countries[
+          countries$country_name == country,]$land_area
+      }
+    
+    # Function to get the population of a given country on a given year:
+    
+    get_population_year <-
+      function (country, year) {
+        populations_co2[
+          populations_co2$country == country &
+            populations_co2$year == year,]$population
+      }
+    
+    
+    get_population_year(country, year)/get_land_area(country)
+  }
+
+get_population_density_year_nested_functions(
+  "Mexico", 
+  2010)
+```
+
+The above way of writing functions is unfortunate, and it seems like it should be rare, but I actually see it a lot when I review peoples' codes. The only benefit of the method is that we have less functions stored in our global environment. The drawback is that it's a lot of unnecessary code and thus hard to read -- that's a really big drawback.
+
+Of course, some people avoid the nested functions altogether and go straight to the math:
+
+```{r}
+# Function to calculate the population density:
+
+get_population_density_year_mathy <-
+  function (country, year) {
+    populations_co2[
+      populations_co2$country == country &
+        populations_co2$year == year,]$population/
+      countries[
+        countries$country_name == country,]$land_area
+  }
+
+get_population_density_year_mathy(
+  "Mexico", 
+  2010)
+```
+
+This one wins in the parsimony department, but it sure is hard to read. **A lot** of people code like this. They shouldn't.
+
+The last method we can use for this is to conduct our calculations directly inside the functions and assign object along the way:
+
+```{r}
+# Function to calculate the population density:
+
+get_population_density_year <-
+  function (country, year) {
+    
+    # Get the land area of a given country:
+    
+    land_area <-
+      countries[
+        countries$country_name == country,]$land_area
+    
+    # Get the population of a given country on a given year:
+    
+    population <-
+      populations_co2[
+        populations_co2$country == country &
+          populations_co2$year == year,]$population
+    
+    # Calculate population density
+    
+    population/land_area
+  }
+
+get_population_density_year("Mexico", 2010)
+```
+
+I would argue that, among our three options above, this one is probably the best of them. Unlike our first set of functions, we only have one function here, so we're preserving our global environment (*Note: none of our assignments were passed to the global environment*) and giving our code a bit more parsimony. This is much more readable than the nested function argument. In terms of process, it's similar as our "mathy" option but the additional assignments make it more readable.
+
+<div class = 'secret-div'>
+<i class="fas fa-user-secret" style='font-size:36px'></i>&nbsp;&nbsp; For a given project, store your functions in your source script if they will be used across multiple scripts. If you will only use a function in a single script file, add a code section right after the setup section (before data loading) and call that code section "functions".
+</div>
+<br>
+
+<blockquote>
+<i class="fas fa-user-circle" style='font-size:36px'></i>&nbsp;&nbsp;<span style = 'font-size: 36px;'>Now you!</span>
+<hr>
+Using only base R tools, write a function that will calculate the most populous country in any georegion on a given year (*Note: The formals will be georegion and year*).
+
+You can see my answer below by clicking the "Code" button. Give this an honest try before you do though!
+
+```{r class.source = 'fold-hide', eval = FALSE}
+# Function to calculate the most populous country in a given 
+# georegion, on a given year:
+
+get_max_georegion_population <-
+  function (georegion, year) {
+    
+    # Get countries in the georegion:
+    
+    countries_georegion <-
+      countries[
+        countries$country_georegion == georegion,]$country_name
+    
+    # Subset the population data frame by the year in the
+    # formals and the vector of countries in the georegion:
+    
+    population_subset <-
+      populations_co2[
+        populations_co2$year == year &
+          populations_co2$country %in% countries_georegion, ]
+    
+    # Subset to the most populous country and return the 
+    # results:
+    
+    population_subset[
+      population_subset$population == 
+        max(population_subset$population),]$country
+  }
+```
+</blockquote>
+
+<hr>
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>

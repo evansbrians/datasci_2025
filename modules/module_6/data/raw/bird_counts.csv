@@ -1,0 +1,489 @@
+site,species,foraging,diet,count
+apple,amro,ground,omnivore,5
+apple,blja,ground,omnivore,1
+apple,cach,foliage,insectivore,1
+apple,carw,ground,insectivore,1
+apple,cedw,foliage,omnivore,2
+apple,grca,ground,omnivore,2
+apple,noca,ground,omnivore,3
+apple,rbwo,bark,omnivore,1
+apple,revi,foliage,insectivore,1
+apple,tuti,foliage,insectivore,3
+apple,wbnu,bark,insectivore,1
+apricot,amgo,foliage,granivore,3
+apricot,amro,ground,omnivore,1
+apricot,blja,ground,omnivore,1
+apricot,cach,foliage,insectivore,2
+apricot,carw,ground,insectivore,1
+apricot,grca,ground,omnivore,6
+apricot,hofi,ground,granivore,3
+apricot,howr,ground,insectivore,1
+apricot,modo,ground,granivore,2
+apricot,noca,ground,omnivore,9
+apricot,rbwo,bark,omnivore,2
+apricot,sosp,ground,omnivore,2
+apricot,wbnu,bark,insectivore,1
+avocado,amcr,ground,omnivore,1
+avocado,amgo,foliage,granivore,1
+avocado,bhco,ground,omnivore,1
+avocado,cach,foliage,insectivore,2
+avocado,cogr,ground,omnivore,3
+avocado,ficr,ground,omnivore,2
+avocado,grca,ground,omnivore,2
+avocado,hofi,ground,granivore,1
+avocado,modo,ground,granivore,5
+avocado,sosp,ground,omnivore,2
+banana,amcr,ground,omnivore,1
+banana,cach,foliage,insectivore,2
+banana,carw,ground,insectivore,3
+banana,cedw,foliage,omnivore,2
+banana,chsp,ground,omnivore,2
+banana,grca,ground,omnivore,1
+banana,howr,ground,insectivore,1
+banana,modo,ground,granivore,1
+banana,noca,ground,omnivore,2
+banana,rbwo,bark,omnivore,1
+banana,revi,foliage,insectivore,1
+banana,tuti,foliage,insectivore,1
+bell pepper,amro,ground,omnivore,1
+bell pepper,bhco,ground,omnivore,3
+bell pepper,carw,ground,insectivore,3
+bell pepper,dowo,bark,insectivore,1
+bell pepper,eato,ground,omnivore,2
+bell pepper,grca,ground,omnivore,2
+bell pepper,hofi,ground,granivore,1
+bell pepper,howr,ground,insectivore,2
+bell pepper,modo,ground,granivore,1
+bell pepper,noca,ground,omnivore,14
+bell pepper,rthu,foliage,nectarivore,1
+bell pepper,rwbl,ground,omnivore,1
+bell pepper,sosp,ground,omnivore,2
+bell pepper,wbnu,bark,insectivore,2
+bell pepper,ysfl,ground,insectivore,1
+bilberry,amcr,ground,omnivore,1
+bilberry,amro,ground,omnivore,3
+bilberry,blja,ground,omnivore,4
+bilberry,cach,foliage,insectivore,3
+bilberry,hofi,ground,granivore,1
+bilberry,howr,ground,insectivore,1
+bilberry,noca,ground,omnivore,7
+bilberry,nomo,ground,omnivore,1
+bilberry,rbwo,bark,omnivore,1
+bilberry,tuti,foliage,insectivore,3
+bilberry,wbnu,bark,insectivore,1
+blackberry,amcr,ground,omnivore,1
+blackberry,amro,ground,omnivore,1
+blackberry,cach,foliage,insectivore,2
+blackberry,carw,ground,insectivore,3
+blackberry,cogr,ground,omnivore,1
+blackberry,hofi,ground,granivore,6
+blackberry,howr,ground,insectivore,1
+blackberry,noca,ground,omnivore,5
+blackberry,piwo,bark,insectivore,1
+blackberry,tuti,foliage,insectivore,3
+blackcurrant,amcr,ground,omnivore,1
+blackcurrant,amro,ground,omnivore,1
+blackcurrant,carw,ground,insectivore,1
+blackcurrant,coye,foliage,insectivore,1
+blackcurrant,grca,ground,omnivore,6
+blackcurrant,howr,ground,insectivore,1
+blackcurrant,modo,ground,granivore,1
+blackcurrant,sosp,ground,omnivore,1
+blackcurrant,tuti,foliage,insectivore,1
+blood orange,amgo,foliage,granivore,1
+blood orange,amro,ground,omnivore,4
+blood orange,carw,ground,insectivore,3
+blood orange,grca,ground,omnivore,1
+blood orange,modo,ground,granivore,3
+blood orange,noca,ground,omnivore,5
+blood orange,rbwo,bark,omnivore,1
+blueberry,amcr,ground,omnivore,5
+blueberry,amro,ground,omnivore,3
+blueberry,blja,ground,omnivore,7
+blueberry,carw,ground,insectivore,7
+blueberry,dowo,bark,insectivore,1
+blueberry,grca,ground,omnivore,1
+blueberry,hofi,ground,granivore,1
+blueberry,howr,ground,insectivore,1
+blueberry,noca,ground,omnivore,6
+blueberry,rbwo,bark,omnivore,2
+blueberry,rthu,foliage,nectarivore,2
+boysenberry,amgo,foliage,granivore,1
+boysenberry,amro,ground,omnivore,3
+boysenberry,dowo,bark,insectivore,1
+boysenberry,eabl,aerial,insectivore,2
+boysenberry,ficr,ground,omnivore,1
+boysenberry,grca,ground,omnivore,4
+boysenberry,howr,ground,insectivore,2
+boysenberry,inbu,ground,omnivore,2
+boysenberry,rbwo,bark,omnivore,1
+boysenberry,rthu,foliage,nectarivore,1
+boysenberry,tuti,foliage,insectivore,2
+breadfruit,cach,foliage,insectivore,1
+breadfruit,carw,ground,insectivore,10
+breadfruit,dowo,bark,insectivore,1
+breadfruit,grca,ground,omnivore,4
+breadfruit,hofi,ground,granivore,3
+breadfruit,modo,ground,granivore,1
+breadfruit,noca,ground,omnivore,10
+breadfruit,nomo,ground,omnivore,1
+breadfruit,sosp,ground,omnivore,2
+breadfruit,tuti,foliage,insectivore,4
+breadfruit,wbnu,bark,insectivore,3
+canary melon,amro,ground,omnivore,2
+canary melon,bhco,ground,omnivore,1
+canary melon,blja,ground,omnivore,1
+canary melon,cach,foliage,insectivore,3
+canary melon,carw,ground,insectivore,5
+canary melon,chsp,ground,omnivore,2
+canary melon,cogr,ground,omnivore,1
+canary melon,grca,ground,omnivore,4
+canary melon,modo,ground,granivore,1
+canary melon,noca,ground,omnivore,3
+canary melon,rbwo,bark,omnivore,1
+canary melon,revi,foliage,insectivore,1
+canary melon,sosp,ground,omnivore,1
+canary melon,woth,ground,insectivore,2
+cantaloupe,amro,ground,omnivore,9
+cantaloupe,dowo,bark,insectivore,1
+cantaloupe,grca,ground,omnivore,3
+cantaloupe,howr,ground,insectivore,5
+cantaloupe,noca,ground,omnivore,5
+cantaloupe,revi,foliage,insectivore,1
+cantaloupe,sosp,ground,omnivore,3
+cherimoya,amro,ground,omnivore,2
+cherimoya,blja,ground,omnivore,4
+cherimoya,carw,ground,insectivore,1
+cherimoya,cedw,foliage,omnivore,1
+cherimoya,cogr,ground,omnivore,3
+cherimoya,grca,ground,omnivore,2
+cherimoya,howr,ground,insectivore,6
+cherimoya,modo,ground,granivore,1
+cherimoya,noca,ground,omnivore,5
+cherry,amgo,foliage,granivore,3
+cherry,eawp,aerial,insectivore,1
+cherry,hofi,ground,granivore,10
+cherry,noca,ground,omnivore,2
+cherry,woth,ground,insectivore,3
+chili pepper,amcr,ground,omnivore,3
+chili pepper,amgo,foliage,granivore,1
+chili pepper,amro,ground,omnivore,5
+chili pepper,cach,foliage,insectivore,1
+chili pepper,dowo,bark,insectivore,1
+chili pepper,eawp,aerial,insectivore,1
+chili pepper,grca,ground,omnivore,3
+chili pepper,howr,ground,insectivore,3
+chili pepper,noca,ground,omnivore,2
+chili pepper,sosp,ground,omnivore,1
+chili pepper,tuti,foliage,insectivore,1
+chili pepper,wbnu,bark,insectivore,2
+clementine,amcr,ground,omnivore,3
+clementine,amgo,foliage,granivore,2
+clementine,amro,ground,omnivore,2
+clementine,blja,ground,omnivore,5
+clementine,cogr,ground,omnivore,1
+clementine,howr,ground,insectivore,3
+clementine,oven,ground,insectivore,1
+clementine,tuti,foliage,insectivore,7
+cloudberry,amro,ground,omnivore,5
+cloudberry,blja,ground,omnivore,1
+cloudberry,cach,foliage,insectivore,4
+cloudberry,carw,ground,insectivore,1
+cloudberry,cogr,ground,omnivore,2
+cloudberry,dowo,bark,insectivore,1
+cloudberry,grca,ground,omnivore,5
+cloudberry,howr,ground,insectivore,1
+cloudberry,modo,ground,granivore,1
+cloudberry,noca,ground,omnivore,2
+cloudberry,revi,foliage,insectivore,1
+cloudberry,rwbl,ground,omnivore,2
+cloudberry,wbnu,bark,insectivore,1
+coconut,amro,ground,omnivore,9
+coconut,bhco,ground,omnivore,1
+coconut,cach,foliage,insectivore,1
+coconut,grca,ground,omnivore,3
+coconut,hofi,ground,granivore,3
+coconut,howr,ground,insectivore,3
+coconut,inbu,ground,omnivore,2
+coconut,noca,ground,omnivore,7
+coconut,sosp,ground,omnivore,1
+coconut,wbnu,bark,insectivore,1
+coconut,ysfl,ground,insectivore,1
+cranberry,amro,ground,omnivore,4
+cranberry,cach,foliage,insectivore,1
+cranberry,carw,ground,insectivore,1
+cranberry,chsp,ground,omnivore,1
+cranberry,cogr,ground,omnivore,2
+cranberry,eabl,aerial,insectivore,1
+cranberry,grca,ground,omnivore,2
+cranberry,hofi,ground,granivore,2
+cranberry,howr,ground,insectivore,1
+cranberry,modo,ground,granivore,3
+cranberry,noca,ground,omnivore,9
+cranberry,rbwo,bark,omnivore,1
+cranberry,tuti,foliage,insectivore,1
+cranberry,ysfl,ground,insectivore,1
+cucumber,amgo,foliage,granivore,1
+cucumber,carw,ground,insectivore,1
+cucumber,cogr,ground,omnivore,1
+cucumber,dowo,bark,insectivore,1
+cucumber,grca,ground,omnivore,3
+cucumber,howr,ground,insectivore,3
+cucumber,modo,ground,granivore,1
+cucumber,noca,ground,omnivore,9
+cucumber,tuti,foliage,insectivore,1
+currant,amro,ground,omnivore,3
+currant,cach,foliage,insectivore,10
+currant,carw,ground,insectivore,2
+currant,eabl,aerial,insectivore,1
+currant,grca,ground,omnivore,3
+currant,hofi,ground,granivore,1
+currant,howr,ground,insectivore,2
+currant,modo,ground,granivore,5
+currant,noca,ground,omnivore,5
+currant,rbwo,bark,omnivore,1
+currant,sosp,ground,omnivore,2
+currant,tuti,foliage,insectivore,2
+currant,wbnu,bark,insectivore,1
+damson,amgo,foliage,granivore,1
+damson,amro,ground,omnivore,5
+damson,bhco,ground,omnivore,1
+damson,blja,ground,omnivore,1
+damson,cach,foliage,insectivore,1
+damson,carw,ground,insectivore,1
+damson,grca,ground,omnivore,1
+damson,howr,ground,insectivore,1
+damson,modo,ground,granivore,3
+damson,noca,ground,omnivore,6
+damson,sosp,ground,omnivore,3
+damson,tuti,foliage,insectivore,1
+date,amro,ground,omnivore,1
+date,cach,foliage,insectivore,1
+date,cogr,ground,omnivore,13
+date,eawp,aerial,insectivore,1
+date,grca,ground,omnivore,3
+date,hofi,ground,granivore,1
+date,howr,ground,insectivore,1
+date,modo,ground,granivore,1
+date,noca,ground,omnivore,5
+date,sosp,ground,omnivore,2
+date,tuti,foliage,insectivore,1
+date,wbnu,bark,insectivore,1
+dragonfruit,amro,ground,omnivore,5
+dragonfruit,blja,ground,omnivore,2
+dragonfruit,hofi,ground,granivore,1
+dragonfruit,howr,ground,insectivore,3
+dragonfruit,modo,ground,granivore,1
+dragonfruit,noca,ground,omnivore,7
+dragonfruit,sosp,ground,omnivore,1
+durian,amcr,ground,omnivore,1
+durian,amro,ground,omnivore,12
+durian,bhco,ground,omnivore,1
+durian,blja,ground,omnivore,1
+durian,chsp,ground,omnivore,1
+durian,ficr,ground,omnivore,1
+durian,grca,ground,omnivore,1
+durian,hofi,ground,granivore,4
+durian,howr,ground,insectivore,3
+durian,modo,ground,granivore,3
+durian,noca,ground,omnivore,3
+durian,rbwo,bark,omnivore,1
+durian,sosp,ground,omnivore,2
+eggplant,blja,ground,omnivore,1
+eggplant,cach,foliage,insectivore,1
+eggplant,hawo,bark,insectivore,1
+eggplant,howr,ground,insectivore,1
+eggplant,modo,ground,granivore,2
+eggplant,noca,ground,omnivore,9
+eggplant,revi,foliage,insectivore,1
+eggplant,rthu,foliage,nectarivore,1
+eggplant,sosp,ground,omnivore,1
+elderberry,amro,ground,omnivore,6
+elderberry,blja,ground,omnivore,2
+elderberry,cach,foliage,insectivore,1
+elderberry,carw,ground,insectivore,2
+elderberry,cedw,foliage,omnivore,15
+elderberry,grca,ground,omnivore,1
+elderberry,hofi,ground,granivore,2
+elderberry,howr,ground,insectivore,3
+elderberry,nomo,ground,omnivore,3
+elderberry,revi,foliage,insectivore,1
+elderberry,sosp,ground,omnivore,4
+elderberry,tuti,foliage,insectivore,3
+elderberry,wbnu,bark,insectivore,1
+feijoa,amgo,foliage,granivore,1
+feijoa,amro,ground,omnivore,1
+feijoa,cach,foliage,insectivore,5
+feijoa,carw,ground,insectivore,3
+feijoa,eawp,aerial,insectivore,1
+feijoa,grca,ground,omnivore,11
+feijoa,hofi,ground,granivore,3
+feijoa,howr,ground,insectivore,1
+feijoa,noca,ground,omnivore,2
+feijoa,oror,foliage,omnivore,1
+feijoa,rbwo,bark,omnivore,1
+feijoa,tuti,foliage,insectivore,4
+fig,amro,ground,omnivore,8
+fig,bhco,ground,omnivore,1
+fig,blja,ground,omnivore,2
+fig,carw,ground,insectivore,1
+fig,cogr,ground,omnivore,1
+fig,grca,ground,omnivore,10
+fig,hofi,ground,granivore,6
+fig,modo,ground,granivore,3
+fig,noca,ground,omnivore,6
+fig,nomo,ground,omnivore,1
+goji berry,amro,ground,omnivore,8
+goji berry,blja,ground,omnivore,3
+goji berry,cach,foliage,insectivore,1
+goji berry,carw,ground,insectivore,1
+goji berry,cogr,ground,omnivore,1
+goji berry,hofi,ground,granivore,3
+goji berry,modo,ground,granivore,1
+goji berry,noca,ground,omnivore,6
+goji berry,sosp,ground,omnivore,1
+goji berry,ysfl,ground,insectivore,1
+gooseberry,amro,ground,omnivore,1
+gooseberry,cach,foliage,insectivore,1
+gooseberry,grca,ground,omnivore,1
+gooseberry,howr,ground,insectivore,1
+gooseberry,noca,ground,omnivore,2
+gooseberry,sosp,ground,omnivore,1
+gooseberry,tuti,foliage,insectivore,1
+grape,blja,ground,omnivore,9
+grape,cach,foliage,insectivore,2
+grape,carw,ground,insectivore,1
+grape,cogr,ground,omnivore,4
+grape,grca,ground,omnivore,2
+grape,noca,ground,omnivore,5
+grape,nomo,ground,omnivore,1
+grape,sosp,ground,omnivore,1
+grape,tuti,foliage,insectivore,1
+grapefruit,amro,ground,omnivore,1
+grapefruit,cach,foliage,insectivore,4
+grapefruit,carw,ground,insectivore,1
+grapefruit,cogr,ground,omnivore,6
+grapefruit,grca,ground,omnivore,11
+grapefruit,sosp,ground,omnivore,4
+grapefruit,tuti,foliage,insectivore,2
+grapefruit,wbnu,bark,insectivore,1
+guava,amgo,foliage,granivore,2
+guava,bhco,ground,omnivore,3
+guava,blja,ground,omnivore,3
+guava,cach,foliage,insectivore,6
+guava,cogr,ground,omnivore,7
+guava,dowo,bark,insectivore,2
+guava,eabl,aerial,insectivore,2
+guava,eawp,aerial,insectivore,1
+guava,ficr,ground,omnivore,1
+guava,modo,ground,granivore,1
+guava,noca,ground,omnivore,6
+guava,rbwo,bark,omnivore,3
+guava,rthu,foliage,nectarivore,1
+guava,sosp,ground,omnivore,2
+guava,tuti,foliage,insectivore,7
+honeydew,amgo,foliage,granivore,1
+honeydew,amro,ground,omnivore,2
+honeydew,bhco,ground,omnivore,2
+honeydew,cach,foliage,insectivore,3
+honeydew,carw,ground,insectivore,1
+honeydew,eabl,aerial,insectivore,2
+honeydew,grca,ground,omnivore,1
+honeydew,rbwo,bark,omnivore,1
+honeydew,sosp,ground,omnivore,1
+honeydew,wbnu,bark,insectivore,1
+huckleberry,amro,ground,omnivore,5
+huckleberry,blja,ground,omnivore,1
+huckleberry,cach,foliage,insectivore,3
+huckleberry,cogr,ground,omnivore,31
+huckleberry,grca,ground,omnivore,2
+huckleberry,howr,ground,insectivore,1
+huckleberry,noca,ground,omnivore,6
+huckleberry,piwo,bark,insectivore,1
+huckleberry,rbwo,bark,omnivore,1
+huckleberry,sosp,ground,omnivore,1
+huckleberry,tuti,foliage,insectivore,3
+jackfruit,amgo,foliage,granivore,1
+jackfruit,amro,ground,omnivore,6
+jackfruit,cach,foliage,insectivore,1
+jackfruit,cogr,ground,omnivore,3
+jackfruit,grca,ground,omnivore,7
+jackfruit,hofi,ground,granivore,12
+jackfruit,howr,ground,insectivore,3
+jackfruit,noca,ground,omnivore,10
+jackfruit,sosp,ground,omnivore,1
+jambul,amcr,ground,omnivore,1
+jambul,amro,ground,omnivore,5
+jambul,bhco,ground,omnivore,2
+jambul,cach,foliage,insectivore,10
+jambul,carw,ground,insectivore,1
+jambul,cedw,foliage,omnivore,1
+jambul,eabl,aerial,insectivore,1
+jambul,grca,ground,omnivore,7
+jambul,howr,ground,insectivore,1
+jambul,modo,ground,granivore,1
+jambul,noca,ground,omnivore,5
+jambul,rthu,foliage,nectarivore,1
+jambul,sosp,ground,omnivore,3
+jambul,tuti,foliage,insectivore,1
+jujube,amcr,ground,omnivore,1
+jujube,amgo,foliage,granivore,3
+jujube,amro,ground,omnivore,12
+jujube,blja,ground,omnivore,1
+jujube,cach,foliage,insectivore,5
+jujube,carw,ground,insectivore,1
+jujube,cogr,ground,omnivore,3
+jujube,grca,ground,omnivore,3
+jujube,hawo,bark,insectivore,1
+jujube,modo,ground,granivore,1
+jujube,noca,ground,omnivore,10
+jujube,nomo,ground,omnivore,1
+jujube,piwo,bark,insectivore,1
+jujube,sosp,ground,omnivore,2
+jujube,tuti,foliage,insectivore,3
+jujube,wbnu,bark,insectivore,1
+kiwi fruit,amcr,ground,omnivore,2
+kiwi fruit,bhco,ground,omnivore,1
+kiwi fruit,blja,ground,omnivore,1
+kiwi fruit,cach,foliage,insectivore,2
+kiwi fruit,carw,ground,insectivore,1
+kiwi fruit,cogr,ground,omnivore,2
+kiwi fruit,grca,ground,omnivore,8
+kiwi fruit,noca,ground,omnivore,3
+kiwi fruit,sosp,ground,omnivore,1
+kumquat,amcr,ground,omnivore,3
+kumquat,cach,foliage,insectivore,2
+kumquat,carw,ground,insectivore,1
+kumquat,dowo,bark,insectivore,1
+kumquat,eaph,aerial,insectivore,1
+kumquat,eawp,aerial,insectivore,1
+kumquat,grca,ground,omnivore,2
+kumquat,howr,ground,insectivore,1
+kumquat,modo,ground,granivore,1
+kumquat,noca,ground,omnivore,8
+kumquat,rbwo,bark,omnivore,1
+kumquat,sosp,ground,omnivore,3
+kumquat,wbnu,bark,insectivore,1
+lemon,amcr,ground,omnivore,1
+lemon,amgo,foliage,granivore,1
+lemon,amro,ground,omnivore,8
+lemon,cach,foliage,insectivore,4
+lemon,carw,ground,insectivore,1
+lemon,cogr,ground,omnivore,8
+lemon,dowo,bark,insectivore,1
+lemon,eabl,aerial,insectivore,1
+lemon,modo,ground,granivore,1
+lemon,noca,ground,omnivore,13
+lemon,rwbl,ground,omnivore,1
+lemon,sosp,ground,omnivore,5
+lemon,tuti,foliage,insectivore,2
+lime,amcr,ground,omnivore,1
+lime,amro,ground,omnivore,3
+lime,baor,foliage,insectivore,1
+lime,cach,foliage,insectivore,3
+lime,chsp,ground,omnivore,5
+lime,hofi,ground,granivore,1
+lime,howr,ground,insectivore,3
+lime,noca,ground,omnivore,1
+lime,rwbl,ground,omnivore,1
+lime,sosp,ground,omnivore,5
