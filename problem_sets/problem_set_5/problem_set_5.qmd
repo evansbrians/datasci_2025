@@ -167,19 +167,19 @@ Note: The remaining files are what I call **lifelines**. The names of these file
 
 ::: now_you
 
-1\. [[1.0]]{class="score"} Before opening your script file for this problem set, change the name of `problem_set_5.R` to "problem_set_5_[last name]_[first name].R" using a snake case naming convention. *Note: You will submit this script file as your assignment*.
+1\. [[0.50]]{class="score"} Before opening your script file for this problem set, change the name of `problem_set_5.R` to "problem_set_5_[last name]_[first name].R" using a snake case naming convention. *Note: You will submit this script file as your assignment*.
 
 :::
 
 ::: now_you
 
-2\. [[0.50]]{class="score"} Open the script file in RStudio and attach the core tidyverse packages to your current R session.
+2\. [[0.25]]{class="score"} Open the script file in RStudio and attach the core tidyverse packages to your current R session.
 
 :::
 
 ::: now_you
 
-3\. [[0.50]]{.score} Read in `district_cats.rds` and globally assign the list object to the name `dc_cats`.
+3\. [[0.25]]{.score} Read in `district_cats.rds` and globally assign the list object to the name `dc_cats`.
 
 :::
 
@@ -189,7 +189,7 @@ Whenever you first receive a dataset, you must ensure that the data follow tidy 
 
 ::: now_you
 
-4\. [[1.5]]{.score} The table represented by the list item `visits` is unfortunately not tidy. Normalize this list item:
+4\. [[1.0]]{.score} The table represented by the list item `visits` is unfortunately not tidy. Normalize this list item:
 
 * Extract `visits` from `dc_cats`.
 * Combine the columns `year`, `month`, and `day` into a single ISO 8601 formatted date class column.
@@ -266,7 +266,7 @@ Now it's time to think of cat occurrence. In this section you will summarize and
 
 ::: now_you
 
-8\. [[1.5]]{.score} Using `observations` and `visits_tidy` (or their lifelines):
+8\. [[2.0]]{.score} Using `observations` and `visits_tidy` (or their lifelines):
 
 * Create a column that contains the value 1 for visits where at least one cat was detected and the value 0 for visits where no cats were detected;
 * Assign the name `presence_absence` to the derived variable;
@@ -277,7 +277,7 @@ Now it's time to think of cat occurrence. In this section you will summarize and
 
 ::: {.now_you}
 
-9\. [[0.5]]{.score} Let's visualize the proportion of visits with cat detections for each urban intensity class. Using `cat_occurrence` and `land_use` (or their lifelines), generate a bar plot where:
+9\. [[1.5]]{.score} Let's visualize the proportion of visits with cat detections for each urban intensity class. Using `cat_occurrence` and `land_use` (or their lifelines), generate a bar plot where:
 
 * The x-axis represents the classified urban intensity;
 * The y-axis is the proportion of visits in which a cat was observed (number of visits where cats were present / total number of visits);
