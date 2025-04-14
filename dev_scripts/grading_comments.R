@@ -46,6 +46,9 @@
 #   function are on different lines, the first argument should be indented two
 #   spaces (one tab stop) relative to the start of the line above.
 
+# * The first argument in a function should be indented two spaces (one tab
+#   stop) relative to the start of the line above.
+
 # * Indentation and hanging parentheses: If a function spans more than one line
 #   of code, closing parentheses should be placed on their own line and 
 #   indented to the same level as the start of the function.
@@ -91,7 +94,7 @@
 
 # If X spans more than one line of code ...
 
-#  * If a code block spans more than one line of code, add a new line after the
+# * If a code block spans more than one line of code, add a new line after the
 #   assignment operator.
 
 # * If a function spans more than one line of code, the opening parentheses 
