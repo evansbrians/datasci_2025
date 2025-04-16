@@ -96,6 +96,7 @@ In this assignment, you may **only** use the following R functions in your submi
 * `dplyr::if_else`
 * `dplyr::left_join`
 * `dplyr::mutate`
+* `dplyr::n`
 * `dplyr::summarize`
 * `forcats::fct_relevel`
 * `ggplot2::+`
