@@ -1,0 +1,314 @@
+
+
+
+---------------------------------------------------------------------------
+
+cain_james
+
+8.07
+
+3:
+* [-0.02] Code parsimony: When conducting positive selection, it is not necessary to supply a vector of names with `c()`.
+* [-0.02] Code parsimony: With `tidyselect:::select`, it is not necessary to place names in quotes.
+* [-0.02] Code formatting: Nested functions should not be nested deeper than two levels (use a pipe instead!).
+
+4. [-0.12] Code formatting: If you provide three or more arguments to a function, place each argument on its own line. Additionally, I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5. [-0.25] Code formatting: Include no more than one prefix function per line of code. 
+
+6. [+0.25] Extra credit: Excellent!
+
+7. [-0.5]: Neither the functions `map_dfr()` nor `tibble()` are among the "Functions that you may use ...".
+
+8:
+* [-0.62]: Unnecessary assignment operator
+* [-0.62]: The functions `basename` and `readRDS` are not among the "Functions that you may use ...".
+* [-0.01]: Code parsimony: This also unnecessarily created an environment named birddata
+
+---------------------------------------------------------------------------
+
+chimes_lucy
+
+9.63
+
+4. [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5. [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+
+6. [+0.25] Extra credit: Excellent!
+
+7. [No points removed]: Neither the functions `map_dfr()` nor `tibble()` are among the "Functions that you may use ...".
+
+8. [-0.62]: Unnecessary assignment operator
+
+---------------------------------------------------------------------------
+
+cruz_nicolas
+
+9.75
+
+5:
+* [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+* [-0.25]: Missed the releveling of your age factor.
+
+6. [+0.25] Extra credit: Excellent!
+
+8. [-0.25]: Regex could use some work.
+
+---------------------------------------------------------------------------
+
+dembicz_iwona
+
+8.49
+
+3. [-0.02] Code parsimony: When conducting positive selection, it is not necessary to supply a vector of names with `c()`.
+
+4:
+* [-0.12] Code formatting: Bad indentation (use ctrl or command + I to reset indentation)
+* [-0.12] Code parsimony: A mutation was not necessary within your left_join ... especially given that your mutation simply added another column.
+
+5:
+* [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+* [-0.25]: Missed the releveling of your age factor.
+* [-0.25] Code parsimony: `if_any()` is an iteration across variables, but you have supplied only one variable per `if_any()` operation.
+
+6. [+0.25] Extra credit: Excellent!
+
+8:
+* [-0.25]: Regex could use some work.
+* [-0.75]: Unanswered bits.
+
+---------------------------------------------------------------------------
+
+gartner_tracy
+
+9.7
+
+5:
+* [-0.25]: Missed the releveling of your age factor.
+* [-0.25] Code parsimony: I like that your grouped filter was separate (typically optimal for memory and processing time), but the two filtering statements that did not require grouping could have been combined.
+
+6. [+0.25] Extra credit: Excellent!
+
+8. [-0.05]: The `?` was not necessary.
+
+---------------------------------------------------------------------------
+
+guervil_jephthe_samuel
+
+8.38
+
+4:
+* [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+* [No points removed]: Since you are selecting columns in a data frame, it is more appropriate to use `dplyr::select()` rather than `tidyselect:::select()`.
+
+5:
+* [-0.50]: Your common_name `filter()` did not work (see key).
+* [-0.25]: Missed the releveling of your age factor.
+* [-0.25] Code parsimony: Because neither filter was grouped, the two filtering statements could have been combined. 
+
+6. [+0.25] Extra credit: Excellent!
+
+8:
+* [-0.25]: Regex could use some work.
+* [-0.62]: `file.path()` is not among the "Functions that you may use ..."
+
+---------------------------------------------------------------------------
+
+hall_alyson
+
+8.51
+
+4:
+* [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+* [-0.12] Code parsimony: When using `rm()`, it is not necessary to place the names in quotes. Because the names are assigned to the global environment, they are in R's search path.
+
+5. [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+
+6. [+0.25] Extra credit: Excellent!
+
+7. [-1.0] `setNames()` was not among the "Functions that you may use ..." (additionally, that is not a function that we use in this course and use of that function did not alter your resultant object).
+
+8. [-0.62] `list()` was not among the "Functions that you may use ..." 
+
+---------------------------------------------------------------------------
+
+helf_kurt
+
+8.13
+
+4. [-0.12] Code parsimony: When using `select()`, it is not necessary to place names in quotes.
+
+5:
+* [-0.50]: Your common_name `filter()` did not work (see key).
+* [-0.25] Code formatting: Include no more than one prefix function per line of code
+
+6. [+0.25] Extra credit: Excellent!
+
+8. [-1.25] Not answered.
+
+---------------------------------------------------------------------------
+
+jansen_lara
+
+8.25
+
+4. [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5:
+* [-0.25]: It was not necessary to create the column `n` (this could have been accomplished inside of `filter()`.
+* [-0.25] Code parsimony: Because neither filter was grouped, the two filtering statements could have been combined. 
+* [-0.25]: Missed the releveling of your age factor.
+* [-1.25] The function `!` is not among the "Functions that you may use ..."
+
+6. [+0.25] Extra credit: Excellent!
+
+
+---------------------------------------------------------------------------
+
+peyton_mark
+
+6.38
+
+4:
+* [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+* [-0.12] Code parsimony: The parentheses around "visit_id" did not do anything.
+
+5. (see key) [-1.25]: The functions `group_by()`, `ungroup()`, and `factor()` are not among the "Functions that you may use ..."
+
+6:
+* [-0.75]: This did not work because of scoping ambiguity (try different species with either mass or wing)
+* [No points removed]: The functions `if` and `else` are not among the "Functions that you may use ..."
+* [No points removed] Code parsimony: This could have been greatly simplified 
+
+7. [-0.25]: This almost reproduced the output of the for loop. The only thing missing was the sorting.
+
+8:
+* [-0.62]: Include only relative file paths to files on your hard drive.
+* [-0.62]: `readRDS()` is not among the "Functions that you may use ..."
+* [-0.01]: Regex could use some work.
+
+---------------------------------------------------------------------------
+
+ploechl_jane
+
+8.36
+
+
+3. [-0.02] Code parsimony: When conducting positive selection, it is not necessary to supply a vector of names with `c()`.
+
+4. [-0.12] Code parsimony: You were not asked to filter out NA values.
+
+5. (see key) [-1.25]: The functions `str_replace()` and `factor()` are not among the "Functions that you may use ..."
+
+6. [+0.25] Extra credit: Excellent!
+
+7. [-0.25]: This almost reproduced the output of the for loop. The for loop was sorted by species name, however, not by mass.
+
+8. [-0.25]: Regex could be improved
+
+---------------------------------------------------------------------------
+
+saint_fleur_jeftey
+
+8.14
+
+4:
+* [-0.12] Code formatting: If a code block spans more than one line of code, add a new line after the assignment operator.
+* [-0.12] Code formatting: Commas should be followed by one trailing space.
+* [No points removed]: Since you are selecting columns in a data frame, it is more appropriate to use `dplyr::select()` rather than `tidyselect:::select()`.
+* [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5:
+* [-0.50]: Your common_name `filter()` did not work (see key).
+* [-0.25]: Missed the releveling of your age factor.
+* [-0.25] Code parsimony: Because neither filter was grouped, the two filtering statements could have been combined. 
+
+6. [+0.25] Extra credit: Excellent!
+
+8:
+* [-0.25]: Regex could use some work.
+* [-0.62]: `file.path()` is not among the "Functions that you may use ..."
+
+---------------------------------------------------------------------------
+
+silva_denise
+
+9.38
+
+4:
+* [-0.62] The function `join_by()` is not among the "Functions that you may use ..."
+* [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5. [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+
+6. [+0.25] Extra credit: Excellent!
+
+7. [No points removed] The function `tibble()` is not among the "Functions that you may use ...".
+
+8. [-0.25]: Regex could use some work.
+
+---------------------------------------------------------------------------
+
+stenzel_candace
+
+8.76
+
+4:
+* [-0.12] Code parsimony: When using `select()`, it is not necessary to place names in quotes.
+* [-0.12] Code parsimony: I think you meant `birds %>% select(...)`? As written (with a comma), this portion of the code did not do anything.
+
+5. [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+
+6. [+0.25] Extra credit: Excellent!
+
+7:
+* [No points removed] The function `tibble()` is not among the "Functions that you may use ...".
+* [No points removed]: Avoid invoking a prefix function without `()`. Although magrittr's pipe allows you to do that, it is considered bad practice.
+* [No points removed]: Do indent your comments!
+
+8:
+* [-0.62]: Unnecessary global assignment.
+* [-0.63]: Did not work!
+
+---------------------------------------------------------------------------
+
+thapa_avantika
+
+6.88
+
+3. [-0.12]: Include only relative file paths to files on your hard drive.
+
+4. [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5: 
+* [-0.25] Code formatting: Infix functions should be separated from surrounding code with a single leading and trailing space.
+* [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+
+6. [-0.75]: This did not work (see key).
+
+7:
+* [-0.5] The function `tibble()` is not among the "Functions that you may use ...".
+* [-0.25]: This almost reproduced the output of the for loop -- the for loop was sorted by species name.
+* [No points removed] The function `tibble()` is not among the "Functions that you may use ...".
+
+8. [-1.25] Not answered.
+
+---------------------------------------------------------------------------
+
+zumbado_hector
+
+9.8
+
+4. [No points removed]: I suggest selecting columns prior to and during joins -- this will help you have a better sense of the data going into and out of the joining operation.
+
+5:
+* [-0.25]: Missed the releveling of your age factor.
+* [No points removed]: You should have used two filters here, one for the operation that required grouped data and the other without grouping. Avoiding grouped operations when they are not necessary typically improves the performance of your code.
+
+6. [+0.25] Extra credit: Excellent!
+
+7:
+* [-0.2] Code parsimony: Because purrr is in the core tidyverse, it is not necessary to call the function directly.
+* [No points removed] The function `tibble()` is not among the "Functions that you may use ...".
+

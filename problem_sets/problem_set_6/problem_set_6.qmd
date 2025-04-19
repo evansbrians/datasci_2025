@@ -1,0 +1,361 @@
+---
+title: "Problem set 6: Iteration with District birds"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+project:
+  execute-dir: project
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+<!-- knitr setup --> 
+
+```{r knitr_setup, include = FALSE}
+options(knitr.table.format = "html")
+
+knitr::opts_chunk$set(eval = FALSE)
+
+library(tidyverse)
+```
+
+<hr>
+
+![](https://www.birdconservancy.org/wp-content/uploads/2020/02/Hatch-year-female-Rose-breasted-Grosbeak-1030x989.jpg){.intro_image}
+
+In this exercise, you will (once again) be exploring data associated with a long-term study of songbird survival in metropolitan Washington D.C. ([Evans et al. 2015](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/14-0171.1){target="_blank"}). For this study, researchers banded and measured birds in parks and homeowner's yards throughout the Washington D.C. area. This problem set will evaluate your ability to understand the concepts covered in ***Module 6: Programming I (custom functions & iteration)*** while providing you more opportunities to enhance your understanding of content from previous modules. For the latter, I have provided questions that draw attention to elements of the earlier modules that may be particularly challenging. These include:
+
+* Question 3: Subsetting vectors (***Lesson 4.3*** )
+* Question 4: Joining data (***Lesson 3.5*** )
+* Question 5: Advanced filtering techniques (***Lesson 4.1*** ) and factors (***Lesson 5.3*** )
+* Question 8: Regex (***Lessons 4.2*** )
+
+## Grading
+
+The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="score"}).
+
+Points may be deducted from each question's total: 
+
+* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Include only assignments specified in the question;
+* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
+* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
+* [[10%]]{class="subscore"} Ensure that your code is as parsimonious as possible;
+* [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
+
+*Note: The maximum deduction is the total points value for a given question*
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Click the blue button below to view the functions that you may use in completing this problem set. Make sure that you know what each function does (use `?[function name]` if you do not). Do not use any functions outside of this list!
+:::
+
+<!-- Note, the below is an accordion, which was styled in the css section -->
+
+::: Accordion
+<button class="accordion">Functions that you may use in this assignment</button>
+
+::: {.panel}
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session.
+* Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The *magrittr* `%>%` and the *rlang* function `set_names` are made availble with `library(tidyverse)`/
+* The *tidyselect* function `select` must be referenced with `tidyselect:::select`.
+* Regex metacharacters are not functions!
+
+:::
+
+**Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *purrr*, *readr*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library. Regex metacharacters are not R functions and may be used as needed!
+
+In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
+
+* `.Primitive, ()`
+* `.Primitive, {`
+* `.Primitive, <-`
+* `.Primitive, =`
+* `.Primitive, :`
+* `.Primitive, ~`
+* `.Primitive, ==`
+* `.Primitive, !=`
+* `.Primitive, >`
+* `.Primitive, c`
+* `base::function`
+* `base::library`
+* `base::list.files`
+* `base::list2env`
+* `base::mean`
+* `base::rm`
+* `base::sort`
+* `base::unique`
+* `dplyr::arrange`
+* `dplyr::bind_rows`
+* `dplyr::distinct`
+* `dplyr::filter`
+* `dplyr::if_all`
+* `dplyr::if_any`
+*` dplyr::left_join`
+* `dplyr::mutate`
+* `dplyr::n`
+* `dplyr::pull`
+* `dplyr::select`
+* `forcats::fct_collapse`
+* `forcats::fct_relevel`
+* `lubridate::year`
+* `magrittr::%>%`
+* `purrr::map`
+* `readr::read_rds`
+* `rlang::set_names`
+* `tidyselect:::select`
+
+:::
+
+:::
+
+## About the data 
+
+For this problem set, we will use the file [dc_birds.rds]{.mono}. The data are stored as a list with the following list items (click each button to see variable definitions):
+
+ The data are stored in a list with the name `dc_birds.rds` that contains the following list items:
+
+<button class="accordion">**[visits]{.mono}**: A tibble data frame that provides information on a visit to a site on a given day.</button>
+
+::: panel
+
+* [visit_id]{.mono}, character: Primary key representing a unique identifier for each visit
+* [site_id]{.mono}, character: Foreign key to the [sites]{.mono} table
+* [date]{.mono}, date: The date a site was visited
+
+:::
+
+<button class="accordion">**[birds]{.mono}**: A tibble data frame describing the bird species of the DC region and their life histories.</button>
+
+::: panel
+
+* [species]{.mono}, character: Primary key representing a unique identifier for each bird species (4 letter alpha code for a given species)
+* [common_name]{.mono}, character: The US common name of the bird species
+* [foraging]{.mono}, character: Where the bird typically feeds (foraging guild)
+* [diet]{.mono}, character: The primary type of food the bird eats (dietary guild)
+
+:::
+
+<button class="accordion">**[measures]{.mono}**: A tibble data frame decribing measurements recorded for individual banded birds.</button>
+
+::: panel
+
+* [bird_id]{.mono}, character: Primary key representing a unique identifier for each bird
+* [visit_id]{.mono}, character: Foreign key to the visits table
+* [spp]{.mono}, character: Foreign key to the birds table
+* [wing]{.mono}, numeric: The length of a bird's wing, in millimeters
+* [age]{.mono}, character: The observed age of the bird during the banding event, classified as:
+    * "AHY": Adult bird, after hatch year
+    * "ASY": Adult bird, after second year
+    * "HY": Juvenile bird, hatch year
+    * "SY": Adult bird, second year
+    * "U": Unkonwn
+* [sex]{.mono}, character: The observed sex of the bird during the banding event, classified as:
+    * "F": Female
+    * "M": Male
+    * "U": Unknown
+* [mass]{.mono}, numeric: The mass of the bird, in grams
+
+:::
+
+*Note: `dc_birds.rds` includes `sites` and `counts`, but those list items will not be used in the problem set!*
+
+## Setup
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i>  Remember that it is best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
+:::
+
+::: now_you
+
+1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_6_[last name]_[first name].R". For example, I would name my file `problem_set_6_evans_brian.R`.
+
+:::
+
+::: now_you
+
+2\. [[0.25]]{class="score"} Attach the tidyverse metapackage to your current R session.
+
+:::
+
+::: now_you
+
+3\. [[1.0]]{.score} The data file for this problem set is `dc_birds.rds`. This is a list file comprised of five separate tibbles, assigned to the names: `birds`, `counts`, `measures`, `sites`, and `visits.` In a single, chained analysis:
+
+* [[0.25]]{.subscore} Read in the list;
+* [[0.50]]{.subscore} Subset to the list items `visits`, `birds`, and `measures`;
+* [[0.25]]{.subscore} Globally assign each list item name to your global environment.
+
+:::
+
+## Basic wrangling tools review
+
+The data are tidy, but that can sometimes present interesting challenges! We often have to extract data from multiple tables in order to conduct meaningful explorations or prepare data for analysis.
+
+::: now_you
+
+4\. [[1.25]]{.score} In a chained analysis that utilizes `birds`, `visits`, and `measures`:
+
+* [[0.75]]{.subscore} Combine the data frames and subset the variables such that the resultant variables are `bird_id`, `common_name`, `site_id`, `date`, `age`, `sex`, `wing`, and `mass` (in that order).
+* [[0.25]]{.subscore} Globally assign the name `banding` to the resultant object.
+
+*Hint: This will require multiple joins … carefully consider the primary and foreign keys for each join!*
+
+[[0.25]]{.subscore} In a separate code block from the above, remove the names `birds`, `measures`, and `visits` from your global environment.
+
+:::
+
+For this exploration of the data, we are only interested:
+
+* Observations of the most commonly captured birds
+* Birds of known sex and age
+* Mass and wing measurement values that are *reasonably* correct.
+
+::: now_you
+
+5\. [[2.5]]{.score} Modify `banding` as parsimoniously as possible:
+
+* [[0.50]]{.subscore} Subset to species (`common_name`) with more than 100 observations;
+* [[0.50]]{.subscore} Using `if_all()` or `if_any()`, subset to observations where the `sex` and `age` of the bird is known (see variable descriptions above);
+* [[0.25]]{.subscore} Subset to observations in which `wing` measurements are greater 40 mm;
+* [[0.25]]{.subscore} Subset to observations in which `mass` measurements are greater 7 g;
+* [[0.50]]{.subscore} Modify the `age` variable, such that the age classes are a factor variable with the levels `juvenile` and `adult` (in that order; see variable descriptions above);
+* [[0.25]]{.subscore} Globally assign the name `banding_subset` to the resultant object.
+
+*Hint: When you subset a variable using `filter()`, any rows with [NA]{.mono} values in the target variable are removed by default.*
+
+[[0.25]]{.subscore} In a separate code block from the above, remove the name `banding` from your global environment.
+
+:::
+
+## Custom functions
+
+The code block below:
+
+* Subsets `banding_subset` by row to the species (`common_name`) "Northern Cardinal";
+* Extracts the numeric vector assigned to `mass`;
+* Calculates the mean of the vector
+* Prints a one-value numeric vector.
+
+
+```{r}
+banding_subset %>% 
+  filter(common_name == "Northern Cardinal") %>% 
+  pull(mass) %>% 
+  mean()
+```
+
+::: now_you
+
+6\. [[0.75]]{.score} Convert the above to a custom function that can be used to calculate the mean `mass` or `wing` of any species in `banding_subset` [[0.50]]{.subscore}. Globally assign your function to the name `mean_species_var` [[0.25]]{.subscore}.
+
+**Extra credit** [[0.25]]{.subscore}! Modify the function such that it is not necessary to use quotation marks around `mass` or `wing` when it is used.
+
+:::
+
+## Converting `for` loops to `map()`
+
+The following for loop calculates the average mass of each species in
+`banding_subset` and returns a tibble:
+
+```{r, eval = FALSE}
+# Generate a unique vector of species, arranged alphabetically:
+
+species <-
+  banding_subset %>% 
+  pull(common_name) %>% 
+  unique() %>% 
+  sort()
+
+# Create an output container to store the results of the for loop:
+
+out_container <-
+  vector(
+    "list",
+    length = length(species))
+
+# Iterate across species with a for loop:
+
+for(i in seq_along(species)) {
+  out_container[[i]] <-
+    banding_subset %>% 
+    filter(common_name == species[[i]]) %>% 
+    mutate(mean_mass = mean(mass)) %>% 
+    distinct(common_name, mean_mass)
+}
+
+# Combine list items, by row, into a tibble:
+
+bind_rows(out_container)
+```
+
+::: now_you
+
+7\. [[2.0]]{.score} Without generating any new global assignments, nor using any of the global assignments in the for loop example above (except `banding_subset`), replicate the results above using `purrr::map()`.
+
+:::
+
+*Note: Question 7 tests your understanding of purrr map functions ... in the real world I would obviously use `summarize()` for this!*
+
+## Mapping when it counts
+
+We have only scratched the surface of what we can do with `purrr::map()` and we will continue to use this function (and its cousins) throughout the remainder of this course.
+
+::: {.now_you}
+
+8\. [[1.25]]{.score} One of the hats that I wear is "ornithologist" so we end up working with data about birds *a lot*. In a single chained analysis:
+
+* [[0.50]]{.score} As parsimoniously as possible, use regex to provide a character vector of all files that contain "bird" and ends with "rds";
+* [[0.25]]{.score} Use a `map()` function to read in all of the files at once;
+* [[0.25]]{.score} Assign a name (of your choosing) to each list item;
+* [[0.25]]{.score} Assign each list item name to the global environment.
+:::
+
+Despite my somewhat lame pedagogical examples, hopefully you are beginning to see grasp the power of iteration!
+
+<hr>
+
+<!-- Note: The below is the javascript that I use to make the accordion button work -->
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
