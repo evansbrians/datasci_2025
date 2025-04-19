@@ -11,7 +11,7 @@ library(tidyverse)
 # Read in the data:
 
 portal <- 
-  read_csv('data/raw/portal.csv')
+  read_csv("data/raw/portal.csv")
 
 # review of indexing ------------------------------------------------------
 
@@ -74,11 +74,13 @@ portal %>%
 
 mean(
   portal[portal$species == "Neotoma albigula", ]$hindfoot_length,
-  na.rm = TRUE)
+  na.rm = TRUE
+)
 
 mean(
   portal[portal$species == "Dipodomys merriami", ]$hindfoot_length,
-  na.rm = TRUE)
+  na.rm = TRUE
+)
 
 # Repetition is to be avoided (tidyverse version)!
 
@@ -130,7 +132,7 @@ population <-
 
 # Assign a value to the first position of the output container:
 
-population[1] <- 10
+population[[1]] <- 10
 
 # For loop sequence statement:
 
@@ -205,7 +207,9 @@ hindfeet_frame <-
 
 # For loop sequence statement:
 
-for(i in seq_along(portal_species)) {
+for(
+  i in seq_along(portal_species)
+) {
   
   # For loop body:
   
