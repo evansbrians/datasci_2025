@@ -597,9 +597,9 @@ Sometimes I find a function that is *almost* perfect, but not quite. When this o
 For example, I previously expressed my annoyance with arranging data frames in descending order with *dplyr*:
 
 ```{r}
-iris %>% 
+countries %>% 
   arrange(
-    desc(sepal_length)
+    desc(country_name)
   )
 ```
 
@@ -620,18 +620,18 @@ arrange_desc <-
 We can check to see if this works with our original variable:
 
 ```{r}
-iris %>% 
-  arrange_desc(sepal_length)
+countries %>% 
+  arrange_desc(country_name)
 ```
 
-It did not! Once again, `sepal_length` was not found due to R's scoping rules. What happens if we place the variable in quotes?
+It did not! Once again, `country_name` was not found due to R's scoping rules. What happens if we place the variable in quotes?
 
 ```{r}
-iris %>% 
-  arrange_desc("sepal_length")
+countries %>% 
+  arrange_desc("country_name")
 ```
 
-This did not work either! This is because R was trying to sort the data based on the one-value character vector "sepal_length", not the *variable* `sepal_length`. We can address this by again using `{{{ ... }}}` to insert our variable into the function:
+This did not work either! This is because R was trying to sort the data based on the one-value character vector "country_name", not the *variable* `country_name`. We can address this by again using `{{{ ... }}}` to insert our variable into the function:
 
 ```{r}
 arrange_desc <-
@@ -642,23 +642,22 @@ arrange_desc <-
     )
   }
 
-iris %>% 
-  arrange_desc(sepal_length)
+countries %>% 
+  arrange_desc(country_name)
 ```
 
 Before using our function, we should test it with a different variable:
 
 ```{r}
-iris %>% 
-  arrange_desc(sepal_width)
+countries %>% 
+  arrange_desc(country_code)
 ```
 
 ... and on a different data frame!
 
 ```{r}
-populations_co2 %>% 
-  filter(year == 2020) %>% 
-  arrange_desc(population)
+iris %>% 
+  arrange_desc(sepal_length)
 ```
 
 The above works, but if we save this function for posterity, we might want to explicitly call *dplyr* when we use the function. When I write a custom function that I use across multiple scripts, and that function relies on functions not attached in a base R session, I often explicitly call the function names from their package:
@@ -675,29 +674,17 @@ arrange_desc <-
 
 ::: {class="mysecret"}
 
-I should also reveal that, although we have used `desc()` within `arrange()` throughout the course, this operation can be simplified! If the variable that you want to `arrange()` is numeric, you can use the `-` operator in place of `desc()`
+<i class="fas fa-user-secret fa-2x"></i> Although we have used `desc()` within `arrange()` throughout the course, there is another option when arranging a numeric variable! If the variable that you want to `arrange()` is *numeric*, you can use the `-` operator in place of `desc()`
 
 ```{r}
-populations_co2 %>% 
-  filter(year == 2020) %>% 
-  arrange(
-    desc(population)
-  )
-
-populations_co2 %>% 
+countries %>% 
   filter(year == 2020) %>% 
   arrange(-population)
 ```
 
-Note that `desc()` works on character vectors, but `-` does not!
+But note that but `-` does not work on character vectors!
 
 ```{r}
-populations_co2 %>% 
-  filter(year == 2020) %>% 
-  arrange(
-    desc(country_code)
-  )
-
 populations_co2 %>% 
   filter(year == 2020) %>% 
   arrange(-country_code)
