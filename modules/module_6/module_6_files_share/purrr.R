@@ -5,7 +5,7 @@ library(sf)
 library(tidyverse)
 
 iris_tbl <-
-  read_rds('data/raw/iris.rds')
+  read_rds("data/raw/iris.rds")
 
 # split-apply-combine, Rube Goldberg method -------------------------------
 
