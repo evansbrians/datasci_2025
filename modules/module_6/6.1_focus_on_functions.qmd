@@ -681,8 +681,26 @@ I should also reveal that, although we have used `desc()` within `arrange()` thr
 populations_co2 %>% 
   filter(year == 2020) %>% 
   arrange(
-    
+    desc(population)
   )
+
+populations_co2 %>% 
+  filter(year == 2020) %>% 
+  arrange(-population)
+```
+
+Note that `desc()` works on character vectors, but `-` does not!
+
+```{r}
+populations_co2 %>% 
+  filter(year == 2020) %>% 
+  arrange(
+    desc(country_code)
+  )
+
+populations_co2 %>% 
+  filter(year == 2020) %>% 
+  arrange(-country_code)
 ```
 
 :::
