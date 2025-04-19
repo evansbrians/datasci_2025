@@ -164,8 +164,7 @@ portal_species <-
 hindfeet <-
   vector(
     "numeric", 
-    length = 
-      length(portal_species)
+    length = length(portal_species)
   )
 
 # For loop sequence statement:
@@ -201,8 +200,7 @@ portal_species <-
 hindfeet_frame <-
   vector(
     "list", 
-    length = 
-      length(portal_species)
+    length = length(portal_species)
   )
 
 # For loop sequence statement:
@@ -233,7 +231,6 @@ for(
 # Combine:
 
 bind_rows(hindfeet_frame)
-
 
 # for loops applied: split-apply-combine to data frames (values) ----------
 

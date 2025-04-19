@@ -135,9 +135,10 @@ if(user == "Brian") "Boy howdy"
 # Basic usage, if with else:
 
 if(user == "Brian") {
-  "Boy howdy" } else {
-    "Hello world"
-  }
+  "Boy howdy" 
+} else {
+  "Hello world"
+}
 
 # ... but:
 

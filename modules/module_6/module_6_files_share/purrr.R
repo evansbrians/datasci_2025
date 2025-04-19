@@ -13,8 +13,6 @@ iris_tbl <-
 
 iris_tbl
 
-
-
 # Now you! Write a custom function that will calculate the mean sepal length of
 # any of the iris species:
 
@@ -25,9 +23,7 @@ iris_tbl
 
 
 
-
 # introducing purrr! ------------------------------------------------------
-
 
 
 
