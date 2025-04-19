@@ -15,7 +15,10 @@ library(tidyverse)
 birds <-
   read_rds("data/raw/district_birds.rds") %>% 
   pluck("birds") %>% 
-  select(spp = species, diet:foraging)
+  select(
+    spp = species, 
+    diet:foraging
+  )
 
 # Read in counts and captures:
 
@@ -27,7 +30,11 @@ counts_captures <-
   
   map(
     ~ .x %>% 
-      select(spp, matches("count|mass")))
+      select(
+        spp, 
+        matches("count|mass")
+      )
+  )
 
 # Repetitive plotting -----------------------------------------------------
 
@@ -40,12 +47,16 @@ counts_captures %>%
   
   summarize(
     count = sum(count),
-    .by = diet) %>% 
+    .by = diet
+  ) %>% 
   
   # Visualize: 
   
-  ggplot(
-    aes(x = diet, y = count)) +
+  ggplot() +
+  aes(
+    x = diet, 
+    y = count
+  ) +
   geom_bar(stat = "identity")
 
 # Now you! Generate a bar plot of counts by foraging guild:
@@ -56,8 +67,11 @@ counts_captures %>%
 
 counts_captures %>% 
   pluck("captures") %>% 
-  ggplot(
-    aes(x = diet, y = mass)) +
+  ggplot() +
+  aes(
+    x = diet, 
+    y = mass
+  ) +
   geom_boxplot()
 
 # Now you! Generate a box plot of mass by foraging guild:
@@ -77,7 +91,9 @@ c("foraging", "diet") %>%
       
       summarize(
         count = sum(count),
-        .by = matches(.x)))
+        .by = matches(.x)
+      )
+  )
 
 # Programmatically plot total counts by life history guild:
 
@@ -90,19 +106,24 @@ c("foraging", "diet") %>%
       
       summarize(
         count = sum(count),
-        .by = matches(.x)) %>% 
+        .by = matches(.x)
+      ) %>% 
       
       # Plot the data: 
       
-      ggplot(
-        aes(x = .data[[.x]], y = count)) + 
-      geom_bar(stat = "identity"))
+      ggplot() +
+      aes(
+        x = .data[[.x]],
+        y = count
+      )
+    geom_bar(stat = "identity")
+  )
 
 # Now you! Programmatically generate a box plot of mass by life history
 # guild:
 
 
-      
+
 # Introduction to control flow: if else -----------------------------------
 
 user <- "Brian"
@@ -120,10 +141,13 @@ if(user == "Brian") {
 
 # ... but:
 
-if(c("Brian", "Jen") == "Brian") {
-  "Boy howdy" } else {
-    "Hello world"
-  }
+if(
+  c("Brian", "Jen") == "Brian"
+) {
+  "Boy howdy" 
+} else {
+  "Hello world"
+}
 
 # So ...
 
@@ -133,19 +157,23 @@ c("Brian", "Jen") %>%
       "Boy howdy"
     } else {
       "Hello world"
-    })
+    }
+  )
 
 # Of course ...
 
 if_else(
   c("Brian", "Jen") == "Brian",
   "Boy howdy",
-  "Hello world")
+  "Hello world"
+)
 
 # How are if ... else and if_else different?
 
 dates <-
-  tibble(date = c("2023-03-25", "25/3/2023"))
+  tibble(
+    date = c("2023-03-25", "25/3/2023")
+  )
 
 dates %>% 
   mutate(
@@ -153,14 +181,18 @@ dates %>%
       if_else(
         str_detect(date, "[0-9]{4}-[0-9]{2}-[0-9]{2}"),
         as_date(date),
-        dmy(date)))
+        dmy(date)
+      )
+  )
 
 # ... and even:
 
 if_else(
   str_detect(dates$date[[2]], "[0-9]{4}-[0-9]{2}-[0-9]{2}"),
   as_date(dates$date[[2]]),
-  dmy(dates$date[[2]]))
+  dmy(dates$date[[2]]
+  )
+)
 
 # Thus:
 
@@ -170,11 +202,14 @@ dates %>%
       date %>% 
       map_vec(
         ~ if(
-          str_detect(.x, "[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
+          str_detect(.x, "[0-9]{4}-[0-9]{2}-[0-9]{2}")
+        ) {
           as_date(.x)
         } else {
           dmy(.x)
-        }))
+        }
+      )
+  )
 
 # Application of if else --------------------------------------------------
 
@@ -183,16 +218,18 @@ dates %>%
 names(counts_captures) %>% 
   purrr::map(
     ~ if(.x == "counts") {
-        counts_captures %>% 
-          pluck(.x) %>% 
-          summarize(
-            count = sum(count),
-            .by = diet)
-      } else {
-        counts_captures %>% 
-          pluck(.x) %>% 
-          select(diet, mass)
-      })
+      counts_captures %>% 
+        pluck(.x) %>% 
+        summarize(
+          count = sum(count),
+          .by = diet
+        )
+    } else {
+      counts_captures %>% 
+        pluck(.x) %>% 
+        select(diet, mass)
+    }
+  )
 
 # Now you! Modify the code such that it generates a bar plot for counts ~ diet
 # or a box plot for mass ~ diet:
@@ -204,14 +241,11 @@ names(counts_captures) %>%
         pluck(.x) %>% 
         summarize(
           count = sum(count),
-          .by = diet)
+          .by = diet
+        )
     } else {
       counts_captures %>% 
         pluck(.x) %>% 
         select(diet, mass)
-    })
-
-
-
-
-
+    }
+  )
