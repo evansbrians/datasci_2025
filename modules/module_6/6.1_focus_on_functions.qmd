@@ -631,7 +631,7 @@ iris %>%
   arrange_desc("sepal_length")
 ```
 
-This did not work either! This is because R was trying to sort the data on a one-value character vector, `"sepal_length"`. We can address this by again using `{{ ... }}` to insert our variable into the function:
+This did not work either! This is because R was trying to sort the data based on the one-value character vector "sepal_length", not the *variable* `sepal_length`. We can address this by again using `{{{ ... }}}` to insert our variable into the function:
 
 ```{r}
 arrange_desc <-
@@ -672,6 +672,20 @@ arrange_desc <-
     )
   }
 ```
+
+::: {class="mysecret"}
+
+I should also reveal that, although we have used `desc()` within `arrange()` throughout the course, this operation can be simplified! If the variable that you want to `arrange()` is numeric, you can use the `-` operator in place of `desc()`
+
+```{r}
+populations_co2 %>% 
+  filter(year == 2020) %>% 
+  arrange(
+    
+  )
+```
+
+:::
 
 ## We invoked custom functions before this lesson!
 
@@ -797,36 +811,23 @@ populations_co2 %>%
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, <<-`: The super assignment infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) and sends the results to the global environment (regardless of the operating environment)
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
-* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
-* `.Primitive, ==`: Infix relational operator (is equal to)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, *`: Infix arithmetic operator (multiply)
-* `.Primitive, is.na`: A logical test of whether a value in a vector is [NA]{.mono}
-* `.Primitive, return`: Return the results from a given point in a function's body (do not use for the last value!)
-* `base::body`: Print the body of an R function
-* `base::environment`: Print the environment of a given function
-* `base::formals`: Print the formals of an R function
-* `base::function`: Initiate the creation of a custom function
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::ls`: Generate a character vector of names in a specified environment (default is the global environment)
-* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `base::sum`: Calculate the sum of a numeric vector
-* `base::summary`: Print summary stats for a data object
-* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable or variables
-* `dplyr::desc`: When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order
-* `dplyr::filter`: Subset a data frame by logical condition
-* `dplyr::if_any`: Run a function for any of the columns that satisfy a given condition
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `dplyr::pull`: Extract a column from a data frame as a vector
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `rlang::{{}}`: Insert the variable inside of `{{ ... }}` into the body of a function
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_6.1_focus_on_functions.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 :::
 
 <button class="accordion">Metacharacters in regex</button>
