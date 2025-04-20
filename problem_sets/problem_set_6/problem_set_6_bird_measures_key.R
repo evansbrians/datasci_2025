@@ -50,7 +50,10 @@ banding <-
   
   # Join visits:
   
-  left_join(visits, by = "visit_id") %>% 
+  left_join(
+    visits, 
+    by = "visit_id"
+  ) %>% 
   
   # Subset variables:
   
@@ -67,7 +70,8 @@ banding <-
 rm(
   birds, 
   measures, 
-  visits)
+  visits
+)
 
 # 5 -----------------------------------------------------------------------
 
@@ -98,7 +102,8 @@ banding_subset <-
   filter(
     if_all(
       sex:age,
-      ~ .x != "U"),
+      ~ .x != "U"
+    ),
     wing > 40,
     mass > 7
   ) %>% 
@@ -113,7 +118,10 @@ banding_subset <-
         other_level = "Adult"
       ) %>% 
       fct_relevel(
-        c("Juvenile", "Adult")
+        c(
+          "Juvenile", 
+          "Adult"
+        )
       )
   )
 
@@ -155,7 +163,7 @@ mean_species_var <-
   function(species, variable) {
     banding_subset %>% 
       filter(common_name == species) %>% 
-      pull({{ variable}}) %>% 
+      pull({{ variable }}) %>% 
       mean()
   }
 
@@ -185,7 +193,9 @@ out_container <-
 for(i in seq_along(species)) {
   out_container[[i]] <-
     banding_subset %>% 
-    filter(common_name == species[[i]]) %>% 
+    filter(
+      common_name == species[[i]]
+    ) %>% 
     mutate(
       mean_mass = mean(mass)
     ) %>% 

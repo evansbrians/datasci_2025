@@ -108,7 +108,9 @@ out_container <-
 for(i in seq_along(species)) {
   out_container[[i]] <-
     banding_subset %>% 
-    filter(common_name == species[[i]]) %>% 
+    filter(
+      common_name == species[[i]]
+    ) %>% 
     mutate(
       mean_mass = mean(mass)
     ) %>% 
