@@ -58,7 +58,7 @@ In this lesson we have a single learning goal ahead of us -- learn how to avoid 
 <button class="accordion">Please click this button to explore the metadata for this lesson!
 </button>
 ::: panel
-We will use two datasets for this lesson, both of which we should have considerable familiarity with by now. 
+We will use two datasets for this lesson: 
 
 **[iris.rds]{.mono}**: A modified version of the `iris` dataset that is provided with the *datasets* package in the base R distribution. This is a tibble data frame in which each row represents observations of an individual plant (*Note: There is no primary key for the data frame* ).
 
@@ -75,13 +75,13 @@ We will use two datasets for this lesson, both of which we should have considera
     * [country_code]{.mono}, character: A three-letter code assigned to each country (this can be considered the **primary key** of the table)
     * [country_name]{.mono}, character: A name (in English) for each country
     * [country_region]{.mono}, character: The general region where each country is located
-    * [country_georegion]{.mono}, character: A finer-scale region with the larger region
+    * [country_georegion]{.mono}, character: A finer-scale region within the larger region
     * [land_area]{.mono}, double numeric: The area of a country, in square kilometers
 
 * [populations_co2]{.mono}: A tibble with the population and per capita CO~2~ emissions from 1960-2020 for all countries in the dataset.
     * [country_code]{.mono}, character: A **foreign key **to the country code in `countries`
     * [year]{.mono}, numeric: The year of a given record -- this variable, in combination with [country_code]{.mono} represents the **compound primary key** of this table
-    * [population]{.mono}, numeric: The population of a given country on a given year
+    * [population]{.mono}, numeric: The population of a given country in a given year
     * [co2]{.mono}, numeric: The per capita CO~2~ emissions, in metric tons per year
 
 :::
@@ -560,7 +560,7 @@ fun_with_inserted_formals("virginica")
 
 ### Scoping and quoted variables
 
-You might have noticed that we used quotes around the variable `sepal_length` in our function `calc_mean_spp_measure`. This is because `sepal_length` is not a defined variable in our global environment. Let's see what happens if we leave those quotes out:
+You might have noticed that we used quotes around the variable `sepal_length` in our function `calc_mean_spp_measure`. This is because `sepal_length` is not an assigned name in our global environment. Let's see what happens if we leave those quotes out:
 
 ```{r}
 calc_mean_spp_measure <-
@@ -674,15 +674,15 @@ arrange_desc <-
 
 ::: {class="mysecret"}
 
-<i class="fas fa-user-secret fa-2x"></i> Although we have used `desc()` within `arrange()` throughout the course, there is another option when arranging a numeric variable! If the variable that you want to `arrange()` is *numeric*, you can use the `-` operator in place of `desc()`
+<i class="fas fa-user-secret fa-2x"></i> Although we have used `desc()` within `arrange()` throughout the course, there is another option when arranging a numeric variable! If the variable that you want to `arrange()` is *numeric*, you can use the `-` operator in place of `desc()`:
 
 ```{r}
-countries %>% 
+populations_co2 %>% 
   filter(year == 2020) %>% 
   arrange(-population)
 ```
 
-But note that but `-` does not work on character vectors!
+But note that `-` does not work on character vectors!
 
 ```{r}
 populations_co2 %>% 
@@ -696,7 +696,7 @@ populations_co2 %>%
 
 Before completing this lesson, I think that it is good to recognize that you have already invoked custom functions prior to this module. 
 
-Consider the following operation (***Lesson 4.1: Advanced filtering***):
+Consider the following operation (***Lesson 4.2: Advanced filtering***):
 
 ```{r}
 populations_co2 %>% 
@@ -746,7 +746,8 @@ multiply_by_two <-
 ... is equivalent to:
 
 ```{r}
-multiply_by_two <- \(x) x * 2
+multiply_by_two <- 
+  \(x) x * 2
 ```
 
 Thus, an operation such as ...
@@ -865,26 +866,31 @@ When you are given a list of functions that you may use in a given problem set, 
 The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
 
 :::{style="background-color: white; font-size: 14px;"}
-|Task                         | Windows          | Mac
-|:----------------------------|:----------------:|:-------------------:|
-| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
-| Open an existing script     | Ctrl + O         | command + O
-| Create a new script         | Ctrl + shift + N | command + shift + N
-| Save script file            | Ctrl + S         | command + S
-| Execute code                | Ctrl + Enter     | command + return
-| Copy                        | Ctrl + C         | command + C
-| Paste                       | Ctrl + V         | command + V
-| Add a pipe operator         | Ctrl + shift + M | command + shift + M
-| Add an assignment operator  | Alt + dash       | option + dash
-| Add a new code section      | Ctrl + shift + R | command + shift + R
-| Indent code                 | Ctrl + I         | command + I
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
 :::
 :::
 
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
