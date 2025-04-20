@@ -97,15 +97,20 @@ species <-
 out_container <-
   vector(
     "list",
-    length = length(species))
+    length = length(species)
+  )
 
 # Iterate across species with a for loop:
 
 for(i in seq_along(species)) {
   out_container[[i]] <-
     banding_subset %>% 
-    filter(common_name == species[[i]]) %>% 
-    mutate(mean_mass = mean(mass)) %>% 
+    filter(
+      common_name == species[[i]]
+    ) %>% 
+    mutate(
+      mean_mass = mean(mass)
+    ) %>% 
     distinct(common_name, mean_mass)
 }
 

@@ -19,7 +19,8 @@ read_rds("data/raw/dc_birds.rds") %>%
   tidyselect:::select(
     visits, 
     birds, 
-    measures) %>% 
+    measures
+  ) %>% 
   list2env(.GlobalEnv)
 
 # 4 -----------------------------------------------------------------------
@@ -42,12 +43,17 @@ banding <-
     birds %>% 
       select(
         spp = species, 
-        common_name), 
-    by = "spp") %>% 
+        common_name
+      ), 
+    by = "spp"
+  ) %>% 
   
   # Join visits:
   
-  left_join(visits, by = "visit_id") %>% 
+  left_join(
+    visits, 
+    by = "visit_id"
+  ) %>% 
   
   # Subset variables:
   
@@ -55,7 +61,8 @@ banding <-
     bird_id,
     common_name,
     site_id:date,
-    age:mass)
+    age:mass
+  )
 
 # In a separate code block from the above, remove the names `birds`,
 # `measures`, and `visits` from your global environment.
@@ -63,7 +70,8 @@ banding <-
 rm(
   birds, 
   measures, 
-  visits)
+  visits
+)
 
 # 5 -----------------------------------------------------------------------
 
@@ -94,7 +102,8 @@ banding_subset <-
   filter(
     if_all(
       sex:age,
-      ~ .x != "U"),
+      ~ .x != "U"
+    ),
     wing > 40,
     mass > 7
   ) %>% 
@@ -106,8 +115,14 @@ banding_subset <-
       age %>% 
       fct_collapse(
         Juvenile = "HY",
-        other_level = "Adult") %>% 
-      fct_relevel(c("Juvenile", "Adult"))
+        other_level = "Adult"
+      ) %>% 
+      fct_relevel(
+        c(
+          "Juvenile", 
+          "Adult"
+        )
+      )
   )
 
 # In a separate code block from the above, remove the name `banding` from 
@@ -148,7 +163,7 @@ mean_species_var <-
   function(species, variable) {
     banding_subset %>% 
       filter(common_name == species) %>% 
-      pull({{ variable}}) %>% 
+      pull({{ variable }}) %>% 
       mean()
   }
 
@@ -170,15 +185,20 @@ species <-
 out_container <-
   vector(
     "list",
-    length = length(species))
+    length = length(species)
+  )
 
 # Iterate across species with a for loop:
 
 for(i in seq_along(species)) {
   out_container[[i]] <-
     banding_subset %>% 
-    filter(common_name == species[[i]]) %>% 
-    mutate(mean_mass = mean(mass)) %>% 
+    filter(
+      common_name == species[[i]]
+    ) %>% 
+    mutate(
+      mean_mass = mean(mass)
+    ) %>% 
     distinct(common_name, mean_mass)
 }
 
@@ -197,7 +217,9 @@ banding_subset %>%
   purrr::map(
     ~ banding_subset %>% 
       filter(common_name == .x) %>% 
-      mutate(mean_mass = mean(mass)) %>% 
+      mutate(
+        mean_mass = mean(mass)
+      ) %>% 
       distinct(common_name, mean_mass)
   ) %>% 
   bind_rows()
@@ -212,7 +234,9 @@ banding_subset %>%
     function(x) {
       banding_subset %>% 
         filter(common_name == x) %>% 
-        mutate(mean_mass = mean(mass)) %>% 
+        mutate(
+          mean_mass = mean(mass)
+        ) %>% 
         distinct(common_name, mean_mass)
     }
   ) %>% 
@@ -228,7 +252,9 @@ banding_subset %>%
     \(x) {
       banding_subset %>% 
         filter(common_name == x) %>% 
-        mutate(mean_mass = mean(mass)) %>% 
+        mutate(
+          mean_mass = mean(mass)
+        ) %>% 
         distinct(common_name, mean_mass)
     }
   ) %>% 
@@ -244,7 +270,9 @@ banding_subset %>%
     \(x) {
       banding_subset %>% 
         filter(common_name == x) %>% 
-        mutate(mean_mass = mean(mass))
+        mutate(
+          mean_mass = mean(mass)
+        )
     }
   ) %>% 
   bind_rows() %>% 
@@ -271,7 +299,8 @@ banding_subset %>%
 list.files(
   "data/raw", 
   pattern = "bird.*rds$",
-  full.names = TRUE) %>% 
+  full.names = TRUE
+) %>% 
   
   # Read in the files:
   
@@ -286,7 +315,8 @@ list.files(
     "birds_cicadas_lc",
     "dc_birds",
     "district_birds.rds",
-    "messy_birds.rds") %>% 
+    "messy_birds.rds"
+  ) %>% 
   
   # Assign each list item to the global environment:
   
