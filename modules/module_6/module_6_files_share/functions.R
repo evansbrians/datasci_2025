@@ -89,7 +89,7 @@ calc_mean_spp_measure <-
 # Calculate the total global CO2 for the year 2010:
 
 populations_co2 %>% 
-  filter(year  == 2010) %>% 
+  filter(year == 2010) %>% 
   mutate(total_co2 = co2 * population) %>%
   pull() %>%
   sum()
@@ -100,7 +100,7 @@ populations_co2 %>%
 calculate_total_co2_yr <-
   function(yr) {
     populations_co2 %>% 
-      filter(year  == yr) %>% 
+      filter(year == yr) %>% 
       mutate(total_co2 = co2 * population) %>%
       pull() %>%
       sum()
@@ -133,7 +133,9 @@ fun_with_bad_formals <-
 fun_with_inserted_formals <-
   function(species) {
     iris %>% 
-      filter(species == {{ species }}) %>% 
+      filter(
+        species == {{ species }}
+      ) %>% 
       pull(sepal_length) %>% 
       mean()
   }

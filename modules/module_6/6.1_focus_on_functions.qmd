@@ -11,10 +11,8 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <head>
@@ -42,11 +40,11 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
-The search for **functions** that characterizes the early R learning process will eventually (or quickly) lead us to some of the thousands of R packages (libraries) that have been built by the R community. Packages are predominantly comprised of functions (*though they often have example data and some packages only contain data*). These packages allow the user to complete long or complicated processes in just a few simple steps. The importance of community-built packages can't be overstated -- they are an awesome part of R. If I, an ecologist, wanted to include a model of global temperatures in my analysis, it is amazing that I can load functions built by actual climatologists to do so. 
+The search for **functions** that characterizes the early R learning process will eventually (or quickly) lead us to some of the thousands of R packages (libraries) that have been built by the R community. Packages are predominantly comprised of functions (*though they often have example data and some packages only contain data*). These packages allow the user to complete long or complicated processes in just a few simple steps. The importance of community-built packages can not be overstated -- they are an awesome part of R. If I, an ecologist, wanted to include a model of global temperatures in my analysis, it is amazing that I can load functions built by actual climatologists to do so. 
 
-Over-reliance on community packages, however, limits our ability to develop our R skills. We end up spending tons of time on StackOverflow searching for functions that complete simple tasks without thinking through how we could do those tasks with the functions we already know. Too often, this search leads us to new, unnecessary packages that we now have to add to our script. My early R scripts started with a dozen or more lines of `library()`, with most of those libraries used in just a few processes that I could not (or would not) figure out on my own. I call this process *package hunting* and it should be avoided at all costs!
+Over-reliance on community packages, however, limits our ability to develop our R skills. We end up spending tons of time on StackOverflow searching for functions that complete simple tasks without thinking through how we could do those tasks with the functions we already know. Too often, this search leads us to new, unnecessary packages that we then have to add to our script. My early R scripts started with a dozen or more lines of `library()`, with most of those libraries used in just a few processes that I could not (or would not) figure out on my own. I call this process *package hunting* and it should be avoided at all costs!
 
 In this lesson we have a single learning goal ahead of us -- learn how to avoid package hunting by building custom functions. In other words, we are going to transition from "function end users" to *function makers* (and end users).
 
@@ -60,7 +58,7 @@ In this lesson we have a single learning goal ahead of us -- learn how to avoid 
 <button class="accordion">Please click this button to explore the metadata for this lesson!
 </button>
 ::: panel
-We will used two datasets for this lesson, both of which we should have considerable familiarity with by now. 
+We will use two datasets for this lesson: 
 
 **[iris.rds]{.mono}**: A modified version of the `iris` dataset that is provided with the *datasets* package in the base R distribution. This is a tibble data frame in which each row represents observations of an individual plant (*Note: There is no primary key for the data frame* ).
 
@@ -71,19 +69,19 @@ We will used two datasets for this lesson, both of which we should have consider
 * [petal_width]{.mono}, double numeric: The petal width of a measured flower, in centimeters.
 
 
-**[populations_co2.rds]{.mono}**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx){target="_blank"} and provide information on the emissions of greenhouse gases and the populations of countries around the world. We have worked with these data before, but as an untidy dataset (in ***Problem set 3***). I have normalized these data and saved them as a list file: [data/processed/population_co2.rds]{.mono}. The list contains two named objects:
+**[populations_co2.rds]{.mono}**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx){target="_blank"} and provide information on the emissions of greenhouse gases and the populations of countries around the world. I normalized these data (the original version was *extremely* untidy) and saved them as a list file: [data/processed/population_co2.rds]{.mono}. The list contains two named objects:
 
 * [countries]{.mono}: A tibble that provides country reference information from the World Bank. Variables include:
     * [country_code]{.mono}, character: A three-letter code assigned to each country (this can be considered the **primary key** of the table)
     * [country_name]{.mono}, character: A name (in English) for each country
     * [country_region]{.mono}, character: The general region where each country is located
-    * [country_georegion]{.mono}, character: A finer-scale region with the larger region
+    * [country_georegion]{.mono}, character: A finer-scale region within the larger region
     * [land_area]{.mono}, double numeric: The area of a country, in square kilometers
 
 * [populations_co2]{.mono}: A tibble with the population and per capita CO~2~ emissions from 1960-2020 for all countries in the dataset.
     * [country_code]{.mono}, character: A **foreign key **to the country code in `countries`
     * [year]{.mono}, numeric: The year of a given record -- this variable, in combination with [country_code]{.mono} represents the **compound primary key** of this table
-    * [population]{.mono}, numeric: The population of a given country on a given year
+    * [population]{.mono}, numeric: The population of a given country in a given year
     * [co2]{.mono}, numeric: The per capita CO~2~ emissions, in metric tons per year
 
 :::
@@ -115,18 +113,18 @@ read_rds("data/processed/populations_co2.rds") %>%
 
 ## R function basics
 
-Custom functions are important tools for our data science skillset. Writing custom functions:
+Custom functions are important tools for our data science skillset. Writing custom functions can:
 
-* Helps you understand other functions used in the R community
-* Gives you tools to modify functions that you find in the R community
-* Helps you avoid repetitive code
+* Help you understand other functions used in the R community
+* Give you tools to modify functions that you find in the R community
+* Help you avoid repetitive code
 
 We can create our own custom function with the R function `function()`. We then provide the:
 
 * **Formals**: A set of controls (or arguments) for the function, placed inside of parentheses, `(...)`
 * **Body**: The set of instructions inside the function, typically inside of curly brackets, `{...}`
 
-To illustrate this, let's make a simple function and assign it to the name `multiple_by_two`:
+To illustrate this, let's make a simple function and assign it to the name `multiply_by_two`:
 
 ```{r}
 multiply_by_two <- 
@@ -135,12 +133,14 @@ multiply_by_two <-
   }
 ```
 
+Note: The other operations that we have conducted in this class allow you to place your cursor anywhere within the code block and hit [Ctrl + Enter]{.mono} (Windows) or [Cmd + Enter]{.mono} (Mac) to run your code. When assigning a function to your global environment, however, you can only run the full code block if your cursor is placed anywhere *outside* of the curly braces. We will discuss why this happens soon!
+
 In the above, we:
 
 1. Initiated our function with `function()`;
 2. Defined the **formals** of the function, within `()`, as the variable `x`;
 3. Delineated the **body** of our function with `{...}`;
-4. Defined the body (set of instructions) as `x * 2`;
+4. Defined the **body** (set of instructions) as `x * 2`;
 5. Globally assigned a name (`multiply_by_two`) to the function with the `<-` operator.
 
 We can explicitly explore the structure of the function using the `formals` and `body` functions:
@@ -157,11 +157,11 @@ Let's run our function and see what happens:
 multiply_by_two(x = 5)
 ```
 
-We supplied the formals of the function as the value 5. That value was passed to the body of the function and thus any time an `x` appeared, the variable was replaced by the value 5.
+We supplied the formals of the function as the value 5. That value was passed to the body of the function and thus any time an `x` appeared in our set of instructions, the variable was replaced by the value 5.
 
 ### R function basics, applied
 
-Let's create a function with some real data. Consider that you are given the task of calculating the average `sepal_length` for one of the species in the `iris` data:
+Let's create a function with some real data. Consider that you are given the task of calculating the average `sepal_length` for one of the species in the `iris` dataset:
 
 ```{r}
 iris
@@ -180,7 +180,7 @@ iris %>%
   mean()
 ```
 
-What if we completed the above only to have our boss pop their head in the door to tell us that they "meant virginica"? We are forced to do it all over again ...
+What if we completed the above only to have our boss pop their head in the door to tell us that they "meant *virginica*"? We are forced to do it all over again ...
 
 ```{r}
 iris %>% 
@@ -191,7 +191,7 @@ iris %>%
 
 While the above was likely an easy copy-and-paste, our code can often be long and cumbersome and it is easy to miss something.
 
-Instead, we can write this as a custom function! To do so, we need to identify the variable that should be placed within the formals of the function. With the two code blocks above, the only thing that has changed is the *Iris* species and thus this will be our variable.
+Instead, we can write this as a custom function! To do so, we need to identify the variable that should be placed within the formals of the function. With the two code blocks above, the only thing that has changed is the *Iris* `species` and thus this will be our variable.
 
 ```{r}
 subset_sepal_lengths <-
@@ -213,7 +213,7 @@ subset_sepal_lengths("versicolor")
 
 subset_sepal_lengths("virginica")
 ```
-*Note: In the second two operations, I do not include `spp = ...` because it is not necessary to provide the name of formal if it is the only argument in the function.*
+*Note: In the second two operations, I do not include `spp = ...` because it is not necessary to provide the name of a formal if it is the only argument in the function.*
 
 ## Functions & the global environment
 
@@ -251,7 +251,7 @@ Why did we get an error here? Have a look in the environment tab of your workspa
 ::: mysecret
 {{< fa user-secret size=2x >}} [Curly braces are powerful!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-This behavior is actually the result of the curly braces (`{...}`). When you wrap an expression in curly braces only the last expression is passed to the global environment. This is why the body of a function is typically wrapped in curly braces. Curly braces are not necessary if a function only occupies a single line, for example our function `multiple_by_two`:
+This behavior is actually the result of the curly braces (`{...}`). When you wrap an expression in curly braces only the last expression is passed to the global environment. This is why the body of a function is typically wrapped in curly braces. Curly braces are not necessary if a function only occupies a single line, for example our function `multiply_by_two`:
 
 ```{r}
 multiply_by_two <- 
@@ -271,7 +271,7 @@ multiply_by_two <-
 
 So we can see that, due to the curly braces, a function *sort of* has its own internal environment, though it works within its parent environment (in this case the global environment). This has been the source of woes for many-an-R-user, but once you get the hang of it, it is an easily avoidable problem. It actually gives you a bit more control on what you are adding to your global environment.
 
-When debugging/QCing big functions, I sometimes use `return` to view values at various points in the **body**. Have a look at the below and give a thought to the output:
+When debugging/quality controlling big functions, I sometimes use `return()` to view values at various points in the **body**. Have a look at the below and give a thought to the output:
 
 ```{r, error = TRUE}
 fun_with_internal_assignments <-
@@ -345,7 +345,8 @@ calc_mean_spp_measure <-
 
 calc_mean_spp_measure(
   spp = "setosa",
-  measure = "sepal_length")
+  measure = "sepal_length"
+)
 ```
 
 If we supply our formals in order, it is not necessary to include the names assigned to the formals:
@@ -369,7 +370,9 @@ The code block below calculates the total global CO~2~ emissions for the year 20
 ```{r}
 populations_co2 %>% 
   filter(year == 2010) %>% 
-  mutate(total_co2 = co2 * population) %>%
+  mutate(
+    total_co2 = co2 * population
+  ) %>%
   pull() %>%
   sum()
 ```
@@ -381,7 +384,9 @@ calculate_total_co2_yr <-
   function(yr) {
     populations_co2 %>% 
       filter(year == yr) %>% 
-      mutate(total_co2 = co2 * population) %>%
+      mutate(
+        total_co2 = co2 * population
+      ) %>%
       pull() %>%
       sum()
   }
@@ -412,7 +417,9 @@ calculate_total_co2_yr <-
   function(yr) {
     populations_co2 %>% 
       filter(year == yr) %>% 
-      mutate(total_co2 = co2 * population) %>%
+      mutate(
+        total_co2 = co2 * population
+      ) %>%
       pull() %>%
       sum(na.rm = TRUE)
   }
@@ -429,18 +436,22 @@ calculate_total_co2_yr <-
   function(yr, remove_na) {
     populations_co2 %>% 
       filter(year == yr) %>% 
-      mutate(total_co2 = co2 * population) %>%
+      mutate(
+        total_co2 = co2 * population
+      ) %>%
       pull() %>%
       sum(na.rm = remove_na)
   }
 
 calculate_total_co2_yr(
   yr = 2015,
-  remove_na = TRUE)
+  remove_na = TRUE
+)
 
 calculate_total_co2_yr(
   yr = 2015,
-  remove_na = FALSE)
+  remove_na = FALSE
+)
 ```
 
 We can also assign a default value for the formal. For example perhaps we want to set the default value to `TRUE`:
@@ -449,10 +460,13 @@ We can also assign a default value for the formal. For example perhaps we want t
 calculate_total_co2_yr <-
   function(
     yr,
-    remove_na = TRUE) {
+    remove_na = TRUE
+  ) {
     populations_co2 %>% 
       filter(year == yr) %>% 
-      mutate(total_co2 = co2 * population) %>%
+      mutate(
+        total_co2 = co2 * population
+      ) %>%
       pull() %>%
       sum(na.rm = remove_na)
   }
@@ -494,7 +508,7 @@ subset_sepal_lengths <-
 subset_sepal_lengths(spp = "setosa")
 ```
 
-The above works, but naming your variable differently based on context (e.g., as a formal vs. a variable in a data frame) makes your code difficult to read/interpret. So can we name our formal `species` instead? Let's see what happens:
+The above works, but naming your variable differently based on context (e.g., as a formal vs. a variable in a data frame) makes your code difficult to read/interpret. Can we name our formal `species` instead? Let's see what happens:
 
 ```{r}
 # An ill-advised way of naming formals:
@@ -518,7 +532,7 @@ fun_with_bad_formals("virginica")
 
 The above does not work! Instead, it is calculating the `mean()` of `sepal_length` for all species. This situation is a result of what is known as "scoping ambiguity". Here, R looked up the variable `species` and the first place that it was found was the `species` column name in `iris`. Because R found the column name `species` first, R did not use our formal `species` at all!
 
-To address this problem, the *rlang* package has brought us the function `{{ ... }}`. When we surround a variable with `{{ }}`, we can force R to look for the variable in our formals first and then insert it into our function:
+To address this problem, the *rlang* package has brought us the function `{{{ ... }}}`. When we surround a variable with `{{{ }}}`, we can force R to look for the variable in our formals first and then insert it into our function:
 
 ```{r}
 # An better way of using formals:
@@ -526,7 +540,9 @@ To address this problem, the *rlang* package has brought us the function `{{ ...
 fun_with_inserted_formals <-
   function(species) {
     iris %>% 
-      filter(species == {{ species }}) %>% 
+      filter(
+        species == {{ species }}
+      ) %>% 
       pull(sepal_length) %>% 
       mean()
   }
@@ -540,11 +556,11 @@ fun_with_inserted_formals("versicolor")
 fun_with_inserted_formals("virginica")
 ```
 
-*Note: Although the rlang package is not a part of the core tidyverse, `{{ ... }}` is made available to us with `library(tidyverse)`.*
+*Note: Although the rlang package is not a part of the core tidyverse, `{{{ ... }}}` is made available to us with `library(tidyverse)`.*
 
 ### Scoping and quoted variables
 
-You might have noticed that we used quotes around the variable `sepal_length` in our function `calc_mean_spp_measure`. This is because `sepal_length` is not a defined variable in our global environment. Let's see what happens if we leave those quotes out:
+You might have noticed that we used quotes around the variable `sepal_length` in our function `calc_mean_spp_measure`. This is because `sepal_length` is not an assigned name in our global environment. Let's see what happens if we leave those quotes out:
 
 ```{r}
 calc_mean_spp_measure <-
@@ -560,7 +576,7 @@ calc_mean_spp_measure("setosa", sepal_length)
 
 This error again has to do with how R searches for variables. Within the body of the function, R searched for `measure` -- it first did so in the parent frame, `iris` and did not find it there. In the formals of the function, it found that the `measure` is assigned to the value `sepal_length`. It then searched the global environment for the name `sepal_length`. There is no variable `sepal_length` in our global environment so, as the message states, that variable was not found and R threw an error.
 
-We could simply throw up our hands and say "okay, I guess I will just use quotes!" If you are anything like me though, you have gotten pretty spoiled by the tidyverse and think quotes should not be necessary when referring to a variable (e.g., my sneaky usage of `tidyselect:::select()`). Luckily, there is another way and, even better, we have already learned it! Recall that the `{{ ... }}` operator changes R's search path by injecting the variable into a function before it is evaluated. As such, watch what happens when we use `{{ measure }}`:
+We could simply throw up our hands and say "okay, I guess I will just use quotes!" If you are anything like me though, you have gotten pretty spoiled by the tidyverse and think quotes should not be necessary when referring to a variable (e.g., my sneaky usage of `tidyselect:::select()`). Luckily, there is another way and, even better, we have already learned it! Recall that the `{{{ ... }}}` operator changes R's search path by injecting the variable into a function before it is evaluated. As such, watch what happens when we use `{{{ measure }}}`:
 
 ```{r}
 calc_mean_spp_measure <-
@@ -581,9 +597,9 @@ Sometimes I find a function that is *almost* perfect, but not quite. When this o
 For example, I previously expressed my annoyance with arranging data frames in descending order with *dplyr*:
 
 ```{r}
-iris %>% 
+countries %>% 
   arrange(
-    desc(sepal_length)
+    desc(country_name)
   )
 ```
 
@@ -604,18 +620,18 @@ arrange_desc <-
 We can check to see if this works with our original variable:
 
 ```{r}
-iris %>% 
-  arrange_desc(sepal_length)
+countries %>% 
+  arrange_desc(country_name)
 ```
 
-It did not! Once again, `sepal_length` was not found due to R's scoping rules. What happens if we place the variable in quotes?
+It did not! Once again, `country_name` was not found due to R's scoping rules. What happens if we place the variable in quotes?
 
 ```{r}
-iris %>% 
-  arrange_desc("sepal_length")
+countries %>% 
+  arrange_desc("country_name")
 ```
 
-This did not work either! This is because R was trying to sort the data on a one-value character vector, `"sepal_length"`. We can address this by again using `{{ ... }}` to insert our variable into the function:
+This did not work either! This is because R was trying to sort the data based on the one-value character vector "country_name", not the *variable* `country_name`. We can address this by again using `{{{ ... }}}` to insert our variable into the function:
 
 ```{r}
 arrange_desc <-
@@ -626,23 +642,22 @@ arrange_desc <-
     )
   }
 
-iris %>% 
-  arrange_desc(sepal_length)
+countries %>% 
+  arrange_desc(country_name)
 ```
 
 Before using our function, we should test it with a different variable:
 
 ```{r}
-iris %>% 
-  arrange_desc(sepal_width)
+countries %>% 
+  arrange_desc(country_code)
 ```
 
 ... and on a different data frame!
 
 ```{r}
-populations_co2 %>% 
-  filter(year == 2020) %>% 
-  arrange_desc(population)
+iris %>% 
+  arrange_desc(sepal_length)
 ```
 
 The above works, but if we save this function for posterity, we might want to explicitly call *dplyr* when we use the function. When I write a custom function that I use across multiple scripts, and that function relies on functions not attached in a base R session, I often explicitly call the function names from their package:
@@ -657,11 +672,31 @@ arrange_desc <-
   }
 ```
 
+::: {class="mysecret"}
+
+<i class="fas fa-user-secret fa-2x"></i> Although we have used `desc()` within `arrange()` throughout the course, there is another option when arranging a numeric variable! If the variable that you want to `arrange()` is *numeric*, you can use the `-` operator in place of `desc()`:
+
+```{r}
+populations_co2 %>% 
+  filter(year == 2020) %>% 
+  arrange(-population)
+```
+
+But note that `-` does not work on character vectors!
+
+```{r}
+populations_co2 %>% 
+  filter(year == 2020) %>% 
+  arrange(-country_code)
+```
+
+:::
+
 ## We invoked custom functions before this lesson!
 
 Before completing this lesson, I think that it is good to recognize that you have already invoked custom functions prior to this module. 
 
-Consider the following operation (***Lesson 4.1: Advanced filtering***):
+Consider the following operation (***Lesson 4.2: Advanced filtering***):
 
 ```{r}
 populations_co2 %>% 
@@ -711,7 +746,8 @@ multiply_by_two <-
 ... is equivalent to:
 
 ```{r}
-multiply_by_two <- \(x) x * 2
+multiply_by_two <- 
+  \(x) x * 2
 ```
 
 Thus, an operation such as ...
@@ -781,36 +817,23 @@ populations_co2 %>%
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, <<-`: The super assignment infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) and sends the results to the global environment (regardless of the operating environment)
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
-* `.Primitive, ::`: Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
-* `.Primitive, ==`: Infix relational operator (is equal to)
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, *`: Infix arithmetic operator (multiply)
-* `.Primitive, is.na`: A logical test of whether a value in a vector is [NA]{.mono}
-* `.Primitive, return`: Return the results from a given point in a function's body (do not use for the last value!)
-* `base::body`: Print the body of an R function
-* `base::environment`: Print the environment of a given function
-* `base::formals`: Print the formals of an R function
-* `base::function`: Initiate the creation of a custom function
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::ls`: Generate a character vector of names in a specified environment (default is the global environment)
-* `base::mean`: Generate a one-value double numeric vector that describes the mean of a vector
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `base::sum`: Calculate the sum of a numeric vector
-* `base::summary`: Print summary stats for a data object
-* `dplyr::arrange`: Sort the rows of a data frame by the values in a variable or variables
-* `dplyr::desc`: When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order
-* `dplyr::filter`: Subset a data frame by logical condition
-* `dplyr::if_any`: Run a function for any of the columns that satisfy a given condition
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `dplyr::pull`: Extract a column from a data frame as a vector
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `rlang::{{}}`: Insert the variable inside of `{{ ... }}` into the body of a function
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_6.1_focus_on_functions.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 :::
 
 <button class="accordion">Metacharacters in regex</button>
@@ -843,26 +866,31 @@ When you are given a list of functions that you may use in a given problem set, 
 The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
 
 :::{style="background-color: white; font-size: 14px;"}
-|Task                         | Windows          | Mac
-|:----------------------------|:----------------:|:-------------------:|
-| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
-| Open an existing script     | Ctrl + O         | command + O
-| Create a new script         | Ctrl + shift + N | command + shift + N
-| Save script file            | Ctrl + S         | command + S
-| Execute code                | Ctrl + Enter     | command + return
-| Copy                        | Ctrl + C         | command + C
-| Paste                       | Ctrl + V         | command + V
-| Add a pipe operator         | Ctrl + shift + M | command + shift + M
-| Add an assignment operator  | Alt + dash       | option + dash
-| Add a new code section      | Ctrl + shift + R | command + shift + R
-| Indent code                 | Ctrl + I         | command + I
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
 :::
 :::
 
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
