@@ -84,6 +84,9 @@ banding_subset %>%
 # The following for loop calculates the average mass of each species in
 # `banding_subset` and returns a tibble:
 
+# The following for loop calculates the average mass of each species in
+# `banding_subset` and returns a tibble:
+
 # Generate a unique vector of species, arranged alphabetically:
 
 species <-

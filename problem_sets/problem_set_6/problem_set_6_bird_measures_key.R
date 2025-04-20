@@ -314,8 +314,8 @@ list.files(
   set_names(
     "birds_cicadas_lc",
     "dc_birds",
-    "district_birds.rds",
-    "messy_birds.rds"
+    "district_birds",
+    "messy_birds"
   ) %>% 
   
   # Assign each list item to the global environment:
