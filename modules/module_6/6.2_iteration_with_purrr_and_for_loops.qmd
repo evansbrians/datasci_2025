@@ -11,10 +11,8 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <head>
@@ -42,7 +40,7 @@ rm(has_annotations)
 <hr>
 
 <div>
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 This tutorial will guide you through the often daunting process of **iteration** in R. In this context, iteration means writing code that will repeat a given process a set number of times. Without iteration, our code is often repetitive -- we end up copying and pasting the same functions over and over. This leads to code that is *way* longer than it needs to be, hard to read, and prone to errors. Learning how to develop code that includes iteration is a crucial skill for your R toolkit.
 
