@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 project:
   execute-dir: project
 editor: source
@@ -41,7 +41,7 @@ library(tidyverse)
 
 <hr>
 
-![](https://www.birdconservancy.org/wp-content/uploads/2020/02/Hatch-year-female-Rose-breasted-Grosbeak-1030x989.jpg){.intro_image}
+![](https://mybeautifulworldblog.com/wp-content/uploads/2015/06/carolina-wren-willow-dk7a2608c2a9-maria-de-bruyn-res.jpg){.intro_image}
 
 In this exercise, you will (once again) be exploring data associated with a long-term study of songbird survival in metropolitan Washington D.C. ([Evans et al. 2015](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/14-0171.1){target="_blank"}). For this study, researchers banded and measured birds in parks and homeowner's yards throughout the Washington D.C. area. This problem set will evaluate your ability to understand the concepts covered in ***Module 6: Programming I (custom functions & iteration)*** while providing you more opportunities to enhance your understanding of content from previous modules. For the latter, I have provided questions that draw attention to elements of the earlier modules that may be particularly challenging. These include:
 
@@ -138,7 +138,7 @@ In this assignment, you may **only** use the following R functions in your submi
 
 For this problem set, we will use the file [dc_birds.rds]{.mono}. The data are stored as a list with the following list items (click each button to see variable definitions):
 
- The data are stored in a list with the name `dc_birds.rds` that contains the following list items:
+The data are stored in a list with the name `dc_birds.rds` that contains the following list items:
 
 <button class="accordion">**[visits]{.mono}**: A tibble data frame that provides information on a visit to a site on a given day.</button>
 
@@ -170,15 +170,15 @@ For this problem set, we will use the file [dc_birds.rds]{.mono}. The data are s
 * [spp]{.mono}, character: Foreign key to the birds table
 * [wing]{.mono}, numeric: The length of a bird's wing, in millimeters
 * [age]{.mono}, character: The observed age of the bird during the banding event, classified as:
-    * "AHY": Adult bird, after hatch year
-    * "ASY": Adult bird, after second year
-    * "HY": Juvenile bird, hatch year
-    * "SY": Adult bird, second year
-    * "U": Unkonwn
+* "AHY": Adult bird, after hatch year
+* "ASY": Adult bird, after second year
+* "HY": Juvenile bird, hatch year
+* "SY": Adult bird, second year
+* "U": Unkonwn
 * [sex]{.mono}, character: The observed sex of the bird during the banding event, classified as:
-    * "F": Female
-    * "M": Male
-    * "U": Unknown
+* "F": Female
+* "M": Male
+* "U": Unknown
 * [mass]{.mono}, numeric: The mass of the bird, in grams
 
 :::
@@ -193,7 +193,7 @@ For this problem set, we will use the file [dc_birds.rds]{.mono}. The data are s
 
 ::: now_you
 
-1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_6_[last name]_[first name].R". For example, I would name my file `problem_set_6_evans_brian.R`.
+1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_6_[last name]_[first name].R". For example, Tara would name the file `problem_set_6_snedgen_tara.R`.
 
 :::
 
@@ -297,7 +297,8 @@ species <-
 out_container <-
   vector(
     "list",
-    length = length(species))
+    length = length(species)
+  )
 
 # Iterate across species with a for loop:
 
@@ -328,7 +329,7 @@ We have only scratched the surface of what we can do with `purrr::map()` and we 
 
 ::: {.now_you}
 
-8\. [[1.25]]{.score} One of the hats that I wear is "ornithologist" so we end up working with data about birds *a lot*. In a single chained analysis:
+8\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
 
 * [[0.50]]{.score} As parsimoniously as possible, use regex to provide a character vector of all files that contain "bird" and ends with "rds";
 * [[0.25]]{.score} Use a `map()` function to read in all of the files at once;
@@ -347,15 +348,15 @@ var acc = document.getElementsByClassName("accordion");
 var i;
 
 for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
 }
 </script>
 
