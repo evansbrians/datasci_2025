@@ -329,7 +329,9 @@ But neither Tara nor I like the inconsistency! Let's make our own custom functio
 
 :::
 
-## Converting `for` loops to `map()`
+## Iteration
+
+### Converting `for` loops to `map()`
 
 The following for loop calculates the average mass of each species in
 `banding_subset` and returns a tibble:
@@ -378,13 +380,31 @@ bind_rows(out_container)
 
 *Note: Question 8 tests your understanding of purrr map functions ... in the real world I would obviously use `summarize()` for this!*
 
+### Converting grouped operations to `map()`
+
+Any function that follows `group_by()` or includes the argument `.by = ...` is fundamentally an iteration. For example, the following code block subsets `banding_subset` to records associated with the maximum wing length observed for each species:
+
+```{r}
+banding_subset %>% 
+  filter(
+    wing == max(wing),
+    .by = common_name
+  )
+```
+
+::: now_you
+
+9\. [[2.0]]{.score} Use `purrr::map()` to repeat the operation above without the use of `group_by()` or `.by = ...`.
+
+:::
+
 ## Mapping when it counts
 
 We have only scratched the surface of what we can do with `purrr::map()` and we will continue to use this function (and its cousins) throughout the remainder of this course.
 
 ::: {.now_you}
 
-9\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
+10\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
 
 * As parsimoniously as possible, use regex to provide a character vector of all files that contain "bird" and ends with "rds";
 * Assign a name (of your choosing) to each value in the character vector;
