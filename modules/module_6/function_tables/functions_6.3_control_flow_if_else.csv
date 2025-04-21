@@ -1,0 +1,21 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,[[…]],Extraction operator used to index a single value from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,function,Write a custom function
+.Primitive,if,"If a logical value is TRUE, evaluate a statement"
+.Primitive,length,Return the number of values in an atomic vector or the number of list items in a list (or data frame!) as a one-value integer vector
+.Primitive,sqrt,Calculate the square root of a numeric vector
+.Primitive,sum,Calculate the sum of the values in a vector
+base,function,Initiate the creation of a custom function
+base,mean,Generate a one-value double numeric vector that describes the mean of a vector
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,pluck,Extract a list item from a list
+stats,sd,Calculate the standard deviation of a numeric vector and return as a one-value double numeric vector
+tidyselect,matches,"When used with select, this allows you to subset names with string matching"

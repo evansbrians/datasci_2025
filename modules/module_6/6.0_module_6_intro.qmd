@@ -5,15 +5,14 @@ format:
     embed-resouces: true
     self-contained: true
     standalone: true
-    toc: false
+    toc: true
+    toc-location: left
     number-sections: false
     search: true
     theme: 
       - cosmo
       - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <hr>
@@ -35,13 +34,12 @@ Before continuing, please be sure that you have completed all of the preliminary
 ## Module overview
 
 -   **6.1. Focus on functions**: This lesson includes *only* a written tutorial (the video was *terrible* ). In completing this lesson, you will learn how to write custom functions and gain a new perspective on some of the functions that you have (secretly) already written in this course.
--   **6.2. Iteration with for loops and purrr**:  This lesson includes a (very long) tutorial and video lesson (runtime -- 18:38) in which you will review indexing (incorporating the additional tools that we have learned), learn how to construct base R *for loops*, and use the `map()` function for iteration.
--   **6.3 Control flow with if else**: The final lesson of this module is a video (runtime -- 22:46; no tutorial) in which you will learn some cool applications of `purrr::map()` and we will break new ground
--   **Addendum: Glossary of terms and functions, Modules 1-6**: Herein, I provide a written documentation of all of the terminology and functions we have used thus far. 
+-   **6.2. Iteration with for loops and purrr**:  This lesson includes a (very long) tutorial and video lesson in which you will review indexing (incorporating the additional tools that we have learned), learn how to construct base R *for loops*, and use the `map()` function for iteration.
+-   **6.3 Control flow with if else**: The final lesson of this module is a video in which you will learn some cool applications of `purrr::map()` and we will break new ground
 
 ## Getting started
 
-Please download the attached zip file [module_6_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have (e.g., [source_script.R]{.mono} ), please overwrite the previous file. Please store the file [populations_co2.rds]{.mono} in the folder [data/processed]{.mono}. All remaining files should be placed in [data/raw]{.mono}. If there are any data files you already have (e.g., [my_covid_garden.rds]{.mono}), please overwrite them as well.
+Please download the attached zip file [module_6_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have, please overwrite the previous file. Please store the file [populations_co2.rds]{.mono} in the folder [data/processed]{.mono}. All remaining files should be placed in [data/raw]{.mono}. If there are any data files you already have, please overwrite them as well.
 
 ## About this week's data
 
@@ -51,12 +49,81 @@ This week we will use the following data files in our exercises:
 
 **[iris.rds]{.mono}**: This is Edgar Anderson's famous data set that provides the measurements of flowers of three species of iris, *Iris setosa*, *I. versicolor*, and *I. virginica*. See `?iris` for more information (or the original paper at [this link](https://www.jstor.org/stable/2394164){target="_blank"}!).
 
-**[populations_co2.rds]{.mono}**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx){target="_blank"} and provide information on the emissions of greenhouse gases and the populations of countries around the world. We have worked with these data before, but as an untidy dataset (in ***Problem set 3***). I have normalized these data and saved them as a list file.
+**[populations_co2.rds]{.mono}**: These data were compiled by the [World Bank DataBank](https://databank.worldbank.org/home.aspx){target="_blank"} and provide information on the emissions of greenhouse gases and the populations of countries around the world. I normalized these data (the original version was *extremely* untidy) and saved them as a list file
 
 **[portal.csv]{.mono}**: This dataset provides measurements taken in a long term study (the Portal project) on rodent traits in Portal, Arizona. The provided data were collected in a fixed grid established in 1977 and include when an individual was measured, where the measurement occurred, the sex and species of the individual, and their hindfoot length. You can read more about this study and the data they collected at [this link](https://portal.weecology.org/).
 
 ## Readings and resources
 
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
+
+::: panel
+::: glossary_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  here::here(),
+  "dev_scripts/glossary/glossary_source.R"
+) %>% 
+  source()
+
+get_glossary_table_module(module = 6) %>%
+  kableExtra::kable(
+    align = c("l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+:::
+
+<button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>
+
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  "function_tables",
+  "functions_through_module_6.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+:::
+
+<br>
+
 * R for Data Science (2^nd^ edition), [26: Iteration](https://r4ds.hadley.nz/iteration){target="_blank"}
 * [Purrr cheatsheet](https://rstudio.github.io/cheatsheets/purrr.pdf){target="_blank"}
 
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
