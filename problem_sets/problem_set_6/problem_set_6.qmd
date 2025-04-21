@@ -193,7 +193,7 @@ The data are stored in a list with the name [dc_birds.rds]{.mono} that contains 
 
 ::: now_you
 
-1\. [[1.0]]{class="score"} Save this document to your project folder with naming convention "problem_set_6_[last name]_[first name].R". For example, Tara would name the file `problem_set_6_snedgen_tara.R`.
+1\. [[0.25]]{class="score"} Save this document to your project folder with naming convention "problem_set_6_[last name]_[first name].R". For example, Tara would name the file `problem_set_6_snedgen_tara.R`.
 
 :::
 
@@ -205,7 +205,7 @@ The data are stored in a list with the name [dc_birds.rds]{.mono} that contains 
 
 ::: now_you
 
-3\. [[1.0]]{.score} The data file for this problem set is `dc_birds.rds`. This is a list file comprised of five separate tibbles, assigned to the names: `birds`, `counts`, `measures`, `sites`, and `visits.` In a single, chained analysis:
+3\. [[0.50]]{.score} The data file for this problem set is `dc_birds.rds`. This is a list file comprised of five separate tibbles, assigned to the names: `birds`, `counts`, `measures`, `sites`, and `visits.` In a single, chained analysis:
 
 * Read in the list;
 * Subset to the list items `visits`, `birds`, and `measures`;
@@ -221,12 +221,12 @@ The data are tidy, but that can sometimes present interesting challenges! We oft
 
 4\. [[1.25]]{.score} In a chained analysis that utilizes `birds`, `visits`, and `measures`:
 
-* [[0.75]]{.subscore} Combine the data frames and subset the variables such that the resultant variables are `bird_id`, `common_name`, `site_id`, `date`, `age`, `sex`, `wing`, and `mass` (in that order).
-* [[0.25]]{.subscore} Globally assign the name `banding` to the resultant object.
+* Combine the data frames and subset the variables such that the resultant variables are `bird_id`, `common_name`, `site_id`, `date`, `age`, `sex`, `wing`, and `mass` (in that order).
+* Globally assign the name `banding` to the resultant object.
 
 *Hint: This will require multiple joins … carefully consider the primary and foreign keys for each join!*
 
-[[0.25]]{.subscore} In a separate code block from the above, remove the names `birds`, `measures`, and `visits` from your global environment.
+In a separate code block from the above, remove the names `birds`, `measures`, and `visits` from your global environment.
 
 :::
 
@@ -238,18 +238,18 @@ For this exploration of the data, we are only interested:
 
 ::: now_you
 
-5\. [[2.5]]{.score} Modify `banding` as parsimoniously as possible:
+5\. [[1.50]]{.score} Modify `banding` as parsimoniously as possible:
 
-* [[0.50]]{.subscore} Subset to species (`common_name`) with more than 100 observations;
-* [[0.50]]{.subscore} Using `if_all()` or `if_any()`, subset to observations where the `sex` and `age` of the bird is known (see variable descriptions above);
-* [[0.25]]{.subscore} Subset to observations in which `wing` measurements are greater than 40 mm;
-* [[0.25]]{.subscore} Subset to observations in which `mass` measurements are greater than 7 g;
-* [[0.50]]{.subscore} Modify the `age` variable, such that the age classes are a factor variable with the levels `juvenile` and `adult` (in that order; see variable descriptions above);
-* [[0.25]]{.subscore} Globally assign the name `banding_subset` to the resultant object.
+* Subset to species (`common_name`) with more than 100 observations;
+* Using `if_all()` or `if_any()`, subset to observations where the `sex` and `age` of the bird is known (see variable descriptions above);
+* Subset to observations in which `wing` measurements are greater than 40 mm;
+* Subset to observations in which `mass` measurements are greater than 7 g;
+* Modify the `age` variable, such that the age classes are a factor variable with the levels `juvenile` and `adult` (in that order; see variable descriptions above);
+* Globally assign the name `banding_subset` to the resultant object.
 
 *Hint: When you subset a variable using `filter()`, any rows with [NA]{.mono} values in the target variable are removed by default.*
 
-[[0.25]]{.subscore} In a separate code block from the above, remove the name `banding` from your global environment.
+In a separate code block from the above, remove the name `banding` from your global environment.
 
 :::
 
@@ -316,7 +316,7 @@ But neither Tara nor I like the inconsistency! Let's make our own custom functio
 
 ::: now_you
 
-7\. [[0.75]]{.score} Create a custom function that arranges *any* data frame in ascending *or* descending order by *any* variable in that object.
+7\. [[1.50]]{.score} Create a custom function that arranges *any* data frame in ascending *or* descending order by *any* variable in that object.
 
 * The function should include the following arguments:
     * The data being sorted
@@ -374,7 +374,7 @@ bind_rows(out_container)
 
 ::: now_you
 
-8\. [[2.0]]{.score} Without generating any new global assignments, nor using any of the global assignments in the for loop example above (except `banding_subset`), replicate the results above using `purrr::map()`.
+8\. [[1.0]]{.score} Without generating any new global assignments, nor using any of the global assignments in the for loop example above (except `banding_subset`), replicate the results above using `purrr::map()`.
 
 :::
 
@@ -396,7 +396,7 @@ Under-the-hood, the above code block is an iteration. For each `common_name`, th
 
 ::: now_you
 
-9\. [[2.0]]{.score} Use `purrr::map()` to repeat the operation above without the use of `group_by()` or `.by = ...`.
+9\. [[1.25]]{.score} Use `purrr::map()` to repeat the operation above without the use of `group_by()` or `.by = ...`.
 
 :::
 
@@ -406,7 +406,7 @@ We have only scratched the surface of what we can do with `purrr::map()` and we 
 
 ::: {.now_you}
 
-10\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
+10\. [[1.50]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
 
 * As parsimoniously as possible, use regex to provide a character vector of all files that contain "bird" and ends with "rds";
 * Assign a name (of your choosing) to each value in the character vector;
