@@ -326,7 +326,7 @@ But neither Tara nor I like the inconsistency! Let's make our own custom functio
 * The function should include the following arguments:
     * The data being sorted
     * The variable being sorted
-    * The direction of arrangement (i.e., ascending or descending) (*Hint: See Lesson 6.3 Control flow if else*)
+    * The direction of arrangement (i.e., ascending or descending; *Hint: See Lesson 6.3 Control flow if else*)
 * The default behavior of the function should arrange the data in ascending order.
 * Assign the function to the name `my_arrange`.
 * Test the function in ascending and descending order with the `common_name` variable in `banding_subset`.
