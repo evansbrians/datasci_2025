@@ -387,8 +387,8 @@ We have only scratched the surface of what we can do with `purrr::map()` and we 
 9\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
 
 * As parsimoniously as possible, use regex to provide a character vector of all files that contain "bird" and ends with "rds";
+* Assign a name (of your choosing) to each value in the character vector;
 * Use a `map()` function to read in all of the files at once;
-* Assign a name (of your choosing) to each list item;
 * Assign each list item name to the global environment.
 :::
 
