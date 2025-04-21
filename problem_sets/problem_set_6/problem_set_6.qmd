@@ -174,15 +174,15 @@ The data are stored in a list with the name [dc_birds.rds]{.mono} that contains 
 * [spp]{.mono}, character: Foreign key to the birds table
 * [wing]{.mono}, numeric: The length of a bird's wing, in millimeters
 * [age]{.mono}, character: The observed age of the bird during the banding event, classified as:
-* "AHY": Adult bird, after hatch year
-* "ASY": Adult bird, after second year
-* "HY": Juvenile bird, hatch year
-* "SY": Adult bird, second year
-* "U": Unkonwn
+  * "AHY": Adult bird, after hatch year
+  * "ASY": Adult bird, after second year
+  * "HY": Juvenile bird, hatch year
+  * "SY": Adult bird, second year
+  * "U": Unknown
 * [sex]{.mono}, character: The observed sex of the bird during the banding event, classified as:
-* "F": Female
-* "M": Male
-* "U": Unknown
+  * "F": Female
+  * "M": Male
+  * "U": Unknown
 * [mass]{.mono}, numeric: The mass of the bird, in grams
 
 :::
