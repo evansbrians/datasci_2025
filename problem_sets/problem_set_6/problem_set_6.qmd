@@ -203,7 +203,8 @@ The data are stored in a list with the name [dc_birds.rds]{.mono} that contains 
 
 ::: now_you
 
-2\. [[0.25]]{class="score"} Attach the tidyverse metapackage to your current R session.
+2\. [[0.25]]{class="score"} Open the script file in RStudio and attach the core tidyverse packages to your
+current R session.
 
 :::
 
