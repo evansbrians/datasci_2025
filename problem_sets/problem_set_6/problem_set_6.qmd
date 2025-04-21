@@ -278,6 +278,57 @@ banding_subset %>%
 
 :::
 
+### A different arrangement
+
+The function `arrange` sorts the rows of a data frame by a variable or variables. The function is a more powerful/flexible version of the base R function `sort`. 
+
+```{r}
+banding_subset %>% 
+  arrange(common_name)
+```
+
+One aspect of `arrange()` that Tara and I find annoying, however, is that you need to nest an additional function `desc()` to arrange rows descending order:
+
+```{r}
+banding_subset %>% 
+  arrange(
+    desc(common_name)
+  )
+```
+
+You can, of course, use a negative symbol to sort the data frame by descending numeric values:
+
+```{r}
+# Arrange a numeric vector with a negative operator:
+
+banding_subset %>% 
+  arrange(-wing)
+
+# Arrange a numeric vector with `desc()`:
+
+banding_subset %>% 
+  arrange(
+    desc(wing)
+  )
+```
+
+But neither Tara nor I like the inconsistency! Let's make our own custom function ...
+
+::: now_you
+
+7\. [[0.75]]{.score} Create a custom function that arranges *any* data frame in ascending *or* descending order by *any* variable in that object.
+
+* The function should include the following arguments:
+    * The data being sorted
+    * The variable being sorted
+    * The direction of arrangement (i.e., ascending or descending) (*Hint: See Lesson 6.3 Control flow if else*)
+* The default behavior of the function should arrange the data in ascending order.
+* Assign the function to the name `my_arrange`.
+* Test the function in ascending and descending order with the `common_name` variable in `banding_subset`.
+* Test the function in ascending and descending order with the `wing` variable in `banding_subset`.
+
+:::
+
 ## Converting `for` loops to `map()`
 
 The following for loop calculates the average mass of each species in
@@ -321,11 +372,11 @@ bind_rows(out_container)
 
 ::: now_you
 
-7\. [[2.0]]{.score} Without generating any new global assignments, nor using any of the global assignments in the for loop example above (except `banding_subset`), replicate the results above using `purrr::map()`.
+8\. [[2.0]]{.score} Without generating any new global assignments, nor using any of the global assignments in the for loop example above (except `banding_subset`), replicate the results above using `purrr::map()`.
 
 :::
 
-*Note: Question 7 tests your understanding of purrr map functions ... in the real world I would obviously use `summarize()` for this!*
+*Note: Question 8 tests your understanding of purrr map functions ... in the real world I would obviously use `summarize()` for this!*
 
 ## Mapping when it counts
 
@@ -333,7 +384,7 @@ We have only scratched the surface of what we can do with `purrr::map()` and we 
 
 ::: {.now_you}
 
-8\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
+9\. [[1.25]]{.score} Tara and I are ornithologists, so we end up working with data about birds *a lot*. In a single chained analysis:
 
 * As parsimoniously as possible, use regex to provide a character vector of all files that contain "bird" and ends with "rds";
 * Use a `map()` function to read in all of the files at once;
@@ -341,7 +392,7 @@ We have only scratched the surface of what we can do with `purrr::map()` and we 
 * Assign each list item name to the global environment.
 :::
 
-Despite my somewhat lame pedagogical examples, hopefully you are beginning to see grasp the power of iteration!
+Despite our somewhat lame pedagogical examples, hopefully you are beginning to see grasp the power of iteration!
 
 <hr>
 
