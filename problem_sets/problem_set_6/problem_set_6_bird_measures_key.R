@@ -1,7 +1,17 @@
 
+# Script file for problem set 6: Iteration with district birds
+
+# 1 -----------------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# `problem_set_6.R` to "problem_set_6_[last name]_[first name].R" using a snake
+# case naming convention. *Note: You will submit this script file as your
+# assignment*.
+
 # 2 -----------------------------------------------------------------------
 
-# Attach the tidyverse core packages to your current R session:
+# Open the script file in RStudio and attach the core tidyverse packages to your
+# current R session.
 
 library(tidyverse)
 
@@ -79,9 +89,9 @@ rm(
 
 # * Subset to species (`common_name`) with more than 100 observations;
 # * Using `if_all()` or `if_any()`, subset to observations where the `sex` 
-#   and `age` of the bird is known (see variable descriptions above)
-# * Subset to observations in which `wing` measurements are greater 40 mm;
-# * Subset to observations in which `mass` measurements are greater 7 g;
+#   and `age` of the bird is known (see variable descriptions above);
+# * Subset to observations in which `wing` measurements are greater than 40 mm;
+# * Subset to observations in which `mass` measurements are greater than 7 g;
 # * Modify the `age` variable, such that the age classes are a factor variable 
 #   with the levels `juvenile` and `adult` (in that order; see variable 
 #   descriptions above);
@@ -137,7 +147,7 @@ rm(banding)
 # * Subsets `banding_subset` by row to the species (`common_name`) "Northern 
 #   Cardinal";
 # * Extracts the numeric vector assigned to `mass`;
-# * Calculates the mean of the vector
+# * Calculates the mean of the vector;
 # * Prints a one-value numeric vector.
 
 banding_subset %>% 
@@ -146,8 +156,8 @@ banding_subset %>%
   mean()
 
 # Convert the above to a custom function that can be used to calculate the
-# mean `mass` or `wing` of any species in `banding_subset`. Globally assign
-# your function to the name `mean_species_var`:
+# mean `mass` **or** `wing` of any species in `banding_subset`. Globally 
+# assign your function to the name `mean_species_var`:
 
 mean_species_var <-
   function(species, variable) {
@@ -168,6 +178,71 @@ mean_species_var <-
   }
 
 # 7 -----------------------------------------------------------------------
+
+# Create a custom function that arranges *any* data frame in ascending *or*
+# descending order by *any* variable in that object.
+
+# * The function should include the following arguments:
+#   * The data being sorted
+#   * The variable being sorted
+#   * The direction of arrangement (i.e., ascending or descending) (Hint: See 
+#     Lesson 6.3 Control flow if else)
+# * The default behavior of the function should arrange the data in ascending 
+#   order.
+# * Assign the function to the name `my_arrange`
+
+my_arrange <- 
+  function(
+    .data,
+    .variable,
+    ascending = TRUE
+  ) {
+    if(ascending) {
+      .data %>% 
+        arrange({{ .variable }})
+    } else {
+      .data %>% 
+        arrange(
+          desc({{ .variable }})
+        )
+    }
+  }
+
+# Test the function in ascending order with the `common_name` variable in
+# `banding_subset`:
+
+banding_subset %>% 
+  my_arrange(common_name)
+
+# Or:
+
+banding_subset %>% 
+  my_arrange(common_name, ascending = TRUE)
+
+# Test the function in descending order with the `common_name` variable in
+# `banding_subset`:
+
+banding_subset %>% 
+  my_arrange(common_name, ascending = FALSE)
+
+# Test the function in ascending order with the `wing` variable in
+# `banding_subset`:
+
+banding_subset %>% 
+  my_arrange(wing)
+
+# Or:
+
+banding_subset %>% 
+  my_arrange(wing, ascending = TRUE)
+
+# Test the function in descending order with the `wing` variable in
+# `banding_subset`:
+
+banding_subset %>% 
+  my_arrange(wing, ascending = FALSE)
+
+# 8 -----------------------------------------------------------------------
 
 # The following for loop calculates the average mass of each species in
 # `banding_subset` and returns a tibble:
@@ -281,15 +356,44 @@ banding_subset %>%
 # Note: This tests your understanding of purrr map functions ... in the
 # real world I would obviously use `summarize()` for this!
 
-# 8 -----------------------------------------------------------------------
+# 9 -----------------------------------------------------------------------
+
+# Any function that follows `group_by()` or includes the argument .`by = ...` 
+# is fundamentally an iteration. For example, the following code block subsets
+# `banding_subset` to records associated with the maximum wing length observed
+# for each species:
+
+banding_subset %>% 
+  filter(
+    wing == max(wing),
+    .by = common_name
+  )
+
+# Use `purrr::map()` to repeat the operation above without the use of
+# `group_by()` or `.by = ....`:
+
+banding_subset %>% 
+  pull(common_name) %>% 
+  unique() %>% 
+  map(
+    ~ banding_subset %>% 
+      filter(
+        common_name == .x
+      ) %>% 
+      filter(
+        wing == max(wing)
+      )
+  ) %>% 
+  bind_rows()
+
+# 10 ----------------------------------------------------------------------
 
 # One of the hats that I wear is "ornithologist" so we end up working with 
 # data about birds *a lot*. In a single chained analysis:
 
-# * As parsimoniously as possible, use *conservative* regex to provide a
-#   character vector of all files that starts with "bird" and ends with "rds"
-#   *or* ends with "birds.rds" (*Note: Please use a character escape for the
-#   "." symbol*);
+# * As parsimoniously as possible, use regex to provide a character vector 
+#   of all files that starts with "bird" and ends with "rds" *or* ends with 
+#   "birds.rds";
 # * Use a `map()` function to read in all of the files at once;
 # * Assign a name (of your choosing) to each list item;
 # * Assign each list item name to the global environment.

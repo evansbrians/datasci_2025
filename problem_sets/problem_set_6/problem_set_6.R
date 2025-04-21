@@ -1,7 +1,17 @@
 
+# Script file for problem set 6: Iteration with district birds
+
+# 1 -----------------------------------------------------------------------
+
+# Before opening your script file for this problem set, change the name of
+# `problem_set_6.R` to "problem_set_6_[last name]_[first name].R" using a snake
+# case naming convention. *Note: You will submit this script file as your
+# assignment*.
+
 # 2 -----------------------------------------------------------------------
 
-# Attach the tidyverse core packages to your current R session:
+# Open the script file in RStudio and attach the core tidyverse packages to your
+# current R session.
 
 
 
@@ -39,7 +49,7 @@
 
 # * Subset to species (`common_name`) with more than 100 observations;
 # * Using `if_all()` or `if_any()`, subset to observations where the `sex` 
-#   and `age` of the bird is known (see variable descriptions above)
+#   and `age` of the bird is known (see variable descriptions above);
 # * Subset to observations in which `wing` measurements are greater 40 mm;
 # * Subset to observations in which `mass` measurements are greater 7 g;
 # * Modify the `age` variable, such that the age classes are a factor variable 
@@ -61,7 +71,7 @@
 # * Subsets `banding_subset` by row to the species (`common_name`) "Northern 
 #   Cardinal";
 # * Extracts the numeric vector assigned to `mass`;
-# * Calculates the mean of the vector
+# * Calculates the mean of the vector;
 # * Prints a one-value numeric vector.
 
 banding_subset %>% 
@@ -70,8 +80,8 @@ banding_subset %>%
   mean()
 
 # Convert the above to a custom function that can be used to calculate the
-# mean `mass` or `wing` of any species in `banding_subset`. Globally assign
-# your function to the name `mean_species_var`:
+# mean `mass` **or** `wing` of any species in `banding_subset`. Globally 
+# assign your function to the name `mean_species_var`:
 
 
 
@@ -80,6 +90,42 @@ banding_subset %>%
 
 
 # 7 -----------------------------------------------------------------------
+
+# Create a custom function that arranges *any* data frame in ascending *or*
+# descending order by *any* variable in that object.
+
+# * The function should include the following arguments:
+#   * The data being sorted
+#   * The variable being sorted
+#   * The direction of arrangement (i.e., ascending or descending) (Hint: See 
+#     Lesson 6.3 Control flow if else)
+# * The default behavior of the function should arrange the data in ascending 
+#   order.
+# * Assign the function to the name `my_arrange`
+
+
+
+# Test the function in ascending order with the `common_name` variable in
+# `banding_subset`:
+
+
+
+# Test the function in descending order with the `common_name` variable in
+# `banding_subset`:
+
+
+
+# Test the function in ascending order with the `wing` variable in
+# `banding_subset`:
+
+
+
+# Test the function in descending order with the `wing` variable in
+# `banding_subset`:
+
+
+
+# 8 -----------------------------------------------------------------------
 
 # The following for loop calculates the average mass of each species in
 # `banding_subset` and returns a tibble:
@@ -130,17 +176,34 @@ bind_rows(out_container)
 # Note: This tests your understanding of purrr map functions ... in the
 # real world I would obviously use `summarize()` for this!
 
-# 8 -----------------------------------------------------------------------
+# 9 -----------------------------------------------------------------------
+
+# Any function that follows `group_by()` or includes the argument .`by = ...` 
+# is fundamentally an iteration. For example, the following code block subsets
+# `banding_subset` to records associated with the maximum wing length observed
+# for each species:
+
+banding_subset %>% 
+  filter(
+    wing == max(wing),
+    .by = common_name
+  )
+
+# Use `purrr::map()` to repeat the operation above without the use of
+# `group_by()` or `.by = ....`:
+
+
+
+# 10 ----------------------------------------------------------------------
 
 # One of the hats that I wear is "ornithologist" so we end up working with 
 # data about birds *a lot*. In a single chained analysis:
-  
-# * As parsimoniously as possible, use regex to provide a character vector
-#   of all files that contain “bird” and ends with “rds”;
+
+# * As parsimoniously as possible, use regex to provide a character vector 
+#   of all files that starts with "bird" and ends with "rds" *or* ends with 
+#   "birds.rds";
 # * Use a `map()` function to read in all of the files at once;
 # * Assign a name (of your choosing) to each list item;
 # * Assign each list item name to the global environment.
-
-# Generate a character vector of the files that match the provided pattern:
 
 

@@ -48,7 +48,7 @@ In this exercise, you will (once again) be exploring data associated with a long
 * Question 3: Subsetting vectors (***Lesson 4.4*** )
 * Question 4: Joining data (***Lesson 3.4*** )
 * Question 5: Advanced filtering techniques (***Lesson 4.2*** ) and factors (***Lesson 5.3*** )
-* Question 8: Regex (***Lessons 4.3*** )
+* Question 10: Regex (***Lessons 4.3*** )
 
 ## Grading
 
@@ -90,10 +90,11 @@ Points may be deducted from each question's total:
 
 **Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *purrr*, *readr*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library. Regex metacharacters are not R functions and may be used as needed!
 
-In this assignment, you may **only** include the following R functions in your submitted R script (but you may use additional functions to explore the data):
+In this assignment, you may **only** include the following pre-written R functions in your submitted R script or custom functions that you have written. You may use additional functions to explore the data but please do not include this in your submitted script.
 
-* `.Primitive, ()`
-* `.Primitive, {`
+* `.Primitive, (...)`
+* `.Primitive, {...}`
+* `.Primitive, {{...}}`
 * `.Primitive, <-`
 * `.Primitive, =`
 * `.Primitive, :`
@@ -102,16 +103,19 @@ In this assignment, you may **only** include the following R functions in your s
 * `.Primitive, !=`
 * `.Primitive, >`
 * `.Primitive, c`
+* `.Primitive, if(...) {...} else {...}`
 * `base::function`
 * `base::library`
 * `base::list.files`
 * `base::list2env`
+* `base::max`
 * `base::mean`
 * `base::rm`
 * `base::sort`
 * `base::unique`
 * `dplyr::arrange`
 * `dplyr::bind_rows`
+* `dplyr::desc`
 * `dplyr::distinct`
 * `dplyr::filter`
 * `dplyr::if_all`
@@ -272,7 +276,7 @@ banding_subset %>%
 
 ::: now_you
 
-6\. [[0.75]]{.score} Convert the above to a custom function that can be used to calculate the mean `mass` **or** `wing` of any species in `banding_subset` [[0.50]]{.subscore}. Globally assign your function to the name `mean_species_var` [[0.25]]{.subscore}.
+6\. [[1.0]]{.score} Convert the above to a custom function that can be used to calculate the mean `mass` **or** `wing` of any species in `banding_subset`. Globally assign your function to the name `mean_species_var`.
 
 **Extra credit** [[0.25]]{.subscore}! Modify the function such that it is not necessary to use quotation marks around `mass` or `wing` when it is used.
 
@@ -414,7 +418,7 @@ We have only scratched the surface of what we can do with `purrr::map()` and we 
 * Assign each list item name to the global environment.
 :::
 
-Despite our somewhat lame pedagogical examples, hopefully you are beginning to see grasp the power of iteration!
+Despite our somewhat lame pedagogical examples, hopefully you are beginning to grasp the power of iteration!
 
 <hr>
 
