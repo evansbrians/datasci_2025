@@ -1,0 +1,576 @@
+---
+title: "7.4 Web APIs"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+<hr>
+
+![](../../images/hex_complex.png){.intro_image}
+
+Ecological datasets often include a combination of data that we collect in the field and data that we obtain online. For example, I tend to use a lot of United States Census, weather, climate, eBird, and iNaturalist data in my work. Historically, this would have included going online and following a series of steps to download the data from a web browser. This often requires downloading a whole bunch of data and then subsetting to just the data of interest. That is a messy workflow. Moreover, I increasingly find myself requiring real-time, or near real-time, data ... thus the messy workflow must repeated *many* times. If you find yourself in similar situations, this lesson is for you! You will learn how to access data via web APIs (online Application Programming Interfaces) that allow you to download data using program R. Specifically, you will:
+
+* Learn what a web API is and how it works;
+* Learn how to download data from *any* web API using the *httr* package;
+* Explore more applications of *stringr* package functions;
+* Get some more practice with *purrr* maps  (and learn some new tricks!);
+
+## What is a web API?
+
+![](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*MdpA4kpK7MJM1GT2.png)
+
+A web API is an interface that allows data to be transmitted between the software on your computer (e.g., your web browser) and the software of an online resource. Web APIs are behind-the-scenes of almost everything that we do online. For example, when you submit a search query in an internet browser, you are sending a request to a web API over the internet. The web API passes your request to a web server, which retrieves information from a database, and passes the response back to your internet browser.
+
+<img src = "https://m.media-amazon.com/images/M/MV5BODI4NDY2NDM5M15BMl5BanBnXkFtZTgwNzEwOTMxMDE@._V1_SX300.jpg" align="right" style= "width: 30%; padding-left: 15px; padding-bottom: 15px;">
+
+To query a web API, we use a URL, which stands for "Uniform Resource Locator". In this lesson, we will start by querying the [Open Movie Database (OMDb) API](http://www.omdbapi.com/){target="_blank"} to load and explore movie data.
+
+A URL for this web API looks something like:
+
+```
+http://www.omdbapi.com/?apikey=6fa7876b&t=Zoolander
+```
+
+Let's take moment to explore the URL above:
+
+* `http://`: This is the internet protocol (in this case the unsecure Hypertext transfer protocol.
+* `www.omdbapi.com`: This is the domain (hostname).
+* `?`: This initiates our query.
+* `apikey=6fa7876b`: This provides the server with an API key -- this is like a password that most APIs use to avoid overwhelming their server with too many requests.
+* `&`: This allows us to provide an additional argument to the server
+* `t=Zoolander`: This is our query, which queries based on the parameter `t`, which stands for the title of the movie.
+
+## *httr* package basics
+
+We can use the *httr* package to download data from *any* web API. This is a two step process in which we:
+
+1. Submit a query to the API with `httr::GET()`
+2. Retrieve the data with `httr::content()`
+
+Let's start by attaching the libraries for this session:
+
+```{r, message = FALSE}
+# Attach libraries:
+
+library(httr)
+library(tidyverse)
+```
+
+*Note: The httr package was installed with `install.packages("tidyverse")` but it is not a core tidyverse package so must be explicitly attached.*
+
+To submit a query with `httr::GET()`, we provide the URL as a one-value character vector. For example, we can query OMDb for the movie Zoolander with:
+
+```{r}
+GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Zoolander")
+```
+
+<img src = "https://http.cat/images/200.jpg" align="right" style= "width: 40%; padding-left: 15px; padding-bottom: 15px;">
+
+The above tells us the response to our request, returning:
+
+* The request
+* The date and time the request was received
+* A status message indicating whether the request was successful (200 indicates success – see [status codes](https://http.cat/){target="_blank"})
+* The type of content that is returned
+* The amount of data returned (better have some data in there!)
+
+We use `httr::content()` to get the content of the response (i.e., to download the data). Below, I:
+
+* Use `httr::GET()` to submit my request
+* Pass the response to `httr::content()` to retrieve the content
+* Globally assign the resultant object to the name `zoo`:
+
+```{r}
+zoo <-
+  GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Zoolander") %>% 
+  content()
+```
+
+Let's take a look at the structure of the data that we retrieved:
+
+```{r}
+lobstr::ref(zoo)
+```
+
+We can see that the above is a list. Most of the list items are named character vectors, and one of the list items is itself a nested list.
+
+Let's generate a character vector that represents the names assigned to each list item:
+
+```{r}
+names(zoo)
+```
+
+We can use `purrr::pluck()` to extract the values associated with a name:
+
+```{r}
+pluck(zoo, "Plot")
+```
+
+We can combine multiple variables of interest into a one-row tibble data frame with `bind_cols()` (remember the `bind_cols` function? We have not used it since Module 1!):
+
+```{r}
+bind_cols(
+  Title = pluck(zoo, "Title"),
+  Year = pluck(zoo, "Year"),
+  Plot = pluck(zoo, "Plot"),
+  Poster = pluck(zoo, "Poster")
+)
+```
+
+The above, however, is unnecessarily repetitive. Note that the only thing that changes in each pluck function above is the name of the variable that we would like to extract. This is a clue that iteration will greatly improve our workflow!
+
+```{r}
+c("Title",
+  "Year",
+  "Plot",
+  "Poster") %>% 
+  map(
+    \(x) pluck(zoo, x)
+  ) %>% 
+  bind_cols()
+```
+
+We can use `set_names()`, from the *rlang* package, to add column names to our data frame. Below, I globally assign a character vector of variables, use the assignment to iterate across the character vector, and then use the assignment again to name my columns:
+
+```{r}
+var_names <-
+  c("Title",
+    "Year",
+    "Plot",
+    "Poster")
+
+var_names %>% 
+  map(
+    \(x) pluck(zoo, x)
+  ) %>% 
+  bind_cols() %>% 
+  set_names(var_names)
+```
+
+We can, however, add a names attribute to the character vector ...
+
+```{r}
+var_names %>% 
+  set_names(var_names)
+```
+
+When we iterate across a named vector with `map()`, the names are automatically assigned to the list items:
+
+```{r}
+var_names %>% 
+  set_names(var_names) %>% 
+  map(
+    \(x) pluck(zoo, x)
+  )
+```
+
+... and these can be converted to column names with `bind_cols()`:
+
+```{r}
+var_names %>% 
+  set_names(var_names) %>% 
+  map(
+    \(x) pluck(zoo, x)
+  ) %>%   
+  bind_cols()
+```
+
+Because of this behavior, it was not necesary to globally assign `var_names`!
+
+```{r}
+rm(var_names)
+```
+
+Instead, we can pipe the character vector into `set_names()` and refer to the character vector itself (with a placeholder) as the reference for those names:
+
+```{r}
+c("Title",
+  "Year",
+  "Plot",
+  "Poster") %>% 
+  set_names(.) %>% 
+  map(
+    \(x) pluck(zoo, x)
+  ) %>%   
+  bind_cols()
+```
+
+## Web API queries with iteration
+
+What if we wanted to create a summary tibble that describes multiple movies? We could, of course, just repeat the above for each movie we were interested in:
+
+```{r}
+
+zoo <-
+  GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Zoolander") %>% 
+  content()
+
+idiocracy <-
+  GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Idiocracy") %>% 
+  content()
+
+zoo_frame <-
+  c("Title",
+    "Year",
+    "Plot",
+    "Poster") %>% 
+  set_names(.) %>% 
+  map(
+    \(x) pluck(zoo, x)
+  ) %>% 
+  bind_cols()
+
+idiocracy_frame <-
+  c("Title",
+    "Year",
+    "Plot",
+    "Poster") %>% 
+  set_names(.) %>% 
+  map(
+    \(x) pluck(idiocracy, x)
+  ) %>% 
+  bind_cols()
+
+bind_rows(zoo_frame, idiocracy_frame)
+```
+
+It should be obvious that there is a lot of unnecessary repetition above. Let's deal first with `zoo_frame` and `idiocracy_frame`. We can use a nested map to reduce the above:
+
+```{r}
+zoo <-
+  GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Zoolander") %>% 
+  content()
+
+idiocracy <-
+  GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Idiocracy") %>% 
+  content()
+
+list(zoo, idiocracy) %>% 
+  map(
+    \(movie) {
+      c("Title",
+        "Year",
+        "Plot",
+        "Poster") %>% 
+        set_names(.) %>% 
+        map(
+          \(x) pluck(movie, x)
+        ) %>% 
+        bind_cols()
+    }
+  ) %>% 
+  bind_rows()
+```
+
+It was not necessary to globally assign names to our content. We can use `str_c()` to generate a URL. For example:
+
+```{r}
+str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", "Zoolander")
+```
+
+This can be passed into our query and data extraction operations (not run, to save space):
+
+```{r, eval = FALSE}
+str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", "Zoolander") %>% 
+  GET() %>% 
+  content()
+```
+
+We can construct a character vector of the URLs for multiple movies ...
+
+```{r}
+c("Zoolander", "Idiocracy") %>% 
+  str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", .)
+```
+
+... and, as such, we can query and extract the data for our movies iteratively (not run here, but just to save space):
+
+```{r, eval = FALSE}
+c("Zoolander", "Idiocracy") %>% 
+  map(
+    \(movie) {
+      str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", movie) %>% 
+        GET() %>% 
+        content()
+    }
+  )
+```
+
+The output of the above is a list of lists. Inside of the map function, we can assign the list to name, and bind the rows of the resultant list object:
+
+```{r}
+c("Zoolander", "Idiocracy") %>% 
+  map(
+    \(movie) {
+      movie_description <-
+        str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", movie) %>% 
+        GET() %>% 
+        content()
+      
+      c("Title",
+        "Year",
+        "Plot",
+        "Poster") %>% 
+        set_names(.) %>% 
+        map(
+          \(x) pluck(movie_description, x)
+        ) %>% 
+        bind_cols()
+    }
+  ) %>% 
+  bind_rows()
+```
+
+*Note: The name `movie_description` is not passed to the global environment because it is assigned within curly braces.*
+
+## The space problem
+
+When querying web APIs, horizontal whitespace is a problem (yet again!). Let's try to query OMDb for the movie "Annie Hall":
+
+```{r, error = TRUE}
+GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Annie Hall")
+```
+
+This returned an error. In a web API query, spaces are replaced by the plus symbol, `+` (you can verify this by running a Google search for more than one word and looking at the URL):
+
+```{r}
+GET("http://www.omdbapi.com/?apikey=6fa7876b&t=Annie+Hall")
+```
+
+The above worked (`Status: 200`). If we are not keen on replacing every space with a plus sign, we can use `str_replace()`:
+
+```{r}
+str_replace(
+  "Annie Hall",
+  " ",
+  "+") %>% 
+  str_c(
+    "http://www.omdbapi.com/?apikey=6fa7876b&t=",
+    .
+  ) %>% 
+  GET()
+```
+
+What if there are multiple white spaces though? Notice that the below only replaces the *first* white space:
+
+```{r}
+str_replace(
+  "Harold and Maude",
+  " ",
+  "+")
+```
+
+For this, we can use the function `str_replace_all()`:
+
+```{r}
+str_replace_all(
+  "Harold and Maude",
+  " ",
+  "+")
+```
+
+We can verify that this works by passing the above to `GET()`:
+
+```{r}
+str_replace_all(
+  "Harold and Maude",
+  " ",
+  "+")%>% 
+  str_c(
+    "http://www.omdbapi.com/?apikey=6fa7876b&t=",
+    .
+  ) %>% 
+  GET()
+```
+
+## Query my favorite movies!
+
+Given the above, we can query a bunch of movies and produce an output table. This starts by generating a vector of URLs:
+
+```{r}
+c("Annie Hall",
+  "Brazil",
+  "Harold and Maude",
+  "Idiocracy",
+  "The Life Aquatic",
+  "The Princess Bride",
+  "The Royal Tenenbaums",
+  "Zoolander") %>% 
+  str_replace_all(" ", "+")
+```
+
+And, then passing that vector to our iteration:
+
+```{r}
+c("Annie Hall",
+  "Brazil",
+  "Harold and Maude",
+  "Idiocracy",
+  "The Life Aquatic",
+  "The Princess Bride",
+  "The Royal Tenenbaums",
+  "Zoolander") %>% 
+  str_replace_all(" ", "+") %>% 
+  map(
+    \(movie) {
+      movie_description <-
+        str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", movie) %>% 
+        GET() %>% 
+        content()
+      
+      c("Title",
+        "Year",
+        "Plot",
+        "Poster") %>% 
+        set_names(.) %>% 
+        map(
+          \(x) pluck(movie_description, x)
+        ) %>% 
+        bind_cols()
+    }
+  ) %>% 
+  bind_rows()
+```
+
+
+## Application: iNaturalist data
+
+<img src = "https://static.inaturalist.org/sites/1-logo_square.png?1573071870" align="left" style= "width: 8%; padding-right: 5px; padding-bottom: 5px;"> iNaturalist is an amazing participatory science project from the California Acadamy of Sciences and the National Geographic Society (learn more [here](https://www.inaturalist.org){target="_blank"}). At the time of this writing, iNaturalist nearly 700,000 users have submitted 25 million observations of 230,000 different species.
+
+Let's query iNaturalist with `GET()`:
+
+```{r}
+GET("http://www.inaturalist.org/observations.csv") %>%
+  content()
+```
+
+We can subset records by adding search terms to a query. Almost all web APIs have documentation that allows us to see how we can query the data. For example, iNaturalist provides its search terms at [this website](https://www.inaturalist.org/pages/api+reference#get-observations){target="_blank"}. We add a query with the `?` symbol. Here, I will search for records from 2023:
+
+```{r}
+GET("http://www.inaturalist.org/observations.csv?year=2023") %>%
+  content()
+```
+
+If I have multiple queries, I like add them to the URL with `str_c()`. Below, I include a search for research-grade observations from the year 2023:
+
+```{r}
+str_c(
+  "http://www.inaturalist.org/observations.csv",
+  "?year=2023&quality_grade=research"
+) %>% 
+  GET() %>% 
+  content()
+```
+
+As I add more filters, I like to use `str_c()` to connect my queries. Below, I continue with the above and filter to `taxon_name=Terrapene carolina carolina` (Eastern Box Turtle) `quality_grade=research`:
+
+```{r}
+str_c(
+  "http://www.inaturalist.org/observations.csv?",
+  str_c(
+    "year=2023",
+    "quality_grade=research",
+    "taxon_name=Terrapene+carolina+carolina",
+    sep = "&"
+  )
+) %>% 
+  GET() %>% 
+  content()
+```
+
+You might have noticed that each of the returns above returned 30 rows, regardless of how we subset the records. This is the default number of returns from the iNaturalist API. We can increase this up to 200 (any higher requires an API key) with the `per_page` parameter:
+
+```{r}
+str_c(
+  "http://www.inaturalist.org/observations.csv?",
+  str_c(
+    "year=2023",
+    "quality_grade=research",
+    "taxon_name=Terrapene+carolina+carolina",
+    "per_page=200",
+    sep = "&"
+  )
+) %>% 
+  GET() %>% 
+  content()
+```
+
+**Note**:The above method works with any web API (though access may require an API key). For some web APIs, there are community-built R packages to help you build queries. If you would like to continue to explore iNaturalist data, I recommend using the package *rinat*.
+
+## Reference
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The functions `magrittr::%>%`, `rlang::{{}}`, `rlang::set_names` are attached with `library(tidyverse)`
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
+* `.Primitive, c`: Combine values to form an atomic vector
+* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
+* `.Primitive, names`: Retrieve the names (or names attribute) assigned to an R object
+* `base::library`: Attach the package environment for a given package to the current R session
+* `base::rm`: Remove a name from a specified environment (default is the global environment)
+* `dplyr::bind_cols`: Combine two variables or columns of two tibbles to create a new tibble
+* `dplyr::bind_rows`: Combine rows of two or more tibbles to create a new tibble
+* `httr::content`: Extract content from a web API request
+* `httr::GET`: Request information from a URL
+* `lobstr::ref`: View the structure of an object in your computer's memory
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `purrr::map`: Iterate across a vector and return a list
+* `purrr::pluck`: Extract a list item from a list
+* `rlang::set_names`: Assign names to values in a vector or items in a list
+* `stringr::str_c`: Concatenate strings, with or without (default) a separator
+* `stringr::str_replace`: Replace a given pattern in a string with a new pattern
+* `stringr::str_replace_all`: Replace a multiple instances of a given pattern in a string with a new pattern
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
+
+

@@ -1,0 +1,422 @@
+---
+title: "7.2 Solo GitHub"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+<hr>
+
+![](../../images/hex_complex.png){.intro_image}
+
+Version control is a way of keeping track of changes to files over time. It provides us with a method for communicating changes that we make to a file while avoiding the necessity of storing multiple versions of the same file. If you have ever had file names that looked like this ...
+
+```
+my_phd_script_2013-02-16.R
+
+my_phd_script_2013-02-23.R
+
+my_phd_script_2013-03-15.R
+
+my_phd_script_final_version.R
+
+my_phd_script_final_version-b.R
+
+my_phd_script_final_this_time_for_sure.R
+```
+
+... you absolutely need to use version control! With version control, you can explore the history of a file and even access the state of a file at a point in that files history. In successfully completing this lesson, you will learn:
+
+* How to create a GitHub account for version control;
+* How to setup git with RStudio's Terminal;
+* The basics of writing bash scripts in the Terminal;
+* The process of what I call the "Solo Git workflow".
+
+## Set up GitHub and Git
+
+<div class = "row">
+<img  src = "www/octocat.png"
+        alt="GitHub logo"
+        style = "float: left; padding-bottom: 0em; padding-right: 1em; width:25%; height: auto;">
+  </img>
+GitHub is a company that provides free cloud storage for data and code (*Note: GitHub data storage is only free for relatively small files -- the maximum total storage for a free GitHub account is 1GB* ). The "Git" in GitHub refers to the open-source Git **version control** system -- version control allows us to track changes in files and store/retrieve a file at any point in its history.
+</div>
+
+### Create a GitHub account
+
+**Create an account**: Before you use Git in this class, you will need to make sure that you have a GitHub account. *If you are not yet a GitHub user*, navigate the GitHub [sign-up page](https://Github.com/join?plan=free&ref_cta=Join%2520for%2520free&ref_loc=cards&ref_page=%2Fpricing&source=pricing-card-free){target="_blank"}. Please create a GitHub account by providing a unique username, your email address, and a password. Note that GitHub is a for-profit company -- the provided link takes you to the sign-up page for a free account. You will need to verify your account (you will receive an email) before you can start using it.
+
+### Download Git
+
+<div class = "row">
+<img  src = "www/Git_logo.png"
+        alt="GitHub logo"
+        style = "display: inline-block; padding-left: 0em; padding-right: 0em; padding-bottom: 0.25em; padding-top: 0.25em; height: 2em; width: auto;">
+  </img> is a computer program. If you do not yet have a version of Git installed on your computer, please install it using [this link](https://Git-scm.com/downloads){target="_blank"}. This installs a lightweight command-line version of the program onto your computer. Note that there are several different programs that provide graphic-user interfaces (GUI) for Git (including within RStudio itself!). I do not recommend using GUI versions of Git, as problems may develop that can are most easily dealt with in the command-line. We will discuss command-line programming later in this lesson.
+  
+*Note: I highly recommend that **Mac** users choose the homebrew option for downloading and installing Git. If you do not yet have homebrew installed on your Mac (you should!) follow the link on the download page to do so. Be warned -- `$` is the command prompt, do not include the dollar sign when running `brew install git`!*
+</div>
+
+### The Bash terminal
+
+I use the **Terminal** for managing files and folders in my RStudio project and communicating with GitHub. The terminal provides access to a computer program called a **shell**. A shell is a command-line interface to your computer system. You can use the shell to load programs onto your computer, run programs, and add, delete, or navigate files and folders on your computer system.
+
+In this course, we will use the Bash (Bourne Again Shell) program, which is my preferred shell (it works well with Git!). This is the default terminal for Mac. If you are using a Windows machine:
+
+1. Please open the Global options with Tools > Global Options
+2. Select Terminal from the menu on the left side of the window
+3. Select *New terminals open with: **Bash*** (or ***Git bash***)
+4. Hit enter
+
+You can access the Terminal via the Console pane by selecting the "Terminal" tab:
+
+<img src = "www/terminal_tab.png">
+
+When you first open the Terminal, you will notice something like the below:
+
+<img src = "www/terminal_address.png">
+
+The above starts with the name of your computer:
+
+<img src = "www/terminal_address_1.png">
+
+... then the name of the folder that your terminal is pointing to (*Note: This should be your project folder*):
+
+<img src = "www/terminal_address_2.png">
+
+... then your user name:
+
+<img src = "www/terminal_address_3.png">
+
+... and finally, a dollar sign `$`, which represents the command prompt:
+
+<img src = "www/terminal_address_4.png">
+
+All Bash commands are entered after the command prompt.
+
+### Git configuration
+
+Before using Git and GitHub, you will need to define global attributes of your Git environment. We will do this inside of the Terminal tab of your console pane.
+
+We will set up our configuration with the Git function `config`. Here, we will configure:
+
+* Your user name: This user name does not need to refer to your GitHub user name
+* Your GitHub user email: To link Git to our GitHub account, we need to provide the email that we used when creating that account
+
+::: {.now_you}
+<i class="fa fa-user-circle"></i>
+[**Configure your user name**. Please run the following in the terminal (replacing my name with yours):]{style="font-size: 1;"}
+
+```
+git config --global user.name "Brian"
+```
+:::
+
+In the above (*Note: Each input into the terminal must be separated by a space*):
+
+* I first referenced (called) the program Git. This tells the terminal that I want to run a function found in the program `git`. 
+* I called the function `config` from Git.
+* I specified the option that I would like to configure with two dashes: `--global`. This tells Git that I would like to set the global options (i.e., options to be used across all Git sessions).
+* I specified that I want to set the user name option `user.name`.
+* Finally, I provided a user name inside of quotation marks.
+
+We can see whether this worked by asking the configuration of the `user.name`:
+
+```
+git config user.name
+```
+
+*Note: Since we have set the* `user.name` *across sessions, we do not need to specify* `--global`.
+
+::: {.now_you}
+<i class="fa fa-user-circle"></i>
+[**Configure your user email**. Please run the following in the terminal, replacing my email with the email associated with your GitHub account:]{style="font-size: 1;"}
+
+```
+git config --global user.email "evansbr@si.edu"
+```
+:::
+
+And check to see if it worked:
+
+```
+git config user.email
+```
+
+You have now connected Git with your GitHub account!
+
+## Bash commands
+
+To get the most out of using GitHub, and the Terminal itself, it is necessary to learn how to use Bash commands. Bash commands are programs (or functions) that execute operations in your computer's operating system. They can range from running very simple programs, such as printing your current working directory, to completing very complex operations.
+
+To get us started, we will learn just a few bash commands that can be used to add, remove, or navigate between files:
+
+* `cd [directory name]`: Change working directory to a named sub-directory
+* `cd ..`: Change working directory to the parent of the current directory
+* `ls [directory name]`: List files in a directory (leave the directory name blank to list files in the current working directory)
+* `mkdir [directory name]`: Make a new sub-directory of the current directory
+* `mv [current name] [new name]`: Rename or move a file or folder
+* `pwd`: Print current working directory
+* `rm`: Remove a file
+* `rm -rf`: Remove a folder (be careful!)
+
+::: now_you
+
+If you have not done so already, please open your RStudio project for this course. This will set your current bash working directory to the top level of your project folder.
+:::
+
+#### *Explore and navigate*
+
+To see the specific location of our working directory on our computer, type `pwd` after the command prompt (`$`):
+
+```
+pwd
+```
+
+We can list the files in our project folder by running the function `ls`:
+
+```
+ls
+```
+
+We can list the files in a subdirectory with the function `ls`, followed by a space, and then the path relative to our working directory. For example, to view the contents of our data folder (from within our project folder) we would write:
+
+```
+ls data
+```
+
+You should see the folders `processed` and `raw`. Without changing your working directory, you can list the files in the subdirectory of `data` by specifying the relative file path to the subdirectory:
+
+```
+ls data/raw
+```
+
+You can change directories with the bash command `cd`:
+
+```
+cd data
+
+pwd
+
+ls
+```
+
+Notice that the address of the working directory has changed in the command prompt?
+
+You can move back one step with `cd ..`:
+
+```
+cd ..
+
+pwd
+
+ls
+```
+
+To change directories to a nested folder, we supply the relative path to a child folder:
+
+```
+cd data/raw
+
+pwd
+
+ls
+```
+
+You can go back to a different location within a parent folder using `..` to specify the parent directory and then adding the relative path to the child folder:
+
+```
+cd ../processed
+
+pwd
+
+ls
+```
+
+To head back two levels, we can supply the path as `../..`:
+
+```
+cd ../..
+
+pwd
+
+ls
+```
+
+#### *Making, renaming, and moving files*
+
+We can add a folder using the `mkdir` function.
+
+```
+mkdir bash_fun
+
+ls
+```
+
+We can add a folder inside of `bash_fun` from right inside of our current working directory:
+
+```
+mkdir bash_fun/temp
+
+ls bash_fun
+```
+
+::: now_you
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+<button class="accordion" style = "margin-bottom: 18px">Change your directory to `bash_fun`</button>
+
+::: panel
+```
+cd bash_fun
+```
+:::
+
+:::
+
+Let's try to create a folder inside of `bash_fun` called "hello world":
+
+```
+mkdir hello world
+```
+
+Did it work? Let's list the files in `bash_fun`:
+
+```
+ls
+```
+
+Notice that this generated separate `hello` and `world` folders?  This illustrates a challenge when interacting with spaces between words in file names. Of course, it also illustrates a way that you can add multiple files at once!
+
+We can remove a folder using the command `rm -rf`. This is followed by a space and then the name of the folder that we want to remove:
+
+```
+rm -rf hello
+```
+
+... and list the files to see if it worked:
+
+```
+ls
+```
+
+We can use `mv` to change the name of a file or folder. Let's change the name `world` to `hello_world`. 
+
+```
+mv world hello_world
+```
+
+... and see if it worked with `ls`:
+
+```
+ls
+```
+
+The function name `mv` actually stands for "move". To move a file or folder, we supply:
+
+* The function `mv` followed by a space
+* The address of the current file or folder, relative to your current parent directory
+* Another space
+* The new folder where we will store the file
+
+Let's move `hello_world` into the folder `temp`:
+
+```
+mv hello_world temp
+```
+::: now_you
+
+{{< fa user-circle size=2x >}} [Now you!]{style="font-size: 1.25em; padding-left: 0.5em;"} 
+
+<button class="accordion" style = "margin-bottom: 18px">Did it work? Use `ls` to find out! </button>
+
+::: panel
+```
+ls temp 
+```
+:::
+
+:::
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [Bash is *super* powerful!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+I use bash for everything from processing very large data files to automating task execution (e.g., scheduling scripts to run at a certain time). While we will not learn many more bash commands in this course, learning how to code in the shell is a worthwhile endeavor if you are work with big data or conduct repetitive tasks.
+
+:::
+
+## Video lesson: Solo Git
+
+Notes: 
+
+* You will hear me reference "Week 1" a few times ... I decided to move Git from the first module of this course to Module 7! Relevant content from Week 1 can be found above.
+* In this video you will be coding along as I create and explore one of my own GitHub repositories. Please create your own repository for coding along.
+* At the end of the video, I suggest that I will use GitHub to maintain up-to-date versions of course materials. Unfortunately, this is not currently possible.
+
+{{< video https://www.youtube.com/embed/yt1j_HdS7-8 >}}
+
+## Reference
+
+<button class="accordion">Bash commands</button>
+::: panel
+
+:::{style="background-color: white; font-size: 14px;"}
+|Command                          | Operation        
+|:--------------------------------|:--------------------------------------------------------|
+| cd [directory name]              | Navigate to a different directory
+| cd ..                            | Navigate to a parent folder
+| git add                          | Stage a file to be committed (to be stored in your local repository)
+| git commit -m                    | Add a file to your local repository, with a message 
+| git config --global user.name    | Configure the user name of your global options
+| git config --global user.email   | Configure the user email of your global options
+| git pull                         | Download any changes from your online GitHub repository
+| git push                         | Upload any changes to your online GitHub repository
+| git status                       | View the current state of your local and online repositories
+| ls [directory name]              | List files in a directory
+| mkdir [directory name]           | Make directory
+| mv [current name] [new path]     | Move a file or change its name
+| pwd                              | Print working directory
+| rm [file name]                   | Remove a file   
+| rm -rf                           | Remove a directory
+
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
+
+

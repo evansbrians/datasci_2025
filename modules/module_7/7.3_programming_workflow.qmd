@@ -1,0 +1,133 @@
+---
+title: "7.3 Programming workflow"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+<hr>
+
+![](../../images/hex_complex.png){.intro_image}
+
+We have thus far used the project that I created for you in this course. In this video lesson (runtime -- 37:25) you will:
+
+* Create your own project using RStudio and bash commands;
+* Get some practice with the the solo GitHub workflow (pull, add, commit, push);
+* Apply custom functions to tasks such as repetitive data processing and setting a plot theme;
+* Apply iteration to simplify scripts;
+* Learn how to use a source script to ensure that your script files are targetted to a given task.
+
+*Note: While we do not use any new functions in this lesson, the content herein may provide useful practice for your final exam! If you are behind on course material (or overwhelmed by it), I recommend starting the video at 10:10.*
+
+**Important!** I originally posted the *modified* version of the [workflow.R]{.mono} script! Before starting this lesson, please delete that file and use [this link](https://drive.google.com/file/d/1h1d4X76onBzGaCbfH6KY9XMORht3fO9s/view?usp=sharing){target="_blank"} to download the correct version of this script!
+
+## Video lesson
+
+{{< video https://www.youtube.com/embed/ACKmPD3ZX7s >}}
+
+## Reference
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The functions `magrittr::%>%`, `rlang::{{}}`, `rlang::set_names` are attached with `library(tidyverse)`
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
+* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
+* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
+* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
+* `.Primitive, c`: Combine values to form an atomic vector
+* `base::function`: Initiate the creation of a custom function
+* `base::library`: Attach the package environment for a given package to the current R session
+* `base::source`: Execute a source script (in its entirety)
+* `base::sum`: Calculate the sum of a numeric vector
+* `dplyr::select`: Subset columns in a data frame by name
+* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+* `ggplot2::+`: ggplot's pipe operator (adds a layer to a plot)
+* `ggplot2::aes`: Define aesthetics
+* `ggplot2::element_blank`: Remove a thematic element
+* `ggplot2::element_line`: Set the theme for a line element
+* `ggplot2::element_text`: Set the theme for a text element
+* `ggplot2::geom_bar`: Create a bar geometry
+* `ggplot2::geom_boxplot`: Create a boxplot geometry
+* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
+* `ggplot2::labs`: Add or modify the labels of a plot
+* `ggplot2::scale_y_continuous`: Set the scale of the y axis
+* `ggplot2::theme`: Define the theme elements of a plot
+* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
+* `purrr::pluck`: Extract a list item from a list
+* `readr::read_rds`: Read an RDS file into R
+
+:::
+
+<button class="accordion">Bash commands</button>
+::: panel
+
+:::{style="background-color: white; font-size: 14px;"}
+|Command                          | Operation        
+|:--------------------------------|:--------------------------------------------------------|
+| cd [directory name]              | Navigate to a different directory
+| cd ..                            | Navigate to a parent folder
+| git add                          | Stage a file to be committed (to be stored in your local repository)
+| git commit -m                    | Add a file to your local repository, with a message 
+| git config --global user.name    | Configure the user name of your global options
+| git config --global user.email   | Configure the user email of your global options
+| git pull                         | Download any changes from your online GitHub repository
+| git push                         | Upload any changes to your online GitHub repository
+| git status                       | View the current state of your local and online repositories
+| ls [directory name]              | List files in a directory
+| mkdir [directory name]           | Make directory
+| mv [current name] [new path]     | Move a file or change its name
+| pwd                              | Print working directory
+| rm [file name]                   | Remove a file   
+| rm -rf                           | Remove a directory
+
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
+
+
