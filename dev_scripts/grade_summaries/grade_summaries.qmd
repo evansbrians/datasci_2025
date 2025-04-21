@@ -375,6 +375,93 @@ grade_summaries_4 %>%
 :::
 :::
 
+<button class="accordion">Problem set 5</button>
+
+::: panel
+
+## Problem set 5
+
+:::{style="background-color: white; font-size: 14px;"}
+
+```{r, message = FALSE, echo = FALSE, warning = FALSE}
+grade_summaries_5 <-
+  get_grade_summaries(problem_set = 5)
+```
+
+Descriptive statistics of scores for Problem set 3:
+
+* Mean: `r grade_summaries_5$mean`
+* Median: `r grade_summaries_5$median`
+* Standard deviation: `r grade_summaries_5$sd`
+* Standard error: `r grade_summaries_5$se`
+
+Here is the distribution of scores:
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE, fig.asp = 0.4}
+grade_summaries_5 %>% 
+  pluck("grades") %>% 
+  ggplot() +
+  aes(x = grade) +
+  geom_histogram(
+    fill = "#dcdcdc",
+    color = "black"
+  ) +
+  scale_x_continuous(
+    limits = c(4, 10.1),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 2),
+    expand = c(0, 0)
+  ) +
+  theme_classic()
+```
+
+### Points off by question
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+grade_summaries_5 %>% 
+  pluck("points_off_by_question") %>% 
+  mutate(
+    ave_percent_off = round(ave_percent_off, 2)
+  ) %>% 
+  rename(
+    Question = question,
+    `Average point deduction (%)` = ave_percent_off) %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_paper("hover", full_width = F)
+```
+
+### Points off by the type of mistake
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+grade_summaries_5 %>% 
+  pluck("points_off_by_mistake_class") %>% 
+   mutate(
+    ave_points_off = round(ave_points_off, 2)
+  ) %>% 
+  rename(
+    `Type of mistake` = mistake_class,
+    `Average points off` = ave_points_off) %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_paper("hover", full_width = F)
+```
+
+### Points off by mistake
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+grade_summaries_5 %>% 
+  pluck("points_off_by_mistake_description") %>% 
+  rename(
+    `Mistake` = mistake_description,
+    `Average points off` = ave_points_off) %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_paper("hover", full_width = F)
+```
+
+:::
+:::
+
 
 <script>
 var acc = document.getElementsByClassName("accordion");

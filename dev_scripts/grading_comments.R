@@ -100,8 +100,8 @@
 # * If a function spans more than one line of code, the opening parentheses 
 #   should be followed by a line break.
 
-# * If a function spans more than one line of code, the closing parentheses 
-#   should be followed placed on their own line.
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
 
 # * Include no more than one prefix function per line of code.
 
