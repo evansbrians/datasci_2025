@@ -264,7 +264,7 @@ The code block below:
 
 * Subsets `banding_subset` by row to the species (`common_name`) "Northern Cardinal";
 * Extracts the numeric vector assigned to `mass`;
-* Calculates the mean of the vector
+* Calculates the mean of the vector;
 * Prints a one-value numeric vector.
 
 
