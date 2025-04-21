@@ -82,7 +82,7 @@ Points may be deducted from each question's total:
 
 * Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session.
 * Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
-* The *magrittr* `%>%` and the *rlang* function `set_names` are made availble with `library(tidyverse)`/
+* The *magrittr* `%>%` and the *rlang* function `set_names` are made available with `library(tidyverse)`/
 * The *tidyselect* function `select` must be referenced with `tidyselect:::select`.
 * Regex metacharacters are not functions!
 
