@@ -87,6 +87,9 @@ site_characteristics <-
     .keep = "used"
   )
 
+# [[-0.15]] Code parsimony: With tidy selection, it is not necessary
+# to place variable names inside of quotes.
+
 # 6 -----------------------------------------------------------------------
 
 # The list item `detections` in the list `district_cats` contains misspellings,
@@ -120,6 +123,9 @@ observations <-
     n = n(),
     .by = c(visit_id, species)
   )
+
+# [[-0.50]] Incorrect: To count the number of animals observed, it was 
+# necessary to use `sum()` ... `n()` is just a row counter.
 
 # 7 -----------------------------------------------------------------------
 
@@ -182,13 +188,24 @@ cat_occurrence <-
         visit_id,
         presence_absence = 
           if_else(
-            n >= 1,
+            count >= 1,
             "1",
             "0"
           ),
         .keep = "none"
       )
   )
+
+# [[-1.25]] Incorrect:
+# * A `full_join()` would have been optimal here (see key)
+# * There is no value `n` in your data
+# * You needed to replace NA values with zero
+
+# [[-0.75]] `>=` is not among the functions that you may use for this
+# assignment.
+
+# [[No points removed]] Code parsimony: It is not necessary to specify numeric 
+# values inside of quotes. 
 
 # 9 -----------------------------------------------------------------------
 
@@ -207,3 +224,5 @@ cat_occurrence <-
 # * The y-axis ranges from 0 to 0.8;
 # * You use three or more arguments of `theme()` to modify the theme elements
 #   of the plot however you like!
+
+# [[-1.50]] Not answered

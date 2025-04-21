@@ -107,6 +107,12 @@ observations <-
     .by = c(visit_id, species)
   )
 
+# [[-0.15]] Code parsimony: Regex could have been simplified. Here, you ran
+# more `str_replace` functions than was necessary. As a consequence, in 
+# benchmarking your answer vs. the answer in the key, your answer ended up
+# requiring 25% more memory and 20% more processing time. Metacharacters are
+# your awkward friends (and sometimes enemies).
+
 # 7 -----------------------------------------------------------------------
 
 # | Impervious surface | Classified land-use intensity |
@@ -288,3 +294,5 @@ cat_occurrence %>%
         size = 12
       )
   )
+
+# You are awesomely ridiculous!!! You have outdone the Papyrus in a big way!

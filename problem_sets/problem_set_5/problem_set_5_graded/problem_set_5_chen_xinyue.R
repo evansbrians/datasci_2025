@@ -73,6 +73,9 @@ site_characteristics <-
     .keep = "none"
   )
   
+# [[-0.15]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # 6 -----------------------------------------------------------------------
 
@@ -105,7 +108,16 @@ observations <-
     )
   )
   
-  
+# [[-0.50]] Incorrect: To count the number of animals observed, it was 
+# necessary to use `sum()` ... `n()` is just a row counter.
+
+# [[-0.15]] Code parsimony: Regex could have been simplified.
+
+# [[-0.15]] Code formatting: 
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
 
 # 7 -----------------------------------------------------------------------
 
@@ -135,6 +147,19 @@ land_use <-
       ),
     .keep = "none"
   )
+
+# [[-0.75]] `&` is not among the functions that you may use for this
+# assignment.
+
+# [[-0.15]] Code parsimony: Because you have already classified values that are
+# less than or equal to 15, you do not need to specify that values are greater
+# than the previous class.
+
+# [[-0.15]] Code formatting: 
+# * Infix functions should be separated from surrounding code with a single 
+#   leading and trailing space.
+# * Code and comments should not exceed 80 characters in width (if it is
+#   avoidable) – add a line break, if possible.
 
 # 8 -----------------------------------------------------------------------
 

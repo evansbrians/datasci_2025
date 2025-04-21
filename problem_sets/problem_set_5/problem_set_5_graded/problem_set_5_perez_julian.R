@@ -107,6 +107,9 @@ observations <-
       )
   ) 
 
+# [[-0.50]] Incorrect: To count the number of animals observed, it was 
+# necessary to use `sum()` ... `n()` is just a row counter.
+
 # 7 -----------------------------------------------------------------------
 
 # | Impervious surface | Classified land-use intensity |
@@ -164,6 +167,8 @@ cat_occurrence <-
         TRUE ~ 0),
     .keep = "none"
   )
+
+# [[-1.0]] `>=` is not among the functions that you may use for this assignment.
 
 # 9 -----------------------------------------------------------------------
 
@@ -242,3 +247,14 @@ cat_occurrence %>%
     axis.title = element_text(size = 14),
     strip.text = element_text(size = 14)
   )    
+
+# [[-0.20]] Incorrect: The y-axis does not range from 0 to 0.8.
+
+# [[-0.15]] Code parsimony: Since the values of `presence_absence` are currently
+# one or zero, adding a logical test and then summing the integer values
+# associated with the logical vector did not modify the code.
+
+# [[-0.15]] Code formatting:
+# * Parentheses, curly braces, and square bracket operators should not be
+#   preceded or followed by a space.
+# * Commas should be followed by one trailing space.

@@ -103,6 +103,8 @@ observations <-
     .by = c(species, visit_id)
   )
 
+# [[-0.15]] Code parsimony: Regex could have been simplified.
+
 # 7 -----------------------------------------------------------------------
 
 # | Impervious surface | Classified land-use intensity |
@@ -164,6 +166,10 @@ cat_occurrence <-
     .keep = "none"
   )
 
+# [[-0.20]] Code parsimony: In chained code, when the resultant object from the
+# previous step is passed to the first argument of the next step, a placeholder
+# is not necessary.
+
 # 9 -----------------------------------------------------------------------
 
 # Let's visualize the proportion of visits with cat detections for each urban
@@ -189,8 +195,8 @@ cat_occurrence %>%
     by = "site_id"
   ) %>%
   mutate(
-    presence_absence = 
-      presence_absence %>% 
+    presence_absence =
+      presence_absence %>%
       if_else(
         is.na(.),
         0,
@@ -237,3 +243,18 @@ cat_occurrence %>%
     axis.title = element_text(size = 13)
   )
 
+
+# [[-0.15]] Code parsimony: 
+# * You had to run the presence_absence code again due to the `full_join`. A 
+#   `left_join` would have save you from repeating that step.
+# * In chained code, when the resultant object from the previous step is passed
+#   to the first argument of the next step, a placeholder is not necessary.
+
+# [[-0.15]] Code formatting:
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+# * Commas should be followed by one trailing space.
+# * Parentheses, curly braces, and square bracket operators should not be
+#   preceded or followed by a space.
+# * If you have more than one = in a function, place each argument on its own
+#   line.

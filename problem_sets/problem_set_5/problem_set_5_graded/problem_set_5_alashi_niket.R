@@ -45,6 +45,9 @@ visits_tidy <-
     date = as_date(date)
   )
 
+# [[-0.10]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # 5 col = # 5 -----------------------------------------------------------------------
 
@@ -69,6 +72,9 @@ site_characteristics <-
          ),
          .keep = "none"
   )
+
+# [[-0.15]] Code formatting: If a function spans more than one line of code, the
+# opening parentheses should be followed by a line break.
 
 # 6 -----------------------------------------------------------------------
 
@@ -108,6 +114,17 @@ observations <-
     .by = c(visit_id, species)
   ) 
 
+# [[-0.50]] Incorrect: To count the number of animals observed, it was 
+# necessary to use `sum()` ... `n()` is just a row counter.
+
+# [[-0.15]] Code parsimony: 
+# * Regex could have been simplified.
+# * It is not necessary to reassign the same variable multiple times in a 
+#   single mutate. Instead, chain together each stage with a pipe.
+
+# [[-0.15]] Code formatting:  If a function spans more than one line of code,
+# closing parentheses should be placed on their own line.
+
 # 7 -----------------------------------------------------------------------
 
 # | Impervious surface | Classified land-use intensity |
@@ -138,6 +155,20 @@ land_use <-
          .keep = "none"
   )
 
+# [[-0.25]] Incorrect: This only placed values in the correct classes because
+# there were no values at the exact boundary. Have a look at the classification
+# lesson again to understand behavior at boundaries.
+
+# [[-0.75]] Neither `&` nor `<` are among the functions that you may use for
+# this assignment.
+
+# [[-0.15]] Code parsimony: Because you have already classified values that are
+# less than or equal to 15 (and then 25 and 40), you do not need to specify that
+# values are greater than the previous class.
+
+# [[-0.15]] Code formatting: If a function spans more than one line of code, the
+# opening parentheses should be followed by a line break.
+
 # 8 -----------------------------------------------------------------------
 
 # Using `observations` and `visits_tidy` (or their lifelines):
@@ -165,6 +196,17 @@ cat_occurrence <-
              0),
          .keep = "none"
   )
+
+# [[-1.0]] Incorrect: 
+
+# * There were 81 visits, but 89 observations ... this would  need a 
+#   `full_join()` after filtering to cats.
+# * This added zeros to some visits, because on a given multiple species can
+#   be observed during a visit. If a cat was observed during a visit, the 
+#   value for the visit should be classified as `1`.
+
+# [[-0.20]] Code formatting: If a function spans more than one line of code, the
+# opening parentheses should be followed by a line break.
 
 # 9 -----------------------------------------------------------------------
 
@@ -232,3 +274,9 @@ cat_occurrence %>%
     element_rect(fill = "white"),
     panel.grid = element_blank(),
   )
+
+# [[-0.20]] Incorrect: The theme function did not work because you need to
+# specify which theme arguments your are modifying.
+
+# [[-0.75]] Neither `theme_bw` nor `group_by` are among the functions that you
+# may use for this lesson.

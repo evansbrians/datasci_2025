@@ -23,6 +23,9 @@ library(tidyverse)
 dc_cats <- 
   read_rds("data/raw/district_cats.rds")
 
+# [[-0.025]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # 4 -----------------------------------------------------------------------
 
@@ -55,6 +58,12 @@ visits_tidy <-
     date = as_date(date)
   ) 
 
+# [[-0.10]] Code parsimony: 
+# * It was not necessary to replace month names with numbers. The `as_date`
+#   function works with month names, name abbreviations, or numbers.
+# * It is not necessary to specify adjacent variables with `c()` when selecting
+#   columns. Use `:` instead.
+
 # 5 -----------------------------------------------------------------------
 
 # The data frame represented by the list item named sites has a primary key
@@ -81,6 +90,9 @@ site_characteristics <-
     ),
     .keep = "none"
   ) 
+
+# [[-0.15]] Code formatting: If a function spans more than one line of code, the
+# opening parentheses should be followed by a line break.
 
 # 6 -----------------------------------------------------------------------
 
@@ -109,6 +121,11 @@ observations <-
     count = n(), 
     .by = c(visit_id, species)
   )
+
+# [[-0.50]] Incorrect: To count the number of animals observed, it was 
+# necessary to use `sum()` ... `n()` is just a row counter.
+
+# [[-0.15]] Code parsimony: Regex could have been simplified.
 
 # 7 -----------------------------------------------------------------------
 
@@ -173,6 +190,21 @@ cat_occurrence <-
     .by = c(visit_id, site_id)
   )
 
+# [[-1.0]] `<` is not among the functions that you may use for this
+# assignment.
+
+# [[-0.20]] Code parsimony:
+# * Your nested `if_else()` and your `summarize()` would not have been
+#   necessary if observations were filtered to cats.
+# * If you are generating numeric values, it is not necessary to specify them
+#   in quotes.
+
+# [[-0.20]] Code formatting: 
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
+# * If you provide three or more arguments to a function, place each argument
+#   on its own line.
+
 # 9 -----------------------------------------------------------------------
 
 # Let's visualize the proportion of visits with cat detections for each urban
@@ -235,3 +267,12 @@ cat_occurrence %>%
     plot.title = element_text(size = 16), 
     axis.title = element_text(size = 14)
   )
+
+# [[-0.45]] Incorrect:
+# * Did not correctly calculate the proportion of visits with cat detections
+#   for each urban intensity class.
+# * The y-axis does not range from 0 to 0.8.
+# * The label for the y-axis was not correct
+
+# [[-0.15]] Code formatting: If a code block spans more than one line of code,
+# add a new line after the assignment operator.
