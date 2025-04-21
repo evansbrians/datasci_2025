@@ -1,0 +1,35 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,<<-,The super assignment infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) and sends the results to the global environment (regardless of the operating environment)
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!,Prefix logical operator (not)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,*,Infix arithmetic operator (multiply)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,function,Write a custom function
+.Primitive,is.na,A logical test of whether a value in a vector is [NA]
+.Primitive,return,Return the results from a given point in a function's body (do not use for the last value!)
+.Primitive,sum,Calculate the sum of the values in a vector
+base,body,Print the body of an R function
+base,environment,Print the environment of a given function
+base,formals,Print the formals of an R function
+base,function,Initiate the creation of a custom function
+base,library,Attach the package environment for a given package to the current R session
+base,list2env,Assign the items in a list to a specified environment
+base,mean,Generate a one-value double numeric vector that describes the mean of a vector
+base,summary,Print summary stats for a data object
+dplyr,arrange,Sort the rows of a data frame by the values in a variable or variables
+dplyr,desc,"When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order"
+dplyr,filter,Subset a data frame by logical condition
+dplyr,if_any,Run a function for any of the columns that satisfy a given condition
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,pull,Extract a column from a data frame as a vector
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+readr,read_rds,Read an RDS file into R
+rlang,{{}},Insert the variable inside of `{{ ... }}` into the body of a function

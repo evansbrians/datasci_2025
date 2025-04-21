@@ -1,5 +1,5 @@
 ---
-title: "8.2. Control flow with if else"
+title: "6.3 Control flow with if else"
 format:
   html:
     embed-resouces: true
@@ -101,6 +101,72 @@ Note: In this lesson, we use the triple colon operator (i.e., `tidyselect:::sele
 
 {{< video https://www.youtube.com/embed/ct3dBs3uCXM >}}
 
+## Compendium
+
+
+
+```{r}
+standard_error <- 
+  function(.x) {
+    sd(.x) / 
+      sqrt(
+        length(.x)
+      )
+  }
+```
+
+```{r}
+standard_error_limits <- 
+  function(
+    .x,
+    limit = "lower"
+  ) {
+    if(limit == "lower") {
+      mean(.x) - standard_error(.x)
+    } else {
+      mean(.x) + standard_error(.x)
+    }
+  }
+```
+
+```{r}
+get_conf_int_lower <- 
+  function(.x) {
+    t.test(.x) %>% 
+      pluck("conf.int") %>% 
+      .[[1]]
+  }
+
+get_conf_int_lower <- 
+  function(.x) {
+    t.test(.x) %>% 
+      pluck("conf.int") %>% 
+      .[[2]]
+  }
+
+get_conf_int <- 
+  function(
+    .x,
+    boundary = "lower"
+  ) {
+    test_out <-
+      t.test(.x) %>% 
+      pluck("conf.int")
+    
+    if(boundary == "lower") {
+      test_out[[1]]
+    } else {
+      test_out[[2]]
+    }
+  }
+
+matches()
+
+sum()
+```
+
+Plot of means (geom_segment) 
+
 ## Reference
 
 <button class="accordion">Glossary</button>
@@ -120,40 +186,23 @@ Note: In this lesson, we use the triple colon operator (i.e., `tidyselect:::sele
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, :::`: Infix operator that can be used to access a function that is not meant to be exported!
-* `.Primitive, !`: Prefix logical operator (not)
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, else`: Used in conjunction with `if`, evaluate a statement when `if` evaluates to FALSE.
-* `.Primitive, if`: If a logical value is TRUE, evaluate a statement
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `base::sum`: Calculate the sum of a numeric vector
-* `base::summary`: Print summary stats for a data object
-* `dplyr::if_else`: Classify or reclassify a vector into two classes by applying a logical test and assigning one value if the test evaluates to `TRUE` and another if it evaluates to `FALSE`
-* `dplyr::left_join`: A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `ggplot2::aes`: Define aesthetics
-* `ggplot2::geom_bar`: Create a bar geometry
-* `ggplot2::geom_boxplot`: Create a boxplot geometry
-* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
-* `lubridate::as_date`: Convert properly formatted date, stored as a character or datetime vector, to a date class object
-* `lubridate::dmy`: Convert a date formatted as day, month, year (European date format) to a date class object
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::map`: Iterate across a vector and return a list
-* `purrr::map_vec`: Iterate across a vector and return a vector of values of the same length
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
-* `stringr::str_detect`: Logical test of whether a pattern (string) is contained within a character value
-* `tidyselect::matches`: When used with select, this allows you to subset names with string matching
-* `tidyr::drop_na`: Remove rows that contain NA values
-* `tidyselect:::select`: Extract by name from any named object (without quotes!)
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_6.3_control_flow_if_else.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 :::
 
 <button class="accordion">Metacharacters in regex</button>
@@ -187,26 +236,31 @@ When you are given a list of functions that you may use in a given problem set, 
 The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
 
 :::{style="background-color: white; font-size: 14px;"}
-|Task                         | Windows          | Mac
-|:----------------------------|:----------------:|:-------------------:|
-| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
-| Open an existing script     | Ctrl + O         | command + O
-| Create a new script         | Ctrl + shift + N | command + shift + N
-| Save script file            | Ctrl + S         | command + S
-| Execute code                | Ctrl + Enter     | command + return
-| Copy                        | Ctrl + C         | command + C
-| Paste                       | Ctrl + V         | command + V
-| Add a pipe operator         | Ctrl + shift + M | command + shift + M
-| Add an assignment operator  | Alt + dash       | option + dash
-| Add a new code section      | Ctrl + shift + R | command + shift + R
-| Indent code                 | Ctrl + I         | command + I
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
 :::
 :::
 
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
