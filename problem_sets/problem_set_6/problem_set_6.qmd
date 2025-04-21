@@ -392,6 +392,8 @@ banding_subset %>%
   )
 ```
 
+Under-the-hood, the above code block is an iteration. For each `common_name`, the code tests whether a given wing value is equivalent to the maximum wing value and then subsets the data to only the rows with the matching records (i.e., the maximum wing length value for a given species).
+
 ::: now_you
 
 9\. [[2.0]]{.score} Use `purrr::map()` to repeat the operation above without the use of `group_by()` or `.by = ...`.
