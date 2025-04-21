@@ -97,75 +97,12 @@ Please do the following to ensure that you are working in a clean session:
 
 ## Video content
 
-Note: In this lesson, we use the triple colon operator (i.e., `tidyselect:::select()`). This is similar to the double colon `::`, however, it gives us access to functions that are intended to be only used internally by other packages. For example, the `select()` function in *dplyr* internally calls `tidyselect:::select()`. Tara and I like `tidyselect:::select()` so much, that we like to break the rules a bit.
+Note: 
 
-{{< video https://www.youtube.com/embed/ct3dBs3uCXM >}}
+* This video was initially created to be paired with the lesson on Shiny applications (in optional Module 8). We feel that this operation is important enough that it should be included within the required content for this course.
+* In this lesson, we again use the triple colon operator (i.e., `tidyselect:::select()`). This is similar to the double colon `::`, however, it gives us access to functions that are intended to be only used internally by other packages. For example, the `select()` function in *dplyr* internally calls `tidyselect:::select()`. Tara and I like `tidyselect:::select()` so much, that we like to break the rules a bit.
 
-## Compendium
-
-
-
-```{r}
-standard_error <- 
-  function(.x) {
-    sd(.x) / 
-      sqrt(
-        length(.x)
-      )
-  }
-```
-
-```{r}
-standard_error_limits <- 
-  function(
-    .x,
-    limit = "lower"
-  ) {
-    if(limit == "lower") {
-      mean(.x) - standard_error(.x)
-    } else {
-      mean(.x) + standard_error(.x)
-    }
-  }
-```
-
-```{r}
-get_conf_int_lower <- 
-  function(.x) {
-    t.test(.x) %>% 
-      pluck("conf.int") %>% 
-      .[[1]]
-  }
-
-get_conf_int_lower <- 
-  function(.x) {
-    t.test(.x) %>% 
-      pluck("conf.int") %>% 
-      .[[2]]
-  }
-
-get_conf_int <- 
-  function(
-    .x,
-    boundary = "lower"
-  ) {
-    test_out <-
-      t.test(.x) %>% 
-      pluck("conf.int")
-    
-    if(boundary == "lower") {
-      test_out[[1]]
-    } else {
-      test_out[[2]]
-    }
-  }
-
-matches()
-
-sum()
-```
-
-Plot of means (geom_segment) 
+{{< video https://youtu.be/wRhVgSfvGoA >}}
 
 ## Reference
 
