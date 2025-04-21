@@ -115,8 +115,8 @@ c("foraging", "diet") %>%
       aes(
         x = .data[[.x]],
         y = count
-      )
-    geom_bar(stat = "identity")
+      ) +
+      geom_bar(stat = "identity")
   )
 
 # Now you! Programmatically generate a box plot of mass by life history
