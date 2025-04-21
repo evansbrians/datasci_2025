@@ -1029,7 +1029,7 @@ When this option is available to us, specifying the variable rather than the ind
 
 *Note: You will notice that the video ends pretty abruptly and the video code continues with "mapping when it matters". We will get to applications of purrr maps soon!*
 
-{{< video https://www.youtube.com/embed/yBLxvveHrA0 >}}
+{{< video https://www.youtube.com/watch?v=ljXxhRq_pdg >}}
 
 ## `purrr::map()` compendium
 
