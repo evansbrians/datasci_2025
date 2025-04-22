@@ -22,7 +22,8 @@ lobstr::mem_used()
 hello_char <-
   rep(
     c("hello", "world"),
-    1E6)
+    1E6
+  )
 
 mem_used()
 
@@ -32,7 +33,9 @@ hello_fact <-
   factor(
     rep(
       c("hello", "world"),
-      1E6))
+      1E6
+    )
+  )
 
 mem_used()
 
@@ -61,7 +64,8 @@ obj_size(hello_char_copy)
 
 obj_sizes(
   hello_char, 
-  hello_char_copy)
+  hello_char_copy
+)
 
 lobstr::obj_addr(hello_char)
 
@@ -70,18 +74,22 @@ obj_addr(hello_char_copy)
 # What if a recursive (list) object contains duplicated objects?
 
 hello_list <-
-  list(hello_char, 
-       hello_char_copy)
+  list(
+    hello_char, 
+    hello_char_copy
+  )
 
 obj_size(hello_list)
 
 obj_sizes(
   hello_char, 
   hello_char_copy, 
-  hello_list)
+  hello_list
+)
 
 obj_sizes(
-  list(NULL, NULL))
+  list(NULL, NULL)
+)
 
 lobstr::ref(hello_list)
 
@@ -131,26 +139,36 @@ get_proc_time <-
 get_proc_time(
   rep(
     c("hello", "world"),
-    1E6))
+    1E6
+  )
+)
 
 get_proc_time(
   factor(
     rep(
       c("hello", "world"),
-      1E6)))
+      1E6
+    )
+  )
+)
 
 # Test function with microbenchmark:
 
 microbenchmark::microbenchmark(
   rep(
     c("hello", "world"),
-    1E6))
+    1E6
+  )
+)
 
 microbenchmark(
   factor(
     rep(
       c("hello", "world"),
-      1E6)))
+      1E6
+    )
+  )
+)
 
 # memory used during processing -------------------------------------------
 
@@ -159,11 +177,16 @@ profmem::profmem(
     a = 
       rep(
         c("hello", "world"),
-        1E6),
+        1E6
+      ),
     b = 
-      rep(1:2, 1E6)) %>% 
+      rep(1:2, 1E6)
+  ) %>% 
     group_by(a) %>%
-    mutate(b = b + 100)) %>% 
+    mutate(
+      b = b + 100
+    )
+) %>% 
   profmem::total() * 1E-6
 
 # To pipe or not to pipe?
@@ -174,10 +197,15 @@ profmem({
       a = 
         rep(
           c("hello", "world"),
-          1E6),
+          1E6
+        ),
       b = 
-        rep(1:2, 1E6))
-  mutate(my_tibble, b = b + 100)
+        rep(1:2, 1E6)
+    )
+  mutate(
+    my_tibble, 
+    b = b + 100
+  )
 }) %>% 
   total() * 1E-6
 
@@ -187,7 +215,8 @@ profmem({
   hello_char <- 
     rep(
       c("hello", "world"),
-      1E6)
+      1E6
+    )
 }) %>% 
   total() * 1E-6
 
@@ -195,12 +224,14 @@ lobstr::obj_size(hello_char)
 
 
 profmem({
-    hello_fact <- 
-      factor(
-        rep(
-          c("hello", "world"),
-          1E6))
-  }) %>% 
+  hello_fact <- 
+    factor(
+      rep(
+        c("hello", "world"),
+        1E6
+      )
+    )
+}) %>% 
   total() * 1E-6
 
 lobstr::obj_size(hello_fact)
