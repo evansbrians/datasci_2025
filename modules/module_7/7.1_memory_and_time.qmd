@@ -11,14 +11,12 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 <hr>
 
-![](../images/hex_complex.png){.intro_image}
+![](../../images/hex_complex.png){.intro_image}
 
 As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step to ensure performance. Benchmarking describes the process of evaluating the memory used and processing time associated with executing code. This video lesson (runtime -- 19:57) illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how I decide when to apply a given function over another or which classes data objects to use for a given application. You will explore:
 
@@ -48,6 +46,154 @@ Notes:
 * At the end of the video (which is a couple of years old), I describe that I use the package *lineprof* the most for benchmarking. This is no longer the case. Later in this module you will see my current go-to package.
 
 {{< video https://www.youtube.com/embed/CvDWsEpGiGQ >}}
+
+## Written
+
+<a title = "Memory usage">
+<img  src = "../../images/memory_usage.png"
+alt="Memory Usage from RStudio"
+style = "float: right; 
+padding-left: 1em; 
+padding-bottom: 0.5em; 
+padding-right: 0em; 
+width: 50%; 
+height: auto;">
+</img>
+</a>
+Proper management of your R sessions begins with proper management of your computer system overall. 
+
+As shown in the image on the right, the Environment tab provides a handy way to quickly view the amount of memory you have allocated relative to the amount of memory you have available. If this wheel turns yellow, or red (the horror), you could be well on your way to major problems. Symptoms include simple functions running super slowly, warning messages that you ran out of memory ("Could not allocate vector ..."), or, in the worst case scenario, aborted R sessions.
+
+Let's dig into the details a little further. In R Studio, click on the downward arrow next to the memory usage icon and then select "Memory Usage Report...". This provides a summary of memory usage by your R session ("Used by session") and your computer system ("Used by system"):
+
+<img  src = "../../images/memory_usage_big.png"
+alt="Memory Usage from RStudio"
+style = "padding-top: 0.5em; 
+padding-left: 0em; 
+padding-bottom: 0.5em; 
+padding-right: 0em; 
+width: 75%; 
+height: auto;">
+</img>
+
+*Note: The two images above are from Posit's helpful document <a href="https://support.posit.co/hc/en-us/articles/1500005616261-Understanding-Memory-Usage-in-the-RStudio-IDE" target="_blank">Understanding Memory Usage in the RStudio IDE</a>.*
+
+If you observe that your system is occupying a lot of memory, you might want to explore why. If you are on a Mac, use the *Activity Monitor* app (see "Memory" tab) to view memory usage by application. If you are on a Windows system, use the Task Manager (Ctrl + Shift + Esc). Once you have a sense of the memory your system is using *outside of R*:
+
+1. Close any unused programs, especially if they are using a lot of memory
+2. Close any internet browser tabs that you are not actively using (*Note: The Google Chrome extension <a href="https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall" target="_blank">OneTab</a> can be a great way to close tabs without losing them!*)
+3. Check your Memory usage report again. Has it gone down? If not, and if you are running low on memory, you may want to restart your computer.
+
+## Setup
+
+1. Open R Studio and a new script file. Remember that it's best practice to start with a clean R Studio session!
+
+2. Add a new code section and call it "setup"
+
+3. After a space between your section break, include and run the following:
+
+5. Read in the file `xxx`.
+
+## Memory evaluation tools
+
+The packages *lobstr* and *bench* offer opportunities to evaluate our memory usage when working in R. This is incredibly important for working large data. If we do not manage our memory, we can get stuck waiting for processes to complete or, even worse, get the dreaded “out of memory” errors.
+
+### Object size
+
+When we assign a name to the global environment, the data associated with that name are typically stored temporarily in your computer's memory. Because spatial objects are often quite large, we want to limit the number of global assignments. Knowing the size of the objects stored is crucial, as it can help guide us in making decisions about how to manage our memory.
+
+We can determine the current size of an object using `lobstr::obj_size()`. Let's see the size of `xxx`:
+
+```{r}
+obj_size()
+```
+
+... and `xxx`:
+
+```{r}
+obj_size()
+```
+
+Notice that the object size of the two objects is reported on quite different scales. The `xxx` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `xxx` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we would find that the `xxx` shapefile is more than 90 times larger than `xxx`!
+
+:::{.now_you}
+<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; How much memory is allocated to the `xxx` shapefile?</button>
+
+::: panel
+
+```{r}
+obj_size()
+```
+
+:::
+
+:::
+
+:::{class="mysecret"}
+<i class="fa fa-user-secret" aria-hidden="true" style = "font-size: 150%; padding-right: 5px;"></i>
+As you might be aware, base R has a function for determining the size of an object, `utils::object.size()`. That function should be avoided, as it often returns inaccurate results -- estimates are often higher than the true memory usage. In the last module of this course you will have an opportunity to explore object sizes more deeply.
+:::
+
+### Benchmarking
+
+Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess the time it takes for our code to run and the memory allocated when doing so. There are a few different ways this can be done, but here we will use the function `bench::mark()` (we will look at different packages that can be used for this in the last module of the course).
+
+Let's use benchmarking to explore the memory usage and time of execution for our line of code that read in `xxx`. We supply the code that we would like to benchmark and the number of iterations. Iteration is this context means repeating the same process a set number of times in order to obtain accurate summary statistics:
+
+```{r, eval = TRUE}
+mark(
+  st_read(
+    "xxx", 
+    quiet = TRUE
+  ),
+  iterations = 5
+)
+```
+
+*Note: I have set the number of iterations to just five. There is considerable variation in memory used and time taken when executing a function (e.g., your output likely differs from mine). When formally profiling code, I recommend using a minimum of 100 iterations.*
+
+The results above provided more information than we need for the purposes of this lesson. Here, I'm interested in the median execution time, `median`, and the memory allocated to run the code, `mem_alloc`. Let's reduce our results to just those two variables:
+
+```{r, eval = FALSE}
+mark(
+  st_read("xxx", quiet = TRUE),
+  iterations = 5
+) %>% 
+  select(median, mem_alloc)
+```
+
+```{r, include = FALSE}
+mark1 <-
+  mark(
+    st_read("xxx", quiet = TRUE),
+    iterations = 5
+  ) %>% 
+  select(median, mem_alloc)
+```
+
+```{r, echo = FALSE}
+mark1
+```
+
+It took `r round(mark1$median*1E3, 0)` milliseconds (1 x 10<sup>-3</sup> seconds) and roughly `r round(as.numeric(mark1$mem_alloc)/1048576, 0)` megabytes of memory to read in the file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Reference
 
