@@ -1,0 +1,369 @@
+---
+title: "7.6 Programming applications"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: true
+    toc-location: left
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - ../../custom_style.scss
+editor: source
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
+
+<hr>
+
+<div>
+![](../../images/hex_complex.png){.intro_image}
+
+Introduction paragraph
+
+</div>
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+data
+
+:::
+
+## Set up
+
+These data represent multiple 
+
+```{r}
+bmp_raw <- 
+  read_rds("data/raw/bmp_raw.rds")
+```
+
+One of the first issues that immediately stands out to me is the mixture of uppercase and lowercase in our variables and our values. Let's make all of our values lowercase
+
+```{r}
+bmp_raw_lc <- 
+bmp_raw %>% 
+  mutate(
+    across(
+      everything(),
+      ~ tolower(.x)
+    )
+  )
+```
+
+I have included a table of what the full BMP names actually are and what we want to change them to
+
+```{r class_table, echo = FALSE, eval = TRUE}
+tibble(
+  bmp = 
+    c(
+      "Delay your first cutting of hay",
+      "Summer pasture stockpiling",
+      "Set aside unmowed areas adjacent to mowed areas",
+      "Manage fields in patches",
+      "Stream exclusion and buffer plantings",
+      "Install nest-boxes",
+      "Provide overwintering habitat",
+      "Remove non-native species",
+      "Plant native warm season grasses (NWSGs) and wildflowers",
+      "Keep all cats indoors",
+      "Eliminate the use of pesticides, including insecticides and rodenticides",
+      "Upgrade ALL outdoor lighting to be Dark Sky compliant",
+      "Prescribed fire",
+      "Edge and Shrub Habitat"
+    ),
+  abbr = 
+    c(
+      "delay_hay",
+      "summer_pasture_stockpiling",
+      "set_aside_adjacent_unmowed",
+      "manage_in_patches",
+      "stream_exclusion_and_buffers",
+      "install_nest_boxes",
+      "provide_overwintering_habitat",
+      "remove_non-native_species",
+      "plant_nwsg",
+      "keep_cats_indoors",
+      "eliminate_pesticides",
+      "upgrade_to_darksky",
+      "prescribed_fire",
+      "edge_and_shrub_habitat"
+    )
+) %>% 
+  knitr::kable(format = "html") %>% 
+  kableExtra::kable_styling()
+```
+
+Replace spaces with ";" and make everything lowercase
+
+```{r}
+bmp_raw_lc %>% 
+  mutate(
+    bmp = 
+      bmp %>% 
+      
+      # Replace spaces with underscores:
+      
+      str_replace_all(" ", "_") %>% 
+      
+      # Maybe remove this and address in the next step:
+      
+      str_replace_all(";_", "; ")
+  )
+```
+
+```{r bmp_table, echo = FALSE, eval = TRUE}
+tibble(
+  bmp = 
+    c(
+      "Delay your first cutting of hay",
+      "Summer pasture stockpiling",
+      "Set aside unmowed areas adjacent to mowed areas",
+      "Manage fields in patches",
+      "Stream exclusion and buffer plantings",
+      "Install nest boxes",
+      "Provide overwintering habitat",
+      "Remove non-native species",
+      "Plant native warm season grasses (NWSGs) and wildflowers",
+      "Keep all cats indoors",
+      "Eliminate the use of pesticides, including insecticides and rodenticides",
+      "Upgrade ALL outdoor lighting to be Dark Sky compliant",
+      "Prescribed fire",
+      "Edge and Shrub Habitat"
+    ),
+  abbr = 
+    c(
+      "delay_hay",
+      "summer_pasture_stockpiling",
+      "set_aside_adjacent_unmowed",
+      "manage_in_patches",
+      "stream_exclusion_and_buffers",
+      "install_nest_boxes",
+      "provide_overwintering_habitat",
+      "remove_non-native_species",
+      "plant_nwsg",
+      "keep_cats_indoors",
+      "eliminate_pesticides",
+      "upgrade_to_darksky",
+      "prescribed_fire",
+      "edge_and_shrub_habitat"
+    ),
+  fix = 
+    c(
+      "Remove \"your_first_cutting_of_\"",
+      "none",
+      "Replace \"set.*areas\" with \"set_aside_adjacent_unmowed\"",
+      "Remove \"fields_\"",
+      "Remove \"_planting\"",
+      "none",
+      "none",
+      "none",
+      "Replace \"plant.*(wildflowers|nwsgs)\" with \"plant_nwsg\"",
+      "Replace \"_all_\" with \"_\"",
+      "eliminate_pesticides",
+      "upgrade_to_darksky",
+      "none",
+      "none"
+    )
+) %>% 
+  mutate(
+    bmp = 
+      bmp %>% 
+      tolower() %>% 
+      str_replace_all(" ", "_") %>% 
+      str_replace_all(";_", "; ")
+  ) %>% 
+  knitr::kable(format = "html") %>% 
+  kableExtra::kable_styling()
+```
+
+Putting this all together within a single mutate, we get:
+
+```{r}
+bmp_fix_bmps <- 
+  bmp_raw_lc %>% 
+  mutate(
+    bmp = 
+      bmp %>% 
+      str_replace_all(" ", "_") %>% 
+      str_replace_all(";_", "; ") %>% 
+      str_replace("plant.*(wildflowers|nwsgs)", "plant_nwsg") %>% 
+      str_remove("_planting") %>% 
+      str_remove("the_use_of_") %>% 
+      str_remove(",_including_insecticides_and_rodenticides") %>% 
+      str_remove("your_first_cutting_of_") %>% 
+      str_remove("fields_") %>% 
+      str_replace("_all_", "_")%>% 
+      str_replace("set.*areas", "set_aside_adjacent_unmowed")
+  )
+```
+
+Create a character vector of bmps. For each bmp, filter the original table
+
+```{r}
+bmp_fixed <- 
+  bmp_fix_bmps %>% 
+  filter(
+    !str_detect(bmp, ";")
+  ) %>% 
+  distinct(bmp) %>% 
+  pull() %>% 
+  map_df(
+    ~ bmp_fix_bmps %>% 
+      filter(
+        str_detect(bmp, .x)
+      ) %>% 
+      mutate(
+        bmp = .x
+      )
+  )
+
+bmp_fixed
+```
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+* **Body**: The instructions of a function that are run when the function is executed. 
+* **Compound key** (or compound primary key): A set of variables in a data frame that, combined, represent the primary key of a table.
+* **Foreign key**: A variable in a data frame that refers to the primary key of another data frame.
+* **Formals**: The arguments of a function (can also be thought of as the variables upon which the function is run).
+* **Function**: A set of instructions used to complete a given task.
+* **Primary key**: A variable in a data frame that is used to identify unique records.
+* **Scoping**: The process by which R searches for a variable.
+* **Scoping rules**: The order of the search path that R uses to find variables.
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The functions `magrittr::%>%`, `rlang::{{}}`, `rlang::set_names` are attached with `library(tidyverse)`
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_6.1_focus_on_functions.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Metacharacter escape**, `\\`: Treat a metacharacter as a literal character
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+:::
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
