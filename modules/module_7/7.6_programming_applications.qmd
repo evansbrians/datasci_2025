@@ -57,14 +57,14 @@ data
 
 ## Set up
 
-These data represent multiple 
+These data
 
 ```{r}
 bmp_raw <- 
   read_rds("data/raw/bmp_raw.rds")
 ```
 
-One of the first issues that immediately stands out to me is the mixture of uppercase and lowercase in our variables and our values. Let's make all of our values lowercase
+One of the first issues that immediately stands out to me is the mixture of uppercase and lowercase in our variables and our values. Let's make all of our values lowercase:
 
 ```{r}
 bmp_raw_lc <- 
@@ -76,6 +76,8 @@ bmp_raw %>%
     )
   )
 ```
+
+One of the most important columns that we will use is `bmp`. Unfortunately, the way that BMPs were entered changed partway through the project. We want to modify `bmp` values such that they are all in an abbreviated snake_case version. We will need to use a ton of `stringr` functions and regex to fix this!
 
 I have included a table of what the full BMP names actually are and what we want to change them to
 
@@ -120,7 +122,7 @@ tibble(
   kableExtra::kable_styling()
 ```
 
-Replace spaces with ";" and make everything lowercase
+Replace spaces with ";" and make everything lowercase:
 
 ```{r}
 bmp_raw_lc %>% 
@@ -137,6 +139,8 @@ bmp_raw_lc %>%
       str_replace_all(";_", "; ")
   )
 ```
+
+Since our current values and our desired values now share similarities, we can change each one by simply removing or replacing parts of each string:
 
 ```{r bmp_table, echo = FALSE, eval = TRUE}
 tibble(
