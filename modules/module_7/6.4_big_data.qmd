@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -100,10 +100,12 @@ We will use a number of new packages in this lesson, please install them before 
 
 ```{r, eval = FALSE}
 install.packages(
-  c("arrow",
+  c(
+    "arrow",
     "data.table",
     "DBI",
-    "RSQLite")
+    "RSQLite"
+  )
 )
 ```
 
@@ -231,7 +233,10 @@ As such, these data should be split into two different tables:
 
 ```{r}
 messy_birds %>% 
-  select(band_number:spp, wing:mass)
+  select(
+    band_number:spp, 
+    wing:mass
+  )
 
 messy_birds %>% 
   select(spp:diet) %>% 
@@ -245,7 +250,10 @@ tidy_birds <-
   list(
     captures = 
       messy_birds %>% 
-      select(band_number:spp, wing:mass),
+      select(
+        band_number:spp, 
+        wing:mass
+      ),
     life_history =
       messy_birds %>% 
       select(spp:diet) %>% 
@@ -355,7 +363,8 @@ I generally nest the individual observation-level data inside of the data that r
 nested_birds <-
   messy_birds %>% 
   nest(
-    capture_records = c(band_number, wing:mass))
+    capture_records = c(band_number, wing:mass)
+  )
 
 nested_birds
 ```
@@ -371,7 +380,8 @@ nested_birds %>%
       if_else(
         spp == "SOSP", 
         "boy_howdy",
-        spp)
+        spp
+      )
   )
 ```
 
@@ -390,7 +400,8 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records)
+    capture_records
+  )
 ```
 
 We can use unnest to return all of the variables from our nested list column:
@@ -401,7 +412,8 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   unnest(cols = capture_records)
 ```
 
@@ -412,7 +424,8 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   unnest(cols = capture_records) %>% 
   filter(mass < 20) %>% 
   nest(
@@ -427,12 +440,14 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   mutate(
     capture_records = 
       map(
         capture_records,
-        ~ filter(.x, mass < 20))
+        ~ filter(.x, mass < 20)
+      )
   )
 ```
 
@@ -445,11 +460,14 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   mutate(
     capture_records = 
       map(
-        capture_records, ~ filter(.x, mass < 20))
+        capture_records,
+        ~ filter(.x, mass < 20)
+      )
   ) %>% 
   unnest(capture_records)
 ```
@@ -463,15 +481,19 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   mutate(
     capture_records = 
       map(
-        capture_records, ~ filter(.x, mass < 20))
+        capture_records, 
+        ~ filter(.x, mass < 20)
+      )
   ) %>% 
   unnest(capture_records) %>% 
   nest(
-    capture_records = c(band_number, wing:mass))
+    capture_records = c(band_number, wing:mass)
+  )
 ```
 
 ... but we are even less parsimonious than we were before!
@@ -483,12 +505,15 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   mutate(
     n_records = 
       map_dbl(
-        capture_records, ~ filter(.x, mass < 20) %>% 
-          nrow())
+        capture_records,
+        ~ filter(.x, mass < 20) %>% 
+          nrow()
+      )
   )
 ```
 
@@ -499,7 +524,8 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   mutate(
     n_records = 
       map_dbl(
@@ -520,7 +546,8 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   filter(
     map_dbl(
       capture_records, 
@@ -528,7 +555,8 @@ nested_birds %>%
         filter(x, mass < 20) %>% 
           nrow()
       }
-    ) > 0)
+    ) > 0
+  )
 ```
 
 The above works (and with the functions that we already know!), and is fairly parsimonious. It would however, be a lot to write if we needed to repeat this multiple times. As such, we can convert the above to a custom function. Our function must have the following three arguments:
@@ -549,7 +577,11 @@ Please navigate to the "custom functions" section of your code section and ...
 # Function to filter a data frame by a variable in a list column:
 
 filter_nested_frame <-
-  function(.data, .list_column, .predicate) {
+  function(
+    .data, 
+    .list_column, 
+    .predicate
+  ) {
     .data %>% 
       filter(
         map_dbl(
@@ -558,7 +590,8 @@ filter_nested_frame <-
             filter(x, {{ .predicate }}) %>% 
               nrow()
           }
-        ) > 0)
+        )
+        > 0)
   }
 ```
 :::
@@ -571,7 +604,8 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   filter_nested_frame(
     .list_column = capture_records, 
     mass < 20)
@@ -584,10 +618,12 @@ nested_birds %>%
   select(
     spp, 
     common_name, 
-    capture_records) %>% 
+    capture_records
+  ) %>% 
   filter_nested_frame(
     .list_column = capture_records, 
-    wing > 70)
+    wing > 70
+  )
 ```
 
 A benefit to the above is that our function subsets our life history data to the conditions in our captures data without the necessity of a join! This is roughly equivalent to the much more complex subsetting operation that would be required for a list:
@@ -646,7 +682,8 @@ tidy_birds %>%
       str_c(
         spp, 
         band_number, 
-        sep = "_"),
+        sep = "_"
+      ),
     .before = band_number
   )
 ```
@@ -713,9 +750,9 @@ We can add a character vector of `letters` to sample from (`letters` are a built
 
 ```{r}
 sample(
-  c(0:9,
-    letters),
-  size = 2) %>% 
+  c(0:9, letters),
+  size = 2
+) %>% 
   str_c(collapse = "")
 ```
 
@@ -733,10 +770,13 @@ Let's add a character vector of upper-case `LETTERS` (another built-in constant 
 
 ```{r}
 sample(
-  c(0:9,
+  c(
+    0:9,
     letters,
-    LETTERS),
-  size = 2) %>% 
+    LETTERS
+  ),
+  size = 2
+) %>% 
   str_c(collapse = "")
 ```
 
@@ -744,8 +784,16 @@ We now have 3,844 unique combinations with just two symbols:
 
 ```{r}
 expand_grid(
-  c(0:9, letters, LETTERS), 
-  c(0:9, letters, LETTERS)
+  c(
+    0:9, 
+    letters, 
+    LETTERS
+  ), 
+  c(
+    0:9, 
+    letters, 
+    LETTERS
+  )
 ) %>% 
   nrow()
 ```
@@ -767,9 +815,11 @@ That still is not a lot of potential key values, especially if we are working wi
 random_alpha_numeric <-
   function(n_symbols) {
     sample(
-      c(0:9, 
+      c(
+        0:9, 
         letters, 
-        LETTERS),
+        LETTERS
+      ),
       n_symbols
     ) %>% 
       str_c(collapse = "")
@@ -914,9 +964,11 @@ messy_birds %>%
 We will have to force the issue to generate a failure. If there is just one symbol in our key, there are 62 potential values:
 
 ```{r}
-c(0:9, 
+c(
+  0:9, 
   letters, 
-  LETTERS) %>% 
+  LETTERS
+) %>% 
   length()
 ```
 
@@ -957,10 +1009,13 @@ We should *still* ensure that our foreign key is unique to its level of observat
 messy_birds_w_primary_and_foreign_keys %>% 
   distinct(spp_id) %>% 
   nrow() ==
-  messy_birds_w_primary_and_foreign_keys %>% 
-  select(spp:diet) %>% 
-  distinct() %>% 
-  nrow()
+  {
+    messy_birds_w_primary_and_foreign_keys %>% 
+      select(spp:diet) %>% 
+      distinct() %>% 
+      nrow()
+  }
+
 ```
 
 The above verifies that we have successfully created our primary and foreign keys. So let's split the data based on the levels or observation (the third tidy data rule):
@@ -970,7 +1025,8 @@ messy_birds_w_primary_and_foreign_keys %>%
   select(
     observation_id,
     band_number:spp_id,
-    wing:mass)
+    wing:mass
+  )
 
 messy_birds_w_primary_and_foreign_keys %>% 
   select(spp_id:diet) %>% 
@@ -987,7 +1043,8 @@ my_tidy_list <-
       select(
         observation_id,
         band_number:spp_id,
-        wing:mass),
+        wing:mass
+      ),
     life_history = 
       messy_birds_w_primary_and_foreign_keys %>% 
       select(spp_id:diet) %>% 
@@ -1096,7 +1153,8 @@ my_tidy_list %>%
         conn = captures_database, 
         name = x,
         value = pluck(my_tidy_list, x),
-        overwrite = TRUE)
+        overwrite = TRUE
+      )
     }
   )
 ```
@@ -1259,7 +1317,8 @@ Let's add `amke_memory` as a table in our database:
 dbWriteTable(
   conn = amke_db, 
   name = "detections",
-  value = amke_memory)
+  value = amke_memory
+)
 ```
 
 We can then connect to the table with:
@@ -1272,12 +1331,15 @@ Notice that the time data got transformed into numbers! These numbers represent 
 
 ```{r}
 amke_memory %>% 
-  mutate(time = as.character(time)) %>% 
+  mutate(
+    time = as.character(time)
+  ) %>% 
   dbWriteTable(
     conn = amke_db, 
     name = "detections",
     value = .,
-    overwrite = TRUE)
+    overwrite = TRUE
+  )
 ```
 
 Let's verify that this worked:
@@ -1330,7 +1392,8 @@ mark(
     filter(
       month(time) == 7,
       rssi > -90,
-      node_id == "377c42")
+      node_id == "377c42"
+    )
 ) %>% 
   select(median, mem_alloc)
 
@@ -1341,7 +1404,8 @@ mark(
     filter(
       month(time) == 7,
       rssi > -90,
-      node_id == "377c42")
+      node_id == "377c42"
+    )
 ) %>% 
   select(median, mem_alloc)
 ```
@@ -1355,7 +1419,8 @@ tbl(amke_db, "detections") %>%
   filter(
     month(time) == 7,
     rssi > -90,
-    node_id == "377c42") %>% 
+    node_id == "377c42"
+  ) %>% 
   collect()
 ```
 
@@ -1367,7 +1432,8 @@ mark(
     filter(
       month(time) == 7,
       rssi > -90,
-      node_id == "377c42") %>% 
+      node_id == "377c42"
+    ) %>% 
     collect()
 ) %>% 
   select(median, mem_alloc)
@@ -1381,35 +1447,42 @@ Also, if we include the initial reading process in our operation ...
 
 # Benchmark - connect to, filter a database table, and collect the results:
 
-mark({
-  
-  # Establish connection:
-  
-  temp <-
-    dbConnect(
-      SQLite(),
-      "data/processed/amke.sqlite")
-  
-  # Filter and collect:
-  
-  tbl(temp, "detections") %>% 
-    filter(
-      month(time) == 7,
-      rssi > -90,
-      node_id == "377c42") %>% 
-    collect()
-}) %>% 
+mark(
+  {
+    
+    # Establish connection:
+    
+    temp <-
+      dbConnect(
+        SQLite(),
+        "data/processed/amke.sqlite"
+      )
+    
+    # Filter and collect:
+    
+    tbl(temp, "detections") %>% 
+      filter(
+        month(time) == 7,
+        rssi > -90,
+        node_id == "377c42"
+      ) %>% 
+      collect()
+  }
+) %>% 
   select(median, mem_alloc)
 
 # Benchmark - read in and filter a table in memory:
 
-mark({
-  read_csv("data/raw/amke_detections.csv") %>% 
-    filter(
-      month(time) == 7,
-      rssi > -90,
-      node_id == "377c42")
-}) %>% 
+mark(
+  {
+    read_csv("data/raw/amke_detections.csv") %>% 
+      filter(
+        month(time) == 7,
+        rssi > -90,
+        node_id == "377c42"
+      )
+  }
+) %>% 
   select(median, mem_alloc)
 ```
 
@@ -1425,7 +1498,8 @@ The advantage of the database method is, therefore, that we:
 ```{r}
 dbExecute(
   amke_db,
-  "DELETE FROM detections WHERE (tag_id = '78195233');")
+  "DELETE FROM detections WHERE (tag_id = '78195233');"
+)
 ```
 
 Above, I used `dbExecute()` to execute a SQLite function. I then had to write a SQL function for identifying the data to remove and deleting the records.
@@ -1793,7 +1867,8 @@ For example, the field team for the American kestrel study would often track bir
 open_csv_dataset("data/raw/amke_detections.csv") %>% 
   filter(
     tag_id == "19332D2D",
-    as_date(time) == "2023-06-30") %>% 
+    as_date(time) == "2023-06-30"
+  ) %>% 
   collect()
 ```
 
@@ -1806,7 +1881,8 @@ mark(
   open_csv_dataset("data/raw/amke_detections.csv") %>% 
     filter(
       tag_id == "19332D2D",
-      as_date(time) == "2023-06-30") %>% 
+      as_date(time) == "2023-06-30"
+    ) %>% 
     collect()
 ) %>% 
   select(median, mem_alloc)
@@ -1818,7 +1894,8 @@ mark(
     dtplyr::lazy_dt() %>% 
     filter(
       tag_id == "19332D2D",
-      as_date(time) == "2023-06-30") %>% 
+      as_date(time) == "2023-06-30"
+    ) %>% 
     as_tibble()
 ) %>% 
   select(median, mem_alloc)
@@ -1831,7 +1908,8 @@ open_csv_dataset("data/raw/amke_detections.csv") %>%
   filter(
     tag_id == "19332D2D",
     as_date(time) == "2023-06-30",
-    hour(time) > 20) %>% 
+    hour(time) > 20
+  ) %>% 
   collect()
 ```
 
@@ -1842,7 +1920,8 @@ open_csv_dataset("data/raw/amke_detections.csv") %>%
   filter(
     tag_id == "19332D2D",
     as_date(time) == "2023-06-30",
-    hour(time) > 20) %>% 
+    hour(time) > 20
+  ) %>% 
   
   # Calculate the average rssi by node_id:
   
@@ -1856,7 +1935,8 @@ open_csv_dataset("data/raw/amke_detections.csv") %>%
   slice_max(
     rssi, 
     n = 3,
-    with_ties = FALSE) %>% 
+    with_ties = FALSE
+  ) %>% 
   collect()
 ```
 
@@ -1870,7 +1950,8 @@ mark(
     filter(
       tag_id == "19332D2D",
       as_date(time) == "2023-06-30",
-      hour(time) > 20) %>% 
+      hour(time) > 20
+    ) %>% 
     
     # Calculate the average rssi by node_id:
     
@@ -1884,7 +1965,8 @@ mark(
     slice_max(
       rssi, 
       n = 3,
-      with_ties = FALSE) %>% 
+      with_ties = FALSE
+    ) %>% 
     collect()
 ) %>% 
   select(median, mem_alloc)
@@ -1899,7 +1981,8 @@ mark(
     filter(
       tag_id == "19332D2D",
       as_date(time) == "2023-06-30",
-      hour(time) > 20) %>% 
+      hour(time) > 20
+    ) %>% 
     
     # Calculate the average rssi by node_id:
     
@@ -1913,7 +1996,8 @@ mark(
     slice_max(
       rssi, 
       n = 3,
-      with_ties = FALSE) %>% 
+      with_ties = FALSE
+    ) %>% 
     as_tibble()
 ) %>% 
   select(median, mem_alloc)
@@ -1928,7 +2012,8 @@ mark(
     filter(
       tag_id == "19332D2D",
       as_date(time) == "2023-06-30",
-      hour(time) > 20) %>% 
+      hour(time) > 20
+    ) %>% 
     
     # Calculate the average rssi by node_id:
     
@@ -1942,7 +2027,8 @@ mark(
     slice_max(
       rssi, 
       n = 3,
-      with_ties = FALSE) %>% 
+      with_ties = FALSE
+    ) %>% 
     as_tibble()
 ) %>% 
   select(median, mem_alloc)
