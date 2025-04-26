@@ -1,0 +1,183 @@
+
+---------------------------------------------------------------------------
+
+chimes_lucy
+
+10.6
+
+5:
+* [-0.15] Code parsimony: Using your method, you could have just specified that the pattern ends with a given letter (thus ".*" was not necessary).
+* [No points removed]: This regex is extremely dangerous. Use conservative regex!
+
+8 [-0.75] Unnecesary assignment: Remember that the name associated with an object may be used interchangeably with the object itself.
+
+Extra credit 1 [+1.0]
+
+9. [-0.15]: You want to avoid unnecessary repetition -- this could have been greatly simplified with the use of `across()`! 
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]
+
+---------------------------------------------------------------------------
+
+cruz_nicolas
+
+11.65
+
+Extra credit 1 [+1.0]
+
+9. [No points removed]: It would have been safer to conduct your filtering prior to rounding the time to hour.
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]
+
+---------------------------------------------------------------------------
+
+dembicz_iwona
+
+10.6
+
+5:
+* [-0.15] Code parsimony: Using your method, you could have just specified that the pattern ends with a given letter (thus ".+" was not necessary).
+* [No points removed]: This regex is extremely dangerous. Use conservative regex!
+
+Extra credit 1 [+0.25]: This did not work because you did not pipe any data into your ggplot. I have you some points for the title, as this would have worked if the plotting had.
+
+9. [-0.15]: You want to avoid unnecessary repetition -- this could have been greatly simplified with the use of `across()`! 
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]: But I recommend doing data operations within the data being piped into your plot (rather than inside of `aes()`).
+
+---------------------------------------------------------------------------
+
+gartner_tracy
+
+11.2
+
+
+Extra credit 1 [+1.0]
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.3]: `fct_relevel()` was not among the "Functions that you may use ...". You want to use `fct_reorder()` here (which whould have also been more parsimonious).
+
+
+---------------------------------------------------------------------------
+
+jansen_lara
+
+9.5
+
+8. [-0.75]: The function `[...]` is not among the "Functions that you may use ..."
+
+Extra credit 1 [+0.75]: Species not included in the title.
+
+9. [-0.15]: You want to avoid unnecessary repetition -- this could have been greatly simplified with the use of `across()`! 
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.5]: Bars not arrange by the number of observations per species.
+
+---------------------------------------------------------------------------
+
+peyton_mark
+
+9.6
+
+4. [No points removed]: You have a typo in your code for the first example that is causing it to fail -- you assigned the name `tempa` to `a`, but referred to it as `temp` in `select()`.
+
+5. [-0.15] Code parsimony: Your regex for "House" was more complicated than it needed to be, given some of the mispellings.
+
+7. [No points removed]: But your example of an alternate working solution: 1) Is not completed with an approved function; and 2) `slice()` should be used very carefully -- I do not suggest its use in this context because indexing does a poor job of communicating processes and the order of values is often ephemeral.
+
+8:
+[-0.75]: The function `-` is not among the "Functions that you may use ..."
+* [-0.15] Code parsimony: This could have been completed programmatically.
+
+Extra credit 1 [+0]: Can't give extra credit for this because the point was in regards to the mapping operation and that did not quite work (and used an unapproved function).
+
+9. [No points removed] Just use the video solution, but I liked seeing your thought process!
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]
+
+---------------------------------------------------------------------------
+
+ploechl_jane
+
+11.63
+
+2. [-0.02] Code parsimony: The lubridate package is how part of the core tidyverse, so it does not need to be separately attached.
+
+Extra credit 1 [+1.0]
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]
+
+
+---------------------------------------------------------------------------
+
+stenzel_candace
+
+10.2
+
+4. [No points removed]: This is a VERY cool solution!
+
+5:
+* [-0.15] Code parsimony: Using your method, you could have just specified that the pattern ends with a given letter (thus the opening letter and ".*" was not necessary).
+* [No points removed]: This regex is extremely dangerous. Use conservative regex!
+
+8. [-0.15] Code parsimony: This could have been completed programmatically.
+
+Extra credit 1 [+0]: Can't give extra credit for this because this required a `map()` and no mapping was used.
+
+9. [-0.15]: You want to avoid unnecessary repetition -- this could have been greatly simplified with the use of `across()`! 
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]
+
+---------------------------------------------------------------------------
+
+thapa_avantika
+
+3.93
+
+3. [-0.12]: Because you are working in an RStudio project, it is never necessary to specify the absolute path to a file.
+
+4:
+[-0.5]: The function `$` is not among the functions that you may use for this assignment.
+[-0.1] Code formatting: Piped and nested code should be indented two spaces (one tab stop) relative to the parent object in a chained analysis.
+[-0.1] Code formatting: If you provide three or more arguments to a function, place each argument on its own line.
+[-0.1] Code parsimony: This could have been greatly simplified -- for example, it was not necessary to call the original data frame in your logical statements nor your first assignment (`b = ...`).
+
+5. [-0.15] Code parsimony: Your regex could have been greatly simplified
+
+7-10 [-5.0]: Not answered.
+
+---------------------------------------------------------------------------
+
+zumbado_hector
+
+10.35
+
+4 [-0.1] Code parsimony: It is not necessary to use quotes in `select()` unless the names are non-syntactic.
+
+5 [-0.15]: Choose the character class metacharacter instead of alternation constraints and the "or" metacharacter for single options. Here, "((0|o)u)?" could have been more parsimoniously written as "([0o]u)?"
+
+8. [-0.15] Code parsimony: This could have been completed programmatically.
+
+Extra credit 1 [+0.25]: The second loop was not necessary and `map2` is not among the "Functions that you may use ..."
+
+9. [-0.15] Code parsimony: Those multiple mutations were not necessary and you could have reduced the number of `across` functions used.
+
+10. [-0.1] Code parsimony: `&` only needed to be used for "Deer mouse".
+
+Extra credit 2 [+0.75]
+
+

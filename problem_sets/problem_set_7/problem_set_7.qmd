@@ -1,0 +1,387 @@
+---
+title: "Problem set 7: Final exam training session"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+project:
+  execute-dir: project
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+<!-- knitr setup --> 
+
+```{r knitr_setup, include = FALSE}
+options(knitr.table.format = "html")
+
+knitr::opts_chunk$set(error = TRUE)
+
+library(tidyverse)
+```
+
+<hr>
+
+![](https://assets0.roadtrippers.com/uploads/trip/uploaded_image/14715223/-quality_60_-interlace_Plane_-resize_640x500_U__-gravity_center_-extent_640x500/trip-uploaded_image-9a10d75c-f676-4680-8c22-ae8273bb3911.jpg){.intro_image}
+
+This problem set will be quite different from the others. There is no lofty ecological goal, no narrative to follow, not even any birds (well, maybe a few birds), cats, or cicadas. Instead, the singular goal of this problem set is to prepare you for the final exam. I have provided several (mostly) toy data sets that are similar to the ones that I create and use during Review and Q & A sessions, office hours, and on the discussion board. My hope is that the combination of these toy datasets and questions that represent some of the head-scratching puzzles we often encounter when wrangling real data will help make your final project much less stressful!
+
+## Grading
+
+The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="score"}).
+
+Points may be deducted from each question's total: 
+
+* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Include only assignments specified in the question;
+* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
+* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
+* [[10%]]{class="subscore"} Ensure that your code is as parsimonious as possible;
+* [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
+
+*Note: The maximum deduction is the total points value for a given question*
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Click the blue button below to view the functions that you may use in completing this problem set. Make sure that you know what each function does (use `?[function name]` if you do not). Do not use any functions outside of this list!
+:::
+
+<!-- Note, the below is an accordion, which was styled in the css section -->
+
+::: Accordion
+<button class="accordion">Functions that you may use in this assignment</button>
+
+::: {.panel}
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session.
+* Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The *magrittr* `%>%` and the *rlang* function `set_names` are made availble with `library(tidyverse)`.
+* The *tidyselect* function `select` must be referenced with `tidyselect:::select`.
+* Regex metacharacters are not functions!
+
+:::
+
+**Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *purrr*, *readr*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library. Regex metacharacters are not R functions and may be used as needed!
+
+In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
+
+* `.Primitive, ()`
+* `.Primitive, <-`
+* `.Primitive, =`
+* `.Primitive, :`
+* `.Primitive, ~`
+* `.Primitive, ==`
+* `.Primitive, !`
+* `.Primitive, >`
+* `.Primitive, <`
+* `.Primitive, <=`
+* `.Primitive, &`
+* `base::library`
+* `base::list2env`
+* `base::unique`
+* `dplyr::across`
+* `dplyr::anti_join`
+* `dplyr::case_when`
+* `dplyr::filter`
+* `dplyr::group_by`
+* `dplyr::if_else`
+* `dplyr::join_by`
+* `dplyr::mutate`
+* `dplyr::n`
+* `dplyr::pull`
+* `dplyr::select`
+* `dplyr::semi_join`
+* `dplyr::slice_max`
+* `dplyr::summarize`
+* `forcats::fct_reorder`
+* `ggplot2::+`
+* `ggplot2::aes`
+* `ggplot2::coord_flip`
+* `ggplot2::geom_bar`
+* `ggplot2::ggplot`
+* `ggplot2::labs`
+* `lubridate::ymd_hms`
+* `lubridate::hour`
+* `lubridate::mdy`
+* `lubridate::month`
+* `magrittr::%>%`
+* `purrr::map`
+* `purrr::pluck`
+* `readr::read_rds`
+* `stringr::str_c`
+* `stringr::str_replace`
+
+:::
+
+:::
+
+## About the data 
+
+For this problem set, we will use the file [problem_set_7_data.rds]{.mono}. This file is a list that contains a variety of weird little objects that I generated to help you address specific puzzles that you will solve during your final. The list contains the following list items (click each button to see variable definitions):
+
+<button class="accordion">**[backwards_columns]{.mono}**: A tibble data frame of toy data.</button>
+
+::: panel
+
+* [a]{.mono}, double numeric: A column that is supposed to include only negative numeric values, but also includes positive numeric values
+* [b]{.mono}, double numeric:  A column that is supposed to include only positive numeric values, but also includes negative numeric values.
+
+:::
+
+<button class="accordion">**[dates_and_times]{.mono}**: A tibble data frame of toy data.</button>
+
+::: panel
+
+* [date]{.mono}, character: A non-ISO 8601 vector of dates, in US date format: [month name] dd, yyyy
+* [time1]{.mono}, character: Time of day, in hh:mm:ss format
+* [time2]{.mono}, character: Time of day, in hh:mm:ss format
+
+:::
+
+<button class="accordion">**[leps_dc]{.mono}**: A tibble data frame of (real) iNaturalist observations of lepidoptera in the District of Columbia.</button>
+
+::: panel
+
+* [scientific_name]{.mono}, character: The genus and species of a given observation
+* [common_name]{.mono}, character: The common name for a given species
+* [date]{.mono}, date: The date that an observation occurred
+
+:::
+
+<button class="accordion">**[matching list tables]{.mono}**: A list where each list item is a tibble data frame (toy data).</button>
+
+::: panel
+
+* [boy]{.mono} 
+  * [heroes]{.mono}, character: Either "Hadley" or "Codd"
+  * [numbers]{.mono}, integer: Integers from 1 through 10
+* [howdy]{.mono} 
+  * [hello]{.mono}, character: "Hadley"
+  * [world]{.mono}, integer: Integers from 11 through 20
+
+:::
+
+<button class="accordion">**[size_and_volume]{.mono}**: A tibble data frame of toy data.</button>
+
+::: panel
+
+* [size]{.mono}, integer: The "size" of an organism
+* [volume]{.mono}, integer: The "volume" of an organism
+
+:::
+
+
+## Setup
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i>  Remember that it is best practice to start with a clean R Studio session (i.e., close any script files, remove objects from your global environment, and clear your history).
+:::
+
+::: now_you
+
+1. [[0.75]]{class="score"} Save this document to your project folder with naming convention "problem_set_7_[last name]_[first name].R". For example, I would name my file `problem_set_7_evans_brian.R`.
+
+:::
+
+::: now_you
+
+2. [[0.25]]{class="score"} Attach the tidyverse metapackage to your current R session.
+
+:::
+
+::: now_you
+
+3. [[0.50]]{.score}  Read in `"data/raw/problem_set_7_data.rds"` and assign each of the list item names to your global environment. 
+
+:::
+
+## Backwards columns
+
+A common problem in data management is column values that have been reversed!
+
+::: now_you
+
+
+4. [[1.0]]{.score} In `backwards_columns`, column `a` is intended to contain only negative numbers and column `b` is intended to contain only positive numbers. If column `a` is negative and column `b` is positive, switch the values between the two columns.
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r backwards_columns_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_4")
+```
+
+
+## Regex-cellence
+
+The dataset `bad_birds` is a vector of three species with lots of spelling errors!
+
+::: now_you
+
+5. [[1.5]]{.score} As parsimoniously as possible, fix the spellings of the common names to "House finch", "House sparrow", and "House wren".
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r 5-regex_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_5")
+```
+
+## Anti and semi joins
+
+The list object `matching_list_tables` contains two tables, `boy` and `howdy`.
+The column `heroes` in `boy` corresponds with the column `hello` in `howdy`.
+
+::: now_you
+
+6. [[1.0]]{.score} Without using filter, subset the table `boy` in `matching_list_tables` such that only rows in which the value of column `heroes` has a corresponding value in the column `hello` of table `howdy`.
+
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r 6-joins_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_6")
+```
+
+::: now_you
+
+7. [[1.0]]{.score} Without using filter, subset the table `boy` in `matching_list_tables` such that only rows in which the value of column `heroes` does not have a corresponding value in the column `hello` of table `howdy`.
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r 7-joins_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_7")
+```
+
+## Butterflies and moths
+
+::: now_you
+
+8. [[1.5]]{.score} The dataset `leps_dc` contains all of the observations of Lepidoptera in Washington DC in 2021.
+
+* [[0.5]]{.subscore} Please write a comment that describes whether these data are tidy and, if not, which tidy data rule the tibble violates.
+* [[1.0]]{.subscore} Subset the data to observations of the three species with the most total number of observations across time and assign the name `common_leps` to the resultant object.
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r 8-leps_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_8")
+```
+
+::: now_you
+
+[[Extra credit 1.0]]{.score} Using a iteration, create three bar plots of the number of observations per month for each of the three most commonly observed Lepidoptera species. In doing so:
+
+* [[0.25]]{.subscore} Label the x-axis with month abbreviations (e.g., Apr, May, Jun) ;
+* [[0.25]]{.subscore} Include the scientific name of the species as the title of the plot,
+
+:::
+
+## Seems like old times
+
+The object `dates_and_times` contains a date and two times in which an event occurred.
+
+::: now_you
+
+9. [[1.5]]{.score} Please modify `dates_and_times`:
+
+* [[0.25]]{.subscore} Convert date to an ISO-8601 date object.
+* [[0.50]]{.subscore} Convert time1 and time2 to a ISO-8601 date-time object.
+* [[0.25]]{.subscore} Subset the data to where time2 occurs after time 1.
+* [[0.50]]{.subscore} Replace time1 and time2 with the hour associated with the time.
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r 9-time_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_9")
+```
+
+## Casing the joint
+
+The dataset `size_and_volume` represents the observations of different individuals, their size, and how loud they were. 
+
+::: now_you
+
+10. [[1.0]]{.score} As parsimoniously as possible create a column called `species` where:
+
+* [[0.25]]{.subscore} Sizes less than 10 and volumes less than or equal to 30 are classified as a "Deer mouse";
+* [[0.25]]{.subscore} Sizes less than 10 and volumes greater than 30 are classified as a "House wren";
+* [[0.25]]{.subscore} Sizes great than or equal to 10 and volumes less than or equal to 30 are classified as a "Three-toed sloth";
+* [[0.25]]{.subscore} Sizes great than or equal to 10 and volumes greater than 30 are classified as a "Howler monkey".
+
+:::
+
+**Hint**: Your resultant object should be equivalent to:
+
+```{r 10-case_answer, echo = FALSE}
+read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
+  pluck("question_10")
+```
+
+::: now_you
+
+[[Extra credit 0.75]]{.score} Create a bar plot of the number of observations of each species [[0.25]]{.subscore} where:
+
+* [[0.25]]{.subscore} Species are on the y-axis and the count is on the x-axis;
+* [[0.25]]{.subscore} The bars are arranged by the number of observations per species.
+
+:::
+
+<hr>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
