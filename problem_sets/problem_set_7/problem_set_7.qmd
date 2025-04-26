@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 project:
   execute-dir: project
 editor: source
