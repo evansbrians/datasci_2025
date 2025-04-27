@@ -366,7 +366,7 @@ Notes:
 * In this video you will be coding along as I create and explore one of my own GitHub repositories. Please create your own repository for coding along.
 * At the end of the video, I suggest that I will use GitHub to maintain up-to-date versions of course materials. Unfortunately, this is not currently possible.
 
-{{< video https://www.youtube.com/embed/yt1j_HdS7-8 >}}
+{{< video https://youtu.be/yt1j_HdS7-8?si=m5VaKBsuCKPaJDrJ >}}
 
 ## Reference
 
