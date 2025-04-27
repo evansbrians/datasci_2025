@@ -11,12 +11,21 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 <hr>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
 
 ![](../../images/hex_complex.png){.intro_image}
 
@@ -26,17 +35,68 @@ We have thus far used the project that I created for you in this course. In this
 * Get some practice with the the solo GitHub workflow (pull, add, commit, push);
 * Apply custom functions to tasks such as repetitive data processing and setting a plot theme;
 * Apply iteration to simplify scripts;
-* Learn how to use a source script to ensure that your script files are targetted to a given task.
+* Learn how to use a source script to ensure that your script files are targeted to a given task.
 
 *Note: While we do not use any new functions in this lesson, the content herein may provide useful practice for your final exam! If you are behind on course material (or overwhelmed by it), I recommend starting the video at 10:10.*
 
-**Important!** I originally posted the *modified* version of the [workflow.R]{.mono} script! Before starting this lesson, please delete that file and use [this link](https://drive.google.com/file/d/1h1d4X76onBzGaCbfH6KY9XMORht3fO9s/view?usp=sharing){target="_blank"} to download the correct version of this script!
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+
+In this lesson, we will explore the file `district_birds.rds`. We have already used this dataset *a lot*, so I will spare you the details of how and why these data were collected (but see the introduction to this module if you missed it). The data are a formatted as a list object comprised of the following tibble data frames and variables that we will use in this lesson:
+
+[birds]{.mono}
+
+* [species]{.mono}, character: A four-letter code for each species that serves as a primary key for this table.
+* [common_name]{.mono}, character: The common names for each species, as used in the United States.
+* [foraging]{.mono}, character: The foraging strategy of each species.
+* [diet]{.mono}, character: The dietary niche of each species.
+
+[counts]{.mono}
+
+* [count_id]{.mono}, character: The primary key for a unique count record.
+* [visit_id]{.mono}, character: A foreign key to the [visits]{.mono} table.
+* [spp]{.mono}, character: A species code that acts as a foreign key to the [birds]{.mono} table.
+* [count]{.mono}, double: The number of birds counted of a given species over a 10-minute time period.
+
+[captures]{.mono}
+
+* [capture_id]{.mono}, character: The primary key for a unique capture record.
+* [visit_id]{.mono}, character: A foreign key to a table that describes when and where a visit occurred (the [visits]{.mono} table).
+* [band_number]{.mono}, character: The numbers assigned to an aluminum band that has been placed on a bird.
+* [color_combo]{.mono}, character: The combination of aluminum and color bands placed on a bird
+* [spp]{.mono}, character: A species code that acts as a foreign key to the [birds]{.mono} table.
+* [sex]{.mono}, character: A code representing the sex of a bird, where: "F" is female, "M" is male, "U" is unknown, and [NA]{.mono} represents missing data.
+* [age]{.mono}, character: A code representing the age of a bird, where: "AHY" is an adult, "ASY" is an adult that is more than two years old, "HY" is a juvenile, "L" is a nestling, "SY" is two years old, and "U" is unknown.
+* [wing]{.mono}, numeric: The length of a bird's wing (unflattened wing chord), in millimeters.
+* [tl]{.mono}, numeric: The length of a bird's tail, in millimeters.
+* [mass]{.mono}, numeric: The weight of a bird, in grams.
+* [bp_cp]{.mono}, character: The breeding condition of a bird, where: "-" stands for a bird that is not in breeding condition, "BP" is a brood patch, "CP" is a cloacal protuberance, "U" is unknown, and [NA]{.mono} represents missing data.
+* [fat]{.mono}, character: The fat measured on a bird, that ranges from "0" for no fat, "T" for trace fat, and up to "5" for the maximum amount of fat. [NA]{.mono} values represent missing data.
+
+:::
 
 ## Video lesson
 
 {{< video https://www.youtube.com/embed/ACKmPD3ZX7s >}}
 
 ## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+
+* **Iteration**: The repeating of a given process a set number of times.
+* **Key** (variable): A variable in a data frame (can also be used to refer to names assigned to objects stored in your computer's memory).
+* **Memory profiling**: The process of analyzing a program's memory usage to identify and address issues related to memory consumption and management.
+* **Memory (RAM)**: A temporary storage location for instructions (functions) and data.
+* **Processing time**: The amount of time it takes for a given operation to be completed.
+* **Project**: A collection of files that is referenced by a `.RProj` file.
+* **Source script**: A script file that often contains data pre-processing steps and custom functions that are used across other scripts. 
+* **Unix shell**: A command line interface to the Unix operating system.
+
+:::
 
 <button class="accordion">Functions</button>
 ::: panel
@@ -51,33 +111,23 @@ We have thus far used the project that I created for you in this course. In this
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, c`: Combine values to form an atomic vector
-* `base::function`: Initiate the creation of a custom function
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::source`: Execute a source script (in its entirety)
-* `base::sum`: Calculate the sum of a numeric vector
-* `dplyr::select`: Subset columns in a data frame by name
-* `dplyr::summarize`: Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
-* `ggplot2::+`: ggplot's pipe operator (adds a layer to a plot)
-* `ggplot2::aes`: Define aesthetics
-* `ggplot2::element_blank`: Remove a thematic element
-* `ggplot2::element_line`: Set the theme for a line element
-* `ggplot2::element_text`: Set the theme for a text element
-* `ggplot2::geom_bar`: Create a bar geometry
-* `ggplot2::geom_boxplot`: Create a boxplot geometry
-* `ggplot2::ggplot`: Set the data and, potentially, the aesthetics of a plot
-* `ggplot2::labs`: Add or modify the labels of a plot
-* `ggplot2::scale_y_continuous`: Set the scale of the y axis
-* `ggplot2::theme`: Define the theme elements of a plot
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::pluck`: Extract a list item from a list
-* `readr::read_rds`: Read an RDS file into R
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_7.3_programming_workflow.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 
 :::
 
@@ -103,6 +153,33 @@ We have thus far used the project that I created for you in this course. In this
 | rm [file name]                   | Remove a file   
 | rm -rf                           | Remove a directory
 
+:::
+:::
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
 :::
 :::
 
