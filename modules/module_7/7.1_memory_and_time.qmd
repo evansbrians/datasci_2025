@@ -18,25 +18,50 @@ editor: source
 
 ![](../../images/hex_complex.png){.intro_image}
 
-As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step to ensure performance. Benchmarking describes the process of evaluating the memory used and processing time associated with executing code. This video lesson illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how I decide when to apply a given function over another or which classes data objects to use for a given application. You will explore:
+As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step for ensuring performance. **Benchmarking** describes the process of evaluating the memory used and processing time associated with executing code. This video and accompanying written lesson illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how to decide when to apply a given function over another or which classes data objects to use for a given application. You will explore:
 
 * RStudio's built-in features for evaluating memory usage
-* Three of the primary rules of normal (a.k.a. "tidy") data from the perspective of data engineering and relational databases
-* The tidy data rules, which describe the normal data rules in statistical language
-* How to apply functions from ***2.1 Reshaping data frames*** to the data normalization process.
+* Methods for evaluating the memory allocated for "storing" objects
+* Methods for evaluating the processing time and memory used when executing functions
+
+## Data for this lesson
+
+<button class="accordion">Please click this button to explore the metadata for this lesson!
+</button>
+::: panel
+
+In this lesson (written portion), we will explore the [\*.csv]{.mono} files in the folder [automated_radio_telemetry]{.mono}. These data were collected at the Smithsonian Conservation Biology Institute by two (wonderful) mentees of Tara and I. The goal of the study was to determine the efficacy of automated radio telemety systems tp detect the location of radio-tagged birds in different habitat types. Data include:
+
+[tag_ids.xlsx]{.mono}:
+
+* [tag_id]{.mono}, character: A unique identifier for each radio tag.
+* [shortened_id]{.mono}, character: A short name assigned by the field crew for remembering the tags.
+
+[node_[x]_yyyy-mm-dd.csv]{.mono}: Each file represents the data collected on a given day, by a given node.
+
+* [year]{.mono}, double numeric: The year in which a detection occurred.
+* [date]{.mono}, date: The date in which a detection occurred, in yyyy-mm-dd.
+* [time]{.mono}, datetime: The time in which a detection occurred, in yyyy=-mm-dd hh:mm:ss.
+* [tag_id]{.mono}, character: A unique identifier for each radio tag.
+* [rssi]{.mono}, double numeric: The signal strength at the receiver
+
+:::
 
 ## Before you begin
 
-There are couple of new packages that you *may* need to install prior to running the code in this lesson.
+There are few packages that you *may* need to install prior to running the code in this lesson.
 
-Please run the code below to install the packages *microbenchmark* and *profmem*:
+Please run the code below to install the packages *bench*, *microbenchmark*, and *profmem*:
 
 ```{r, eval = FALSE}
 install.packages(
-  c("microbenchmark", "profmem")
+  c(
+    "bench",
+    "microbenchmark",
+    "profmem",\
+  )
 )
 ```
-
 
 ## Video lesson
 
@@ -120,10 +145,9 @@ tag_detections <-
   bind_rows()
 ```
 
-
 ## Memory evaluation tools
 
-The packages *lobstr* and *bench* offer opportunities to evaluate our memory usage when working in R. This is incredibly important for working large data. If we do not manage our memory, we can get stuck waiting for processes to complete or, even worse, get the dreaded “out of memory” errors.
+The packages *lobstr* and *bench* offer opportunities to evaluate our memory usage when working in R. This is incredibly important for working with large data. If we do not manage our memory, we can get stuck waiting for processes to complete or, even worse, get the dreaded “out of memory” errors.
 
 Let's first have a look at how much memory our R session is using. We can do so with the *lobstr* function `mem_used`:
 
@@ -152,6 +176,11 @@ We can determine the current size of an object using `lobstr::obj_size()`. Let's
 obj_size(tag_ids)
 ```
 
+:::{class="mysecret"}
+<i class="fa fa-user-secret" aria-hidden="true" style = "font-size: 150%; padding-right: 5px;"></i>
+As you might be aware, base R has a function for determining the size of an object, `utils::object.size()`. That function should be avoided, as it often returns inaccurate results -- estimates are often higher than the true memory usage. In the last module of this course you will have an opportunity to explore object sizes more deeply.
+:::
+
 ... and `tag_detections`:
 
 ```{r}
@@ -164,9 +193,9 @@ We can compare the memory allocated to the objects using the function `lobstr::o
 obj_sizes(tag_ids, tag_detections)
 ```
 
-Notice that the object sizes of the objects are reported on quite different scales. The `tag_detections` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `tag_ids` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we can see that `tag_detections` occupy almost 5,700 times the amount of memory than `tag_detections`!
+Notice that the object sizes of the objects are reported on quite different scales. The `tag_detections` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `tag_ids` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we can see that `tag_detections` occupy almost 5,700 times relative to the amount of memory allocated to `tag_ids`!
 
-Perhaps we can reduce that (*a little bit*). Have a quick look at `tag_detections`:
+Perhaps we can reduce that imbalance (*a little bit*). Have a quick look at `tag_detections`:
 
 ```{r}
 tag_detections
@@ -184,11 +213,6 @@ obj_size(
 ```
 
 There absolutely is! Removing the transitive columns yielded a 40% reduction in the memory allocated to the object! 
-
-:::{class="mysecret"}
-<i class="fa fa-user-secret" aria-hidden="true" style = "font-size: 150%; padding-right: 5px;"></i>
-As you might be aware, base R has a function for determining the size of an object, `utils::object.size()`. That function should be avoided, as it often returns inaccurate results -- estimates are often higher than the true memory usage. In the last module of this course you will have an opportunity to explore object sizes more deeply.
-:::
 
 We are now faced with a decision, should we globally assign a new name to the tidy version of the dataset? Let's have a look again at the amount of memory my computer is using:
 
@@ -243,7 +267,7 @@ tag_detections <-
 mem_used()
 ```
 
-Similar to reducing the colunns in a dataset, reducing the number of rows can make a big difference. Our team was testing our automated radio telemetry system with 8 tags:
+Similar to reducing the columns in a dataset, reducing the number of rows can make a big difference. Our team was testing our automated radio telemetry system with 8 tags:
 
 ```{r}
 tag_ids
@@ -294,7 +318,7 @@ tag_detections %>%
   obj_size()
 ```
 
-The amount of memory that would be allocated to the latter is almost 1% that of the full object! As, such it again makes considerable sense to reduce the memory allocated to the object prior to global assignment:
+The amount of memory that would be allocated to the latter is almost 1% that of the full object! As, such it again makes a lot of sense to reduce the memory allocated to the object prior to global assignment:
 
 ```{r, message = FALSE}
 tag_detections <- 
@@ -318,11 +342,11 @@ The above should clearly illustrate that subsetting your data as you read it in 
 
 ### Benchmarking
 
-Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess the time it takes for our code to run and the memory allocated to a given task. There are a few different ways this can be done, but here we will use the function `bench::mark()` (my current go-to method).
+Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess the time it takes for our code to run and the memory allocated to a given task. There are a few different ways this can be done, but here we will use the function `bench::mark()` (our current go-to method).
 
-Let's use benchmarking to explore the memory usage and time of execution for our line of code that read in `xxx`. We supply the code that we would like to benchmark and the number of iterations. Iteration is this context means repeating the same process a set number of times in order to obtain accurate summary statistics:
+Let's use benchmarking to explore the memory usage and time of execution for our line of code that read in the `.csv` files in `automated_radio_telemetry`. We supply the code that we would like to benchmark and the number of iterations. Iteration in this context means repeating the same process a certain number of times in order to obtain accurate summary statistics:
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, message = FALSE, warning = FALSE}
 mark(
   tag_detections <- 
   list.files(
@@ -334,13 +358,13 @@ mark(
     ~ read_csv(.x)
   ) %>% 
   bind_rows(),
-  iterations = 5
+  iterations = 10
 )
 ```
 
-*Note: I have set the number of iterations to just five. There is considerable variation in memory used and time taken when executing a function (e.g., your output likely differs from mine). When formally profiling code, I recommend using a minimum of 100 iterations.*
+*Note: I have set the number of iterations to just ten. There is considerable variation in memory used and time taken when executing a function (e.g., your output likely differs from mine). When formally profiling code, I recommend using a minimum of 100 iterations.*
 
-The results above provided more information than we need for the purposes of this lesson. Here, I'm interested in the median execution time, `median`, and the memory allocated to run the code, `mem_alloc`. Let's reduce our results to just those two variables:
+The results above provided more information than we need for the purposes of this lesson. Here, I am most interested in the median execution time, `median`, and the memory allocated to run the code, `mem_alloc`. Let's reduce our results to just those two variables:
 
 ```{r, eval = FALSE}
 mark(
@@ -354,7 +378,7 @@ mark(
     ~ read_csv(.x)
   ) %>% 
   bind_rows(),
-  iterations = 5
+  iterations = 10
 ) %>% 
   select(median, mem_alloc)
 ```
@@ -372,7 +396,7 @@ mark1 <-
         ~ read_csv(.x)
       ) %>% 
       bind_rows(),
-    iterations = 5
+    iterations = 10
   ) %>% 
   select(median, mem_alloc)
 ```
@@ -383,23 +407,97 @@ mark1
 
 It took `r round(mark1$median*1E3, 0)` milliseconds (1 x 10<sup>-3</sup> seconds) and roughly `r round(as.numeric(mark1$mem_alloc)/1048576, 0)` megabytes of memory to read in the file.
 
+What would happen if we used base R's `read.csv()` instead of the *readr* function `read_csv`?
 
+```{r, eval = FALSE}
+mark(
+  tag_detections <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read.csv(.x)
+  ) %>% 
+  bind_rows(),
+  iterations = 10
+) %>% 
+  select(median, mem_alloc)
+```
 
+```{r, include = FALSE}
+mark2 <-
+  mark(
+    tag_detections <- 
+      list.files(
+        "data/raw/automated_radio_telemetry",
+        pattern = "csv$",
+        full.names = TRUE
+      ) %>% 
+      map(
+        ~ read.csv(.x)
+      ) %>% 
+      bind_rows(),
+    iterations = 10
+  ) %>% 
+  select(median, mem_alloc)
+```
 
+```{r, echo = FALSE}
+mark2
+```
 
+We can see that `read.csv()` is faster but requires much more memory than `read_csv()` when executed. These functions might look similar but are very different under-the-hood!
 
+The order in which we execute functions can also impact on the amount of memory used and processing times. 
 
+Let's compare subsetting our telemetry data after joining rows ...
 
+```{r, message = FALSE, warning = FALSE}
+mark(
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+    map(
+      ~ read_csv(.x)
+    ) %>% 
+    bind_rows() %>% 
+    select(!year:date) %>% 
+    semi_join(
+      tag_ids,
+      by = join_by(tag_id == actual_id)
+    )
+) %>% 
+  select(median, mem_alloc)
+```
 
+... versus subsetting the data within a map function and joining the resultant objects: 
 
+```{r, message = FALSE, warning = FALSE}
+mark(
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+    map(
+      ~ read_csv(.x) %>% 
+        semi_join(
+          tag_ids,
+          by = join_by(tag_id == actual_id)
+        ) %>% 
+        select(!year:date)
+    ) %>% 
+    bind_rows(),
+  iterations = 10
+) %>% 
+  select(median, mem_alloc)
+```
 
-
-
-
-
-
-
-
+In the above we see a trade-off and, we think, an interesting one. The version that subset the data within each iteration required roughly 80% of the memory than the version that subset the resultant data frame. Conversely, the version that subset that data outside of `map()` showed a 5% decrease in processing time. Choosing the optimal order of operations for a given problem almost always includes weighing the costs and benefits of such trade-offs. There are no hard-and-fast rules for this -- you typically have to benchmark your code, determine which is the limiting factor for a given operation (i.e., memory or time), and choose the one that best suits your needs.
 
 ## Reference
 
@@ -501,7 +599,7 @@ The most common keyboard shortcuts are provided below for Windows and Mac operat
 <button class="accordion">R Studio panes</button>
 ::: panel
 Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
-<img src = '../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
 *Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
 :::
 
