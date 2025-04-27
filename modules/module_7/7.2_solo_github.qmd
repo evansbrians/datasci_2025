@@ -11,10 +11,8 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 <hr>
 
@@ -36,7 +34,7 @@ my_phd_script_final_version-b.R
 my_phd_script_final_this_time_for_sure.R
 ```
 
-... you absolutely need to use version control! With version control, you can explore the history of a file and even access the state of a file at a point in that files history. In successfully completing this lesson, you will learn:
+... you absolutely need to use version control! With version control, you can explore the history of a file and even access the state of a file at a given point in that files history. In successfully completing this lesson, you will learn:
 
 * How to create a GitHub account for version control;
 * How to setup git with RStudio's Terminal;
@@ -63,9 +61,9 @@ GitHub is a company that provides free cloud storage for data and code (*Note: G
 <img  src = "www/Git_logo.png"
         alt="GitHub logo"
         style = "display: inline-block; padding-left: 0em; padding-right: 0em; padding-bottom: 0.25em; padding-top: 0.25em; height: 2em; width: auto;">
-  </img> is a computer program. If you do not yet have a version of Git installed on your computer, please install it using [this link](https://Git-scm.com/downloads){target="_blank"}. This installs a lightweight command-line version of the program onto your computer. Note that there are several different programs that provide graphic-user interfaces (GUI) for Git (including within RStudio itself!). I do not recommend using GUI versions of Git, as problems may develop that can are most easily dealt with in the command-line. We will discuss command-line programming later in this lesson.
+  </img> is a computer program. If you do not yet have a version of Git installed on your computer, please install it using [this link](https://Git-scm.com/downloads){target="_blank"}. This installs a lightweight command-line version of the program onto your computer. Note that there are several different programs that provide graphic-user interfaces (GUI) for Git (including within RStudio itself!). I do not recommend using GUI versions of Git, as problems may develop that are most easily dealt with in the command-line. We will discuss command-line programming later in this lesson.
   
-*Note: I highly recommend that **Mac** users choose the homebrew option for downloading and installing Git. If you do not yet have homebrew installed on your Mac (you should!) follow the link on the download page to do so. Be warned -- `$` is the command prompt, do not include the dollar sign when running `brew install git`!*
+*Note: I highly recommend that **Mac** users choose the homebrew option for downloading and installing Git. If you do not yet have homebrew installed on your Mac (you should already have it!) follow the link on the download page to do so. Be warned -- `$` is the command prompt, do not include the dollar sign when running `brew install git`!*
 </div>
 
 ### The Bash terminal
@@ -87,7 +85,7 @@ When you first open the Terminal, you will notice something like the below:
 
 <img src = "www/terminal_address.png">
 
-The above starts with the name of your computer:
+This starts with the name of your computer:
 
 <img src = "www/terminal_address_1.png">
 
@@ -354,7 +352,7 @@ ls temp
 
 {{< fa user-secret size=2x >}} [Bash is *super* powerful!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-I use bash for everything from processing very large data files to automating task execution (e.g., scheduling scripts to run at a certain time). While we will not learn many more bash commands in this course, learning how to code in the shell is a worthwhile endeavor if you are work with big data or conduct repetitive tasks.
+I use bash for everything from processing very large data files to automating task execution (e.g., scheduling scripts to run at a certain time). While we will not learn many more bash commands in this course, learning how to code in the shell is a worthwhile endeavor if you are working with big data or conducting repetitive tasks.
 
 :::
 
@@ -369,6 +367,14 @@ Notes:
 {{< video https://youtu.be/yt1j_HdS7-8?si=m5VaKBsuCKPaJDrJ >}}
 
 ## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+
+* **Project**: A collection of files that is referenced by a `.RProj` file.
+* **Unix shell**: A command line interface to the Unix operating system.
+
+:::
 
 <button class="accordion">Bash commands</button>
 ::: panel
