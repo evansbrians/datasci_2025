@@ -27,12 +27,14 @@ backwards_columns %>%
       if_else(
         a < 0, 
         a, 
-        b),
+        b
+      ),
     b = 
       if_else(
         b > 0,
         b, 
-        temp)
+        temp
+      )
   ) %>% 
   select(!temp)
 
@@ -44,12 +46,14 @@ backwards_columns %>%
       if_else(
         a < 0, 
         a, 
-        b),
+        b
+      ),
     b = 
       if_else(
         b > 0,
         b, 
-        pull(., a))
+        pull(., a)
+      )
   )
 
 # Or (a cool solution from Candace ... I think this one is my favorite!):
@@ -111,7 +115,8 @@ matching_list_tables %>%
   semi_join(
     matching_list_tables %>% 
       pluck("howdy"),
-    by = join_by(heroes == hello))
+    by = join_by(heroes == hello)
+  )
 
 # Hint: Your resultant object should be equivalent to:
 
@@ -127,7 +132,8 @@ matching_list_tables %>%
   anti_join(
     matching_list_tables %>% 
       pluck("howdy"),
-    by = join_by(heroes == hello))
+    by = join_by(heroes == hello)
+  )
 
 # Hint: Your resultant object should be equivalent to:
 
@@ -155,9 +161,11 @@ common_leps <-
     summarize(
       .,
       observations = n(),
-      .by = scientific_name) %>% 
+      .by = scientific_name
+    ) %>% 
       slice_max(observations, n = 3),
-    by = "scientific_name")
+    by = "scientific_name"
+  )
 
 # Hint: Your resultant object should be equivalent to:
 
@@ -180,9 +188,14 @@ common_leps %>%
       group_by(
         month = month(date, label = TRUE)
       ) %>% 
-      summarize(n = n()) %>% 
+      summarize(
+        n = n()
+      ) %>% 
       ggplot() +
-      aes(x = month, y = n) +
+      aes(
+        x = month, 
+        y = n
+      ) +
       geom_bar(stat = "identity") +
       labs(title = .x)
   )
@@ -223,9 +236,11 @@ dates_and_times %>%
         str_c(
           date, 
           x, 
-          sep = " ") %>% 
+          sep = " "
+        ) %>% 
           ymd_hms()
-      })
+      }
+    )
   ) %>% 
   filter(time2 > time1) %>% 
   mutate(
@@ -250,7 +265,8 @@ dates_and_times %>%
           sep = " ") %>% 
           ymd_hms() %>% 
           hour()
-      })
+      }
+    )
   )
 
 # Or (even better still!):
@@ -265,7 +281,8 @@ dates_and_times %>%
           str_c(x, sep = " ") %>% 
           ymd_hms() %>% 
           hour()
-      })
+      }
+    )
   )
 
 # Hint: Your resultant object should be equivalent to:
@@ -295,7 +312,9 @@ size_and_volume %>%
         size < 10 & volume <= 30 ~ "Deer mouse",
         size < 10 ~ "House wren",
         volume <= 30 ~ "Three-toed sloth",
-        TRUE ~ "Howler monkey"))
+        TRUE ~ "Howler monkey"
+      )
+  )
 
 # Hint: Your resultant object should be equivalent to:
 
@@ -315,13 +334,20 @@ size_and_volume %>%
         size < 10 & volume <= 30 ~ "Deer mouse",
         size < 10 ~ "House wren",
         volume <= 30 ~ "Three-toed sloth",
-        TRUE ~ "Howler monkey")) %>% 
+        TRUE ~ "Howler monkey"
+      )
+  ) %>% 
   summarize(
     count = n(),
-    .by = species) %>% 
+    .by = species
+  ) %>% 
   mutate(
-    species = fct_reorder(species, count)) %>% 
+    species = fct_reorder(species, count)
+  ) %>% 
   ggplot() +
-  aes(x = species, y = count) +
+  aes(
+    x = species,
+    y = count
+  ) +
   geom_bar(stat = "identity") +
   coord_flip()
