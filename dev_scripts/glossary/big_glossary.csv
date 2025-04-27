@@ -64,6 +64,7 @@ List item,A data object contained within a list.
 Literal character,"Characters used to search for exact character matches in the case (i.e., lower vs. upper) and order of symbols."
 Longitude,"A point's angular location, in the X-dimension, relative to the prime meridian. In decimal degrees, the longitude is always negative in the Western Hemisphere and positive in the Eastern Hemisphere!"
 Matrix,A two-dimensional homogeneous data object (that is an atomic vector under-the-hood).
+Memory profiling,The process of analyzing a program's memory usage to identify and address issues related to memory consumption and management.
 Memory (RAM),A temporary storage location for instructions (functions) and data.
 Metacharacter,Special characters used to modify the conditions of a regex search string (such as a choice of letters or position of literal characters in a string).
 Minimum convex polygon,The smallest polygon that contains all point features in a shapefile and does not have any angle is greater than 180$^\circ$.
@@ -93,6 +94,7 @@ Prefix function,A function in which the name of the function precedes the target
 Primary key,A variable in a data frame that is used to identify unique records.
 Prime meridian,The location of 0 degrees longitude.
 Primitive function,A function written in C code and made available to use through the base R package.
+Processing time,The amount of time it takes for a given operation to be completed.
 Project,A collection of files that is referenced by a `.RProj` file.
 Projected Coordinate Reference System,A coordinate reference system where the data are transformed to a projection and the locations are expressed in linear units relative to some origin point (typically in meters).
 Projection (GIS),A model used to transform data and the coordinate system on a flat surface.
@@ -116,6 +118,7 @@ Sill,The value of semivariance when samples are spatially independent.
 Simple features object (sf),"A data frame that contains the geometry, attributes, and coordinate reference system (CRS) information."
 Simple Features Geometry (sfg),The geometry of an individual simple feature.
 Simple Features Geometry List Column Object (sfc),A list column with the geometry of all simple features in a dataset.
+Source script,A script file that often contains data pre-processing steps and custom functions that are used across other scripts. 
 Source table,"In a join, this is the table that is referenced by the target table (in a mutating join, the source table provides the new variables for the target table) -- this is typically the table with the primary key."
 Spatial aggregation,Combine features in a shapefile.
 Spatial autocorrelation,Systematic spatial variation in a variable.
@@ -134,6 +137,7 @@ Tibble,A type of data frame with great benefits!
 Tidy data (noun),"A data format developed by Hadley Wickham (based on Codd's rules) in which every row represents an observation, every column represents a variable, and every level of observation represents a table."
 Type,How an object is stored in your computer.
 Universal Transverse Mercator (UTM),"A common class of projected coordinate reference systems used primarily for relative small areas (e.g., for a given city)."
+Unix shell,A command line interface to the Unix operating system.
 Variable,A column in a data frame.
 Version history,Changes to a package since its inception.
 Vertex (vertices),A point where two or more lines (also called edges) meet.
