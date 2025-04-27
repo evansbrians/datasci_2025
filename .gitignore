@@ -69,3 +69,7 @@ shayna_r/
 # Remove html
 
 .html
+
+# No amke_detections.csv
+
+*amke_detections.csv
