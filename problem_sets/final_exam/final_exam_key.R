@@ -23,7 +23,8 @@ collisions_date_fix <-
   
   collisions %>%
   filter(
-    str_detect(date, "^[A-Z]")) %>% 
+    str_detect(date, "^[A-Z]")
+  ) %>% 
   mutate(
     date = mdy(date)
   ) %>% 
@@ -36,17 +37,22 @@ collisions_date_fix <-
     
     collisions %>%
       filter(
-        !str_detect(date, "^[A-Z]")) %>% 
+        !str_detect(date, "^[A-Z]")
+      ) %>% 
       mutate(
-        date = dmy(date))) %>%
+        date = dmy(date)
+      )
+  ) %>%
   
   # Combine dates with times and make into ISO-8601 date-time objects:
   
   mutate(
     across(
-      c(crash_time, 
+      c(
+        crash_time, 
         county_sunrise, 
-        county_sunset),
+        county_sunset
+      ),
       ~ str_c(date, .x, sep = " ") %>% 
         ymd_hms()
     )
@@ -70,7 +76,8 @@ collisions_date_fix <-
       str_replace(
         date,
         "^([A-Za-z]*) ([0-9]{1,2}), ([0-9]{4})$",
-        "\\2 \\1 \\3") %>% 
+        "\\2 \\1 \\3"
+      ) %>% 
       
       # Convert European dates to ISO-8601 dates:
       
@@ -79,7 +86,11 @@ collisions_date_fix <-
     # Combine dates with times and make into ISO-8601 date-time objects:
     
     across(
-      c(crash_time, county_sunrise, county_sunset),
+      c(
+        crash_time, 
+        county_sunrise, 
+        county_sunset
+      ),
       ~ str_c(date, .x, sep = " ") %>% 
         ymd_hms()
     )
@@ -102,16 +113,26 @@ collisions_date_fix <-
       date %>% 
       str_replace(
         "^([A-Za-z]*) ([0-9]{1,2}), ([0-9]{4})$",
-        "\\3 \\1 \\2") %>% 
+        "\\3 \\1 \\2"
+      ) %>% 
       str_replace(
         "^([0-9]{1,2}) ([A-Za-z]*) ([0-9]{4})$",
-        "\\3 \\2 \\1"),
+        "\\3 \\2 \\1"
+      ),
     
     # Combine dates with times and make into ISO-8601 date-time objects:
     
     across(
-      c(crash_time, county_sunrise, county_sunset),
-      ~ str_c(date, .x, sep = " ") %>% 
+      c(
+        crash_time, 
+        county_sunrise, 
+        county_sunset
+      ),
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
         ymd_hms()
     )
   ) %>% 
@@ -127,17 +148,23 @@ collisions_date_fix <-
   collisions %>%
   mutate(
     across(
-      c(crash_time, county_sunrise, county_sunset),
+      c(
+        crash_time, 
+        county_sunrise, 
+        county_sunset
+      ),
       
       # Use regex to convert US and European dates to ISO-8601 dates:
       
       ~ date %>% 
         str_replace(
           "^([A-Za-z]*) ([0-9]{1,2}), ([0-9]{4})$",
-          "\\3 \\1 \\2") %>% 
+          "\\3 \\1 \\2"
+        ) %>% 
         str_replace(
           "^([0-9]{1,2}) ([A-Za-z]*) ([0-9]{4})$",
-          "\\3 \\2 \\1") %>% 
+          "\\3 \\2 \\1"
+        ) %>% 
         str_c(.x, sep = " ") %>% 
         
         # Combine dates with times and make into ISO-8601 date-time objects:
@@ -163,8 +190,16 @@ collisions_date_fix <-
   
   mutate(
     across(
-      c(crash_time, county_sunrise, county_sunset),
-      ~ str_c(date, .x, sep = " ") %>% 
+      c(
+        crash_time, 
+        county_sunrise, 
+        county_sunset
+      ),
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
         parse_date_time(c("bdY HMS", "dbY HMS"))
     )
   )  %>% 
@@ -190,7 +225,8 @@ collisions_spp_fix <-
       str_replace("^([Bb]lack )?b(ear|are)$", "Black bear") %>%
       str_replace(
         "^([Ww]hite(-| )?tailed )?[Dd]e[ae]r$",
-        "White-tailed deer")
+        "White-tailed deer"
+      )
   )
 
 # I will also accept something like (faster, easier, but dangerous):
@@ -203,7 +239,8 @@ collisions_spp_fix <-
         str_detect(species, "^[O0oV]") ~ "Opossum",
         str_detect(species, "^[CcRr]") ~ "Raccoon",
         str_detect(species, "^[Bb]") ~ "Black bear",
-        .default = "White-tailed deer")
+        .default = "White-tailed deer"
+      )
   ) 
 
 rm(collisions_date_fix)
@@ -231,7 +268,7 @@ collisions_coord_fix <-
   ) %>% 
   select(!temp)
 
-# Or (a great solution from Nicolas in Problem set 7):
+# Or:
 
 collisions_coord_fix <- 
   collisions_spp_fix %>% 
@@ -250,7 +287,7 @@ collisions_coord_fix <-
       )
   )
 
-# Or (a great solution from Candace in Problem set 7):
+# Or better still:
 
 collisions_coord_fix <- 
   collisions_spp_fix %>% 
@@ -278,17 +315,23 @@ collisions_tidy <-
     
     counties =
       collisions_coord_fix %>% 
-      select(county_id, 
-             county_name,
-             county_area,
-             county_population) %>% 
+      select(
+        county_id, 
+        county_name,
+        county_area,
+        county_population
+      ) %>% 
       distinct(),
     
     # Data in which the level of observation is a county on a given day:
     
     county_sunrise_sunset = 
       collisions_coord_fix %>% 
-      select(county_id, county_sunrise, county_sunset) %>% 
+      select(
+        county_id, 
+        county_sunrise,
+        county_sunset
+      ) %>% 
       distinct(),
     
     # Crash level data:
@@ -296,10 +339,12 @@ collisions_tidy <-
     crashes =
       collisions_coord_fix %>% 
       select(
-        !c(year,
-           day,
-           county_population,
-           county_name:county_sunset)
+        !c(
+          year,
+          day,
+          county_population,
+          county_name:county_sunset
+        )
       )
   )
 
@@ -388,12 +433,16 @@ collisions_tidy %>%
   # Plot the data:
   
   ggplot() +
-  aes(x = year, y = n) +
+  aes(
+    x = year, 
+    y = n
+  ) +
   geom_point() +
   geom_line() +
   facet_wrap(
     ~ species, 
-    scales = "free")
+    scales = "free"
+  )
 
 # 9 -----------------------------------------------------------------------
 
@@ -438,7 +487,10 @@ collisions_tidy %>%
       # Plot the data:
       
       ggplot() +
-      aes(x = year, y = n) +
+      aes(
+        x = year, 
+        y = n
+      ) +
       geom_bar(stat = "identity") +
       labs(title = .x)
   )
@@ -580,10 +632,12 @@ collisions_tidy %>%
       # Order time-of-year, from Winter through Fall:
       
       fct_relevel(
-        c("Winter",
+        c(
+          "Winter",
           "Spring",
           "Summer",
-          "Fall")
+          "Fall"
+        )
       )
   ) %>% 
   
@@ -602,7 +656,8 @@ collisions_tidy %>%
     fill = species) +
   geom_bar(stat = "identity") +
   theme(
-    axis.text = element_text(size = 20))
+    axis.text = element_text(size = 20)
+  )
 
 # extra credit 1 ----------------------------------------------------------
 
@@ -614,9 +669,11 @@ collisions_clean <-
   
   read_rds("data/raw/va_wildlife_collisions.rds") %>% 
   filter(
-    str_detect(date, "^[A-Z]")) %>% 
+    str_detect(date, "^[A-Z]")
+  ) %>% 
   mutate(
-    date = mdy(date)) %>% 
+    date = mdy(date)
+  ) %>% 
   
   # Generate separate data frames of European dates, convert to ISO-8601, and
   # bind with the above:
@@ -624,9 +681,12 @@ collisions_clean <-
   bind_rows(
     read_rds("data/raw/va_wildlife_collisions.rds") %>% 
       filter(
-        !str_detect(date, "^[A-Z]")) %>% 
+        !str_detect(date, "^[A-Z]")
+      ) %>% 
       mutate(
-        date = dmy(date))) %>%
+        date = dmy(date)
+      )
+  ) %>%
   
   # Transform variables
   
@@ -635,9 +695,18 @@ collisions_clean <-
     # Repair dates and times
     
     across(
-      c(crash_time, county_sunrise, county_sunset),
-      ~ str_c(date, .x, sep = " ") %>% 
-        ymd_hms()),
+      c(
+        crash_time, 
+        county_sunrise, 
+        county_sunset
+      ),
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
+        ymd_hms()
+    ),
     
     # Repair species names:
     
@@ -648,7 +717,8 @@ collisions_clean <-
       str_replace("([Bb]lack )?b(ear|are)", "Black bear") %>%
       str_replace(
         "([Ww]hite(-| )?tailed )?[Dd]e[ae]r",
-        "White-tailed deer"),
+        "White-tailed deer"
+      ),
     
     # Repair longitudes and latitudes:
     
@@ -669,7 +739,9 @@ collisions_clean <-
   
   # Remove the temporary columns:
   
-  select(!c(date, temp)) %>% 
+  select(
+    !c(date, temp)
+  ) %>% 
   
   # Arrange by time of collision:
   
@@ -689,16 +761,25 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       date %>% 
       str_replace(
         "^([A-Za-z]*) ([0-9]{1,2}), ([0-9]{4})$",
-        "\\3 \\1 \\2") %>% 
+        "\\3 \\1 \\2"
+      ) %>% 
       str_replace(
         "^([0-9]{1,2}) ([A-Za-z]*) ([0-9]{4})$",
-        "\\3 \\2 \\1"),
+        "\\3 \\2 \\1"
+      ),
     across(
-      c(crash_time, 
+      c(
+        crash_time, 
         county_sunrise, 
-        county_sunset),
-      ~ str_c(date, .x, sep = " ") %>% 
-        ymd_hms()),
+        county_sunset
+      ),
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
+        ymd_hms()
+    ),
     
     # Repair species names:
     
@@ -709,7 +790,8 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       str_replace("([Bb]lack )?b(ear|are)", "Black bear") %>%
       str_replace(
         "([Ww]hite(-| )?tailed )?[Dd]e[ae]r",
-        "White-tailed deer"),
+        "White-tailed deer"
+      ),
     
     # Repair longitudes and latitudes:
     
@@ -730,13 +812,15 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
   
   # Remove the temporary columns:
   
-  select(!c(date, temp)) %>% 
+  select(
+    !c(date, temp)
+  ) %>% 
   
   # Arrange by time of collision:
   
   arrange(crash_time)
 
-# Another option (Nicolas' solution for the long-lat problem):
+# Another option:
 
 read_rds("data/raw/va_wildlife_collisions.rds") %>%
   
@@ -750,16 +834,25 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       date %>% 
       str_replace(
         "^([A-Za-z]*) ([0-9]{1,2}), ([0-9]{4})$",
-        "\\3 \\1 \\2") %>% 
+        "\\3 \\1 \\2"
+      ) %>% 
       str_replace(
         "^([0-9]{1,2}) ([A-Za-z]*) ([0-9]{4})$",
-        "\\3 \\2 \\1"),
+        "\\3 \\2 \\1"
+      ),
     across(
-      c(crash_time, 
+      c(
+        crash_time, 
         county_sunrise, 
-        county_sunset),
-      ~ str_c(date, .x, sep = " ") %>% 
-        ymd_hms()),
+        county_sunset
+      ),
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
+        ymd_hms()
+    ),
     
     # Repair species names:
     
@@ -770,7 +863,8 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       str_replace("([Bb]lack )?b(ear|are)", "Black bear") %>%
       str_replace(
         "([Ww]hite(-| )?tailed )?[Dd]e[ae]r",
-        "White-tailed deer"),
+        "White-tailed deer"
+      ),
     
     # Repair longitudes and latitudes:
     
@@ -796,7 +890,7 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
   
   arrange(crash_time)
 
-# Yet another option (Candace's cool solution to the long-lat problem):
+# Yet another option:
 
 read_rds("data/raw/va_wildlife_collisions.rds") %>%
   
@@ -810,16 +904,24 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       date %>% 
       str_replace(
         "^([A-Za-z]*) ([0-9]{1,2}), ([0-9]{4})$",
-        "\\3 \\1 \\2") %>% 
+        "\\3 \\1 \\2"
+      ) %>% 
       str_replace(
         "^([0-9]{1,2}) ([A-Za-z]*) ([0-9]{4})$",
-        "\\3 \\2 \\1"),
+        "\\3 \\2 \\1"
+      ),
     across(
-      c(crash_time, 
+      c(
+        crash_time, 
         county_sunrise, 
-        county_sunset),
-      ~ str_c(date, .x, sep = " ") %>% 
-        ymd_hms()),
+        county_sunset
+      ),
+      ~ str_c(
+        date,
+        .x, 
+        sep = " ") %>% 
+        ymd_hms()
+    ),
     
     # Repair species names:
     
@@ -830,7 +932,8 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       str_replace("([Bb]lack )?b(ear|are)", "Black bear") %>%
       str_replace(
         "([Ww]hite(-| )?tailed )?[Dd]e[ae]r",
-        "White-tailed deer"),
+        "White-tailed deer"
+      ),
     
     # Repair longitudes and latitudes:
     
@@ -876,7 +979,8 @@ collisions_tidy %>%
   
   summarize(
     crashes = n(),
-    .groups = "drop") %>% 
+    .groups = "drop"
+  ) %>% 
   
   # Join summary information from crashes (with only matching records):
   
@@ -903,7 +1007,8 @@ collisions_tidy %>%
       left_join(
         collisions_tidy %>%
           pluck("counties"),
-        by = "county_id") %>% 
+        by = "county_id"
+      ) %>% 
       
       # Order counties by the total number of crashes across time:
       
@@ -941,7 +1046,8 @@ collisions_tidy %>%
     crash_time,
     road,
     date = as_date(crash_time),
-    .keep = "none") %>% 
+    .keep = "none"
+  ) %>% 
   
   # Join with county sunrise and sunset times by county and date:
   
@@ -957,7 +1063,8 @@ collisions_tidy %>%
       mutate(
         date = as_date(county_sunrise)
       ),
-    by = join_by(county_id, date)) %>% 
+    by = join_by(county_id, date)
+  ) %>% 
   
   # Remove county_id (no longer necessary):
   
@@ -977,7 +1084,8 @@ collisions_tidy %>%
     
     # ... crashes that occurred within two hours of sunrise:
     
-    crash_time - county_sunrise < 2*3600) %>% 
+    crash_time - county_sunrise < 2*3600
+  ) %>% 
   
   # Classify to describe whether a crash was into or away from the sun:
   
@@ -986,18 +1094,23 @@ collisions_tidy %>%
       if_else(
         str_detect(road, "EB$"),
         "Into the sun",
-        "Away from the sun")) %>% 
+        "Away from the sun")
+  ) %>% 
   
   # Count the number of crashes into or away from the sun:
   
   summarize(
     n = n(),
-    .by = sun_or_no) %>% 
+    .by = sun_or_no
+  ) %>% 
   
   # Plot the data:
   
   ggplot() +
-  aes(x = sun_or_no, y = n) + 
+  aes(
+    x = sun_or_no, 
+    y = n
+  ) + 
   geom_bar(stat = "identity")
 
 # Or (just by hour is okay, but a little different):
@@ -1015,7 +1128,8 @@ collisions_tidy %>%
     crash_time,
     road,
     date = as_date(crash_time),
-    .keep = "none") %>% 
+    .keep = "none"
+  ) %>% 
   
   # Join with county sunrise and sunset times by county and date:
   
@@ -1031,7 +1145,8 @@ collisions_tidy %>%
       mutate(
         date = as_date(county_sunrise)
       ),
-    by = join_by(county_id, date)) %>% 
+    by = join_by(county_id, date)
+  ) %>% 
   
   # Remove county_id (no longer necessary):
   
@@ -1060,16 +1175,21 @@ collisions_tidy %>%
       if_else(
         str_detect(road, "EB$"),
         "Into the sun",
-        "Away from the sun")) %>% 
+        "Away from the sun")
+  ) %>% 
   
   # Count the number of crashes into or away from the sun:
   
   summarize(
     n = n(),
-    .by = sun_or_no) %>% 
+    .by = sun_or_no
+  ) %>% 
   
   # Plot the data:
   
   ggplot() +
-  aes(x = sun_or_no, y = n) + 
+  aes(
+    x = sun_or_no, 
+    y = n
+  ) + 
   geom_bar(stat = "identity")
