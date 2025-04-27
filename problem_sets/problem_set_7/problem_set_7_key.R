@@ -38,7 +38,7 @@ backwards_columns %>%
   ) %>% 
   select(!temp)
 
-# Or (a cool solution from Nicolas!):
+# Or:
 
 backwards_columns %>% 
   mutate(
@@ -56,7 +56,7 @@ backwards_columns %>%
       )
   )
 
-# Or (a cool solution from Candace ... I think this one is my favorite!):
+# Or:
 
 backwards_columns %>% 
   mutate(
