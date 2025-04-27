@@ -42,8 +42,8 @@ install.packages(
 
 Notes: 
 
-* I describe this lesson on Shiny apps, which is truly the case, but this is very applicable to big data operations as well!
-* At the end of the video (which is a couple of years old), I describe that I use the package *lineprof* the most for benchmarking. This is no longer the case. Later in this module you will see my current go-to package.
+* I provide this lesson within the context of Shiny applications. Memory and processing time are super important for Shiny apps, but this is very applicable to big data operations as well!
+* At the end of the video (which is a couple of years old), I describe that the package *lineprof* is the one I typically use for benchmarking. This is no longer the case. In the written portion of this lesson you will see my current go-to package.
 
 {{< video https://youtu.be/8vZJM0J6lJY >}}
 
@@ -86,66 +86,254 @@ If you observe that your system is occupying a lot of memory, you might want to 
 
 ## Setup
 
-1. Open R Studio and a new script file. Remember that it's best practice to start with a clean R Studio session!
+1. Open R Studio and a new script file. Remember that it is best practice to start with a clean R Studio session!
 
 2. Add a new code section and call it "setup"
 
 3. After a space between your section break, include and run the following:
 
-5. Read in the file `xxx`.
+```{r, message = FALSE}
+library(bench)
+library(lobstr)
+library(tidyverse)
+```
+
+4. Read in the Excel file `tag_ids.xlsx`:
+
+```{r, message = FALSE}
+tag_ids <- 
+  readxl::read_excel("data/raw/tag_ids.xlsx")
+```
+
+5. Read in the all [*.csv]{.mono} files from the folder `detections_data`:
+
+```{r, message = FALSE}
+tag_detections <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read_csv(.x)
+  ) %>% 
+  bind_rows()
+```
+
 
 ## Memory evaluation tools
 
 The packages *lobstr* and *bench* offer opportunities to evaluate our memory usage when working in R. This is incredibly important for working large data. If we do not manage our memory, we can get stuck waiting for processes to complete or, even worse, get the dreaded “out of memory” errors.
 
+Let's first have a look at how much memory our R session is using. We can do so with the *lobstr* function `mem_used`:
+
+```{r, include = FALSE}
+my_m_used <-
+  lobstr::mem_used()
+```
+
+```{r, eval = FALSE}
+lobstr::mem_used()
+```
+
+```{r, echo = FALSE}
+my_m_used
+```
+
+*Note: The amount of memory your R session is using will almost certainly be very different than mine!*
+
 ### Object size
 
-When we assign a name to the global environment, the data associated with that name are typically stored temporarily in your computer's memory. Because spatial objects are often quite large, we want to limit the number of global assignments. Knowing the size of the objects stored is crucial, as it can help guide us in making decisions about how to manage our memory.
+When we assign a name to the global environment, the data associated with that name are typically stored temporarily in your computer's memory. Because data objects in ecology are often quite large, we want to limit the number of global assignments and reduce the size of the objects stored in our memory to only what is necessary for a given analysis. Knowing the size of the objects stored is crucial, as it can help guide us in making decisions about how to manage our memory.
 
-We can determine the current size of an object using `lobstr::obj_size()`. Let's see the size of `xxx`:
-
-```{r}
-obj_size()
-```
-
-... and `xxx`:
+We can determine the current size of an object using `lobstr::obj_size()`. Let's see the size of `tag_ids`:
 
 ```{r}
-obj_size()
+obj_size(tag_ids)
 ```
 
-Notice that the object size of the two objects is reported on quite different scales. The `xxx` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `xxx` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we would find that the `xxx` shapefile is more than 90 times larger than `xxx`!
-
-:::{.now_you}
-<button class="accordion">{{< fa user-circle size=2x >}}&nbsp; How much memory is allocated to the `xxx` shapefile?</button>
-
-::: panel
+... and `tag_detections`:
 
 ```{r}
-obj_size()
+obj_size(tag_detections)
 ```
 
-:::
+We can compare the memory allocated to the objects using the function `lobstr::obj_sizes()`:
 
-:::
+```{r}
+obj_sizes(tag_ids, tag_detections)
+```
+
+Notice that the object sizes of the objects are reported on quite different scales. The `tag_detections` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `tag_ids` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we can see that `tag_detections` occupy almost 5,700 times the amount of memory than `tag_detections`!
+
+Perhaps we can reduce that (*a little bit*). Have a quick look at `tag_detections`:
+
+```{r}
+tag_detections
+```
+
+We can see that the data frame contains transitive columns! Both `year` and `date` are transitive to the column time. Let's see if there is a benefit to removing those columns:
+
+```{r}
+obj_size(tag_detections)
+
+obj_size(
+  tag_detections %>% 
+    select(!year:date)
+)
+```
+
+There absolutely is! Removing the transitive columns yielded a 40% reduction in the memory allocated to the object! 
 
 :::{class="mysecret"}
 <i class="fa fa-user-secret" aria-hidden="true" style = "font-size: 150%; padding-right: 5px;"></i>
 As you might be aware, base R has a function for determining the size of an object, `utils::object.size()`. That function should be avoided, as it often returns inaccurate results -- estimates are often higher than the true memory usage. In the last module of this course you will have an opportunity to explore object sizes more deeply.
 :::
 
+We are now faced with a decision, should we globally assign a new name to the tidy version of the dataset? Let's have a look again at the amount of memory my computer is using:
+
+```{r}
+mem_used()
+```
+
+What happens if we create and assign a new, tidier, version of the data?
+
+```{r, message = FALSE}
+tag_detections_tidy <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read_csv(.x)
+  ) %>% 
+  bind_rows() %>% 
+  select(!year:date)
+```
+
+```{r}
+mem_used()
+```
+
+We have allocated even more memory to our R session! Let's remove the new name ...
+
+```{r}
+rm(tag_detections_tidy)
+```
+
+
+... it makes much more sense to reduce the allocation to the memory prior to globally assigning a name:
+
+```{r, message = FALSE}
+tag_detections <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read_csv(.x)
+  ) %>% 
+  bind_rows() %>% 
+  select(!year:date)
+```
+
+```{r}
+mem_used()
+```
+
+Similar to reducing the colunns in a dataset, reducing the number of rows can make a big difference. Our team was testing our automated radio telemetry system with 8 tags:
+
+```{r}
+tag_ids
+```
+
+However, automated radio telemetry systems often get partial or incorrect reads of tag identifiers. As such, the number of tags detected in `tag_detections` is considerably higher than the true number:
+
+```{r}
+tag_detections %>% 
+  distinct(tag_id)
+```
+
+Because memory is allocated to rows that do not contain true detections, it makes sense to remove them. Let's have a look at the number of rows that *did not* represent true detections ...
+
+```{r}
+tag_detections %>% 
+  anti_join(
+    tag_ids,
+    by = join_by(tag_id == actual_id)
+  )
+```
+
+... and the number of true detections:
+
+```{r}
+tag_detections %>% 
+  semi_join(
+    tag_ids,
+    by = join_by(tag_id == actual_id)
+  )
+```
+
+Let's compare the memory allocated to the full object:
+
+```{r}
+tag_detections %>% 
+  obj_size()
+```
+
+... with the memory allocated to true tag detections:
+
+```{r}
+tag_detections %>% 
+  semi_join(
+    tag_ids,
+    by = join_by(tag_id == actual_id)
+  ) %>% 
+  obj_size()
+```
+
+The amount of memory that would be allocated to the latter is almost 1% that of the full object! As, such it again makes considerable sense to reduce the memory allocated to the object prior to global assignment:
+
+```{r, message = FALSE}
+tag_detections <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read_csv(.x)
+  ) %>% 
+  bind_rows() %>% 
+  select(!year:date) %>% 
+  semi_join(
+    tag_ids,
+    by = join_by(tag_id == actual_id)
+  )
+```
+
+The above should clearly illustrate that subsetting your data as you read it in can have a measurable effect on the memory allocated to your R session. Now it is time to look at which functions should be run and when ...
+
 ### Benchmarking
 
-Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess the time it takes for our code to run and the memory allocated when doing so. There are a few different ways this can be done, but here we will use the function `bench::mark()` (we will look at different packages that can be used for this in the last module of the course).
+Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess the time it takes for our code to run and the memory allocated to a given task. There are a few different ways this can be done, but here we will use the function `bench::mark()` (my current go-to method).
 
 Let's use benchmarking to explore the memory usage and time of execution for our line of code that read in `xxx`. We supply the code that we would like to benchmark and the number of iterations. Iteration is this context means repeating the same process a set number of times in order to obtain accurate summary statistics:
 
 ```{r, eval = TRUE}
 mark(
-  st_read(
-    "xxx", 
-    quiet = TRUE
-  ),
+  tag_detections <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read_csv(.x)
+  ) %>% 
+  bind_rows(),
   iterations = 5
 )
 ```
@@ -156,7 +344,16 @@ The results above provided more information than we need for the purposes of thi
 
 ```{r, eval = FALSE}
 mark(
-  st_read("xxx", quiet = TRUE),
+  tag_detections <- 
+  list.files(
+    "data/raw/automated_radio_telemetry",
+    pattern = "csv$",
+    full.names = TRUE
+  ) %>% 
+  map(
+    ~ read_csv(.x)
+  ) %>% 
+  bind_rows(),
   iterations = 5
 ) %>% 
   select(median, mem_alloc)
@@ -165,7 +362,16 @@ mark(
 ```{r, include = FALSE}
 mark1 <-
   mark(
-    st_read("xxx", quiet = TRUE),
+    tag_detections <- 
+      list.files(
+        "data/raw/automated_radio_telemetry",
+        pattern = "csv$",
+        full.names = TRUE
+      ) %>% 
+      map(
+        ~ read_csv(.x)
+      ) %>% 
+      bind_rows(),
     iterations = 5
   ) %>% 
   select(median, mem_alloc)
