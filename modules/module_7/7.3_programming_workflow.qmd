@@ -80,7 +80,7 @@ In this lesson, we will explore the file `district_birds.rds`. We have already u
 
 ## Video lesson
 
-{{< video https://www.youtube.com/embed/ACKmPD3ZX7s >}}
+{{< video https://youtu.be/IWJIMSkq8eM >}}
 
 ## Reference
 
