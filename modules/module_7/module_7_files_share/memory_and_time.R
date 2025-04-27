@@ -222,7 +222,6 @@ profmem({
 
 lobstr::obj_size(hello_char)
 
-
 profmem({
   hello_fact <- 
     factor(
