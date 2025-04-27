@@ -18,7 +18,7 @@ editor: source
 
 ![](../../images/hex_complex.png){.intro_image}
 
-As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step to ensure performance. Benchmarking describes the process of evaluating the memory used and processing time associated with executing code. This video lesson (runtime -- 19:57) illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how I decide when to apply a given function over another or which classes data objects to use for a given application. You will explore:
+As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step to ensure performance. Benchmarking describes the process of evaluating the memory used and processing time associated with executing code. This video lesson illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how I decide when to apply a given function over another or which classes data objects to use for a given application. You will explore:
 
 * RStudio's built-in features for evaluating memory usage
 * Three of the primary rules of normal (a.k.a. "tidy") data from the perspective of data engineering and relational databases
