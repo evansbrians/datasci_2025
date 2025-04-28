@@ -3,6 +3,7 @@ Package,Function,Definition
 .Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
 .Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
 .Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
 .Primitive,==,Infix relational operator (is equal to)
 .Primitive,!=,Infix relational operator (is not equal to)
 .Primitive,|,Prefix logical operator (or)
@@ -39,3 +40,4 @@ purrr,pluck,Extract a list item from a list
 readr,read_rds,Read an RDS file into R
 stringr,str_detect,Logical test of whether a pattern (string) is contained within a character value
 tidyr,drop_na,Remove rows that contain NA values
+utils,install.packages,Download and install one or more packages onto your computer
