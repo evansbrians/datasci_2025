@@ -10,7 +10,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -35,9 +35,9 @@ Before continuing, please be sure that you have completed all of the preliminary
 
 ## Module overview
 
--   **7.1. Memory and time**: This video lesson (runtime -- 19:38) and (brief) written tutorial introduces the concept of evaluating memory usage and processing time of a given process. As we get into big data (or coding web applications), understanding memory usage becomes *super* important!
--   **7.2. Solo GitHub**: This tutorial and video lesson (runtime -- 15:11) illustrates the basics of conducting version control in GitHub. We will apply the foundational steps that you will learn in this lesson to more meaningful applications in ***Lesson 7.3: Programming workflow*** and ***Lesson 8.1 Collaborating with GitHub***. If you are still working to understand the R coding used in this course, I suggest skipping this content and returning to it later.
--   **7.3. Programming workflow**: We have been working with the course RStudio project throughout the semester. This video lesson (runtime -- 37:25) will prepare you for setting your own projects with version control. The majority of the lesson, however, is on how to simplify scripts with some of the techniques that we have learned in this course (starting at 10:10). This may be worthwhile to review before the final exam, as it provides a big picture view of the coding method that you have been learning in this course.
+-   **7.1. Memory and time**: This video lesson (runtime -- 19:39) and (brief) written tutorial introduces the concept of evaluating memory usage and processing time of a given process. As we get into big data (or coding web applications), understanding memory usage becomes *super* important!
+-   **7.2. Solo GitHub**: This tutorial and video lesson (runtime -- 15:11) illustrates the basics of conducting version control in GitHub. We will apply the foundational steps that you will learn in this lesson to more meaningful applications in ***Lesson 7.3: Programming workflow*** and ***Collaborating with GitHub*** in Module 8. If you are still working to understand the R coding used in this course, I suggest skipping this content and returning to it later.
+-   **7.3. Programming workflow**: We have been working with the course RStudio project throughout the semester. This video lesson (runtime -- 35:55) will prepare you for setting your own projects with version control. The majority of the lesson, however, is on how to simplify scripts with some of the techniques that we have learned in this course (starting at 10:10). This may be worthwhile to review before the final exam, as it provides a big picture view of the coding method that you have been learning in this course.
 -   **7.4. Big data**: When data get big, we often need to employ new tools to help us avoid unreasonable wait times and dreaded out-of-memory errors. In this (problematically long) written tutorial, you will learn some great tools for dealing with big data! This includes the *arrow* package, *dbplyr*, *rsql*, nested list columns, and much more!
 
 ## Getting started
@@ -50,12 +50,66 @@ This week we will use the following data files in our exercises:
 
 **[amke_detections.csv]{.mono}** and **[amke_nodes.csv]{.mono}**: This is a *real* dataset that contains a subset of records from Dr. Joe Kolowski's study on juvenile American kestrels ... yes, *that* Dr. Joe! Joe and colleagues (including me!) set up a automated radio telemetry system on a farm in Virginia, attached radio transmitters to American kestrels, and watched as a mountain of data rolled in!
 
-**[automated_radio_telemetry.zip]{.mono}**. This folder, which should be extracted into [data/raw]{.mono}, contains detections and tag information for an automated radio telemetry study that Tara and I mentored at the Smithsonian Mason School of Conservation.  The goal of the study was to evaluate the rate of signal attenuation across within different vegetation classes.
+**[automated_radio_telemetry.zip]{.mono}**. This folder, which should be extracted into [data/raw]{.mono}, contains detections ([*.csv]{.mono}) and tag information ([tag_ids.xlsx]{.mono})for an automated radio telemetry study that Tara and I mentored at the Smithsonian Mason School of Conservation.  The goal of the study was to evaluate the rate of signal attenuation across within different vegetation classes.
 
 **[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
 
+**[messy_birds.rds]{.mono}**: A toy dataset of bird banding data meant to represent common problems associated with ecological field data.
 
 ## Readings and resources
+
+<button class="accordion" style="margin-bottom:1em">Glossary of terms (I am a button ... click me!)</button>
+
+::: panel
+::: glossary_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  here::here(),
+  "dev_scripts/glossary/glossary_source.R"
+) %>% 
+  source()
+
+get_glossary_table_module(module = 7) %>%
+  kableExtra::kable(
+    align = c("l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+:::
+
+<button class="accordion">Functions used through the end of this module (I am a button ... click me!)</button>
+
+::: panel
+**Important!** Primitive functions as well as functions in the *base* and *utils* packages, are loaded by default when you start an R session. Functions in *ggplot*, *tibble*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+
+file.path(
+  "function_tables",
+  "functions_through_module_7.csv"
+) %>% 
+  read_csv() %>% 
+  kableExtra::kable(
+    align = c("c", "c", "l", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+:::
+
+<br>
 
 * R for Data Science (2^nd^ edition), [26: Iteration](https://r4ds.hadley.nz/iteration){target="_blank"}
 * [Purrr cheatsheet](https://rstudio.github.io/cheatsheets/purrr.pdf){target="_blank"}
@@ -63,3 +117,19 @@ This week we will use the following data files in our exercises:
 * R for Data Science (2^nd^ edition), [22: Arrow](https://r4ds.hadley.nz/arrow){target="_blank"}
 * R for Data Science (2^nd^ edition), [23: Hierarchical data](https://r4ds.hadley.nz/rectangling){target="_blank"}
 
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
