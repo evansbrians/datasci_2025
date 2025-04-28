@@ -5,17 +5,14 @@ format:
     embed-resouces: true
     self-contained: true
     standalone: true
-    toc: false
+    toc: true
+    toc-location: left
     number-sections: false
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
-project:
-  execute-dir: project
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <head>
@@ -58,9 +55,9 @@ library(tidyverse)
 
 ![](https://gray-wmtv-prod.cdn.arcpublishing.com/resizer/s8sQzwUeaT_PoF17CFg6Nurps4A=/1200x1200/filters:focal(1555x2227:1565x2217):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/gray/MFECYQM3SNE6LF5YSKPXCKO7BI.jpg){.intro_image}
 
-You have been hired as the new data manager for a non-profit that addresses the interactions between humans and wildlife. Unfortunately, the data manager you replaced did not do a great job -- they stored all of the data their team collected in a very messy Excel file. Your boss is getting ready to give a big stakeholder presentation on vehicle-wildlife collisions in the state of Virginia. You have just a short amount of time give them the data and output that they need!
+You have been hired as the new data manager for a non-profit that addresses the interactions between humans and wildlife. Unfortunately, the data manager you replaced did not do a great job -- they stored all of the data their team collected in a very messy Excel file. Your boss is getting ready to give a big stakeholder presentation on vehicle-wildlife collisions in the state of Virginia. You have just a short amount of time to give them the data and output that they need!
 
-Your task with these data will be to:
+Your mission with these data will be to:
 
 1.	Normalize the dataset
 2.	Clean each of the fields (e.g., bad dates, bad strings)
@@ -72,15 +69,17 @@ There are 30 total points available for this exam and a score of 21 or higher is
 
 You will hand in a single, well-commented R script file for this assignment. Please save your file as [final_exam_[last name]_[first name].R]{.mono}. For example. I would name my file [final_exam_evans_brian.R]{.mono}. Using a different naming convention from the above will result in a [3 point]{class="score"} deduction from your final score.
 
-Each question, including **Brownie points** (see below) is worth [3 points]{class="score"} (but see the "**disgruntled employee?**" section!). Points may be deducted from each question's total: 
+Each question, including **Brownie points** (see below) is worth [3 points]{class="score"} (but see the "**Disgruntled employee?**" section!). Points may be deducted from each question's total: 
 
 * [[1.5]]{class="subscore"} Include only relative file paths to files on your hard drive.
 * [[1.5]]{class="subscore"} Use only functions from the course tutorials and video lectures. The full list of these functions is provided as a table in the introduction for Module 7.
 * [[1.0]]{class="subscore"} Include a minimum of one comment per code block that describes what the code is doing.
-* [[1.0]]{class="subscore"} Avoid unnecessary global assignments (**Note**: You may include a maximum of **one global assignment per code block**.).
-* [[0.5]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
-* [[0.25]]{class="subscore"} Ensure that your code follows the conventions of our course style guide.
-* [[0.25]]{class="subscore"} Ensure that your code is as parsimonious as possible.
+* [[1.0]]{class="subscore"} Avoid unnecessary global assignments (**Note**: You may include a maximum of **one global assignment per code block**).
+* [[0.50]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
+* [[0.30]]{class="subscore"} Ensure that your code is as parsimonious as possible.
+* [[0.30]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
+* [[0.30]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3** -- three or more distinct violations;
+* [[0.15]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3** -- one-two distinct violations.
 
 *Note: The maximum deduction is the total points value for a given question*
 
@@ -138,7 +137,7 @@ Your new boss!
 
 Dear DM, 
 
-Let's get you some data! We have been looking into vehicle wildlife collisions across Virginia. It is a good thing that you are here because our data have, well, *problems*. Unfortunately, the data are stored in one big data frame named "[va_wildlife_collisions.rds]{.mono}". Please read in this data frame and globally assign it to the name `collisions`.
+Let's get you some data! We have been looking into vehicle wildlife collisions across Virginia. It is a good thing that you are here because our data have, well, *problems*. Unfortunately, the data are stored in one big data frame named [va_wildlife_collisions.rds]{.mono}. Please read in this data frame and globally assign it to the name `collisions`.
 
 Warm regards,
 
@@ -154,11 +153,11 @@ Bonjour DM!
 
 I took a trip to Europe and subsequently asked the previous data manager to change dates from US to European format. They modified a lot of dates as I had asked, but then I came to my senses and had them stop changing the date formats. Now, I think that I would rather have them in the international standard date format and we are, unfortunately, stuck with both US and European date formats. Moreover, the data contain dates *and* times -- seems like these could be stored in the same variable. Please:
 
-* [[1.0]]{class="subscore"} Ensure that all times in the data frame are formatted as ISO-8601 datetime values and stored as datetime objects. *Note: This includes the columns `crash_time`, `county_sunrise`, and `county_sunset`*.
-* [[0.5]]{class="subscore"} Remove any transitive columns.
-* [[0.5]]{class="subscore"} Arrange the resultant table from earliest to most recent collisions. 
-* [[0.5]]{class="subscore"} Globally assign the name `collisions_date_fix` to the resultant object.
-* [[0.5]]{class="subscore"} Remove the name `collisions` from your global environment.
+* Ensure that all times in the data frame are formatted as ISO-8601 datetime values and stored as datetime objects. *Note: This includes the columns `crash_time`, `county_sunrise`, and `county_sunset`*.
+* Remove any transitive columns.
+* Arrange the resultant table from earliest to most recent collisions. 
+* Globally assign the resultant object to the name `collisions_date_fix`.
+* Remove the name `collisions` from your global environment.
 
 Au revoir,
 
@@ -174,13 +173,13 @@ The word is ...
 
 We are in a real quagmire here. I have been looking at the data you sent and noticed that there are a lot of spelling errors and obvious typos in the species name column. For example, someone even misspelled Black bear "black bare". Please:
 
-* [[2.0]]{class="subscore"} Ensure that the four species are recorded as (with the first letter capitalized):
+* Ensure that the four species are recorded as (with the first letter capitalized):
   * Black bear
   * Opossum
   * Raccoon
   * White-tailed deer
-* [[0.5]]{class="subscore"} Globally assign the name `collisions_spp_fix` to the resultant object.
-* [[0.5]]{class="subscore"} Remove the name `collisions_date_fix` from your global environment.
+* Globally assign the resultant object to the name `collisions_spp_fix`.
+* Remove the name `collisions_date_fix` from your global environment.
 
 Best,
 
@@ -197,9 +196,9 @@ Top of the morning to you DM!
 It looks like some of the geographic coordinates (longitudes and latitudes)
 were switched in the records. Here in Virginia, the longitudes should all be negative and the latitudes should all be positive.  Please:
 
-* [[2.0]]{class="subscore"} Modify the data such that these coordinates are provided in the correct columns.
-* [[0.5]]{class="subscore"} Globally assign the name `collisions_coord_fix` to the resultant object.
-* [[0.5]]{class="subscore"} Remove the name `collisions_spp_fix` from your global environment.
+* Modify the data such that these coordinates are provided in the correct columns.
+* Globally assign the resultant object to the name `collisions_coord_fix`.
+* Remove the name `collisions_spp_fix` from your global environment.
 
 Sl&#225;n leat,
 
@@ -215,9 +214,9 @@ Hi DM,
 
 We are preparing to show our stakeholders that we are the real deal by putting the vehicle collision data into a relational database. Of course, untidy is not appropriate for a relational database. Please help me prepare the data:
 
-* [[2.0]]{class="subscore"} Make these data database-ready by normalizing (i.e., tidying) the data. Remember to follow all of Hadley's principles of tidy data! 
-* [[0.5]]{class="subscore"} Store the resultant objects within a single list file globally assigned to the name `collisions_tidy`.
-* [[0.5]]{class="subscore"} Remove the name `collisions_coord_fix` from your global environment.
+* Make these data database-ready by normalizing (i.e., tidying) the data. Remember to follow all of Hadley's principles of tidy data! 
+* Store the resultant objects within a single list file globally assigned to the name `collisions_tidy`.
+* Remove the name `collisions_coord_fix` from your global environment.
 
 Fare-thee-well,
 
@@ -227,7 +226,7 @@ Your "normal" boss
 
 ## Disgruntled employee?
 
-Your new boss is demanding and more than a bit annoying (it only gets worse). For questions 7-12 you may choose to ignore some of your boss' memos. For these questions, we will maintain the four questions that have earned you the most points (i.e., best four out of six).
+Your new boss is demanding and more than a bit annoying (it only gets worse). For questions 7-12 you may choose to ignore some of your boss' memos. For these questions, we will maintain the four questions that earn you the most points (i.e., best four out of six).
 
 ## Memo 7
 
@@ -237,8 +236,8 @@ Howdy DM,
 
 So far, so good pardner! Now let's get some of the output we are going to need for our meeting. The first thing that I am going to need is a summary table of the number of collisions by species and year. Please generate a tibble data frame where:
 
-* [[1.5]]{class="subscore"} The columns are `year` and the name of each species;
-* [[1.5]]{class="subscore"} The rows include the year followed by the total number of collisions for a given species, in a given year. 
+* The columns are `year` and the name of each species;
+* The rows include the year followed by the total number of collisions for a given species, in a given year. 
 
 Here is an example of what I am looking for (but I want this for all species and years):
 
@@ -259,13 +258,13 @@ Your rootin' tootin' boss
 
 Buenos dias DM, 
 
-We liked your table! Now our group is wondering if we can get a visualization to show any variation in the number of collisions per year. We want to show the total number of annual collisions by species and year. Please:
+We liked your table! Now our group is wondering if we can get a visualization to show any variation in the number of collisions per year. We want to show the total number of collisions by species and year. Please:
 
-* [[1.0]]{class="subscore"} Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
-* [[0.5]]{class="subscore"} Create a scatterplot with the total annual collisions on the vertical axis and year on the horizontal axis.
-* [[0.5]]{class="subscore"} Use `geom_line()` to connect the points in the scatterplot.
-* [[0.5]]{class="subscore"} Create a facet for each species.
-* [[0.5]]{class="subscore"} Make sure that the y-axis is scaled so we can see annual variation in each facet. You can do that by setting `scales = "free"` (check out `?facet_wrap`). 
+* Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Create a scatterplot with the total annual collisions on the vertical axis and year on the horizontal axis.
+* Use `geom_line()` to connect the points in the scatterplot.
+* Create a facet for each species.
+* Make sure that the y-axis is scaled so we can see annual variation in each facet. You can do that by setting `scales = "free"` (check out `?facet_wrap`). 
 
 This plot might be a great one to present to our stakeholders!
 
@@ -281,12 +280,12 @@ Your ggplottin' jefe
 
 How ya doin' DM?
 
-We have been gossiping about you are around the water cooler and we are all wicked impressed with the job you have been doing so far! Well, all of us except Chad, who is a bit of a tool -- Chad said "... yeah, but can they iterate?". Let's show Chad how it is done. Please:
+We have been gossiping about you around the water cooler and we are all wicked impressed with the job you have been doing so far! Well, all of us except Chad, who is a bit of a tool -- Chad said "... yeah, but can they iterate?". Let's show Chad how it is done. Please:
 
-* [[1.0]]{class="subscore"} Use iteration to generate four separate bar plots where each plot represents a single species.
-* [[0.5]]{class="subscore"} Ensure that the horizontal axis of each plot represents years.
-* [[1.0]]{class="subscore"} Ensure that the vertical axis represents the total number of collisions with a given species on a given year. 
-* [[0.5]]{class="subscore"} Title each plot with the common name of the species.
+* Use iteration to generate four separate bar plots where each plot represents a single species.
+* Ensure that the horizontal axis of each plot represents years.
+* Ensure that the vertical axis represents the total number of collisions with a given species on a given year. 
+* Title each plot with the common name of the species.
 
 Later,
 
@@ -302,11 +301,10 @@ Salutations DM!
 
 A road survey conducted in 2017 found that the carcasses of our two small
 species, Opossum and Raccoon, were observed within every Virginia county
-that year. We have a suspicion that some police departments are under-reporting
-collisions with these species. Please:
+that year. We have a suspicion that some police departments are under-reporting collisions with these species. In a single code block, please:
 
-* [[2.0]]{class="subscore"} Verify whether every county reported at least one Opossum *or* Raccoon collision in 2017. 
-* [[1.0]]{class="subscore"} If you find that some of these counties are missing, please provide me with a character vector of the offending county names.
+* Verify whether every county reported at least one Opossum *or* Raccoon collision in 2017. 
+* If you find that some of these counties are missing, please provide me with a character vector of the offending county names.
 
 Nanu Nanu,
 
@@ -322,10 +320,10 @@ Greetings DM!
 
 We would like to generate a data visualization of the total number of crashes per year for the 10 counties with the highest number of total crashes across years. Please:
 
-* [[1.0]]{class="subscore"} Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
-* [[0.5]]{class="subscore"} Visualize the data with a boxplot geometry.
-* [[0.5]]{class="subscore"} Ensure that the horizontal axis of the plot is the number of crashes in a given year and the vertical axis is the names of the counties.
-* [[1.0]]{class="subscore"} Arrange the plot from the county with the most crashes, across time, to the county with the least amount of crashes across time.
+* [Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Visualize the data with a boxplot geometry.
+* Ensure that the horizontal axis of the plot is the number of crashes in a given year and the vertical axis is the names of the counties.
+* Arrange the plot from the county with the most crashes, across time, to the county with the least amount of crashes across time.
 
 Live long and prosper,
 
@@ -343,10 +341,10 @@ Aloha DM,
 
 Our stakeholders would like to get a sense of the seasons in which these wildlife-vehicle collisions are occurring. For simplicity, we will use this conversion for seasons: Sept-Nov = Fall; Dec-Feb = Winter; Mar-May = Spring; June-Aug = Summer. Please:
 
-* [[1.0]]{class="subscore"} Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
-* [[0.5]]{class="subscore"} Visualize the data with a stacked bar plot geometry.
-* [[1.0]]{class="subscore"} Ensure that the horizontal axis is season, in the order Winter, Spring, Summer, Fall.
-* [[0.5]]{class="subscore"} Ensure that the vertical axis is the total number of collisions, across years.
+* Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Visualize the data with a stacked bar plot geometry.
+* Ensure that the horizontal axis is season, in the order Winter, Spring, Summer, Fall.
+* Ensure that the vertical axis is the total number of collisions, across years.
 
 Mahalo,
 
@@ -380,10 +378,10 @@ Complete memo 11 in a single piped statement.
 
 **The sun was in my eyes**! After sending questionnaires to drivers who were involved with a wildlife collision, we found that many morning drivers claimed that they did not see the animal because they were driving into the sun. Let's see if there is any evidence for this. The end of each string for the `road` column indicates the direction of travel ("NB" = "Northbound", "EB" = "Eastbound", "SB" = "Southbound", and "WB" = "Westbound"). Using this information and the time of each crash:
 
-* [[0.5]]{class="subscore"} Subset to only vehicles traveling East or West.  
-* [[1.0]]{class="subscore"} Subset the data to collisions that occurred within two hours of the sunrise time (Note: You may round the time to hour to address this question).
-* [[1.0]]{class="subscore"} Classify the incidents that occurred for Eastbound drivers as "Into the sun" and those that occurred for Westbound drivers as "Away from the sun".
-* [[0.5]]{class="subscore"} Generate a data visualization (of your choosing!) that illustrates whether more incidents occur for vehicles traveling into, or away from, the sun.
+* Subset to only vehicles traveling East or West.  
+* Subset the data to collisions that occurred within two hours of the sunrise time (Note: You may round the time to hour to address this question).
+* Classify the incidents that occurred for Eastbound drivers as "Into the sun" and those that occurred for Westbound drivers as "Away from the sun".
+* Generate a data visualization (of your choosing!) that illustrates whether more incidents occur for vehicles traveling into, or away from, the sun.
 
 :::
 
