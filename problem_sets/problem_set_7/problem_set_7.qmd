@@ -40,7 +40,7 @@ library(tidyverse)
 
 ![](https://assets0.roadtrippers.com/uploads/trip/uploaded_image/14715223/-quality_60_-interlace_Plane_-resize_640x500_U__-gravity_center_-extent_640x500/trip-uploaded_image-9a10d75c-f676-4680-8c22-ae8273bb3911.jpg){.intro_image}
 
-This problem set will be quite different from the others. There is no lofty ecological goal, no narrative to follow, not even any birds (well, maybe a few birds), cats, or cicadas. Instead, the singular goal of this problem set is to prepare you for the final exam. I have provided several (mostly) toy data sets that are similar to the ones that I create and use during Review and Q & A sessions, office hours, and on the discussion board. My hope is that the combination of these toy datasets and questions that represent some of the head-scratching puzzles we often encounter when wrangling real data will help make your final project much less stressful!
+This problem set will be quite different from the others. There is no lofty ecological goal, no narrative to follow, not even any birds (well, maybe a few birds), cats, or cicadas. Instead, the singular goal of this problem set is to prepare you for the final exam. We have provided several (mostly) toy data sets that are similar to the ones that we create and use during Review and Q & A sessions, office hours, and on the discussion board. Our hope is that the combination of these toy datasets and questions that represent some of the head-scratching puzzles we often encounter when wrangling real data will help make your final exam much less stressful!
 
 ## Grading
 

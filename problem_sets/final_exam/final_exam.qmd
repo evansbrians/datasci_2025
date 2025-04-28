@@ -115,6 +115,96 @@ The file [va_wildlife_collisions.rds]{.mono} contains information on wildlife-ve
 
 :::
 
+::: Accordion
+<button class="accordion">Functions that we used to answer the memos</button>
+
+::: {.panel}
+
+**Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *forcats*, *ggplot2*, *lubridate*, *purrr*, *readr*, *rlang*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, The `%>%` function is imported by the *dplyr* (core tidyverse) library.
+
+* `.Primitive, -`
+* `.Primitive, :::`
+* `.Primitive, ::`
+* `.Primitive, :`
+* `.Primitive, !`
+* `.Primitive, !=`
+* `.Primitive, (`
+* `.Primitive, [[`
+* `.Primitive, [`
+* `.Primitive, {`
+* `.Primitive, *`
+* `.Primitive, /`
+* `.Primitive, &`
+* `.Primitive, ^`
+* `.Primitive, +`
+* `.Primitive, <-`
+* `.Primitive, <`
+* `.Primitive, <<-`
+* `.Primitive, <=`
+* `.Primitive, =`
+* `.Primitive, ==`
+* `.Primitive, >`
+* `.Primitive, >=`
+* `.Primitive, |`
+* `.Primitive, ~`
+* `.Primitive, $`
+* `.Primitive, c`
+* `.Primitive, list`
+* `base, %in%`
+* `base::library`
+* `base::rm`
+* `base::unique`
+* `dplyr::across`
+* `dplyr::anti_join`
+* `dplyr::arrange`
+* `dplyr::bind_rows`
+* `dplyr::case_when`
+* `dplyr::distinct`
+* `dplyr::filter`
+* `dplyr::group_by`
+* `dplyr::if_else`
+* `dplyr::inner_join`
+* `dplyr::join_by`
+* `dplyr::left_join`
+* `dplyr::mutate`
+* `dplyr::n`
+* `dplyr::pull`
+* `dplyr::select`
+* `dplyr::slice_max`
+* `dplyr::summarize`
+* `forcats::fct_relevel`
+* `forcats::fct_reorder`
+* `ggplot2, +`
+* `ggplot2::aes`
+* `ggplot2::coord_flip`
+* `ggplot2::element_text`
+* `ggplot2::facet_wrap`
+* `ggplot2::geom_bar`
+* `ggplot2::geom_boxplot`
+* `ggplot2::geom_line`
+* `ggplot2::geom_point`
+* `ggplot2::ggplot`
+* `ggplot2::labs`
+* `ggplot2::theme`
+* `lubridate::as_date`
+* `lubridate::dmy`
+* `lubridate::hour`
+* `lubridate::mdy`
+* `lubridate::month`
+* `lubridate::year`
+* `lubridate::ymd_hms`
+* `magrittr, %>%`
+* `purrr::map`
+* `purrr::pluck`
+* `readr::read_rds`
+* `rlang, {{}}`
+* `stringr::str_c`
+* `stringr::str_detect`
+* `stringr::str_replace`
+* `tidyr::pivot_wider`
+:::
+:::
+
 ## Memo 1
 
 ::: boss_memo
