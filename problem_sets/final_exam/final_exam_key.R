@@ -1,21 +1,38 @@
+
+# Script file for the final exam
+
 # You may include a maximum of one global assignment per code block. If you
 # choose to do so, please remove all previously assigned objects at the end of
 # each question.
 
-# For each question that includes a ggplot, you will receive up to 2 points
+# For each question that includes a ggplot, you will receive up to 1 point
 # extra credit for the styling of your visualizations (e.g., theme elements,
 # fill color).
 
 # 1 -----------------------------------------------------------------------
 
+# Open the script file in RStudio and attach the core tidyverse packages to your
+# current R session.
+
 library(tidyverse)
 
 # 2 -----------------------------------------------------------------------
+
+# Read in `data/raw/va_wildlife_collisions.rds` and globally assign the
+# resultant object to the name `collisions`:
 
 collisions <-
   read_rds("data/raw/va_wildlife_collisions.rds")
 
 # 3 -----------------------------------------------------------------------
+
+# Fix all variables that include date and/or time values:
+
+# * Ensure that all times in the data frame are formatted as ISO-8601 datetime values and stored as datetime objects. *Note: This includes the columns `crash_time`, `county_sunrise`, and `county_sunset`*.
+# * Remove any transitive columns.
+# * Arrange the resultant table from earliest to most recent collisions. 
+# * Globally assign the name `collisions_date_fix` to the resultant object.
+# * Remove the name `collisions` from your global environment.
 
 collisions_date_fix <- 
   
@@ -53,7 +70,11 @@ collisions_date_fix <-
         county_sunrise, 
         county_sunset
       ),
-      ~ str_c(date, .x, sep = " ") %>% 
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
         ymd_hms()
     )
   ) %>% 
@@ -91,7 +112,11 @@ collisions_date_fix <-
         county_sunrise, 
         county_sunset
       ),
-      ~ str_c(date, .x, sep = " ") %>% 
+      ~ str_c(
+        date, 
+        .x, 
+        sep = " "
+      ) %>% 
         ymd_hms()
     )
   ) %>% 
@@ -200,7 +225,9 @@ collisions_date_fix <-
         .x, 
         sep = " "
       ) %>% 
-        parse_date_time(c("bdY HMS", "dbY HMS"))
+        parse_date_time(
+          c("bdY HMS", "dbY HMS")
+        )
     )
   )  %>% 
   
@@ -212,6 +239,12 @@ collisions_date_fix <-
 rm(collisions)
 
 # 4 -----------------------------------------------------------------------
+
+# Repair the `species` column:
+
+# * Ensure that the four species are recorded as (with the first letter
+#   capitalized) "Black bear", "Opossum", "Raccoon", and "White-tailed deer".
+# * Globally assign the resultant object to the name `collisions_spp_fix`.
 
 # Conservative regex method:
 
@@ -243,9 +276,18 @@ collisions_spp_fix <-
       )
   ) 
 
+# Remove the name collisions_date_fix from your global environment:
+
 rm(collisions_date_fix)
 
 # 5 -----------------------------------------------------------------------
+
+# Some of the geographic coordinates (longitudes and latitudes) were switched in
+# the records! Please:
+
+# * Modify the data such that these coordinates are provided in the correct
+#   columns.
+# * Globally assign the resultant object to the name `collisions_coord_fix`.
 
 # Method 1: Create a temporary column:
 
@@ -294,19 +336,26 @@ collisions_coord_fix <-
   mutate(
     across(
       longitude:latitude,
-      \(x) {
-        if_else(
-          x < 0,
-          longitude,
-          latitude
-        )
-      }
+      ~ if_else(
+        .x < 0,
+        longitude,
+        latitude
+      )
     )
   )
+
+# Remove the name `collisions_spp_fix` from your global environment:
 
 rm(collisions_spp_fix)
 
 # 6 -----------------------------------------------------------------------
+
+# Organize the data into a relational database:
+
+# * Make these data database-ready by normalizing (i.e., tidying) the data.
+#   Remember to follow all of Hadley’s principles of tidy data!
+# * Store the resultant objects within a single list file globally assigned to
+#   the name collisions_tidy.
 
 collisions_tidy <-
   list(
@@ -347,6 +396,8 @@ collisions_tidy <-
         )
       )
   )
+
+# Remove the name collisions_coord_fix from your global environment:
 
 rm(collisions_coord_fix)
 

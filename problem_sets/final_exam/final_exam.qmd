@@ -5,17 +5,14 @@ format:
     embed-resouces: true
     self-contained: true
     standalone: true
-    toc: false
+    toc: true
+    toc-location: left
     number-sections: false
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
-project:
-  execute-dir: project
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <head>
@@ -58,9 +55,9 @@ library(tidyverse)
 
 ![](https://gray-wmtv-prod.cdn.arcpublishing.com/resizer/s8sQzwUeaT_PoF17CFg6Nurps4A=/1200x1200/filters:focal(1555x2227:1565x2217):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/gray/MFECYQM3SNE6LF5YSKPXCKO7BI.jpg){.intro_image}
 
-You have been hired as the new data manager for a non-profit that addresses the interactions between humans and wildlife. Unfortunately, the data manager you replaced did not do a great job -- they stored all of the data their team collected in a very messy Excel file. Your boss is getting ready to give a big stakeholder presentation on vehicle-wildlife collisions in the state of Virginia. You have just a short amount of time give them the data and output that they need!
+You have been hired as the new data manager for a non-profit that addresses the interactions between humans and wildlife. Unfortunately, the data manager you replaced did not do a great job -- they stored all of the data their team collected in a very messy Excel file. Your boss is getting ready to give a big stakeholder presentation on vehicle-wildlife collisions in the state of Virginia. You have just a short amount of time to give them the data and output that they need!
 
-Your task with these data will be to:
+Your mission with these data will be to:
 
 1.	Normalize the dataset
 2.	Clean each of the fields (e.g., bad dates, bad strings)
@@ -72,15 +69,17 @@ There are 30 total points available for this exam and a score of 21 or higher is
 
 You will hand in a single, well-commented R script file for this assignment. Please save your file as [final_exam_[last name]_[first name].R]{.mono}. For example. I would name my file [final_exam_evans_brian.R]{.mono}. Using a different naming convention from the above will result in a [3 point]{class="score"} deduction from your final score.
 
-Each question, including **Brownie points** (see below) is worth [3 points]{class="score"} (but see the "**disgruntled employee?**" section!). Points may be deducted from each question's total: 
+Each question, including **Brownie points** (see below) is worth [3 points]{class="score"} (but see the "**Disgruntled employee?**" section!). Points may be deducted from each question's total: 
 
 * [[1.5]]{class="subscore"} Include only relative file paths to files on your hard drive.
 * [[1.5]]{class="subscore"} Use only functions from the course tutorials and video lectures. The full list of these functions is provided as a table in the introduction for Module 7.
 * [[1.0]]{class="subscore"} Include a minimum of one comment per code block that describes what the code is doing.
-* [[1.0]]{class="subscore"} Avoid unnecessary global assignments (**Note**: You may include a maximum of **one global assignment per code block**.).
-* [[0.5]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
-* [[0.25]]{class="subscore"} Ensure that your code follows the conventions of our course style guide.
-* [[0.25]]{class="subscore"} Ensure that your code is as parsimonious as possible.
+* [[1.0]]{class="subscore"} Avoid unnecessary global assignments (**Note**: You may include a maximum of **one global assignment per code block**).
+* [[0.50]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
+* [[0.30]]{class="subscore"} Ensure that your code is as parsimonious as possible.
+* [[0.30]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
+* [[0.30]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3** -- three or more distinct violations;
+* [[0.15]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3** -- one-two distinct violations.
 
 *Note: The maximum deduction is the total points value for a given question*
 
@@ -138,7 +137,7 @@ Your new boss!
 
 Dear DM, 
 
-Let's get you some data! We have been looking into vehicle wildlife collisions across Virginia. It is a good thing that you are here because our data have, well, *problems*. Unfortunately, the data are stored in one big data frame named "[va_wildlife_collisions.rds]{.mono}". Please read in this data frame and globally assign it to the name `collisions`.
+Let's get you some data! We have been looking into vehicle wildlife collisions across Virginia. It is a good thing that you are here because our data have, well, *problems*. Unfortunately, the data are stored in one big data frame named [va_wildlife_collisions.rds]{.mono}. Please read in this data frame and globally assign it to the name `collisions`.
 
 Warm regards,
 
@@ -154,11 +153,11 @@ Bonjour DM!
 
 I took a trip to Europe and subsequently asked the previous data manager to change dates from US to European format. They modified a lot of dates as I had asked, but then I came to my senses and had them stop changing the date formats. Now, I think that I would rather have them in the international standard date format and we are, unfortunately, stuck with both US and European date formats. Moreover, the data contain dates *and* times -- seems like these could be stored in the same variable. Please:
 
-* [[1.0]]{class="subscore"} Ensure that all times in the data frame are formatted as ISO-8601 datetime values and stored as datetime objects. *Note: This includes the columns `crash_time`, `county_sunrise`, and `county_sunset`*.
-* [[0.5]]{class="subscore"} Remove any transitive columns.
-* [[0.5]]{class="subscore"} Arrange the resultant table from earliest to most recent collisions. 
-* [[0.5]]{class="subscore"} Globally assign the name `collisions_date_fix` to the resultant object.
-* [[0.5]]{class="subscore"} Remove the name `collisions` from your global environment.
+* Ensure that all times in the data frame are formatted as ISO-8601 datetime values and stored as datetime objects. *Note: This includes the columns `crash_time`, `county_sunrise`, and `county_sunset`*.
+* Remove any transitive columns.
+* Arrange the resultant table from earliest to most recent collisions. 
+* Globally assign the resultant object to the name `collisions_date_fix`.
+* Remove the name `collisions` from your global environment.
 
 Au revoir,
 
@@ -174,13 +173,13 @@ The word is ...
 
 We are in a real quagmire here. I have been looking at the data you sent and noticed that there are a lot of spelling errors and obvious typos in the species name column. For example, someone even misspelled Black bear "black bare". Please:
 
-* [[2.0]]{class="subscore"} Ensure that the four species are recorded as (with the first letter capitalized):
+* Ensure that the four species are recorded as (with the first letter capitalized):
   * Black bear
   * Opossum
   * Raccoon
   * White-tailed deer
-* [[0.5]]{class="subscore"} Globally assign the name `collisions_spp_fix` to the resultant object.
-* [[0.5]]{class="subscore"} Remove the name `collisions_date_fix` from your global environment.
+* Globally assign the resultant object to the name `collisions_spp_fix`.
+* Remove the name `collisions_date_fix` from your global environment.
 
 Best,
 
@@ -197,9 +196,9 @@ Top of the morning to you DM!
 It looks like some of the geographic coordinates (longitudes and latitudes)
 were switched in the records. Here in Virginia, the longitudes should all be negative and the latitudes should all be positive.  Please:
 
-* [[2.0]]{class="subscore"} Modify the data such that these coordinates are provided in the correct columns.
-* [[0.5]]{class="subscore"} Globally assign the name `collisions_coord_fix` to the resultant object.
-* [[0.5]]{class="subscore"} Remove the name `collisions_spp_fix` from your global environment.
+* Modify the data such that these coordinates are provided in the correct columns.
+* Globally assign the resultant object to the name `collisions_coord_fix`.
+* Remove the name `collisions_spp_fix` from your global environment.
 
 Sl&#225;n leat,
 
@@ -215,9 +214,9 @@ Hi DM,
 
 We are preparing to show our stakeholders that we are the real deal by putting the vehicle collision data into a relational database. Of course, untidy is not appropriate for a relational database. Please help me prepare the data:
 
-* [[2.0]]{class="subscore"} Make these data database-ready by normalizing (i.e., tidying) the data. Remember to follow all of Hadley's principles of tidy data! 
-* [[0.5]]{class="subscore"} Store the resultant objects within a single list file globally assigned to the name `collisions_tidy`.
-* [[0.5]]{class="subscore"} Remove the name `collisions_coord_fix` from your global environment.
+* Make these data database-ready by normalizing (i.e., tidying) the data. Remember to follow all of Hadley's principles of tidy data! 
+* Store the resultant objects within a single list file globally assigned to the name `collisions_tidy`.
+* Remove the name `collisions_coord_fix` from your global environment.
 
 Fare-thee-well,
 
