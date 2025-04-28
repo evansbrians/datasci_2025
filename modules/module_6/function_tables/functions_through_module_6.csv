@@ -34,7 +34,6 @@ Package,Function,First lesson used,Definition
 .Primitive,dim,0.3-objects,Return the number of dimensions of an object as an integer vector
 .Primitive,for,6.2_iteration_with_purrr_and_for_loops,"Initiate a for loop, written as for(var in seq)"
 .Primitive,function,6.1_focus_on_functions,Write a custom function
-.Primitive,if,6.3_control_flow_if_else,"If a logical value is TRUE, evaluate a statement"
 .Primitive,is.na,3.2_subsetting,A logical test of whether a value in a vector is [NA]
 .Primitive,length,0.3-objects,Return the number of values in an atomic vector or the number of list items in a list (or data frame!) as a one-value integer vector
 .Primitive,list,0.3-objects,"Combine multiple objects of any type into a single, recursive, data object"
@@ -43,7 +42,6 @@ Package,Function,First lesson used,Definition
 .Primitive,names,0.3-objects,Retrieve the names (or names attribute) assigned to an R object (generates a character vector)
 .Primitive,return,6.1_focus_on_functions,Return the results from a given point in a function's body (do not use for the last value!)
 .Primitive,seq_along,6.2_iteration_with_purrr_and_for_loops,Generate an integer vector representing the indices (positions) in a vector (list or atomic)
-.Primitive,sqrt,6.3_control_flow_if_else,Calculate the square root of a numeric vector
 .Primitive,sum,0.2-values,Calculate the sum of the values in a vector
 base,%in%,0.2-values,Infix relational operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
 base,body,6.1_focus_on_functions,Print the body of an R function
@@ -51,7 +49,6 @@ base,cut,5.2_categorizing_data,Convert a numeric vector into a factor
 base,data.frame,0.3-objects,Create a data frame
 base,environment,1.3_objects,Print the environment of a given function
 base,factor,0.2-values,Convert a character vector to a factor
-base,file.path,5.2_memory_and_shapefiles,Create a file path by concatenating strings
 base,file.remove,1.4_importing_exploring_exporting,Delete a file from your hard drive
 base,formals,6.1_focus_on_functions,Print the formals of an R function
 base,function,6.1_focus_on_functions,Initiate the creation of a custom function
@@ -65,11 +62,8 @@ base,mean,0.1-intro_to_r_and_rstudio,Generate a one-value double numeric vector 
 base,ncol,0.3-objects,"Return the number of columns (i.e., variables or list items) in a data frame as a one-value integer vector"
 base,nrow,0.3-objects,"Return the number of rows (i.e., observations) in a data frame as a one-value integer vector"
 base,rm,0.1-intro_to_r_and_rstudio,Remove a name from a specified environment (default is the global environment)
-base,sample,6.4_big_data,Randomly sample an vector
 base,search,1.3_objects,Print a character vector of attached objects associated with your current R session
 base,seq,5.2_categorizing_data,Generate a numeric vector between a range of values by some increment
-base,sort,6.4_big_data,Arrange a vector in ascending order
-base,source,5.2_memory_and_shapefiles,Execute a source script (in its entirety)
 base,summary,1.4_importing_exploring_exporting,Print summary stats for a data object
 base,tolower,1.5_assignments,Convert a character vector to lowercase
 base,table,1.4_importing_exploring_exporting,Count the number of unique observations in an atomic vector
@@ -77,7 +71,6 @@ base,typeof,0.2-values,Print a one-value character vector that represents how a 
 base,unit,4.1_data_vis_ii_distributions,Set or create a unit object
 base,unique,1.4_importing_exploring_exporting,Subset an atomic vector to the unique values in the set
 base,vector,6.2_iteration_with_purrr_and_for_loops,Generate a vector (list or atomic)
-bench,mark,5.2_memory_and_shapefiles,Benchmark an operation (processing time and memory used)
 dplyr,across,5.1_iterative_mutation,Apply a function across multiple variables in a data frame
 dplyr,anti_join,3.4_joins,A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
 dplyr,arrange,1.4_importing_exploring_exporting,Sort the rows of a data frame by the values in a variable or variables
@@ -89,7 +82,6 @@ dplyr,desc,1.4_importing_exploring_exporting,"When used with `arrange()`, this s
 dplyr,distinct,2.2_reshaping_data_frames,Subset a data frame by removing duplicate rows
 dplyr,filter,3.2_subsetting,Subset a data frame by logical condition
 dplyr,full_join,3.4_joins,"A mutating join that joins a source table to a target table and maintains all records in both tables, regardless of matching key values"
-pillar,glimpse,6.4_big_data,"A transposed printing of a dataset, similar to base R's `str()`. This function is accessed by `dplyr` and *pillar* does not need to be explicitly loaded."
 dplyr,group_by,3.3_summarizing,Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
 dplyr,if_all,4.2_advanced_filtering,Run a function for all of the columns that satisfy a given condition
 dplyr,if_any,4.2_advanced_filtering,Run a function for any of the columns that satisfy a given condition
@@ -130,7 +122,6 @@ ggplot2,geom_bar,5.2_categorizing_data,Create a bar geometry
 ggplot2,geom_boxplot,4.1_data_vis_ii_distributions,Create a boxplot geometry
 ggplot2,geom_density,4.1_data_vis_ii_distributions,Create a (statistical) density geometry
 ggplot2,geom_point,2.4_intro_to_data_vis,Create a point geometry
-ggplot2,geom_sf,5.2_memory_and_shapefiles,Add an sf layer to a ggplot
 ggplot2,geom_smooth,2.4_intro_to_data_vis,Add a line-of-best-fit geometry
 ggplot2,ggplot,2.4_intro_to_data_vis,"Set the data and, potentially, the aesthetics of a plot"
 ggplot2,labs,2.4_intro_to_data_vis,Add or modify the labels of a plot
@@ -139,9 +130,6 @@ ggplot2,scale_x_continuous,2.4_intro_to_data_vis,Set the scale of the x axis
 ggplot2,scale_y_continuous,2.4_intro_to_data_vis,Set the scale of the y axis
 ggplot2,theme,2.4_intro_to_data_vis,Define the theme elements of a plot
 ggplot2,theme_bw,2.4_intro_to_data_vis,Generate a pre-packaged light background theme for a plot
-ggplot2,theme_set,5.2_memory_and_shapefiles,Set the ggplot theme for an entire session
-ggplot2,theme_void,5.2_memory_and_shapefiles,A ggplot theme that contains no axes or panel background
-lobstr,obj_size,5.2_memory_and_shapefiles,View the amount of memory allocated to an object in your computer's memory
 lobstr,ref,1.5_assignments,View the structure of an object in your computer's memory
 lubridate,as_date,5.1_iterative_mutation,"Convert properly formatted date, stored as a character or datetime vector, to a date class object"
 lubridate,dmy,5.4_dates_and_times,"Convert a date formatted as day, month, year (European date format) to a date class object"
@@ -154,10 +142,8 @@ lubridate,year,3.2_subsetting,Extract the year from a properly formatted date va
 lubridate,ymd_hms,5.4_dates_and_times,Generate a date-time class object with an character vector of the format yyyy-mm-dd hh:mm:ss
 magrittr,%>%,1.5_assignments,The pipe operator passes the output of the LHS argument to the function on the right
 magrittr,extract,4.4_subsetting_vectors,Extract a value from an atomic vector or list item by position or name
-mapview,npts,5.2_memory_and_shapefiles,"Determine the number of vertices (i.e., nodes or points) in a polygon"
 purrr,keep,4.4_subsetting_vectors,Subset a vector with logic
-purrr,map,5.2_memory_and_shapefiles,Iterate across a vector and return a list
-purrr,map_chr,6.4_big_data,Iterate across a vector and return a character vector
+purrr,map,6.2_iteration_with_purrr_and_for_loops,Iterate across a vector and return a list
 purrr,map_dbl,3.5_course_style_guide_part_3,Iterate across a vector and return a double numeric vector
 purrr,pluck,3.2_subsetting,Extract a list item from a list
 readr,read_csv,0.3-objects,Read a tabular csv file into R as a tibble data frame
@@ -170,16 +156,6 @@ readxl,excel_sheets,1.4_importing_exploring_exporting,Return the names of worksh
 readxl,read_excel,1.4_importing_exploring_exporting,Read an Excel worksheet into R
 rlang,{{}},6.1_focus_on_functions,Insert the variable inside of `{{ ... }}` into the body of a function
 rlang,set_names,1.5_assignments,Assign names to values in a vector or items in a list
-rmapshaper,ms_simplify,5.2_memory_and_shapefiles,Reduce the number of nodes in a polygon by a set proportion
-sf,st_as_sf,5.2_memory_and_shapefiles,Convert a data frame to an sf object
-sf,st_drop_geometry,5.2_memory_and_shapefiles,Remove the geometry column from an sf file and (thus) convert to a data frame
-sf,st_geometry_type,5.2_memory_and_shapefiles,Return the type of geometry present in an sf object
-sf,st_intersection,5.2_memory_and_shapefiles,A type of mutating *or* filtering spatial join in which you maintain only portions of a target shapefile that overlap with a source shapefile
-sf,st_join,5.2_memory_and_shapefiles,Conduct a mutating join of a target table relative to the geometry of a source table
-sf,st_read,5.2_memory_and_shapefiles,Read in a simple features or other GIS shapefile
-sf,st_simplify,5.2_memory_and_shapefiles,Increase the resolution of a shapefile by removing nodes that are within a given distance
-sf,st_transform,5.2_memory_and_shapefiles,Transform the CRS of a shapefile to a different CRS
-sf,st_union,5.2_memory_and_shapefiles,Dissolve boundaries between polygons
 stats,median,1.4_importing_exploring_exporting,Calculate the median value of a numeric vector and return as a one-value double numeric or integer vector
 stats,sd,1.4_importing_exploring_exporting,Calculate the standard deviation of a numeric vector and return as a one-value double numeric vector
 stats,var,1.4_importing_exploring_exporting,Calculate the variance of a numeric vector and return as a one-value double numeric vector
@@ -191,7 +167,6 @@ stringr,str_to_sentence,5.2_categorizing_data,Convert a string to sentence case 
 stringr,str_to_title,5.2_categorizing_data,Convert a string to title case (first letter of each word capitalized)
 terra,extract,4.4_subsetting_vectors,Extract raster values to a shapefile based on location
 terra,plot,0.2-values,Apply a base R-style plot to a terra raster object
-tibble,as_tibble,5.2_memory_and_shapefiles,Convert a data frame (and some other non-tibble objects!) to a tibble data frame
 tibble,lst,2.3_tidy_data_review,Combine objects into a list while maintaining any names assigned to the global environment
 tibble,tibble,0.3-objects,Column-wise creation of a tibble data frame
 tibble,tribble,1.3_objects,Row-wise creation of a tibble data frame
@@ -201,7 +176,6 @@ tidyr,pivot_wider,2.2_reshaping_data_frames,Convert a data frame from long to wi
 tidyr,replace_na,3.1_mutation,Replace an NA value in a vector with a different value
 tidyr,separate,2.2_reshaping_data_frames,Separate a single column into multiple columns by a delimiter
 tidyr,unite,2.2_reshaping_data_frames,Combine columns in a data frame to create a single column
-tmap,tmap_mode,5.2_memory_and_shapefiles,"Set a tmap to either ""plot"" (static map) or ""view"" (interactive map)"
 tidyselect,everything,3.2_subsetting,"Used in combination with select, this selects all but the specified columns."
 tidyselect,matches,4.4_subsetting_vectors,"When used with select, this allows you to subset names with string matching"
 tidyselect,where,3.2_subsetting,Select a variable with a function that returns `TRUE` or `FALSE`
