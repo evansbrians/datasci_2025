@@ -22,12 +22,12 @@ editor_options:
 
 ![](../../images/hex_complex.png){.intro_image}
 
-Welcome to **Module 7: Programming II**! The content herein is, for the most part, a little different in that it is not about how to wrangle data at all. Instead, this module is all about how to streamline your programming workflow. Overall, my goal here is to provide you with a workflow that you can apply to your own projects after you have successfully competed the course. While you will *not be evaluated* on the content herein (Problem set 7 will be a practice exercise for your final exam), Lessons 7.1, 7.3, and 7.4 *do* contain example applications of some of the programming elements from Module 6 (e.g., custom functions and iteration). You will learn
+Welcome to **Module 7: Programming II**! The content herein is, for the most part, a little different in that it is not about how to wrangle data at all. Instead, this module is all about how to streamline your programming workflow. Overall, my goal here is to provide you with a workflow that you can apply to your own projects after you have successfully competed the course. While you will *not be evaluated* on the content herein (Problem set 7 will be a practice exercise for your final exam), Lessons 7.1, 7.3, and 7.4 *do* contain example applications of some of the programming elements from Module 6 (e.g., custom functions and iteration). You will learn how to:
 
 -   Evaluate the memory and time usage of your code ("benchmarking");
--   Set up your own RStudio project with version control
--   Reduce the length of your code with custom functions and source scripts
--   Read and process big data
+-   Set up your own RStudio project with version control;
+-   Reduce the length of your code with custom functions and source scripts;
+-   Read and process big data.
 
 Before continuing, please be sure that you have completed all of the preliminary course content (Preliminary lessons 1-4) and all of the content from Modules 1-6.
 
@@ -35,14 +35,14 @@ Before continuing, please be sure that you have completed all of the preliminary
 
 ## Module overview
 
--   **7.1. Memory and time**: This video lesson (runtime -- 19:39) and (brief) written tutorial introduces the concept of evaluating memory usage and processing time of a given process. As we get into big data (or coding web applications), understanding memory usage becomes *super* important!
+-   **7.1. Memory and time**: This video lesson (runtime -- 19:39) and (brief) written tutorial introduces the concept of evaluating memory usage and processing time of a given operation. As we get into big data (or coding web applications), understanding memory usage becomes *super* important!
 -   **7.2. Solo GitHub**: This tutorial and video lesson (runtime -- 15:11) illustrates the basics of conducting version control in GitHub. We will apply the foundational steps that you will learn in this lesson to more meaningful applications in ***Lesson 7.3: Programming workflow*** and ***Collaborating with GitHub*** in Module 8. If you are still working to understand the R coding used in this course, I suggest skipping this content and returning to it later.
--   **7.3. Programming workflow**: We have been working with the course RStudio project throughout the semester. This video lesson (runtime -- 35:55) will prepare you for setting your own projects with version control. The majority of the lesson, however, is on how to simplify scripts with some of the techniques that we have learned in this course (starting at 10:10). This may be worthwhile to review before the final exam, as it provides a big picture view of the coding method that you have been learning in this course.
--   **7.4. Big data**: When data get big, we often need to employ new tools to help us avoid unreasonable wait times and dreaded out-of-memory errors. In this (problematically long) written tutorial, you will learn some great tools for dealing with big data! This includes the *arrow* package, *dbplyr*, *rsql*, nested list columns, and much more!
+-   **7.3. Programming workflow**: We have been working with the course RStudio project throughout the semester. This video lesson (runtime -- 35:55) will prepare you for setting your own projects with version control. The majority of the lesson, however, is on how to simplify scripts with some of the techniques that we have learned in this course (starting at 10:10). This may be worthwhile to review before the final exam, as it provides a big-picture view of the coding method that you have been learning in this course.
+-   **7.4. Big data**: When data get big, we often need to employ new tools to help us avoid unreasonable wait times and dreaded out-of-memory errors. In this (problematically long) written tutorial, you will learn some great tools for dealing with big data! This includes the *arrow* package, *dbplyr*, *RSQLite*, nested list columns, and much more!
 
 ## Getting started
 
-Please download the attached zip file [module_7_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have (e.g., [source_script.R]{.mono} ), please overwrite the previous file. Please store the file [populations_co2.rds]{.mono} in the folder [data/processed]{.mono}. All remaining files should be placed in [data/raw]{.mono}. If there are any data files you already have (e.g., [my_covid_garden.rds]{.mono}), please overwrite them as well.
+Please download the attached zip file [module_7_files.zip]{.mono} and place any R script files ([*.R]{.mono}) in the [data_sci/scripts]{.mono} folder. If there are any script files you already have, please overwrite the previous file. All remaining files should be placed in [data/raw]{.mono}. If there are any data files you already have , please overwrite them as well.
 
 ## About this week's data
 
@@ -50,7 +50,7 @@ This week we will use the following data files in our exercises:
 
 **[amke_detections.csv]{.mono}** and **[amke_nodes.csv]{.mono}**: This is a *real* dataset that contains a subset of records from Dr. Joe Kolowski's study on juvenile American kestrels ... yes, *that* Dr. Joe! Joe and colleagues (including me!) set up a automated radio telemetry system on a farm in Virginia, attached radio transmitters to American kestrels, and watched as a mountain of data rolled in!
 
-**[automated_radio_telemetry.zip]{.mono}**. This folder, which should be extracted into [data/raw]{.mono}, contains detections ([*.csv]{.mono}) and tag information ([tag_ids.xlsx]{.mono})for an automated radio telemetry study that Tara and I mentored at the Smithsonian Mason School of Conservation.  The goal of the study was to evaluate the rate of signal attenuation across within different vegetation classes.
+**[automated_radio_telemetry.zip]{.mono}**. This folder, which should be extracted into [data/raw]{.mono}, contains detections ([*.csv]{.mono}) and tag information ([tag_ids.xlsx]{.mono}) for an automated radio telemetry study that Tara and I mentored at the Smithsonian Mason School of Conservation.  The goal of the study was to evaluate the rate of signal attenuation within different vegetation classes.
 
 **[district_birds.rds]{.mono}**: This is a tidy dataset that contains a subset of records from the Smithsonian Migratory Bird Center's [Neighborhood Nestwatch](https://nationalzoo.si.edu/migratory-birds/neighborhood-nestwatch) (NN) program. NN is a community science project where scientists visits backyards, neighborhoods, and schools to conduct bird banding demonstrations and sample bird populations. The data include tables for sites, visits, point counts, and capture events, and a table that provides natural history information for observed birds. Geographic coordinate values have been jittered to protect the privacy of NN participants.
 
