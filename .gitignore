@@ -73,3 +73,11 @@ shayna_r/
 # No amke_detections.csv
 
 *amke_detections.csv
+
+# None of that sql and/or big data stuff:
+
+*amke.sqlite
+
+*append_example.csv
+
+*captures_and_birds.sqlite
