@@ -1,0 +1,82 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,:::,Infix operator that can be used to access a function that is not meant to be exported!
+.Primitive,[…],Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!=,Infix relational operator (is not equal to)
+.Primitive,!,Prefix logical operator (not)
+.Primitive,>,Infix relational operator (greater than)
+.Primitive,<,Infix relational operator (less than)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,as.character,Transform an atomic vector to a character vector
+.Primitive,c,Combine values to form an atomic vector
+.Primitive,class,Print the class of an object as a one-value character vector
+.Primitive,function,Write a custom function
+.Primitive,if,"If a logical value is TRUE, evaluate a statement"
+.Primitive,length,Return the number of values in an atomic vector or the number of list items in a list (or data frame!) as a one-value integer vector
+.Primitive,list,"Combine multiple objects of any type into a single, recursive, data object"
+.Primitive,names,Retrieve the names (or names attribute) assigned to an R object (generates a character vector)
+arrow,open_csv_dataset,Establish a connection with a csv data file
+base,function,Initiate the creation of a custom function
+base,library,Attach the package environment for a given package to the current R session
+base,mean,Generate a one-value double numeric vector that describes the mean of a vector
+base,nrow,"Return the number of rows (i.e., observations) in a data frame as a one-value integer vector"
+base,rm,Remove a name from a specified environment (default is the global environment)
+base,sort,Arrange a vector in ascending order
+base,unique,Subset an atomic vector to the unique values in the set
+bench,mark,Benchmark an operation (processing time and memory used)
+data.table,fread,Read in an object as a data.table class object
+DBI,dbAppendTable,Modify an existing table in a database
+DBI,dbConnect,Establish a connection to a database
+DBI,dbDisconnect,Close the connection with a database
+DBI,dbListTables,List the tables in a database
+DBI,dbWriteTable,Add a table to a database
+dplyr,arrange,Sort the rows of a data frame by the values in a variable or variables
+dplyr,bind_rows,Combine rows of two or more tibbles to create a new tibble
+dplyr,collect,Force computation of a database query
+dplyr,distinct,Subset a data frame by removing duplicate rows
+dplyr,filter,Subset a data frame by logical condition
+pillar,glimpse,"A transposed printing of a dataset, similar to base R's `str()`. This function is accessed by `dplyr` and *pillar* does not need to be explicitly loaded."
+dplyr,if_else,Classify or reclassify a vector into two classes by applying a logical test and assigning one value if the test evaluates to `TRUE` and another if it evaluates to `FALSE`
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,n,Calculate the number of observations (rows)
+dplyr,pull,Extract a column from a data frame as a vector
+dplyr,rename,Change the name assigned to a column in a data frame
+dplyr,row_number,Generate a sequence of integer values from 1 to the number of rows in a data frame
+dplyr,select,Subset columns in a data frame by name (without quotes!)
+dplyr,semi_join,A filtering join that joins a source table to a target table and maintains only records with matching key values
+dplyr,show_query,Show the details of a tbl
+dplyr,slice_max,Sort a data frame by a variable and subset to the rows associated with the highest values of that variable
+dplyr,summarize,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+dblyr,tbl,Create a tibble data frame from a data source
+dtplyr,lazy_dt,"Create a ""lazy"" data.table object that can be used with dplyr verbs"
+lobstr,obj_size,View the amount of memory allocated to an object in your computer's memory
+lubridate,as_date,"Convert properly formatted date, stored as a character or datetime vector, to a date class object"
+lubridate,hour,Get hour-of-day from an ISO-8601 formatted object with a date and time.
+lubridate,month,Extract the month from a properly formatted date value
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,map,Iterate across a vector and return a list
+purrr,map_dbl,Iterate across a vector and return a double numeric vector
+purrr,pluck,Extract a list item from a list
+readr,read_csv,Read a tabular csv file into R as a tibble data frame
+readr,read_rds,Read an RDS file into R
+readr,write_csv,Write a data frame to your hard drive as a csv file
+readr,write_rds,Write a data object to your hard drive as an RDS file
+rlang,{{}},Insert the variable inside of `{{ ... }}` into the body of a function
+rlang,set_names,Assign names to values in a vector or items in a list
+RSQLite,SQLite,Connect to an SQLite database
+stringi,stri_rand_strings,Generate a random string of letter and number symbols
+stringr,str_c,"Concatenate strings, with or without (default) a separator"
+tibble,as_tibble,Convert a data frame (and some other non-tibble objects!) to a tibble data frame
+tibble,tibble,Column-wise creation of a tibble data frame
+tidyr,expand_grid,Generate a tibble that includes all potential combinates of two or more vectors
+tidyr,nest,Collapse variables into a list column
+tidyr,unnest,"Convert a list column to a series of columns, often resulting in additional rows"
+utils,install.packages,Download and install one or more packages onto your computer
+utils,str,View the structure of a data object

@@ -1,0 +1,28 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,$,Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!,Prefix logical operator (not)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,c,Combine values to form an atomic vector
+base,library,Attach the package environment for a given package to the current R session
+base,list.files,List files in a specified folder on your computer's hard drive
+base,rm,Remove a name from a specified environment (default is the global environment)
+bench,mark,Benchmark an operation (processing time and memory used)
+dplyr,anti_join,A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
+dplyr,bind_rows,Combine rows of two or more tibbles to create a new tibble
+dplyr,distinct,Subset a data frame by removing duplicate rows
+dplyr,join_by,Specify the key columns within a join function
+dplyr,select,Subset columns in a data frame by name (without quotes!)
+dplyr,semi_join,A filtering join that joins a source table to a target table and maintains only records with matching key values
+lobstr,obj_size,View the amount of memory allocated to an object in your computer's memory
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,map,Iterate across a vector and return a list
+readr,read_csv,Read a tabular csv file into R as a tibble data frame
+readxl,read_excel,Read an Excel worksheet into R
+utils,install.packages,Download and install one or more packages onto your computer

@@ -1,0 +1,31 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,c,Combine values to form an atomic vector
+.Primitive,sum,Calculate the sum of the values in a vector
+base,library,Attach the package environment for a given package to the current R session
+dplyr,across,Apply a function across multiple variables in a data frame
+dplyr,join_by,Specify the key columns within a join function
+dplyr,left_join,"A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values"
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,select,Subset columns in a data frame by name (without quotes!)
+dplyr,summarize,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+ggplot2,+,ggplot's pipe operator (adds a layer to a plot)
+ggplot2,aes,Define aesthetics
+ggplot2,element_blank,Remove a thematic element
+ggplot2,element_line,Set the theme for a line element
+ggplot2,element_text,Set the theme for a text element
+ggplot2,geom_bar,Create a bar geometry
+ggplot2,geom_boxplot,Create a boxplot geometry
+ggplot2,ggplot,"Set the data and, potentially, the aesthetics of a plot"
+ggplot2,labs,Add or modify the labels of a plot
+ggplot2,scale_y_continuous,Set the scale of the y axis
+ggplot2,theme,Define the theme elements of a plot
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,pluck,Extract a list item from a list
+readr,read_rds,Read an RDS file into R

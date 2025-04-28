@@ -1,0 +1,22 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,!,Prefix logical operator (not)
+.Primitive,|,Prefix logical operator (or)
+.Primitive,*,Infix arithmetic operator (multiply)
+.Primitive,/,Infix arithmetic operator (divide)
+base,tolower,Convert a character vector to lowercase
+dplyr,across,Apply a function across multiple variables in a data frame
+dplyr,distinct,Subset a data frame by removing duplicate rows
+dplyr,filter,Subset a data frame by logical condition
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,pull,Extract a column from a data frame as a vector
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+readr,read_rds,Read an RDS file into R
+stringr,str_detect,Logical test of whether a pattern (string) is contained within a character value
+stringr,str_remove,Remove part of a string based on a search pattern
+stringr,str_replace,Replace a given pattern in a string with a new pattern
+stringr,str_replace_all,Replace a multiple instances of a given pattern in a string with a new pattern
+tidyselect,everything,"Used in combination with select, this selects all but the specified columns."
