@@ -18,7 +18,7 @@ editor: source
 
 ![](../../images/hex_complex.png){.intro_image}
 
-As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step for ensuring performance. **Benchmarking** describes the process of evaluating the memory used and processing time associated with executing code. This video and accompanying written lesson illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how to decide when to apply a given function over another or which classes data objects to use for a given application. You will explore:
+As you get to advanced applications of R, for example working with big data and making Shiny apps, benchmarking your code becomes an important step for ensuring performance. **Benchmarking** describes the process of evaluating the memory used and processing time associated with executing code. This video and accompanying written lesson illustrates a few methods for benchmarking. Completing this lesson will give you some more practice on building custom functions and may help you understand how to decide when to apply a given function over another or which class of data objects to use for a given application. You will explore:
 
 * RStudio's built-in features for evaluating memory usage
 * Methods for evaluating the memory allocated for "storing" objects
@@ -30,7 +30,7 @@ As you get to advanced applications of R, for example working with big data and 
 </button>
 ::: panel
 
-In this lesson (written portion), we will explore the [\*.csv]{.mono} files in the folder [automated_radio_telemetry]{.mono}. These data were collected at the Smithsonian Conservation Biology Institute by two (wonderful) mentees of Tara and I. The goal of the study was to determine the efficacy of automated radio telemety systems tp detect the location of radio-tagged birds in different habitat types. Data include:
+In this lesson (written portion), we will explore the [\*.csv]{.mono} files in the folder [automated_radio_telemetry]{.mono}. These data were collected at the Smithsonian Conservation Biology Institute by two (wonderful) mentees of Tara and I. The goal of the study was to determine the efficacy of automated radio telemetry systems to detect the location of radio-tagged birds in different habitat types. Data include:
 
 [tag_ids.xlsx]{.mono}:
 
@@ -41,7 +41,7 @@ In this lesson (written portion), we will explore the [\*.csv]{.mono} files in t
 
 * [year]{.mono}, double numeric: The year in which a detection occurred.
 * [date]{.mono}, date: The date in which a detection occurred, in yyyy-mm-dd.
-* [time]{.mono}, datetime: The time in which a detection occurred, in yyyy=-mm-dd hh:mm:ss.
+* [time]{.mono}, datetime: The time in which a detection occurred, in yyyy-mm-dd hh:mm:ss.
 * [tag_id]{.mono}, character: A unique identifier for each radio tag.
 * [rssi]{.mono}, double numeric: The signal strength at the receiver
 
@@ -58,7 +58,7 @@ install.packages(
   c(
     "bench",
     "microbenchmark",
-    "profmem",\
+    "profmem"
   )
 )
 ```
@@ -115,7 +115,7 @@ If you observe that your system is occupying a lot of memory, you might want to 
 
 2. Add a new code section and call it "setup"
 
-3. After a space between your section break, include and run the following:
+3. Add a space between your section break, then include and run the following:
 
 ```{r, message = FALSE}
 library(bench)
@@ -130,7 +130,7 @@ tag_ids <-
   readxl::read_excel("data/raw/tag_ids.xlsx")
 ```
 
-5. Read in the all [*.csv]{.mono} files from the folder `detections_data`:
+5. Read in the all [*.csv]{.mono} files from the folder `automated_radio_telemetry`:
 
 ```{r, message = FALSE}
 tag_detections <- 
@@ -170,16 +170,11 @@ my_m_used
 
 When we assign a name to the global environment, the data associated with that name are typically stored temporarily in your computer's memory. Because data objects in ecology are often quite large, we want to limit the number of global assignments and reduce the size of the objects stored in our memory to only what is necessary for a given analysis. Knowing the size of the objects stored is crucial, as it can help guide us in making decisions about how to manage our memory.
 
-We can determine the current size of an object using `lobstr::obj_size()`. Let's see the size of `tag_ids`:
+We can determine the size of an object using `lobstr::obj_size()`. Let's look at the size of `tag_ids`:
 
 ```{r}
 obj_size(tag_ids)
 ```
-
-:::{class="mysecret"}
-<i class="fa fa-user-secret" aria-hidden="true" style = "font-size: 150%; padding-right: 5px;"></i>
-As you might be aware, base R has a function for determining the size of an object, `utils::object.size()`. That function should be avoided, as it often returns inaccurate results -- estimates are often higher than the true memory usage. In the last module of this course you will have an opportunity to explore object sizes more deeply.
-:::
 
 ... and `tag_detections`:
 
@@ -187,13 +182,18 @@ As you might be aware, base R has a function for determining the size of an obje
 obj_size(tag_detections)
 ```
 
+:::{class="mysecret"}
+<i class="fa fa-user-secret" aria-hidden="true" style = "font-size: 150%; padding-right: 5px;"></i>
+As you might be aware, base R has a function for determining the size of an object, `utils::object.size()`. That function should be avoided, as it often returns inaccurate results -- estimates are often higher than the true memory usage. In the last module of this course you will have an opportunity to explore object sizes more deeply.
+:::
+
 We can compare the memory allocated to the objects using the function `lobstr::obj_sizes()`:
 
 ```{r}
 obj_sizes(tag_ids, tag_detections)
 ```
 
-Notice that the object sizes of the objects are reported on quite different scales. The `tag_detections` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `tag_ids` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we can see that `tag_detections` occupy almost 5,700 times relative to the amount of memory allocated to `tag_ids`!
+Notice that the object sizes of the objects are reported on quite different scales. The `tag_detections` data are on the scale of megabytes (MB, 1MB <span style="font-size: 18px;">&#8773;</span> 1.05 x 10<sup>6</sup> bytes) and the `tag_ids` data are in the scale of kilobytes (kB, 1kB = 1,024 bytes). With a bit of math, we can see that `tag_detections` occupy almost 5,700 times more memory relative to the amount of memory allocated to `tag_ids`!
 
 Perhaps we can reduce that imbalance (*a little bit*). Have a quick look at `tag_detections`:
 
@@ -214,7 +214,7 @@ obj_size(
 
 There absolutely is! Removing the transitive columns yielded a 40% reduction in the memory allocated to the object! 
 
-We are now faced with a decision, should we globally assign a new name to the tidy version of the dataset? Let's have a look again at the amount of memory my computer is using:
+We are now faced with a decision, should we globally assign a new name to the tidy version of the dataset? Let's have a look again at the amount of memory our computer is using:
 
 ```{r}
 mem_used()
@@ -246,8 +246,7 @@ We have allocated even more memory to our R session! Let's remove the new name .
 rm(tag_detections_tidy)
 ```
 
-
-... it makes much more sense to reduce the allocation to the memory prior to globally assigning a name:
+... it makes much more sense to reduce the allocation to the memory while reading in the dataset:
 
 ```{r, message = FALSE}
 tag_detections <- 
@@ -280,27 +279,29 @@ tag_detections %>%
   distinct(tag_id)
 ```
 
-Because memory is allocated to rows that do not contain true detections, it makes sense to remove them. Let's have a look at the number of rows that *did not* represent true detections ...
+Because memory is allocated to rows that do not contain true detections, it makes sense to remove them. Let's use `anti_join()` to  look at the number of rows that *did not* represent true detections ...
 
 ```{r}
 tag_detections %>% 
   anti_join(
     tag_ids,
-    by = join_by(tag_id == actual_id)
+    by = 
+      join_by(tag_id == actual_id)
   )
 ```
 
-... and the number of true detections:
+... and use `semi_join()` the number of true detections:
 
 ```{r}
 tag_detections %>% 
   semi_join(
     tag_ids,
-    by = join_by(tag_id == actual_id)
+    by = 
+      join_by(tag_id == actual_id)
   )
 ```
 
-Let's compare the memory allocated to the full object:
+Let's compare the memory allocated to the full object...
 
 ```{r}
 tag_detections %>% 
@@ -313,12 +314,13 @@ tag_detections %>%
 tag_detections %>% 
   semi_join(
     tag_ids,
-    by = join_by(tag_id == actual_id)
+    by = 
+      join_by(tag_id == actual_id)
   ) %>% 
   obj_size()
 ```
 
-The amount of memory that would be allocated to the latter is almost 1% that of the full object! As, such it again makes a lot of sense to reduce the memory allocated to the object prior to global assignment:
+The amount of memory that would be allocated to the latter is almost 1% that of the full object! As such, it again makes sense to reduce the memory allocated to the object while reading in the original data:
 
 ```{r, message = FALSE}
 tag_detections <- 
@@ -334,7 +336,8 @@ tag_detections <-
   select(!year:date) %>% 
   semi_join(
     tag_ids,
-    by = join_by(tag_id == actual_id)
+    by = 
+      join_by(tag_id == actual_id)
   )
 ```
 
@@ -342,22 +345,22 @@ The above should clearly illustrate that subsetting your data as you read it in 
 
 ### Benchmarking
 
-Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess the time it takes for our code to run and the memory allocated to a given task. There are a few different ways this can be done, but here we will use the function `bench::mark()` (our current go-to method).
+Another important tool for optimizing your code is **benchmarking**. Benchmarking tools can assess **processing time**, or the time it takes for our code to run and the memory allocated to a given task. There are a few different ways this can be done, but here we will use the function `bench::mark()` (my current go-to method).
 
-Let's use benchmarking to explore the memory usage and time of execution for our line of code that read in the `.csv` files in `automated_radio_telemetry`. We supply the code that we would like to benchmark and the number of iterations. Iteration in this context means repeating the same process a certain number of times in order to obtain accurate summary statistics:
+Let's use benchmarking to explore the memory usage and time of execution for our code that reads in the `.csv` files in `automated_radio_telemetry`. We supply the code that we would like to benchmark and the number of iterations. Iteration in this context means repeating the same process a certain number of times in order to obtain accurate summary statistics:
 
 ```{r, eval = TRUE, message = FALSE, warning = FALSE}
 mark(
   tag_detections <- 
-  list.files(
-    "data/raw/automated_radio_telemetry",
-    pattern = "csv$",
-    full.names = TRUE
-  ) %>% 
-  map(
-    ~ read_csv(.x)
-  ) %>% 
-  bind_rows(),
+    list.files(
+      "data/raw/automated_radio_telemetry",
+      pattern = "csv$",
+      full.names = TRUE
+    ) %>% 
+    map(
+      ~ read_csv(.x)
+    ) %>% 
+    bind_rows(),
   iterations = 10
 )
 ```
@@ -369,15 +372,15 @@ The results above provided more information than we need for the purposes of thi
 ```{r, eval = FALSE}
 mark(
   tag_detections <- 
-  list.files(
-    "data/raw/automated_radio_telemetry",
-    pattern = "csv$",
-    full.names = TRUE
-  ) %>% 
-  map(
-    ~ read_csv(.x)
-  ) %>% 
-  bind_rows(),
+    list.files(
+      "data/raw/automated_radio_telemetry",
+      pattern = "csv$",
+      full.names = TRUE
+    ) %>% 
+    map(
+      ~ read_csv(.x)
+    ) %>% 
+    bind_rows(),
   iterations = 10
 ) %>% 
   select(median, mem_alloc)
@@ -412,15 +415,15 @@ What would happen if we used base R's `read.csv()` instead of the *readr* functi
 ```{r, eval = FALSE}
 mark(
   tag_detections <- 
-  list.files(
-    "data/raw/automated_radio_telemetry",
-    pattern = "csv$",
-    full.names = TRUE
-  ) %>% 
-  map(
-    ~ read.csv(.x)
-  ) %>% 
-  bind_rows(),
+    list.files(
+      "data/raw/automated_radio_telemetry",
+      pattern = "csv$",
+      full.names = TRUE
+    ) %>% 
+    map(
+      ~ read.csv(.x)
+    ) %>% 
+    bind_rows(),
   iterations = 10
 ) %>% 
   select(median, mem_alloc)
@@ -450,7 +453,7 @@ mark2
 
 We can see that `read.csv()` is faster but requires much more memory than `read_csv()` when executed. These functions might look similar but are very different under-the-hood!
 
-The order in which we execute functions can also impact on the amount of memory used and processing times. 
+The order in which we execute functions can also impact the amount of memory used and processing times. 
 
 Let's compare subsetting our telemetry data after joining rows ...
 
@@ -468,7 +471,8 @@ mark(
     select(!year:date) %>% 
     semi_join(
       tag_ids,
-      by = join_by(tag_id == actual_id)
+      by = 
+        join_by(tag_id == actual_id)
     )
 ) %>% 
   select(median, mem_alloc)
@@ -487,7 +491,8 @@ mark(
       ~ read_csv(.x) %>% 
         semi_join(
           tag_ids,
-          by = join_by(tag_id == actual_id)
+          by = 
+            join_by(tag_id == actual_id)
         ) %>% 
         select(!year:date)
     ) %>% 
@@ -503,7 +508,10 @@ In the above we see a trade-off and, we think, an interesting one. The version t
 
 <button class="accordion">Glossary</button>
 ::: panel
+* **Iteration**: The repeating of a given process a set number of times.
+* **Memory profiling**: The process of analyzing a program's memory usage to identify and address issues related to memory consumption and management.
 * **Memory (RAM)**: A temporary storage location for instructions (functions) and data.
+* **Processing time**: The amount of time it takes for a given operation to be completed.
 * **Recursive object**: Objects that are made up of references to other objects (e.g., a list).
 :::
 
@@ -515,38 +523,27 @@ In the above we see a trade-off and, we think, an interesting one. The version t
 {{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
 * Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
-* The functions `magrittr::%>%`, `rlang::{{}}`, `rlang::set_names` are attached with `library(tidyverse)`
 * I do not include functions that I recommend avoiding.
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, +`: Infix arithmetic operator (add)
-* `.Primitive, -`: Infix arithmetic operator (subtract)
-* `.Primitive, *`: Infix arithmetic operator (multiply)
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
-* `.Primitive, rep`: Replicate elements of a vector a certain number of times
-* `base::capabilities`: Report the optional features compiled in your R build 
-* `base::factor`: Convert a character vector to a factor
-* `base::function`: Initiate the creation of a custom function
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `dplyr::group_by`: Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
-* `dplyr::mutate`: Add or modify a column in a data frame
-* `lobstr::mem_used`: View the number of bytes used by R in your current session
-* `lobstr::obj_addr`: Find the location of an object and its children
-* `lobstr::obj_size`: Determine the size of an object in your computer's memory
-  `lobstr::obj_sizes`: Determine the contribution of multiple objects to the total memory allocation
-* `lobstr::ref`: View the structure of an object in your computer's memory
-* `lubridate::now`: Return the current date and time
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `microbenchmark::microbenchmark`: Calculate the time it takes to complete an operation
-* `profmem::profmem`: Profile the memory used during an operation
-* `profmem::total`: Determine the total amount of memory allocated during an operation
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_7.1_memory_and_time.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
 
 :::
 
@@ -580,19 +577,24 @@ When you are given a list of functions that you may use in a given problem set, 
 The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
 
 :::{style="background-color: white; font-size: 14px;"}
-|Task                         | Windows          | Mac
-|:----------------------------|:----------------:|:-------------------:|
-| View all keyboard shortcuts | Ctrl + Alt + K   | command + option + K
-| Open an existing script     | Ctrl + O         | command + O
-| Create a new script         | Ctrl + shift + N | command + shift + N
-| Save script file            | Ctrl + S         | command + S
-| Execute code                | Ctrl + Enter     | command + return
-| Copy                        | Ctrl + C         | command + C
-| Paste                       | Ctrl + V         | command + V
-| Add a pipe operator         | Ctrl + shift + M | command + shift + M
-| Add an assignment operator  | Alt + dash       | option + dash
-| Add a new code section      | Ctrl + shift + R | command + shift + R
-| Indent code                 | Ctrl + I         | command + I
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
 :::
 :::
 
