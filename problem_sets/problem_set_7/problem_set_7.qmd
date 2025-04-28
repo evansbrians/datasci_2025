@@ -5,17 +5,14 @@ format:
     embed-resouces: true
     self-contained: true
     standalone: true
-    toc: false
+    toc: true
+    toc-location: left
     number-sections: false
     search: true
     theme: 
       - cosmo
       - ../../custom_style.scss
-project:
-  execute-dir: project
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <head>
@@ -47,15 +44,15 @@ This problem set will be quite different from the others. There is no lofty ecol
 
 ## Grading
 
-The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="score"}).
+The points allotted for each question are provided in highlighted red bold text (e.g., [[1.0]]{class="score"}) within the question itself. When applicable, total points for a question may represent the sum of individually graded components, which are provided in red text (e.g., [[1.0]]{class="subscore"}).
 
 Points may be deducted from each question's total: 
 
-* [[50% per violation]]{class="subscore"} Use only functions listed in "Functions that you may use in this assignment";
-* [[50%]]{class="subscore"} Include only assignments specified in the question;
-* [[50% per violation]]{class="subscore"} Include only relative file paths to files on your hard drive;
-* [[10%]]{class="subscore"} Ensure that your code follows the conventions of our course style guide;
-* [[10%]]{class="subscore"} Ensure that your code is as parsimonious as possible;
+* [[50% per violation]]{class="subscore"} Use only functions that are listed in "Functions that you may use in this assignment";
+* [[50%]]{class="subscore"} Do not include any assignments other than those specified in a question;
+* [[25%]]{class="subscore"} Do not use numeric column indexing for extracting data from data frames or named lists (e.g. `my_df[[1]]`);
+* [[10%]]{class="subscore"} Code parsimony;
+* [[10%]]{class="subscore"} Adhere to the formatting rules in **Lesson 3.5: Course Style Guide, part 3**;
 * [[10%]]{class="subscore"} Ensure that the class of your response is consistent with the wording of the question (e.g., if you are asked to return a "value" or "vector", ensure that the resultant object is not a data frame).
 
 *Note: The maximum deduction is the total points value for a given question*
@@ -73,7 +70,7 @@ Points may be deducted from each question's total:
 
 ::: mysecret
 
-{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+<i class="fas fa-user-secret fa-2x"></i> [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
 * Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session.
 * Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
@@ -85,9 +82,10 @@ Points may be deducted from each question's total:
 
 **Important!** Primitive functions and functions in the *base* package are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *purrr*, *readr*, and *tidyr* are loaded with `library(tidyverse)`. Although the *magrittr* package is not a part of the core tidyverse, the `%>%` function is imported by the *dplyr* (core tidyverse) library. Regex metacharacters are not R functions and may be used as needed!
 
-In this assignment, you may **only** use the following R functions in your submitted R script (but you may use additional functions to explore the data):
+In this assignment, you may **only** include the following pre-written R functions in your submitted R script. You may use additional functions to explore the data but please do not include this in your submitted script.
 
-* `.Primitive, ()`
+* `.Primitive, (...)`
+* `.Primitive, {...}`
 * `.Primitive, <-`
 * `.Primitive, =`
 * `.Primitive, :`
@@ -98,6 +96,7 @@ In this assignment, you may **only** use the following R functions in your submi
 * `.Primitive, <`
 * `.Primitive, <=`
 * `.Primitive, &`
+* `base::function`
 * `base::library`
 * `base::list2env`
 * `base::unique`
@@ -122,10 +121,10 @@ In this assignment, you may **only** use the following R functions in your submi
 * `ggplot2::geom_bar`
 * `ggplot2::ggplot`
 * `ggplot2::labs`
-* `lubridate::ymd_hms`
 * `lubridate::hour`
 * `lubridate::mdy`
 * `lubridate::month`
+* `lubridate::ymd_hms`
 * `magrittr::%>%`
 * `purrr::map`
 * `purrr::pluck`
@@ -170,7 +169,7 @@ For this problem set, we will use the file [problem_set_7_data.rds]{.mono}. This
 
 :::
 
-<button class="accordion">**[matching list tables]{.mono}**: A list where each list item is a tibble data frame (toy data).</button>
+<button class="accordion">**[matching_list_tables]{.mono}**: A list where each list item is a tibble data frame (toy data).</button>
 
 ::: panel
 
@@ -201,19 +200,19 @@ For this problem set, we will use the file [problem_set_7_data.rds]{.mono}. This
 
 ::: now_you
 
-1. [[0.75]]{class="score"} Save this document to your project folder with naming convention "problem_set_7_[last name]_[first name].R". For example, I would name my file `problem_set_7_evans_brian.R`.
+1. [[0.25]]{class="score"} Save this document to your project folder with naming convention "problem_set_7_[last name]_[first name].R". For example, Tara would name the file `problem_set_7_snedgen_tara.R`.
 
 :::
 
 ::: now_you
 
-2. [[0.25]]{class="score"} Attach the tidyverse metapackage to your current R session.
+2. [[0.25]]{class="score"} Open the script file in RStudio and attach the core tidyverse packages to your current R session.
 
 :::
 
 ::: now_you
 
-3. [[0.50]]{.score}  Read in `"data/raw/problem_set_7_data.rds"` and assign each of the list item names to your global environment. 
+3. [[0.50]]{.score}  Read in `data/raw/problem_set_7_data.rds` and assign each of the list item names to your global environment. 
 
 :::
 
@@ -224,7 +223,7 @@ A common problem in data management is column values that have been reversed!
 ::: now_you
 
 
-4. [[1.0]]{.score} In `backwards_columns`, column `a` is intended to contain only negative numbers and column `b` is intended to contain only positive numbers. If column `a` is negative and column `b` is positive, switch the values between the two columns.
+4. [[1.0]]{.score} In `backwards_columns`, column `a` is intended to contain only negative numbers and column `b` is intended to contain only positive numbers. If column `a` is positive, replace that value with the negative value in column `b`. If column `b` is negative, replace that value with the positive value in column `a`.
 
 :::
 
@@ -242,7 +241,7 @@ The dataset `bad_birds` is a vector of three species with lots of spelling error
 
 ::: now_you
 
-5. [[1.5]]{.score} As parsimoniously as possible, fix the spellings of the common names to "House finch", "House sparrow", and "House wren".
+5. [[1.5]]{.score} As parsimoniously as possible, fix the spellings of the common names so that they are "House finch", "House sparrow", and "House wren".
 
 :::
 
@@ -255,44 +254,38 @@ read_rds("data/processed/problem_set_7_lifelines.rds") %>%
 
 ## Anti and semi joins
 
-The list object `matching_list_tables` contains two tables, `boy` and `howdy`.
-The column `heroes` in `boy` corresponds with the column `hello` in `howdy`.
-
 ::: now_you
 
-6. [[1.0]]{.score} Without using filter, subset the table `boy` in `matching_list_tables` such that only rows in which the value of column `heroes` has a corresponding value in the column `hello` of table `howdy`.
+6. [[1.0]]{.score} The list object `matching_list_tables` contains two tables, `boy` and `howdy`. The column `heroes` in `boy` corresponds with the column `hello` in `howdy`.
 
+* Without using filter, subset the table `boy` in `matching_list_tables` such that only rows in which the value of column `heroes` has a corresponding value in the column `hello` of table `howdy`.
 
-:::
-
-**Hint**: Your resultant object should be equivalent to:
+*Hint: Your resultant object should be equivalent to:*
 
 ```{r 6-joins_answer, echo = FALSE}
 read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
   pluck("question_6")
 ```
 
-::: now_you
+* In a separate code block, and without using filter, subset the table `boy` in `matching_list_tables` such that only rows in which the value of column `heroes` does **not** have a corresponding value in the column `hello` of table `howdy`.
 
-7. [[1.0]]{.score} Without using filter, subset the table `boy` in `matching_list_tables` such that only rows in which the value of column `heroes` does not have a corresponding value in the column `hello` of table `howdy`.
-
-:::
-
-**Hint**: Your resultant object should be equivalent to:
+*Hint: Your resultant object should be equivalent to:*
 
 ```{r 7-joins_answer, echo = FALSE}
 read_rds("data/processed/problem_set_7_lifelines.rds") %>% 
   pluck("question_7")
 ```
 
+:::
+
 ## Butterflies and moths
 
 ::: now_you
 
-8. [[1.5]]{.score} The dataset `leps_dc` contains all of the observations of Lepidoptera in Washington DC in 2021.
+7. [[1.5]]{.score} The dataset `leps_dc` contains all of the observations of Lepidoptera in Washington DC in 2021.
 
-* [[0.5]]{.subscore} Please write a comment that describes whether these data are tidy and, if not, which tidy data rule the tibble violates.
-* [[1.0]]{.subscore} Subset the data to observations of the three species with the most total number of observations across time and assign the name `common_leps` to the resultant object.
+* Please write a comment that describes whether these data are tidy and, if not, which *tidy data* rule the tibble violates.
+* Subset the data to observations of the three species with the most total number of observations across time and assign the name `common_leps` to the resultant object.
 
 :::
 
@@ -305,10 +298,10 @@ read_rds("data/processed/problem_set_7_lifelines.rds") %>%
 
 ::: now_you
 
-[[Extra credit 1.0]]{.score} Using a iteration, create three bar plots of the number of observations per month for each of the three most commonly observed Lepidoptera species. In doing so:
+8. [[1.5]]{.score} Using `common_leps` and iteration, create three bar plots of the number of observations per month for each of the three most commonly observed Lepidoptera species. In doing so:
 
-* [[0.25]]{.subscore} Label the x-axis with month abbreviations (e.g., Apr, May, Jun) ;
-* [[0.25]]{.subscore} Include the scientific name of the species as the title of the plot,
+* Label the x-axis with month abbreviations (e.g., Apr, May, Jun) ;
+* Include the scientific name of the species as the title of the plot.
 
 :::
 
@@ -318,12 +311,12 @@ The object `dates_and_times` contains a date and two times in which an event occ
 
 ::: now_you
 
-9. [[1.5]]{.score} Please modify `dates_and_times`:
+9. [[1.5]]{.score} Please modify the object `dates_and_times`:
 
-* [[0.25]]{.subscore} Convert date to an ISO-8601 date object.
-* [[0.50]]{.subscore} Convert time1 and time2 to a ISO-8601 date-time object.
-* [[0.25]]{.subscore} Subset the data to where time2 occurs after time 1.
-* [[0.50]]{.subscore} Replace time1 and time2 with the hour associated with the time.
+* Convert `date` to an ISO-8601 date object.
+* Convert `time1` and `time2` to a ISO-8601 date-time object.
+* Subset the data to where `time2` occurs after `time1`.
+* Replace `time1` and `time2` with the hour associated with the time.
 
 :::
 
@@ -340,12 +333,12 @@ The dataset `size_and_volume` represents the observations of different individua
 
 ::: now_you
 
-10. [[1.0]]{.score} As parsimoniously as possible create a column called `species` where:
+10. [[1.0]]{.score} As parsimoniously as possible, create a column called `species` where:
 
-* [[0.25]]{.subscore} Sizes less than 10 and volumes less than or equal to 30 are classified as a "Deer mouse";
-* [[0.25]]{.subscore} Sizes less than 10 and volumes greater than 30 are classified as a "House wren";
-* [[0.25]]{.subscore} Sizes great than or equal to 10 and volumes less than or equal to 30 are classified as a "Three-toed sloth";
-* [[0.25]]{.subscore} Sizes great than or equal to 10 and volumes greater than 30 are classified as a "Howler monkey".
+* Sizes less than 10 and volumes less than or equal to 30 are classified as a "Deer mouse";
+* Sizes less than 10 and volumes greater than 30 are classified as a "House wren";
+* Sizes greater than or equal to 10 and volumes less than or equal to 30 are classified as a "Three-toed sloth";
+* Sizes greater than or equal to 10 and volumes greater than 30 are classified as a "Howler monkey".
 
 :::
 
@@ -358,10 +351,10 @@ read_rds("data/processed/problem_set_7_lifelines.rds") %>%
 
 ::: now_you
 
-[[Extra credit 0.75]]{.score} Create a bar plot of the number of observations of each species [[0.25]]{.subscore} where:
+**Extra credit** [[1.0]]{.score} Create a bar plot of the number of observations of each species where:
 
-* [[0.25]]{.subscore} Species are on the y-axis and the count is on the x-axis;
-* [[0.25]]{.subscore} The bars are arranged by the number of observations per species.
+* Species are on the y-axis and the count is on the x-axis;
+* The bars are arranged by the number of observations per species.
 
 :::
 
