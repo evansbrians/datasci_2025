@@ -70,6 +70,9 @@ rm(
   visits
 )
 
+# [[-0.125]] Cod formatting: If a function spans more than one line of code,
+# closing parentheses should be placed on their own line.
+
 # 5 -----------------------------------------------------------------------
 
 # Modify `banding` as parsimoniously as possible:
@@ -93,6 +96,11 @@ banding_subset <-
 # your global environment:
 
 rm(banding)
+
+# [[-0.75]] Incorrect: This one is pretty far off, see key.
+
+# [[-0.75]] `count` is not among the functions that you may use for this
+# assignment.
 
 # 6 -----------------------------------------------------------------------
 
@@ -130,6 +138,8 @@ mean_species_var <-
       pull({{char}}) %>% 
       mean()
   }
+
+# [[+0.25]] Fantastic!
 
 # 7 -----------------------------------------------------------------------
 
@@ -192,6 +202,22 @@ my_arrange(banding_subset,
            "wing",
            direction = "descending"
 )
+
+# [[-0.75]] `-` and `[[...]]` are not among the functions that you may use for
+# this assignment.
+
+# [[-0.15]] Code parsimony:
+# * Since there were only two choices, the send `if(...)` was not necessary.
+# * It was not necessary to create the variable `.sorted` nor assign data
+#   tibble within the function.
+
+# [[-0.15]] Code formatting:
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * Parentheses and square bracket operators should not be preceded or followed
+#   by a space.
 
 # 8 -----------------------------------------------------------------------
 
@@ -256,6 +282,9 @@ banding_subset %>%
 # Note: This tests your understanding of purrr map functions ... in the
 # real world I would obviously use `summarize()` for this!
 
+# [[-0.10]] Code formatting: If a function spans more than one line of code,
+# closing parentheses should be placed on their own line.
+
 # 9 -----------------------------------------------------------------------
 
 # Any function that follows `group_by()` or includes the argument .`by = ...` 
@@ -282,6 +311,9 @@ banding_subset %>%
         filter(wing == max(wing))
     }) %>%
   bind_rows()
+
+# [[-0.125]] Code formatting: Include no more than one prefix function per line
+# of code.
 
 # 10 ----------------------------------------------------------------------
 
@@ -311,3 +343,15 @@ list2env(
     map(read_rds),
   envir = .GlobalEnv
 )
+
+# [[-0.15]] Code parsimony:
+# * In chained code, when the resultant object from the previous step is passed 
+#   to the first argument of the next step, a placeholder is not necessary.
+# * When using `set_names()`, it is not necessary to supply names inside of
+#   `c()`. 
+
+# [[-0.15]] Code formatting:
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.

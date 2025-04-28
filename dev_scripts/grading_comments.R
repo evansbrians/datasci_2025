@@ -73,8 +73,8 @@
 
 # * Add a single space between the hashtag (#) and comment.
 
-# * Parentheses, curly braces, and square bracket operators should not be
-#   preceded or followed by a space.
+# * Parentheses and square bracket operators should not be preceded or followed
+#   by a space.
 
 # * Include a trailing space after ~.
 

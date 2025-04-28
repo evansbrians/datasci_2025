@@ -33,6 +33,9 @@ read_rds("data/raw/dc_birds.rds") %>%
   ) %>% 
   list2env(.GlobalEnv)
 
+# [[-0.05]] Code parsimony: With `tidyselect:::select()`, quoting names is
+# not necessary.
+
 # 4 -----------------------------------------------------------------------
 
 # In a chained analysis that utilizes `birds`, `visits`, and `measures`:
@@ -140,6 +143,12 @@ banding_subset <-
 
 rm(banding)
 
+# [[-0.15]] Code parsimony: You did not need to add a variable to your data
+# frame. Instead, just filter on the the function `n()`.
+
+# [[-0.15]] Code formatting: If you provide three or more arguments to a
+# function, place each argument on its own line.
+
 # 6 -----------------------------------------------------------------------
 
 # The code block below:
@@ -176,6 +185,8 @@ mean_species_var_fancy <-
       pull({{ .var }}) %>% 
       mean()
   }
+
+# [[+0.25]] Fantastic!
 
 # 7 -----------------------------------------------------------------------
 
@@ -231,6 +242,12 @@ my_arrange(
   banding_subset, 
   wing, 
   descending = TRUE)
+
+# [[-0.15]] Code formatting:
+# * If you provide three or more arguments to a function, place each argument
+#   on its own line.
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
 
 # 8 -----------------------------------------------------------------------
 
@@ -333,6 +350,7 @@ banding_subset %>%
   
   arrange(date)
 
+# [[-0.125]] Code parsimony: This could have been greatly simplified (see key)!
 
 # 10 ----------------------------------------------------------------------
 
@@ -360,3 +378,5 @@ list.files(
     ~ read_rds(.x) %>% 
       list2env(.GlobalEnv)
   )
+
+# Love it!!!

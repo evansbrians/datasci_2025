@@ -80,6 +80,9 @@ rm(
   visits
 )
 
+# [[-0.125]] Code formatting: If a code block spans more than one line of code,
+# add a new line after the assignment operator.
+
 # 5 -----------------------------------------------------------------------
 
 # Modify `banding` as parsimoniously as possible:
@@ -144,6 +147,21 @@ banding_subset <- banding %>%
 
 rm("banding")
 
+# [[-0.75]] `group_by` and `ungroup` are not among the functions that you may
+# use for this assignment.
+
+# [[-0.15]] Code parsimony:
+
+# * When supplying a single value, it is not necessary to wrap that value 
+#   inside of `c()`. The `c` function combines multiple values with a vector.
+
+# * Unless arguments within a `filter()` have conflicting logical statements, 
+#   it is not necessary to chain together multiple filters. Instead, place each
+#   logical test as an argument within the same `filter()`.
+
+# [[-0.15]] Code formatting:If a code block spans more than one line of code,
+# add a new line after the assignment operator.
+
 # 6 -----------------------------------------------------------------------
 
 # The code block below:
@@ -180,6 +198,8 @@ mean_species_var <-
       pull({{measure}}) %>% 
       mean()
   }
+
+# [[+0.25]] Fantastic!
 
 # 7 -----------------------------------------------------------------------
 
@@ -246,6 +266,9 @@ banding_subset %>%
 
 banding_subset %>% 
   my_arrange(wing, direction = "descending")
+
+# [[-0.15]] Code formatting: Parentheses and square bracket operators should not
+# be preceded or followed by a space.
 
 # 8 -----------------------------------------------------------------------
 
@@ -327,6 +350,14 @@ map(
 # Note: This tests your understanding of purrr map functions ... in the
 # real world I would obviously use `summarize()` for this!
 
+# [[-0.10]] Did not replicate the for loop (sorting of character vector).
+
+# [[-0.10]] Code parsimony: It is not necessary to both `select()` *and*
+# `pull()`
+
+# [[-0.10]] Code formatting: Include no more than one prefix function per line
+# of code.
+
 # 9 -----------------------------------------------------------------------
 
 # Any function that follows `group_by()` or includes the argument .`by = ...` 
@@ -385,3 +416,21 @@ files %>%
     )
   ) %>%
   list2env(envir = .GlobalEnv)
+
+# [[-0.75]] It was not necessary to assign `files` to the global environment
+# here.
+
+# [[-0.15]] Code parsimony: 
+# * Regex could be simplified.
+# * When using `set_names()`, it is not necessary to supply names inside of
+#   `c()`.
+
+# [[-0.15]] Code formatting:
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
+
+
+
+

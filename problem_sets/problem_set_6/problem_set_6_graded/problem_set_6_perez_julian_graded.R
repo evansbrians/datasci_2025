@@ -37,6 +37,9 @@ read_rds("data/raw/dc_birds.rds") %>%
   ) %>% 
   list2env(envir = .GlobalEnv)
 
+# [[-0.05]] Code parsimony: With `tidyselect:::select()`, neither the quotes
+# nor `c()` and necessary.
+
 # 4 -----------------------------------------------------------------------
 
 # In a chained analysis that utilizes `birds`, `visits`, and `measures`:
@@ -68,6 +71,9 @@ banding <-
 # `measures`, and `visits` from your global environment.
 
 rm(birds, visits, measures)
+
+# [[-0.125]] Code formatting: If you provide three or more arguments to a
+# function, place each argument on its own line.
 
 # 5 -----------------------------------------------------------------------
 
@@ -141,6 +147,20 @@ banding_subset <-
 
 rm(banding)
 
+# [[-0.75]] `count` is not among the functions that you may use for this
+# assignment.
+
+# [[-0.15]] Code parsimony: This was an interesting answer that says you are
+# really exploring these functions. That being said, it was *way* to complex
+# and required double the memory and four times the processing of the answer
+# in the key. We get why you did it this way though -- it is a nice 
+# translation from a base R for loop solution to a tidyverse one. The trick
+# is that working within the tibbles rather than explicitly looping is almost
+# always faster and more memory efficient.
+
+# [[-0.15]] Code formatting: If a function spans more than one line of code, the
+# opening parentheses should be followed by a line break.
+
 # 6 -----------------------------------------------------------------------
 
 # The code block below:
@@ -197,6 +217,11 @@ mean_species_var(
   "Northern Cardinal",
   wing
   )
+
+# [[-0.10]] Code formatting: Indentation: Closing parentheses should be indented
+# to the same level as the start of the function.
+
+# [[+0.25]] Extra credit: Fantastic!
 
 # 7 -----------------------------------------------------------------------
 
@@ -264,6 +289,11 @@ my_arrange(banding_subset,
            "desc"
 )
 
+# [[-0.15]] Code formatting:
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
 
 # 8 -----------------------------------------------------------------------
 
@@ -331,6 +361,9 @@ banding_subset %>%
 # Note: This tests your understanding of purrr map functions ... in the
 # real world I would obviously use `summarize()` for this!
 
+# [[-0.10]] Code formatting: If a function spans more than one line of code, the
+# opening parentheses should be followed by a line break.
+
 # 9 -----------------------------------------------------------------------
 
 # Any function that follows `group_by()` or includes the argument .`by = ...` 
@@ -363,6 +396,10 @@ banding_subset %>%
   ) %>%
   bind_rows()
 
+# [[-0.125]] Code parsimony: `na.rm = TRUE` was not necessary because there
+# were no NA values in the wing measurements of `banding_subset`. They were
+# removed in Question 5.
+
 # 10 ----------------------------------------------------------------------
 
 # One of the hats that I wear is "ornithologist" so we end up working with 
@@ -379,3 +416,8 @@ list.files(pattern = "^bird.*rds$|birds\\.rds$") %>%
   set_names() %>%
   map(read_rds) %>%
   list2env(.GlobalEnv)
+
+# [[-0.75]] Incorrect: This did not search in the `data/raw` folder and you
+# need to include the argument `full.names = TRUE` to read in the data.
+
+# [[-0.15]] Code parsimony: Regex could be simplified.

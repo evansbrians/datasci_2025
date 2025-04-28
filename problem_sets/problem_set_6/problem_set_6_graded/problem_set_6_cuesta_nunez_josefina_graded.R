@@ -117,6 +117,18 @@ banding_subset <-
 
 rm(banding)
 
+# [[-0.25]] Incorrect: `relevel()` operation did not work. It would have been
+# better to `fct_collapse()` prior to releveling. Additionally, unique does
+# not work in this context.
+
+# [[-0.15]] Code formatting: If a code block spans more than one line of code,
+# add a new line after the assignment operator.
+
+# [[No points removed]]: The data are small enough here that your code ran
+# more quickly than my solution. If the data were larger, it is less 
+# memory and time efficient to conduct a grouped filter -- here the wing
+# and mass did not need to be grouped.
+
 # 6 -----------------------------------------------------------------------
 
 # The code block below:
@@ -153,6 +165,8 @@ mean_species_var <-
       pull({{variable}}) %>% 
       mean()
   }
+
+# [[+0.25]] Fantastic!
 
 # 7 -----------------------------------------------------------------------
 
@@ -211,6 +225,9 @@ my_arrange(
   wing, 
   ascending = FALSE
 )
+
+# [[-0.15]] Code formatting: Parentheses and square bracket operators should not
+# be preceded or followed by a space.
 
 # 8 -----------------------------------------------------------------------
 
@@ -314,6 +331,8 @@ banding_subset %>%
   ) %>% 
   bind_rows()
 
+# [[-0.125]] Code parsimony: This could have been greatly simplified (see key)!
+
 # 10 ----------------------------------------------------------------------
 
 # One of the hats that I wear is "ornithologist" so we end up working with 
@@ -344,3 +363,6 @@ list.files(
     )
   ) %>% 
   list2env(.GlobalEnv)
+
+# [[-0.15]] Code parsimony: When using `set_names()`, it is not necessary to
+# supply names inside of `c()`.
