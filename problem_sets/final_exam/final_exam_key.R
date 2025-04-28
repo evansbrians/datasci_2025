@@ -403,6 +403,10 @@ rm(collisions_coord_fix)
 
 # 7 -----------------------------------------------------------------------
 
+# Generate a summary table of the total number of the total number of collisions
+# by species and year, where the columns are `year` and the names of each
+# species:
+
 collisions_tidy %>%
   
   # Extract crashes list item:
@@ -447,7 +451,8 @@ collisions_tidy %>%
   
   summarize(
     n = n(),
-    .by = c(species, year)
+    .by = 
+      c(species, year)
   ) %>% 
   
   # Pivot the table:
@@ -458,6 +463,17 @@ collisions_tidy %>%
   )
 
 # 8 -----------------------------------------------------------------------
+
+# Create a visualization of the total number of collisions by species and year:
+
+# * Complete all data processing steps (correctly) prior to piping the data 
+#   into `ggplot()`.
+# * Create a scatterplot with the total annual collisions on the vertical axis
+#   and year on the horizontal axis.
+# * Use `geom_line()` to connect the points in the scatterplot.
+# * Create a facet for each species.
+# * Make sure that the y-axis is scaled so we can see annual variation in each
+#   facet. You can do that by setting scales = "free" (check out ?facet_wrap).
 
 # Bare minimum (plot-wise):
 
@@ -496,6 +512,15 @@ collisions_tidy %>%
   )
 
 # 9 -----------------------------------------------------------------------
+
+# Prove your iteration skills to Chad:
+
+# * Use iteration to generate four separate bar plots where each plot 
+#   represents a single species.
+# * Ensure that the horizontal axis of each plot represents years.
+# * Ensure that the vertical axis represents the total number of collisions
+#   with a given species on a given year.
+# * Title each plot with the common name of the species.
 
 # Bare minimum (plot-wise):
 
@@ -548,6 +573,13 @@ collisions_tidy %>%
 
 # 10 ----------------------------------------------------------------------
 
+# Check small animal collision reports. In a single code block, please:
+
+# * Verify whether every county reported at least one Opossum or Raccoon
+#   collision in 2017.
+# * If you find that some of these counties are missing, please provide me 
+#   with a character vector of the offending county names.
+
 collisions_tidy %>%
   
   # Extract counties list item:
@@ -577,6 +609,19 @@ collisions_tidy %>%
   pull(county_name)
 
 # 11 ----------------------------------------------------------------------
+
+# Generate a visualization of the total number of crashes per year for the 10
+# counties with the highest number of total crashes across years. Please:
+
+# * Complete all data processing steps (correctly) prior to piping the data
+#   into ggplot().
+# * Visualize the data with a boxplot geometry.
+# * Ensure that the horizontal axis of the plot is the number of crashes in a
+#   given year and the vertical axis is the names of the counties.
+# * Arrange the plot from the county with the most crashes, across time, to
+#   the county with the least amount of crashes across time.
+
+# Note: You may use up to two global assignments to address this task!
 
 # Create and globally assign a data frame of crashes by year and county_id:
 
@@ -633,7 +678,8 @@ big_10_counties <-
   # Order counties by the total number of crashes across time:
   
   mutate(
-    county_name = fct_reorder(county_name, crashes)
+    county_name = 
+      fct_reorder(county_name, crashes)
   ) %>% 
   
   # Remove crashes:
@@ -651,11 +697,24 @@ crashes_by_year_and_county %>%
     by = "county_id"
   ) %>% 
   ggplot() +
-  aes(x = county_name, y = crashes) +
+  aes(
+    x = county_name, 
+    y = crashes
+  ) +
   geom_boxplot() +
   coord_flip()
 
 # 12 ----------------------------------------------------------------------
+
+# Create a visualization of collisions by season (Sept-Nov = Fall; Dec-Feb = Winter; Mar-May = Spring; June-Aug = Summer). Please:
+
+# * Complete all data processing steps (correctly) prior to piping the data 
+#   into `ggplot()`.
+# * Visualize the data with a stacked bar plot geometry.
+# * Ensure that the horizontal axis is season, in the order Winter, Spring,
+#   Summer, Fall.
+# * Ensure that the vertical axis is the total number of collisions, across 
+#   years.
 
 # Bare minimum:
 
@@ -704,11 +763,9 @@ collisions_tidy %>%
   aes(
     x = season, 
     y = n, 
-    fill = species) +
-  geom_bar(stat = "identity") +
-  theme(
-    axis.text = element_text(size = 20)
-  )
+    fill = species
+  ) +
+  geom_bar(stat = "identity")
 
 # extra credit 1 ----------------------------------------------------------
 
@@ -990,13 +1047,11 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
     
     across(
       longitude:latitude,
-      \(x) {
-        if_else(
-          x < 0,
-          longitude,
-          latitude
-        )
-      }
+      ~ if_else(
+        .x < 0,
+        longitude,
+        latitude
+      )
     )
   ) %>% 
   
@@ -1007,7 +1062,6 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
   # Arrange by time of collision:
   
   arrange(crash_time)
-
 
 # extra credit 2 ----------------------------------------------------------
 
@@ -1064,7 +1118,8 @@ collisions_tidy %>%
       # Order counties by the total number of crashes across time:
       
       mutate(
-        county_name = fct_reorder(county_name, crashes)
+        county_name = 
+          fct_reorder(county_name, crashes)
       ) %>% 
       
       # Remove crashes:
@@ -1075,7 +1130,10 @@ collisions_tidy %>%
   # Plot the data:
   
   ggplot() +
-  aes(x = county_name, y = crashes) +
+  aes(
+    x = county_name, 
+    y = crashes
+  ) +
   geom_boxplot() +
   coord_flip()
 
@@ -1083,6 +1141,14 @@ collisions_tidy %>%
 
 # Do more accidents occur when a vehicle is traveling into or away from the
 # sun?
+
+# * Subset to only vehicles traveling East or West.
+# * Subset the data to collisions that occurred within two hours of the sunrise
+#   time (Note: You may round the time to hour to address this question).
+# * Classify the incidents that occurred for Eastbound drivers as "Into the 
+#   sun" and those that occurred for Westbound drivers as "Away from the sun".
+# * Generate a data visualization (of your choosing!) that illustrates whether
+#   more incidents occur for vehicles traveling into, or away from, the sun.
 
 collisions_tidy %>%
   
@@ -1114,7 +1180,8 @@ collisions_tidy %>%
       mutate(
         date = as_date(county_sunrise)
       ),
-    by = join_by(county_id, date)
+    by = 
+      join_by(county_id, date)
   ) %>% 
   
   # Remove county_id (no longer necessary):
@@ -1135,7 +1202,7 @@ collisions_tidy %>%
     
     # ... crashes that occurred within two hours of sunrise:
     
-    crash_time - county_sunrise < 2*3600
+    crash_time - county_sunrise < 2 * 3600
   ) %>% 
   
   # Classify to describe whether a crash was into or away from the sun:
@@ -1145,7 +1212,8 @@ collisions_tidy %>%
       if_else(
         str_detect(road, "EB$"),
         "Into the sun",
-        "Away from the sun")
+        "Away from the sun"
+      )
   ) %>% 
   
   # Count the number of crashes into or away from the sun:
@@ -1196,7 +1264,8 @@ collisions_tidy %>%
       mutate(
         date = as_date(county_sunrise)
       ),
-    by = join_by(county_id, date)
+    by = 
+      join_by(county_id, date)
   ) %>% 
   
   # Remove county_id (no longer necessary):
@@ -1217,7 +1286,9 @@ collisions_tidy %>%
     
     # ... crashes that occurred within two hours of sunrise:
     
-    hour(crash_time) - hour(county_sunrise) <= 2) %>% 
+    hour(crash_time) - 
+      hour(county_sunrise) <= 2
+  ) %>% 
   
   # Classify to describe whether a crash was into or away from the sun:
   
@@ -1226,7 +1297,8 @@ collisions_tidy %>%
       if_else(
         str_detect(road, "EB$"),
         "Into the sun",
-        "Away from the sun")
+        "Away from the sun"
+      )
   ) %>% 
   
   # Count the number of crashes into or away from the sun:

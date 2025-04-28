@@ -226,7 +226,7 @@ Your "normal" boss
 
 ## Disgruntled employee?
 
-Your new boss is demanding and more than a bit annoying (it only gets worse). For questions 7-12 you may choose to ignore some of your boss' memos. For these questions, we will maintain the four questions that have earned you the most points (i.e., best four out of six).
+Your new boss is demanding and more than a bit annoying (it only gets worse). For questions 7-12 you may choose to ignore some of your boss' memos. For these questions, we will maintain the four questions that earn you the most points (i.e., best four out of six).
 
 ## Memo 7
 
@@ -236,8 +236,8 @@ Howdy DM,
 
 So far, so good pardner! Now let's get some of the output we are going to need for our meeting. The first thing that I am going to need is a summary table of the number of collisions by species and year. Please generate a tibble data frame where:
 
-* [[1.5]]{class="subscore"} The columns are `year` and the name of each species;
-* [[1.5]]{class="subscore"} The rows include the year followed by the total number of collisions for a given species, in a given year. 
+* The columns are `year` and the name of each species;
+* The rows include the year followed by the total number of collisions for a given species, in a given year. 
 
 Here is an example of what I am looking for (but I want this for all species and years):
 
@@ -258,13 +258,13 @@ Your rootin' tootin' boss
 
 Buenos dias DM, 
 
-We liked your table! Now our group is wondering if we can get a visualization to show any variation in the number of collisions per year. We want to show the total number of annual collisions by species and year. Please:
+We liked your table! Now our group is wondering if we can get a visualization to show any variation in the number of collisions per year. We want to show the total number of collisions by species and year. Please:
 
-* [[1.0]]{class="subscore"} Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
-* [[0.5]]{class="subscore"} Create a scatterplot with the total annual collisions on the vertical axis and year on the horizontal axis.
-* [[0.5]]{class="subscore"} Use `geom_line()` to connect the points in the scatterplot.
-* [[0.5]]{class="subscore"} Create a facet for each species.
-* [[0.5]]{class="subscore"} Make sure that the y-axis is scaled so we can see annual variation in each facet. You can do that by setting `scales = "free"` (check out `?facet_wrap`). 
+* Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Create a scatterplot with the total annual collisions on the vertical axis and year on the horizontal axis.
+* Use `geom_line()` to connect the points in the scatterplot.
+* Create a facet for each species.
+* Make sure that the y-axis is scaled so we can see annual variation in each facet. You can do that by setting `scales = "free"` (check out `?facet_wrap`). 
 
 This plot might be a great one to present to our stakeholders!
 
@@ -280,12 +280,12 @@ Your ggplottin' jefe
 
 How ya doin' DM?
 
-We have been gossiping about you are around the water cooler and we are all wicked impressed with the job you have been doing so far! Well, all of us except Chad, who is a bit of a tool -- Chad said "... yeah, but can they iterate?". Let's show Chad how it is done. Please:
+We have been gossiping about you around the water cooler and we are all wicked impressed with the job you have been doing so far! Well, all of us except Chad, who is a bit of a tool -- Chad said "... yeah, but can they iterate?". Let's show Chad how it is done. Please:
 
-* [[1.0]]{class="subscore"} Use iteration to generate four separate bar plots where each plot represents a single species.
-* [[0.5]]{class="subscore"} Ensure that the horizontal axis of each plot represents years.
-* [[1.0]]{class="subscore"} Ensure that the vertical axis represents the total number of collisions with a given species on a given year. 
-* [[0.5]]{class="subscore"} Title each plot with the common name of the species.
+* Use iteration to generate four separate bar plots where each plot represents a single species.
+* Ensure that the horizontal axis of each plot represents years.
+* Ensure that the vertical axis represents the total number of collisions with a given species on a given year. 
+* Title each plot with the common name of the species.
 
 Later,
 
@@ -301,11 +301,10 @@ Salutations DM!
 
 A road survey conducted in 2017 found that the carcasses of our two small
 species, Opossum and Raccoon, were observed within every Virginia county
-that year. We have a suspicion that some police departments are under-reporting
-collisions with these species. Please:
+that year. We have a suspicion that some police departments are under-reporting collisions with these species. In a single code block, please:
 
-* [[2.0]]{class="subscore"} Verify whether every county reported at least one Opossum *or* Raccoon collision in 2017. 
-* [[1.0]]{class="subscore"} If you find that some of these counties are missing, please provide me with a character vector of the offending county names.
+* Verify whether every county reported at least one Opossum *or* Raccoon collision in 2017. 
+* If you find that some of these counties are missing, please provide me with a character vector of the offending county names.
 
 Nanu Nanu,
 
@@ -321,10 +320,10 @@ Greetings DM!
 
 We would like to generate a data visualization of the total number of crashes per year for the 10 counties with the highest number of total crashes across years. Please:
 
-* [[1.0]]{class="subscore"} Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
-* [[0.5]]{class="subscore"} Visualize the data with a boxplot geometry.
-* [[0.5]]{class="subscore"} Ensure that the horizontal axis of the plot is the number of crashes in a given year and the vertical axis is the names of the counties.
-* [[1.0]]{class="subscore"} Arrange the plot from the county with the most crashes, across time, to the county with the least amount of crashes across time.
+* [Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Visualize the data with a boxplot geometry.
+* Ensure that the horizontal axis of the plot is the number of crashes in a given year and the vertical axis is the names of the counties.
+* Arrange the plot from the county with the most crashes, across time, to the county with the least amount of crashes across time.
 
 Live long and prosper,
 
@@ -342,10 +341,10 @@ Aloha DM,
 
 Our stakeholders would like to get a sense of the seasons in which these wildlife-vehicle collisions are occurring. For simplicity, we will use this conversion for seasons: Sept-Nov = Fall; Dec-Feb = Winter; Mar-May = Spring; June-Aug = Summer. Please:
 
-* [[1.0]]{class="subscore"} Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
-* [[0.5]]{class="subscore"} Visualize the data with a stacked bar plot geometry.
-* [[1.0]]{class="subscore"} Ensure that the horizontal axis is season, in the order Winter, Spring, Summer, Fall.
-* [[0.5]]{class="subscore"} Ensure that the vertical axis is the total number of collisions, across years.
+* Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Visualize the data with a stacked bar plot geometry.
+* Ensure that the horizontal axis is season, in the order Winter, Spring, Summer, Fall.
+* Ensure that the vertical axis is the total number of collisions, across years.
 
 Mahalo,
 
@@ -379,10 +378,10 @@ Complete memo 11 in a single piped statement.
 
 **The sun was in my eyes**! After sending questionnaires to drivers who were involved with a wildlife collision, we found that many morning drivers claimed that they did not see the animal because they were driving into the sun. Let's see if there is any evidence for this. The end of each string for the `road` column indicates the direction of travel ("NB" = "Northbound", "EB" = "Eastbound", "SB" = "Southbound", and "WB" = "Westbound"). Using this information and the time of each crash:
 
-* [[0.5]]{class="subscore"} Subset to only vehicles traveling East or West.  
-* [[1.0]]{class="subscore"} Subset the data to collisions that occurred within two hours of the sunrise time (Note: You may round the time to hour to address this question).
-* [[1.0]]{class="subscore"} Classify the incidents that occurred for Eastbound drivers as "Into the sun" and those that occurred for Westbound drivers as "Away from the sun".
-* [[0.5]]{class="subscore"} Generate a data visualization (of your choosing!) that illustrates whether more incidents occur for vehicles traveling into, or away from, the sun.
+* Subset to only vehicles traveling East or West.  
+* Subset the data to collisions that occurred within two hours of the sunrise time (Note: You may round the time to hour to address this question).
+* Classify the incidents that occurred for Eastbound drivers as "Into the sun" and those that occurred for Westbound drivers as "Away from the sun".
+* Generate a data visualization (of your choosing!) that illustrates whether more incidents occur for vehicles traveling into, or away from, the sun.
 
 :::
 
