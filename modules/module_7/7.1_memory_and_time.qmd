@@ -58,7 +58,7 @@ install.packages(
   c(
     "bench",
     "microbenchmark",
-    "profmem",
+    "profmem"
   )
 )
 ```
