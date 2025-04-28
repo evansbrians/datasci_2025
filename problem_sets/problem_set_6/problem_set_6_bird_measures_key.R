@@ -124,13 +124,13 @@ banding_subset <-
     age = 
       age %>% 
       fct_collapse(
-        Juvenile = "HY",
-        other_level = "Adult"
+        juvenile = "HY",
+        other_level = "adult"
       ) %>% 
       fct_relevel(
         c(
-          "Juvenile", 
-          "Adult"
+          "juvenile", 
+          "adult"
         )
       )
   )
