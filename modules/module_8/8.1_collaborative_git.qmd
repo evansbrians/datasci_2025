@@ -1,0 +1,29 @@
+---
+title: "8.1. Collaborating with GitHub"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+<hr>
+
+![](../../images/hex_complex.png){.intro_image}
+
+GitHub provides an efficient, well-organized, workflow for collaborating with code. If you are not careful, however, it can sometimes also lead to disastrous, time-consuming, problems that can hinder collaborations. When using version control on my own, I typically follow the methodology that I demonstrated in ***Lesson 7.2. Solo Github***. When collaborating with others, I employ additional methods. In the video lesson below (runtime: 16:41), I cover two methods that you can use to avoid such problems occurring. You will learn:
+
+* The dangers (and annoyance) of the "solo GitHub workflow"
+* Collaborating with GitHub via branching repositories
+* Collaborating with GitHub via forking repositories
+
+{{< video https://www.youtube.com/embed/bMBgOkXf6SY >}}
+

@@ -1,0 +1,34 @@
+---
+title: "8.2. Collaborating with R packages"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+<hr>
+
+![](../../images/hex_complex.png){.intro_image}
+
+R packages are a key tool for collaboration. They provide us with a mechanism to share workflows across members of your team. For example, do you want all of your team members to use the same plot themes across their data products? You can write a custom function for that and share that function with your team in an R package! This might sound like a daunting process, but it is actually fairly straightforward. In the video lesson below (runtime: 25:28), you will learn:
+
+* Why making your own R package is useful for you and your team;
+* How to create a custom R package;
+* How to publish your package to GitHub.
+
+A couple of things to note prior to watching the video:
+
+* I use `.` to represent my variable in `map()` ... I suggest reserving `.` for a placeholder and instead using `.x` when referring to a variable in an iteration.
+* This video is several years old ... I do not quite follow the code formatting conventions for this class!
+
+{{< video https://www.youtube.com/embed/BBMTHVkfZBo >}}
+

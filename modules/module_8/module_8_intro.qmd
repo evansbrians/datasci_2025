@@ -1,0 +1,60 @@
+---
+title: "Module 8: Communicating data"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<hr>
+
+<div>
+
+![](../../images/hex_complex.png){.intro_image}
+
+Welcome to **Module 8: Communicating data** ... the last learning module of the course! The content herein will enhance your ability to collaborate with your team, ensure a consistent workflow across your team's projects, and provide you with tools for communicating data to folks not steeped in the R langugage. You will learn how to:
+
+-   Avoid version control catastrophes with collaborative GitHub tools
+-   Develop your own custom R packages for consistent, collaborative workflows
+-   Make static web pages with R Markdown
+-   Build interactive web applications
+
+Before continuing, please be sure that you have completed all of the preliminary course content (Preliminary lessons 1-4) and all of the content from Modules 1-7.
+
+</div>
+
+## Module overview
+
+-   **8.1. Collaborating with GitHub**: This video lesson (runtime -- 16:41) builds on ***Lesson 7.2. Solo Github*** and introduces you to branching and forking ... two tools that are crucial for stress-free version control. In fact, these tools are so important that I suggest *avoiding* using GitHub for collaboration without them!
+-   **8.2. Collaborating with R packages**: This video lesson (runtime -- 25:28) teaches you how to make your own custom package in R!
+-   **8.3. Introduction to R markdown**: In this video lesson (runtime -- 26:09) you will learn the basics of creating static web pages. 
+-   **8.4. Introduction to shiny apps**: The final lesson of this whole course (!) is a video and tutorial in which you will learn how to make interactive web pages with the *shiny* package! In the video portion of this lesson (runtime -- 26:09), we will cover the basic components of a shiny application. In the tutorial portion, you will learn how to make a *very cool* shiny dashboard app.
+
+## Getting started
+
+Please download:
+
+* The attached script file [source_script.R]{.mono} and overwrite the previous version of the file.
+* [trout_app.zip]{.mono} and unzip to the [data_sci/output]{.mono} folder.
+* [covid_app.zip]{.mono} to a location that is easy to find on your hard drive (you will make a new project for creating and running this shiny app).
+
+## Readings and resources
+
+* [GitHub Docs: About forks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks){target="_blank"}
+* [GitHub Docs: About branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches){target="_blank"}
+* R Packages (2^nd^ edition), Hadley Wickham and Jennifer Bryan, [Getting started 1: The Whole Game](https://r-pkgs.org/whole-game.html){target="_blank"}
+* [R Markdown from RStudio](https://rmarkdown.rstudio.com/lesson-1.html){target="_blank"}: A comprehensive guide for creating R Markdown documents!
+* [Tutorial: Hello, Quarto](https://quarto.org/docs/get-started/hello/rstudio.html){target="_blank"}: All of the lessons for this course were written in Quarto. If you are comfortable with RMarkdown, the transition is very easy!
+* Mastering Shiny, Hadley Wickham, [1-4: Introduction](https://mastering-shiny.org/basic-intro.html){target="_blank"}
+
+

@@ -1,0 +1,31 @@
+---
+title: "8.3. Introduction to R markdown"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+<hr>
+
+![](../../images/hex_complex.png){.intro_image}
+
+Markdown provides a mechanism by which we can write documents and have total control over all of the formatting. When we use R Markdown (or Quarto), we can create documents and embed the output of code, or our code itself, within the document. This allows us to quickly generate and share reports with our data without having to leave the comfort of RStudio! Examples of what R Markdown can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that I am in charge of, and [here is an R Markdown field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} during my study on cicadas. Of course, you have interacted with a lot of Markdown-generated documents already -- all of the content for this course was was created using Markdown (via Quarto). In the video lesson below (runtime: 26:08), you will create a website with R Markdown while learning:
+
+* What Markdown is
+* How to create an R Markdown document
+* Some introductory R Markdown techniques
+
+*Note: This lesson, which is rather old (in coding years), originally occurred during the first week of this course! As such, you may be annoyed by my description of opening your project and ensuring that you are working in a clean session.*
+
+{{< video https://www.youtube.com/embed/Xvqt75IhiW8 >}}
+
