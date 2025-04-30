@@ -133,8 +133,9 @@
 
 # 11 ----------------------------------------------------------------------
 
-# Generate a visualization of the total number of crashes per year for the 10
-# counties with the highest number of total crashes across years. Please:
+# We would like to generate a data visualization that describes the distribution
+# of the total number of crashes per year for the 10 counties with the highest
+# number of total crashes across years. Please:
 
 # * Complete all data processing steps (correctly) prior to piping the data
 #   into ggplot().
@@ -160,6 +161,7 @@
 #   Summer, Fall.
 # * Ensure that the vertical axis is the total number of collisions, across 
 #   years.
+# * Ensure that the fill color of the bars is determined by `species`.
 
 
 
@@ -181,8 +183,9 @@
 # sun?
 
 # * Subset to only vehicles traveling East or West.
-# * Subset the data to collisions that occurred within two hours of the sunrise
-#   time (Note: You may round the time to hour to address this question).
+# * Subset the data to collisions that occurred within two hours after the 
+#   sunrise time (Note: You may round the time to hour to address this 
+#   question).
 # * Classify the incidents that occurred for Eastbound drivers as "Into the 
 #   sun" and those that occurred for Westbound drivers as "Away from the sun".
 # * Generate a data visualization (of your choosing!) that illustrates whether

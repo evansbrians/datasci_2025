@@ -81,7 +81,13 @@ collisions_date_fix <-
   
   # Remove unnecessary columns and arrange:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date,
+      year,
+      day
+    ) 
+  ) %>% 
   arrange(crash_time)
 
 # Another option that was sort of hidden in the regex content (in a 
@@ -123,7 +129,13 @@ collisions_date_fix <-
   
   # Remove unnecessary columns and arrange:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date,
+      year,
+      day
+    ) 
+  ) %>% 
   arrange(crash_time)
 
 # ... or:
@@ -164,7 +176,13 @@ collisions_date_fix <-
   
   # Remove unnecessary columns and arrange:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date,
+      year,
+      day
+    ) 
+  ) %>% 
   arrange(crash_time)
 
 # or even:
@@ -200,7 +218,13 @@ collisions_date_fix <-
   
   # Remove unnecessary columns and arrange:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date,
+      year,
+      day
+    ) 
+  ) %>% 
   arrange(crash_time)
 
 # A way that is faster and more parsimonious still (but includes a function
@@ -233,7 +257,13 @@ collisions_date_fix <-
   
   # Remove unnecessary columns and arrange:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date,
+      year,
+      day
+    ) 
+  ) %>% 
   arrange(crash_time)
 
 rm(collisions)
@@ -389,8 +419,6 @@ collisions_tidy <-
       collisions_coord_fix %>% 
       select(
         !c(
-          year,
-          day,
           county_population,
           county_name:county_sunset
         )
@@ -433,7 +461,7 @@ collisions_tidy %>%
     values_from = n
   )
 
-# Or, with a minor deduction for parsimony:
+# Or:
 
 collisions_tidy %>%
   
@@ -610,8 +638,9 @@ collisions_tidy %>%
 
 # 11 ----------------------------------------------------------------------
 
-# Generate a visualization of the total number of crashes per year for the 10
-# counties with the highest number of total crashes across years. Please:
+# We would like to generate a data visualization that describes the distribution
+# of the total number of crashes per year for the 10 counties with the highest
+# number of total crashes across years. Please:
 
 # * Complete all data processing steps (correctly) prior to piping the data
 #   into ggplot().
@@ -706,7 +735,8 @@ crashes_by_year_and_county %>%
 
 # 12 ----------------------------------------------------------------------
 
-# Create a visualization of collisions by season (Sept-Nov = Fall; Dec-Feb = Winter; Mar-May = Spring; June-Aug = Summer). Please:
+# Create a visualization of collisions by season (Sept-Nov = Fall; Dec-Feb =
+# Winter; Mar-May = Spring; June-Aug = Summer). Please:
 
 # * Complete all data processing steps (correctly) prior to piping the data 
 #   into `ggplot()`.
@@ -715,6 +745,7 @@ crashes_by_year_and_county %>%
 #   Summer, Fall.
 # * Ensure that the vertical axis is the total number of collisions, across 
 #   years.
+# * Ensure that the fill color of the bars is determined by `species`.
 
 # Bare minimum:
 
@@ -848,7 +879,11 @@ collisions_clean <-
   # Remove the temporary columns:
   
   select(
-    !c(date, temp)
+    !c(
+      date, 
+      temp, 
+      year:day
+    )
   ) %>% 
   
   # Arrange by time of collision:
@@ -921,7 +956,11 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
   # Remove the temporary columns:
   
   select(
-    !c(date, temp)
+    !c(
+      date, 
+      temp, 
+      year:day
+    )
   ) %>% 
   
   # Arrange by time of collision:
@@ -992,7 +1031,12 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
   
   # Remove the temporary column:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date, 
+      year:day
+    )
+  ) %>% 
   
   # Arrange by time of collision:
   
@@ -1057,7 +1101,12 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
   
   # Remove the temporary column:
   
-  select(!date) %>% 
+  select(
+    !c(
+      date, 
+      year:day
+    )
+  ) %>% 
   
   # Arrange by time of collision:
   
@@ -1143,8 +1192,9 @@ collisions_tidy %>%
 # sun?
 
 # * Subset to only vehicles traveling East or West.
-# * Subset the data to collisions that occurred within two hours of the sunrise
-#   time (Note: You may round the time to hour to address this question).
+# * Subset the data to collisions that occurred within two hours after the 
+#   sunrise time (Note: You may round the time to hour to address this 
+#   question).
 # * Classify the incidents that occurred for Eastbound drivers as "Into the 
 #   sun" and those that occurred for Westbound drivers as "Away from the sun".
 # * Generate a data visualization (of your choosing!) that illustrates whether
