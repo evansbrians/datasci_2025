@@ -67,11 +67,11 @@ Your mission with these data will be to:
 
 There are 30 total points available for this exam and a score of 21 or higher is required to receive a certificate for this course.
 
-You will hand in a single, well-commented R script file for this assignment. Please save your file as [final_exam_[last name]_[first name].R]{.mono}. For example. I would name my file [final_exam_evans_brian.R]{.mono}. Using a different naming convention from the above will result in a [3 point]{class="score"} deduction from your final score.
+You will hand in a single, *well-commented* R script file for this assignment. Please save your file as [final_exam_[last name]_[first name].R]{.mono}. For example. I would name my file [final_exam_evans_brian.R]{.mono}. Using a different naming convention from the above will result in a [3 point]{class="score"} deduction from your final score.
 
 Each question, including **Brownie points** (see below) is worth [3 points]{class="score"} (but see the "**Disgruntled employee?**" section!). Points may be deducted from each question's total: 
 
-* [[1.5]]{class="subscore"} Include only relative file paths to files on your hard drive.
+* [[1.5]]{class="subscore"} Include only relative file paths when reading in files.
 * [[1.5]]{class="subscore"} Use only functions from the course tutorials and video lectures. The full list of these functions is provided as a table in the introduction for Module 7.
 * [[1.0]]{class="subscore"} Include a minimum of one comment per code block that describes what the code is doing.
 * [[1.0]]{class="subscore"} Avoid unnecessary global assignments (**Note**: You may include a maximum of **one global assignment per code block**).
@@ -83,36 +83,8 @@ Each question, including **Brownie points** (see below) is worth [3 points]{clas
 
 *Note: The maximum deduction is the total points value for a given question*
 
-### Extra credit
-
-For each question that includes a ggplot, you will receive up to 1 point extra credit for the styling of your visualizations (e.g., theme elements, fill color). In addition, there are some specific extra credit opportunities called **Brownie points** that represent more advanced tasks.
-
-## About the data 
-
-The file [va_wildlife_collisions.rds]{.mono} contains information on wildlife-vehicle collisions in the state of Virginia and is stored as a tibble data frame. The data were collected by police at the scene of the incident. These originated as real data, but have been modified considerably (and made a good bit messier) by me and Joe. Each row in this data frame represents an individual collision between a vehicle and wildlife.
-
-<button class="accordion">[va_wildlife_collisions.rds]{.mono} contains the following variables items (click the button to see variable definitions):</button>
-
-::: panel
-
-* [object_id]{.mono}, character: A unique identifier for each wildlife-vehicle collision
-* [county_id]{.mono}, character: A unique identifier for each county in the dataset and the county in which the collision occurred
-* [date]{.mono}, character: The date the collision occurred
-* [crash_time]{.mono}, time: The time the collision occurred (24-hour clock format)
-* [species]{.mono}, character: The common name of the wildlife species that the vehicle collided with
-* [longitude]{.mono}, double numeric: The longitudinal (East-West) geographic coordinates of the collision. In Virginia, all of the values should be negative!
-* [latitude]{.mono}, double numeric: The latitudinal (North-South) geographic coordinates of the collision. In Virginia, all of the values should be positive!
-* [year]{.mono}, integer: The year in which the collision occurred
-* [day]{.mono}, integer: The day of the month in which the collision occurred
-* [county_population]{.mono}, double numeric: The population of the county in which the collision occurred, in 2020 
-* [crash_dsc]{.mono}, character: A description of the crash
-* [road]{.mono}, character: The name of the road in which the collision occurred
-* [weather_condition]{.mono}, character: The weather condition at the time and location of the collision, as observed by the emergency responder
-* [county_name]{.mono}, character: The name of the county in which the collision occurred
-* [county_area]{.mono}, double numeric: The area of the county in which the collision occurred, in square miles
-* [county_sunrise]{.mono}, time: The sunrise time for a given county on the day of the collision. Note: All sunrise times are the same for the entire county!
-* [county_sunset]{.mono}, time: The sunset time for a given county on the day of the collision. Note: All sunrise times are the same for the entire county!
-
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> You may use any function that we have used in this course. Click the blue button below to view the functions that **we used** in completing this problem set. Although you are *not* required to use the same functions as we did, you might find this list helpful!
 :::
 
 ::: Accordion
@@ -128,10 +100,10 @@ The file [va_wildlife_collisions.rds]{.mono} contains information on wildlife-ve
 * `.Primitive, :`
 * `.Primitive, !`
 * `.Primitive, !=`
-* `.Primitive, (`
-* `.Primitive, [[`
-* `.Primitive, [`
-* `.Primitive, {`
+* `.Primitive, (...)`
+* `.Primitive, [[...]]`
+* `.Primitive, [...]`
+* `.Primitive, {...}`
 * `.Primitive, *`
 * `.Primitive, /`
 * `.Primitive, &`
@@ -197,12 +169,44 @@ The file [va_wildlife_collisions.rds]{.mono} contains information on wildlife-ve
 * `purrr::map`
 * `purrr::pluck`
 * `readr::read_rds`
-* `rlang, {{}}`
+* `rlang, {{...}}`
 * `stringr::str_c`
 * `stringr::str_detect`
 * `stringr::str_replace`
 * `tidyr::pivot_wider`
 :::
+:::
+
+### Extra credit
+
+For each question that includes a ggplot, you will receive up to 1 point extra credit for the styling of your visualizations (e.g., theme elements, fill color). In addition, there are some specific extra credit opportunities called **Brownie points** that represent more advanced tasks.
+
+## About the data 
+
+The file [va_wildlife_collisions.rds]{.mono} contains information on wildlife-vehicle collisions in the state of Virginia and is stored as a tibble data frame. The data were collected by police at the scene of the incident. These originated as real data, but have been modified considerably (and made a good bit messier). Each row in this data frame represents an individual collision between a vehicle and wildlife.
+
+<button class="accordion">[va_wildlife_collisions.rds]{.mono} contains the following variables items (click the button to see variable definitions):</button>
+
+::: panel
+
+* [object_id]{.mono}, character: A unique identifier for each wildlife-vehicle collision
+* [county_id]{.mono}, character: A unique identifier for each county in the dataset and the county in which the collision occurred
+* [date]{.mono}, character: The date the collision occurred
+* [crash_time]{.mono}, time: The time the collision occurred (24-hour clock format)
+* [species]{.mono}, character: The common name of the wildlife species that the vehicle collided with
+* [longitude]{.mono}, double numeric: The longitudinal (East-West) geographic coordinates of the collision. In Virginia, all of the values should be negative!
+* [latitude]{.mono}, double numeric: The latitudinal (North-South) geographic coordinates of the collision. In Virginia, all of the values should be positive!
+* [year]{.mono}, integer: The year in which the collision occurred
+* [day]{.mono}, integer: The day of the month in which the collision occurred
+* [county_population]{.mono}, double numeric: The population of the county in which the collision occurred, in 2020 
+* [crash_dsc]{.mono}, character: A description of the crash
+* [road]{.mono}, character: The name of the road in which the collision occurred
+* [weather_condition]{.mono}, character: The weather condition at the time and location of the collision, as observed by the emergency responder
+* [county_name]{.mono}, character: The name of the county in which the collision occurred
+* [county_area]{.mono}, double numeric: The area of the county in which the collision occurred, in square miles
+* [county_sunrise]{.mono}, time: The sunrise time for a given county on the day of the collision. Note: All sunrise times are the same for the entire county!
+* [county_sunset]{.mono}, time: The sunset time for a given county on the day of the collision. Note: All sunrise times are the same for the entire county!
+
 :::
 
 ## Memo 1
@@ -408,9 +412,9 @@ Your suspicious boss
 
 Greetings DM!
 
-We would like to generate a data visualization of the total number of crashes per year for the 10 counties with the highest number of total crashes across years. Please:
+We would like to generate a data visualization that describes the distribution of the total number of crashes per year for the 10 counties with the highest number of total crashes across years. Please:
 
-* [Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
+* Complete all data processing steps (correctly) prior to piping the data into `ggplot()`.
 * Visualize the data with a boxplot geometry.
 * Ensure that the horizontal axis of the plot is the number of crashes in a given year and the vertical axis is the names of the counties.
 * Arrange the plot from the county with the most crashes, across time, to the county with the least amount of crashes across time.
@@ -435,6 +439,7 @@ Our stakeholders would like to get a sense of the seasons in which these wildlif
 * Visualize the data with a stacked bar plot geometry.
 * Ensure that the horizontal axis is season, in the order Winter, Spring, Summer, Fall.
 * Ensure that the vertical axis is the total number of collisions, across years.
+* Ensure that the fill color of the bars is determined by `species`.
 
 Mahalo,
 
@@ -469,7 +474,7 @@ Complete memo 11 in a single piped statement.
 **The sun was in my eyes**! After sending questionnaires to drivers who were involved with a wildlife collision, we found that many morning drivers claimed that they did not see the animal because they were driving into the sun. Let's see if there is any evidence for this. The end of each string for the `road` column indicates the direction of travel ("NB" = "Northbound", "EB" = "Eastbound", "SB" = "Southbound", and "WB" = "Westbound"). Using this information and the time of each crash:
 
 * Subset to only vehicles traveling East or West.  
-* Subset the data to collisions that occurred within two hours of the sunrise time (Note: You may round the time to hour to address this question).
+* Subset the data to collisions that occurred within two hours after the sunrise time (Note: You may round the time to hour to address this question).
 * Classify the incidents that occurred for Eastbound drivers as "Into the sun" and those that occurred for Westbound drivers as "Away from the sun".
 * Generate a data visualization (of your choosing!) that illustrates whether more incidents occur for vehicles traveling into, or away from, the sun.
 
