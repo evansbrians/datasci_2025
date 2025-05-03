@@ -75,7 +75,7 @@ backwards_columns %>%
     across(
       a:b,
       ~ if_else(
-        x < 0,
+        .x < 0,
         a,
         b
       )
