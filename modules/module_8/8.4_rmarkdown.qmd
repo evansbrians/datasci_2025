@@ -98,3 +98,16 @@ Here is an example sentence with some *italic* and **bold** text.
 
 Advantages of using the markdown language are the same as the HTML version but the learning curve is *much* less steep!
 
+## Building web documents with Quarto
+
+### Parts of a Quarto document
+
+### Adding code blocks and output
+
+### The YAML header
+
+### Styling your Quarto documents with SCSS
+
+
+
+
