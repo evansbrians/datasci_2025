@@ -11,7 +11,7 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
@@ -132,10 +132,13 @@ bind_cols(
 The above, however, is unnecessarily repetitive. Note that the only thing that changes in each pluck function above is the name of the variable that we would like to extract. This is a clue that iteration will greatly improve our workflow!
 
 ```{r}
-c("Title",
+c(
+  "Title",
   "Year",
   "Plot",
-  "Poster") %>% 
+  "Poster"
+  
+) %>% 
   map(
     \(x) pluck(zoo, x)
   ) %>% 
@@ -146,10 +149,12 @@ We can use `set_names()`, from the *rlang* package, to add column names to our d
 
 ```{r}
 var_names <-
-  c("Title",
+  c(
+    "Title",
     "Year",
     "Plot",
-    "Poster")
+    "Poster"
+  )
 
 var_names %>% 
   map(
@@ -196,10 +201,12 @@ rm(var_names)
 Instead, we can pipe the character vector into `set_names()` and refer to the character vector itself (with a placeholder) as the reference for those names:
 
 ```{r}
-c("Title",
+c(
+  "Title",
   "Year",
   "Plot",
-  "Poster") %>% 
+  "Poster"
+) %>% 
   set_names(.) %>% 
   map(
     \(x) pluck(zoo, x)
@@ -222,10 +229,12 @@ idiocracy <-
   content()
 
 zoo_frame <-
-  c("Title",
+  c(
+    "Title",
     "Year",
     "Plot",
-    "Poster") %>% 
+    "Poster"
+  ) %>% 
   set_names(.) %>% 
   map(
     \(x) pluck(zoo, x)
@@ -233,10 +242,12 @@ zoo_frame <-
   bind_cols()
 
 idiocracy_frame <-
-  c("Title",
+  c(
+    "Title",
     "Year",
     "Plot",
-    "Poster") %>% 
+    "Poster"
+  ) %>% 
   set_names(.) %>% 
   map(
     \(x) pluck(idiocracy, x)
@@ -260,10 +271,12 @@ idiocracy <-
 list(zoo, idiocracy) %>% 
   map(
     \(movie) {
-      c("Title",
+      c(
+        "Title",
         "Year",
         "Plot",
-        "Poster") %>% 
+        "Poster"
+      ) %>% 
         set_names(.) %>% 
         map(
           \(x) pluck(movie, x)
@@ -319,10 +332,12 @@ c("Zoolander", "Idiocracy") %>%
         GET() %>% 
         content()
       
-      c("Title",
+      c(
+        "Title",
         "Year",
         "Plot",
-        "Poster") %>% 
+        "Poster"
+      ) %>% 
         set_names(.) %>% 
         map(
           \(x) pluck(movie_description, x)
@@ -355,7 +370,8 @@ The above worked (`Status: 200`). If we are not keen on replacing every space wi
 str_replace(
   "Annie Hall",
   " ",
-  "+") %>% 
+  "+"
+) %>% 
   str_c(
     "http://www.omdbapi.com/?apikey=6fa7876b&t=",
     .
@@ -369,7 +385,8 @@ What if there are multiple white spaces though? Notice that the below only repla
 str_replace(
   "Harold and Maude",
   " ",
-  "+")
+  "+"
+)
 ```
 
 For this, we can use the function `str_replace_all()`:
@@ -378,7 +395,8 @@ For this, we can use the function `str_replace_all()`:
 str_replace_all(
   "Harold and Maude",
   " ",
-  "+")
+  "+"
+)
 ```
 
 We can verify that this works by passing the above to `GET()`:
@@ -387,7 +405,8 @@ We can verify that this works by passing the above to `GET()`:
 str_replace_all(
   "Harold and Maude",
   " ",
-  "+")%>% 
+  "+"
+) %>% 
   str_c(
     "http://www.omdbapi.com/?apikey=6fa7876b&t=",
     .
@@ -400,28 +419,32 @@ str_replace_all(
 Given the above, we can query a bunch of movies and produce an output table. This starts by generating a vector of URLs:
 
 ```{r}
-c("Annie Hall",
+c(
+  "Annie Hall",
   "Brazil",
   "Harold and Maude",
   "Idiocracy",
   "The Life Aquatic",
   "The Princess Bride",
   "The Royal Tenenbaums",
-  "Zoolander") %>% 
+  "Zoolander"
+) %>% 
   str_replace_all(" ", "+")
 ```
 
 And, then passing that vector to our iteration:
 
 ```{r}
-c("Annie Hall",
+c(
+  "Annie Hall",
   "Brazil",
   "Harold and Maude",
   "Idiocracy",
   "The Life Aquatic",
   "The Princess Bride",
   "The Royal Tenenbaums",
-  "Zoolander") %>% 
+  "Zoolander"
+) %>% 
   str_replace_all(" ", "+") %>% 
   map(
     \(movie) {
@@ -430,10 +453,12 @@ c("Annie Hall",
         GET() %>% 
         content()
       
-      c("Title",
+      c(
+        "Title",
         "Year",
         "Plot",
-        "Poster") %>% 
+        "Poster"
+      ) %>% 
         set_names(.) %>% 
         map(
           \(x) pluck(movie_description, x)
