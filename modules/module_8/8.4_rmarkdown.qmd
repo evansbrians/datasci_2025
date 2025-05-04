@@ -1,5 +1,5 @@
 ---
-title: "8.3. Introduction to R markdown"
+title: "8.3. Introduction to Quarto"
 format:
   html:
     embed-resouces: true
@@ -10,22 +10,91 @@ format:
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
 editor_options: 
   chunk_output_type: console
 ---
+
 <hr>
 
 ![](../../images/hex_complex.png){.intro_image}
 
-Markdown provides a mechanism by which we can write documents and have total control over all of the formatting. When we use R Markdown (or Quarto), we can create documents and embed the output of code, or our code itself, within the document. This allows us to quickly generate and share reports with our data without having to leave the comfort of RStudio! Examples of what R Markdown can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that I am in charge of, and [here is an R Markdown field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} during my study on cicadas. Of course, you have interacted with a lot of Markdown-generated documents already -- all of the content for this course was was created using Markdown (via Quarto). In the video lesson below (runtime: 26:08), you will create a website with R Markdown while learning:
+Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports with our data without having to leave the comfort of RStudio! Examples of what R Markdown can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that I am in charge of, and [here is an R Markdown field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} during my study on cicadas. Of course, you have interacted with a lot of Markdown-generated documents already -- all of the content for this course was was created using Markdown (via Quarto).
 
-* What Markdown is
-* How to create an R Markdown document
-* Some introductory R Markdown techniques
+-   What Markdown is
+-   How to create a Quarto document
+-   Some introductory Quarto techniques
 
-*Note: This lesson, which is rather old (in coding years), originally occurred during the first week of this course! As such, you may be annoyed by my description of opening your project and ensuring that you are working in a clean session.*
+## What is Markdown?
 
-{{< video https://www.youtube.com/embed/Xvqt75IhiW8 >}}
+Markdown was created in 2004 and is a type of "markup" language. Markup language is a combination of literal characters and other elements (e.g., images) where the style is determined by annotations called tags. While the term may seem unfamiliar to you, I am willing to guess that you have been working with markup languages for years. For example, when we type in a Word document we are using a "What you see is what you get" (WYSIWYG) markup language.
+
+Consider, for example, the following sentence as it would be typed in Microsoft Word:
+
+
+::: {class="fake_code"}
+Here is an example sentence with some *italic* and **bold** text.
+:::
+
+To create the above, you use keyboard shortcuts or buttons to define the *italic* and **bold** text. Behind-the-scenes, you are assigning tags to those literal symbols that define how those words are presented. For presentational markup like Microsoft Word documents, all of the code is hidden from the user by default.
+
+Advantages of WYSIWYG markup include:
+
+-   Little expertise is needed to get started
+-   Quick to learn the basics
+-   Easy to create simple products
+
+There are also several disadvantages to WYSIWYG markup:
+
+-   It can often be difficult and time consuming to bypass the default formatting of document elements
+-   It typically takes a long time to develop the advanced skills required to generate professional output
+-   It is often time consuming to maintain consistent formatting of elements within a document and replicate of elements (e.g., styling) across documents
+
+Let's have a look at our sentence written using the hypertext markup language (HTML), the standard markup language for web documents:
+
+```         
+<p style="font-family: \"Times;">
+  Here is an example sentence with some <i>italic</i> and <b>bold</b> text.
+</p>
+```
+
+In the above:
+
+-   The opening tag `<p>` starts the paragraph and the closing tag `</p>` ends the paragraph
+-   The *italic* text is defined by the opening tag `<i>` and closing tag `</i>`
+-   The **bold** text is defined by the opening tag `<b>` and closing tag `</b>`
+
+On a user's web browser, the HTML is then converted to:
+
+::: {class="fake_code"}
+Here is an example sentence with some *italic* and **bold** text.
+:::
+
+Advantages of HTML include:
+
+-   Total control over output
+-   Once you learn the basics, creating professional output can be quite fast
+-   High reproducibility across documents
+
+Disadvantages to HTML:
+
+-   There is a very steep early learning curve
+-   It can be difficult to read the content prior to loading it into a web browser
+
+Now let's look at how our sentence is written in `markdown` language.
+
+```
+Here is an example sentence with some *italic* and **bold** text.
+```
+
+In the above, the italic text is defined by `*italic*`, the bold text is defined by `**bold**` and the rest of the text is written just like the Word version. This is nearly as simple to read as the Word version but has all of the fine-tuning advantages as the HTML version! 
+
+As you might imagine, the output of the above is:
+
+::: {class="fake_code"}
+Here is an example sentence with some *italic* and **bold** text.
+:::
+
+Advantages of using the markdown language are the same as the HTML version but the learning curve is *much* less steep!
 
