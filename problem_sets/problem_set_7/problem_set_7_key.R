@@ -177,6 +177,23 @@ common_leps <-
     by = "scientific_name"
   )
 
+# Or:
+ 
+leps_dc %>% 
+  summarize(
+    observations = n(),
+    .by = scientific_name
+  ) %>% 
+  slice_max(
+    observations, 
+    n = 3
+  ) %>% 
+  semi_join(
+    leps_dc,
+    .,
+    by = "scientific_name"
+  )
+
 # 8 -----------------------------------------------------------------------
 
 # Using `common_leps` and iteration, create three bar plots of the number of
