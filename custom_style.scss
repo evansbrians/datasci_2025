@@ -54,6 +54,21 @@ code {
   margin-bottom: 15px;
 }
 
+.fake_code {
+  font-family: monospace;
+  font-size: 10px;
+  border: 1px solid #999999;
+  border-style: solid; 
+  background-color: #efefef;
+  padding-top: 6px;
+  padding-right: 2px;
+  padding-bottom: 0px;
+  padding-left: 4px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .intro_image {
   float: right; 
   padding-left: 2em; 
