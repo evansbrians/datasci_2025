@@ -42,6 +42,12 @@ for(i in 1:7){
   }
 }
 
+# [[-0.50]] This was a pretty cool base R solution! However, `for`, `if`.
+# `[...]`, `$` and `list` are not among the functions that you may use for this
+# assignment.
+
+# [[-0.10]] Code formatting: Space before opening parenthesis.
+
 # 5 -----------------------------------------------------------------------
 
 # The dataset `bad_birds` is a vector. Fix the spellings of the common names
@@ -61,6 +67,11 @@ bad_birds <-
     ".*n$",
     "House Finch"
   )
+
+# [[-0.75]] You were not asked to globally assign in this question.
+
+# [[No points removed]] Your answer works, and is very parsimonious, but could
+# be dangerous if there were additions to the rows over time.
 
 # 6 -----------------------------------------------------------------------
 
@@ -86,6 +97,9 @@ anti_join(
   matching_list_tables$howdy,
   by = join_by(heroes == hello)
 )
+
+# [[-0.50]] `$` is not among the functions that you may use for this
+# assignment.
 
 # 7 -----------------------------------------------------------------------
 
@@ -123,6 +137,10 @@ common_leps <-
       )
   )
 
+# [[-0.50]] Incorrect: Even though there are duplicate rows, each row represents
+# an observation. This was a violation of the third tidy data rule that every
+# level of observation is stored in their own table.
+
 # 8 -----------------------------------------------------------------------
 
 # Using `common_leps` and iteration, create three bar plots of the number of
@@ -158,6 +176,9 @@ unique(common_leps$scientific_name) %>%
     }
   )
 
+# [[-0.75]]: `$` is not among the functions that you may use for this
+# assignment.
+
 # 9 -----------------------------------------------------------------------
 
 # The object `dates_and_times` contains a date and two times in which an
@@ -187,6 +208,11 @@ dates_and_times <-
     )
   )
 
+# [[-0.75]] You were not asked to globally assign in this question.
+
+# [[-0.15]] Code formatting: Include no more than one prefix function per line
+# of code.
+
 # 10 ----------------------------------------------------------------------
 
 # The dataset `size_and_volume` represents the observations of different
@@ -214,6 +240,10 @@ size_and_volume <-
       )
   )
 
+# [[-0.50]] You were not asked to a assign a name to the global environment in
+# this question.
+
+
 # Extra credit: Create a bar plot of the number of observations of each
 # species where:
 
@@ -232,3 +262,5 @@ size_and_volume %>%
     )
   ) +
   coord_flip()
+
+# [[+1.0]]

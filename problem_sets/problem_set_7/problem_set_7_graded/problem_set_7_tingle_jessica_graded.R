@@ -71,6 +71,10 @@ bad_birds %>%
     replacement = "House finch"
   )
 
+# [[No points removed]] Your answer works, and is very parsimonious (Tara
+# approved!), but could be dangerous if there were additions to the rows over
+# time.
+
 # 6 -----------------------------------------------------------------------
 
 # The list object `matching_list_tables` contains two tables, `boy` and `howdy`.
@@ -213,6 +217,9 @@ size_and_volume %>%
       )
   )
 
+# [[-0.10]] Code parsimony: It is not necessary to specify size and volume for
+# each of the combinations.
+
 # Extra credit: Create a bar plot of the number of observations of each
 # species where:
 
@@ -262,3 +269,7 @@ size_and_volume %>%
     x = NULL,
     y = "# observations"
   )
+
+# :)!!!!!!!!! We LOVE your goofy plots!!!!!!
+
+# [[+1.0]]

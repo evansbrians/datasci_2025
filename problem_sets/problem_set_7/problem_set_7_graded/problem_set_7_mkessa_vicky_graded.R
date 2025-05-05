@@ -51,6 +51,9 @@ backwards_columns %>%
     a = A, 
     b = B)
 
+# [[-0.10]] If a function spans more than one line of code, closing parentheses 
+# should be placed on their own line.
+
 # 5 -----------------------------------------------------------------------
 
 # The dataset `bad_birds` is a vector. Fix the spellings of the common names
@@ -100,6 +103,11 @@ boy %>%
     by = c("heroes" = "hello")
   )
 
+# [[-0.50]] You were not asked to globally assign for this question.
+
+#  [[-0.10]] Code formatting: If a code block spans more than one line of code,
+#  add a new line after the assignment operator.
+
 # 7 -----------------------------------------------------------------------
 
 # The dataset `leps_dc` contains all of the observations of Lepidoptera in
@@ -128,6 +136,9 @@ common_leps <-
         n = 3
       )
   )
+
+# [[-0.15]] Code formatting: Code and comments should not exceed 80 characters
+# in width (if it is avoidable) – add a line break, if possible.
 
 # 8 -----------------------------------------------------------------------
 
@@ -186,6 +197,12 @@ common_leps %>%
     }
   )
 
+# [[-0.15]] Code formatting:
+# * Parentheses and square bracket operators should not be preceded or followed
+#   by a space.
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
+
 # 9 -----------------------------------------------------------------------
 
 # The object `dates_and_times` contains a date and two times in which an
@@ -224,6 +241,14 @@ dates_and_times %>%
     time2 = hour(time2)
   )
 
+# [[-0.15]] Code parsimony: Your code could have been made less redundant
+# through the use of `across()`.
+
+# [[-0.15]] Code formatting: 
+# * Include no more than one prefix function per line of code.
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+
 # 10 ----------------------------------------------------------------------
 
 # The dataset `size_and_volume` represents the observations of different
@@ -249,6 +274,9 @@ size_and_volume %>%
         size >= 10 & volume > 30 ~ "Howler monkey"
       )
   )
+
+# [[-0.10]] Code parsimony: It is not necessary to specify size and volume for
+# each of the combinations.
 
 # Extra credit: Create a bar plot of the number of observations of each
 # species where:
@@ -288,3 +316,7 @@ size_and_volume %>%
     y = "Number of observations"
   ) +
   theme_bw()
+
+# [[+0.50]] Half of the extra credit points were taken off because `reorder` is
+# not among the functions that you may use in this assignment ... `fct_reorder`
+# was.

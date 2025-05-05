@@ -213,6 +213,9 @@ dates_and_times %>%
     )
   )
 
+# [[No points removed]] I do not recommend using `.` to represent a variable
+# in `across()`.
+
 # 10 ----------------------------------------------------------------------
 
 # The dataset `size_and_volume` represents the observations of different
@@ -288,3 +291,5 @@ size_and_volume %>%
   geom_bar(stat = "identity") +
   labs(y = "Species", x = "Count")
 
+#  [[+0.9]] Points of for code formatting: If you have more than one = in a
+#  function, place each argument on its own line.

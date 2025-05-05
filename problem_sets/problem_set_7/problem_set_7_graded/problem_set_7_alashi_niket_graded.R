@@ -51,6 +51,11 @@ backwards_columns %>%
   ) %>%
   select(-A, -B)
 
+# [[-0.75]] Incorrect: This did not generate the requested result (see key).
+
+# [[-0.25]] `-` is not among the functions that you may use for this
+# assignment.
+
 # 5 -----------------------------------------------------------------------
 
 # The dataset `bad_birds` is a vector. Fix the spellings of the common names
@@ -77,6 +82,14 @@ bad_birds <-
       )
     }
   ) %>% unlist()
+
+# [[-0.50]] You were not asked to globally assign in this question.
+
+# [[-0.75]] `unlist` and `str_detect()` are not among the functions that you may
+# use for this assignment.
+
+# [[No points removed]] Code parsimony: It was not necessary to use 
+# `case_when()` to answer this question.
 
 # 6 -----------------------------------------------------------------------
 
@@ -148,6 +161,9 @@ common_leps <-
       )
   )
 
+# [[-0.75]] `count` is not among the functions that you may use for this
+# assignment.
+
 # 8 -----------------------------------------------------------------------
 
 # Using `common_leps` and iteration, create three bar plots of the number of
@@ -191,6 +207,12 @@ map(
     )
 )
 
+# [[No points removed]] `count` is not among the functions that you may use for
+# this assignment.
+
+# [[-0.15]] Code formatting: Maintain one blank line between code blocks and
+# comments. In your version there were additional spaces prior to the section
+# header.
 
 # 9 -----------------------------------------------------------------------
 
@@ -228,6 +250,14 @@ dates_and_times %>%
       hour(time2)
   )
 
+# [[-0.15]] Code parsimony: Your code could have been made less redundant
+# through the use of `across()`.
+
+# [[-0.15]] Code formatting: 
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
 
 # 10 ----------------------------------------------------------------------
 
@@ -260,6 +290,9 @@ size_and_volume <-
       )
   )
 
+# [[-0.50]] You were not asked to a assign a name to the global environment in
+# this question.
+
 # Extra credit: Create a bar plot of the number of observations of each
 # species where:
 
@@ -288,3 +321,5 @@ size_and_volume %>%
     x = "Species",
     y = "Number of Observations"
   )
+
+# [[+1.0]]
