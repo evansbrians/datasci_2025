@@ -1,0 +1,24 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+base,library,Attach the package environment for a given package to the current R session
+devtools,check,Test a package for errors
+devtools,document,Generate or update the documentation for your package
+devtools,install,Install a custom package and its dependencies
+devtools,load_all,Load all of the functions assigned to a package
+ggplot2,+,ggplot's pipe operator (adds a layer to a plot)
+ggplot2,aes,Define aesthetics
+ggplot2,element_line,Set the theme for a line element
+ggplot2,element_rect,Set the theme for a shape element
+ggplot2,element_text,Set the theme for a text element
+ggplot2,geom_point,Create a point geometry
+ggplot2,ggplot,"Set the data and, potentially, the aesthetics of a plot"
+ggplot2,theme,Define the theme elements of a plot
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+tibble,tibble,Column-wise creation of a tibble data frame
+usethis,create_package,Create an R package
+usethis,use_mit_license,Specify the MIT license to describe package usage rights
+usethis,use_package,Add a dependency on another package
+usethis,use_r,Create a script for a package function

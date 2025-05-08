@@ -382,7 +382,7 @@ fun_through_module_8 <-
     fun_module_5,
     fun_module_6,
     fun_module_7,
-    fun_module_7
+    fun_module_8
   ) %>% 
   get_new_functions()
 
