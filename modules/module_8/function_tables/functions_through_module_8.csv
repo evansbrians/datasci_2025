@@ -1,0 +1,233 @@
+Package,Function,First lesson used,Definition
+.Primitive,(...),0.1-intro_to_r_and_rstudio,Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},4.3_filtering_strings,Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,0.1-intro_to_r_and_rstudio,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,<<-,6.1_focus_on_functions,The super assignment infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) and sends the results to the global environment (regardless of the operating environment)
+.Primitive,=,0.1-intro_to_r_and_rstudio,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,~,1.3_objects,The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
+.Primitive,:,0.2-values,Infix operator that generates a regular sequence of adjacent values
+.Primitive,::,1.3_objects,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,:::,4.4_subsetting_vectors,Infix operator that can be used to access a function that is not meant to be exported!
+.Primitive,[…],0.4-indexing,Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,[[…]],0.4-indexing,Extraction operator used to index a single value from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,$,0.4-indexing,Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
+.Primitive,==,0.2-values,Infix relational operator (is equal to)
+.Primitive,!=,0.2-values,Infix relational operator (is not equal to)
+.Primitive,!,1.3_objects,Prefix logical operator (not)
+.Primitive,&,0.2-values,Prefix logical operator (and)
+.Primitive,|,0.2-values,Prefix logical operator (or)
+.Primitive,>,0.2-values,Infix relational operator (greater than)
+.Primitive,<,0.2-values,Infix relational operator (less than)
+.Primitive,>=,3.2_subsetting,Infix relational operator (greater than or equal to)
+.Primitive,<=,0.2-values,Infix relational operator (less than or equal to)
+.Primitive,+,0.1-intro_to_r_and_rstudio,Infix arithmetic operator (addition)
+.Primitive,-,0.2-values,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,*,3.1_mutation,Infix arithmetic operator (multiply)
+.Primitive,/,0.3-objects,Infix arithmetic operator (divide)
+.Primitive,^,4.1_data_vis_ii_distributions,Infix arithmetic operator (to the power of)
+.Primitive,as.character,0.2-values,Transform an atomic vector to a character vector
+.Primitive,as.integer,0.2-values,Transform an atomic vector to an integer vector
+.Primitive,as.numeric,0.2-values,"Transform an atomic vector to an double numeric vector (i.e., decimal numbers)"
+.Primitive,attributes,0.3-objects,Generate and print a list that represents the attributes of a data object
+.Primitive,c,0.1-intro_to_r_and_rstudio,Combine values to form an atomic vector
+.Primitive,class,0.2-values,Print the class of an object as a one-value character vector
+.Primitive,dim,0.3-objects,Return the number of dimensions of an object as an integer vector
+.Primitive,for,6.2_iteration_with_purrr_and_for_loops,"Initiate a for loop, written as for(var in seq)"
+.Primitive,function,6.1_focus_on_functions,Write a custom function
+.Primitive,if,7.4_big_data,"If a logical value is TRUE, evaluate a statement"
+.Primitive,if,7.4_big_data,"If a logical value is TRUE, evaluate a statement"
+.Primitive,is.na,3.2_subsetting,A logical test of whether a value in a vector is [NA]
+.Primitive,length,0.3-objects,Return the number of values in an atomic vector or the number of list items in a list (or data frame!) as a one-value integer vector
+.Primitive,list,0.3-objects,"Combine multiple objects of any type into a single, recursive, data object"
+.Primitive,max,1.4_importing_exploring_exporting,Return the highest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+.Primitive,min,1.4_importing_exploring_exporting,Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+.Primitive,names,0.3-objects,Retrieve the names (or names attribute) assigned to an R object (generates a character vector)
+.Primitive,return,6.1_focus_on_functions,Return the results from a given point in a function's body (do not use for the last value!)
+.Primitive,seq_along,6.2_iteration_with_purrr_and_for_loops,Generate an integer vector representing the indices (positions) in a vector (list or atomic)
+.Primitive,sum,0.2-values,Calculate the sum of the values in a vector
+arrow,open_csv_dataset,7.4_big_data,Establish a connection with a csv data file
+arrow,open_csv_dataset,7.4_big_data,Establish a connection with a csv data file
+base,%in%,0.2-values,Infix relational operator that tests whether the vector on the left-hand-side (LHS) is within the vector on the right
+base,body,6.1_focus_on_functions,Print the body of an R function
+base,cut,5.2_categorizing_data,Convert a numeric vector into a factor
+base,data.frame,0.3-objects,Create a data frame
+base,environment,1.3_objects,Print the environment of a given function
+base,factor,0.2-values,Convert a character vector to a factor
+base,file.remove,1.4_importing_exploring_exporting,Delete a file from your hard drive
+base,formals,6.1_focus_on_functions,Print the formals of an R function
+base,function,6.1_focus_on_functions,Initiate the creation of a custom function
+base,levels,1.4_importing_exploring_exporting,Generate a character vector of factor levels in a factor variable
+base,library,0.1-intro_to_r_and_rstudio,Attach the package environment for a given package to the current R session
+base,list.files,1.4_importing_exploring_exporting,List files in a specified folder on your computer's hard drive
+base,list2env,2.2_reshaping_data_frames,Assign the items in a list to a specified environment
+base,ls,0.1-intro_to_r_and_rstudio,Generate a character vector of names in a specified environment (default is the global environment)
+base,matrix,0.3-objects,Generate a matrix object by adding dimensional attributes to an atomic vector
+base,mean,0.1-intro_to_r_and_rstudio,Generate a one-value double numeric vector that describes the mean of a vector
+base,ncol,0.3-objects,"Return the number of columns (i.e., variables or list items) in a data frame as a one-value integer vector"
+base,nrow,0.3-objects,"Return the number of rows (i.e., observations) in a data frame as a one-value integer vector"
+base,rm,0.1-intro_to_r_and_rstudio,Remove a name from a specified environment (default is the global environment)
+base,search,1.3_objects,Print a character vector of attached objects associated with your current R session
+base,seq,5.2_categorizing_data,Generate a numeric vector between a range of values by some increment
+base,sort,7.4_big_data,Arrange a vector in ascending order
+base,sort,7.4_big_data,Arrange a vector in ascending order
+base,summary,1.4_importing_exploring_exporting,Print summary stats for a data object
+base,tolower,1.5_assignments,Convert a character vector to lowercase
+base,table,1.4_importing_exploring_exporting,Count the number of unique observations in an atomic vector
+base,typeof,0.2-values,Print a one-value character vector that represents how a data object is stored on our computer
+base,unit,4.1_data_vis_ii_distributions,Set or create a unit object
+base,unique,1.4_importing_exploring_exporting,Subset an atomic vector to the unique values in the set
+base,vector,6.2_iteration_with_purrr_and_for_loops,Generate a vector (list or atomic)
+bench,mark,7.1_memory_and_time,Benchmark an operation (processing time and memory used)
+bench,mark,7.1_memory_and_time,Benchmark an operation (processing time and memory used)
+data.table,fread,7.4_big_data,Read in an object as a data.table class object
+data.table,fread,7.4_big_data,Read in an object as a data.table class object
+DBI,dbAppendTable,7.4_big_data,Modify an existing table in a database
+DBI,dbAppendTable,7.4_big_data,Modify an existing table in a database
+DBI,dbConnect,7.4_big_data,Establish a connection to a database
+DBI,dbConnect,7.4_big_data,Establish a connection to a database
+DBI,dbDisconnect,7.4_big_data,Close the connection with a database
+DBI,dbDisconnect,7.4_big_data,Close the connection with a database
+DBI,dbListTables,7.4_big_data,List the tables in a database
+DBI,dbListTables,7.4_big_data,List the tables in a database
+DBI,dbWriteTable,7.4_big_data,Add a table to a database
+DBI,dbWriteTable,7.4_big_data,Add a table to a database
+dplyr,across,5.1_iterative_mutation,Apply a function across multiple variables in a data frame
+dplyr,anti_join,3.4_joins,A filtering join that joins a source table to a target table and maintains only records in which the key values *do not* match
+dplyr,arrange,1.4_importing_exploring_exporting,Sort the rows of a data frame by the values in a variable or variables
+dplyr,bind_cols,1.3_objects,Combine two variables or columns of two tibbles to create a new tibble
+dplyr,bind_rows,2.2_reshaping_data_frames,Combine rows of two or more tibbles to create a new tibble
+dplyr,case_when,5.2_categorizing_data,Classify or reclassify a vector into two or more  classes based on a series of logical tests
+dplyr,collect,7.4_big_data,Force computation of a database query
+dplyr,collect,7.4_big_data,Force computation of a database query
+dplyr,count,2.2_reshaping_data_frames,Tabulate the number of observations of each unique value of a column in a data frame and return as a long format tibble
+dplyr,desc,1.4_importing_exploring_exporting,"When used with `arrange()`, this sorts the rows of a data frame by the values of a variable in descending order"
+dplyr,distinct,2.2_reshaping_data_frames,Subset a data frame by removing duplicate rows
+dplyr,filter,3.2_subsetting,Subset a data frame by logical condition
+dplyr,full_join,3.4_joins,"A mutating join that joins a source table to a target table and maintains all records in both tables, regardless of matching key values"
+pillar,glimpse,7.4_big_data,"A transposed printing of a dataset, similar to base R's `str()`. This function is accessed by `dplyr` and *pillar* does not need to be explicitly loaded."
+pillar,glimpse,7.4_big_data,"A transposed printing of a dataset, similar to base R's `str()`. This function is accessed by `dplyr` and *pillar* does not need to be explicitly loaded."
+dplyr,group_by,3.3_summarizing,Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
+dplyr,if_all,4.2_advanced_filtering,Run a function for all of the columns that satisfy a given condition
+dplyr,if_any,4.2_advanced_filtering,Run a function for any of the columns that satisfy a given condition
+dplyr,if_else,5.2_categorizing_data,Classify or reclassify a vector into two classes by applying a logical test and assigning one value if the test evaluates to `TRUE` and another if it evaluates to `FALSE`
+dplyr,inner_join,3.4_joins,A mutating join that joins a source table to a target table and maintains only records with matching key values
+dplyr,join_by,3.4_joins,Specify the key columns within a join function
+dplyr,left_join,2.2_reshaping_data_frames,"A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values"
+dplyr,mutate,3.1_mutation,Add or modify a column in a data frame
+dplyr,n,1.6_course_style_guide_part_1,Calculate the number of observations (rows)
+dplyr,na_if,3.1_mutation,Convert a value in a vector to NA
+dplyr,pull,3.2_subsetting,Extract a column from a data frame as a vector
+dplyr,rename,1.5_assignments,Change the name assigned to a column in a data frame
+dplyr,row_number,3.1_mutation,Generate a sequence of integer values from 1 to the number of rows in a data frame
+dplyr,select,1.6_course_style_guide_part_1,Subset columns in a data frame by name (without quotes!)
+dplyr,semi_join,3.4_joins,A filtering join that joins a source table to a target table and maintains only records with matching key values
+dplyr,show_query,7.4_big_data,Show the details of a tbl
+dplyr,show_query,7.4_big_data,Show the details of a tbl
+dplyr,slice,3.2_subsetting,Subset a data frame by row or rows using the row position(s)
+dplyr,slice_head,1.4_importing_exploring_exporting,Subset a data frame to the first row (default) or rows
+dplyr,slice_tail,1.4_importing_exploring_exporting,Subset a data frame to the last row (default) or rows
+dplyr,slice_min,3.2_subsetting,Sort a data frame by a variable and subset to the rows associated with the lowest values of that variable
+dplyr,slice_max,3.2_subsetting,Sort a data frame by a variable and subset to the rows associated with the highest values of that variable
+dplyr,summarize,1.6_course_style_guide_part_1,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+dblyr,tbl,7.4_big_data,Create a tibble data frame from a data source
+dblyr,tbl,7.4_big_data,Create a tibble data frame from a data source
+dplyr,transmute,3.1_mutation,Mutate a data frame while subsetting the columns to those specified in the function
+dplyr,ungroup,3.3_summarizing,Remove any grouping on a data frame
+dtplyr,lazy_dt,7.4_big_data,"Create a ""lazy"" data.table object that can be used with dplyr verbs"
+dtplyr,lazy_dt,7.4_big_data,"Create a ""lazy"" data.table object that can be used with dplyr verbs"
+forcats,fct_collapse,5.3_factors_are_forcats,Collapse factor levels into manually defined groups
+forcats,fct_recode,5.3_factors_are_forcats,Change factor levels by hand (specify a new factor level or modify an existing level)
+forcats,fct_relevel,5.3_factors_are_forcats,Reorder factor levels by hand
+forcats,fct_reorder,5.3_factors_are_forcats,Reorder factor levels by another variable
+forcats,fct_rev,5.3_factors_are_forcats,Reverse the order of factor levels
+ggplot2,aes,2.4_intro_to_data_vis,Define aesthetics
+ggplot2,coord_flip,4.1_data_vis_ii_distributions,Switch the mapping to the horizontal and vertical coordinates
+ggplot2,element_blank,4.1_data_vis_ii_distributions,Remove a thematic element
+ggplot2,element_line,4.1_data_vis_ii_distributions,Set the theme for a line element
+ggplot2,element_rect,4.1_data_vis_ii_distributions,Set the theme for a shape element
+ggplot2,element_text,2.4_intro_to_data_vis,Set the theme for a text element
+ggplot2,expansion,4.1_data_vis_ii_distributions,Set upper and lower values of a plot axis based on the range of data
+ggplot2,facet_wrap,2.4_intro_to_data_vis,Split plot into facets
+ggplot2,geom_bar,5.2_categorizing_data,Create a bar geometry
+ggplot2,geom_boxplot,4.1_data_vis_ii_distributions,Create a boxplot geometry
+ggplot2,geom_density,4.1_data_vis_ii_distributions,Create a (statistical) density geometry
+ggplot2,geom_point,2.4_intro_to_data_vis,Create a point geometry
+ggplot2,geom_smooth,2.4_intro_to_data_vis,Add a line-of-best-fit geometry
+ggplot2,ggplot,2.4_intro_to_data_vis,"Set the data and, potentially, the aesthetics of a plot"
+ggplot2,labs,2.4_intro_to_data_vis,Add or modify the labels of a plot
+ggplot2,scale_color_manual,2.4_intro_to_data_vis,Manually define the colors of a geometry
+ggplot2,scale_x_continuous,2.4_intro_to_data_vis,Set the scale of the x axis
+ggplot2,scale_y_continuous,2.4_intro_to_data_vis,Set the scale of the y axis
+ggplot2,theme,2.4_intro_to_data_vis,Define the theme elements of a plot
+ggplot2,theme_bw,2.4_intro_to_data_vis,Generate a pre-packaged light background theme for a plot
+lobstr,obj_size,7.1_memory_and_time,View the amount of memory allocated to an object in your computer's memory
+lobstr,obj_size,7.1_memory_and_time,View the amount of memory allocated to an object in your computer's memory
+lobstr,ref,1.5_assignments,View the structure of an object in your computer's memory
+lubridate,as_date,5.1_iterative_mutation,"Convert properly formatted date, stored as a character or datetime vector, to a date class object"
+lubridate,dmy,5.4_dates_and_times,"Convert a date formatted as day, month, year (European date format) to a date class object"
+lubridate,hour,5.4_dates_and_times,Get hour-of-day from an ISO-8601 formatted object with a date and time.
+lubridate,mdy,5.4_dates_and_times,"Convert a date formatted as month, day, year (US date format) to a date class object"
+lubridate,month,5.4_dates_and_times,Extract the month from a properly formatted date value
+lubridate,wday,5.4_dates_and_times,Extract the day of the week from a properly formatted date value
+lubridate,yday,5.4_dates_and_times,Calculate the day of year from a properly formatted date object
+lubridate,year,3.2_subsetting,Extract the year from a properly formatted date value
+lubridate,ymd_hms,5.4_dates_and_times,Generate a date-time class object with an character vector of the format yyyy-mm-dd hh:mm:ss
+magrittr,%>%,1.5_assignments,The pipe operator passes the output of the LHS argument to the function on the right
+magrittr,extract,4.4_subsetting_vectors,Extract a value from an atomic vector or list item by position or name
+purrr,keep,4.4_subsetting_vectors,Subset a vector with logic
+purrr,map,6.2_iteration_with_purrr_and_for_loops,Iterate across a vector and return a list
+purrr,map_dbl,3.5_course_style_guide_part_3,Iterate across a vector and return a double numeric vector
+purrr,pluck,3.2_subsetting,Extract a list item from a list
+readr,read_csv,0.3-objects,Read a tabular csv file into R as a tibble data frame
+readr,read_lines,0.3-objects,Read an atomic vector into R
+readr,read_rds,0.3-objects,Read an RDS file into R
+readr,write_csv,0.3-objects,Write a data frame to your hard drive as a csv file
+readr,write_lines,0.3-objects,Write an atomic vector to your hard drive as a txt file
+readr,write_rds,0.3-objects,Write a data object to your hard drive as an RDS file
+readxl,excel_sheets,1.4_importing_exploring_exporting,Return the names of worksheets in an Excel file
+readxl,read_excel,1.4_importing_exploring_exporting,Read an Excel worksheet into R
+rlang,{{}},6.1_focus_on_functions,Insert the variable inside of `{{ ... }}` into the body of a function
+rlang,set_names,1.5_assignments,Assign names to values in a vector or items in a list
+RSQLite,SQLite,7.4_big_data,Connect to an SQLite database
+RSQLite,SQLite,7.4_big_data,Connect to an SQLite database
+stats,median,1.4_importing_exploring_exporting,Calculate the median value of a numeric vector and return as a one-value double numeric or integer vector
+stats,sd,1.4_importing_exploring_exporting,Calculate the standard deviation of a numeric vector and return as a one-value double numeric vector
+stats,var,1.4_importing_exploring_exporting,Calculate the variance of a numeric vector and return as a one-value double numeric vector
+stringi,stri_rand_strings,7.4_big_data,Generate a random string of letter and number symbols
+stringi,stri_rand_strings,7.4_big_data,Generate a random string of letter and number symbols
+stringr,str_c,0.1-intro_to_r_and_rstudio,"Concatenate strings, with or without (default) a separator"
+stringr,str_detect,4.1_data_vis_ii_distributions,Logical test of whether a pattern (string) is contained within a character value
+stringr,str_remove,5.2_categorizing_data,Remove part of a string based on a search pattern
+stringr,str_replace,5.2_categorizing_data,Replace a given pattern in a string with a new pattern
+stringr,str_replace_all,7.6_programming_applications,Replace a multiple instances of a given pattern in a string with a new pattern
+stringr,str_replace_all,7.6_programming_applications,Replace a multiple instances of a given pattern in a string with a new pattern
+stringr,str_to_sentence,5.2_categorizing_data,Convert a string to sentence case (first letter capitalized)
+stringr,str_to_title,5.2_categorizing_data,Convert a string to title case (first letter of each word capitalized)
+terra,extract,4.4_subsetting_vectors,Extract raster values to a shapefile based on location
+terra,plot,0.2-values,Apply a base R-style plot to a terra raster object
+tibble,as_tibble,7.4_big_data,Convert a data frame (and some other non-tibble objects!) to a tibble data frame
+tibble,as_tibble,7.4_big_data,Convert a data frame (and some other non-tibble objects!) to a tibble data frame
+tibble,lst,2.3_tidy_data_review,Combine objects into a list while maintaining any names assigned to the global environment
+tibble,tibble,0.3-objects,Column-wise creation of a tibble data frame
+tibble,tribble,1.3_objects,Row-wise creation of a tibble data frame
+tidyr,drop_na,3.2_subsetting,Remove rows that contain NA values
+tidyr,expand_grid,7.4_big_data,Generate a tibble that includes all potential combinates of two or more vectors
+tidyr,expand_grid,7.4_big_data,Generate a tibble that includes all potential combinates of two or more vectors
+tidyr,nest,7.4_big_data,Collapse variables into a list column
+tidyr,nest,7.4_big_data,Collapse variables into a list column
+tidyr,pivot_longer,2.2_reshaping_data_frames,Convert a data frame from wide to long format
+tidyr,pivot_wider,2.2_reshaping_data_frames,Convert a data frame from long to wide format
+tidyr,replace_na,3.1_mutation,Replace an NA value in a vector with a different value
+tidyr,separate,2.2_reshaping_data_frames,Separate a single column into multiple columns by a delimiter
+tidyr,unite,2.2_reshaping_data_frames,Combine columns in a data frame to create a single column
+tidyr,unnest,7.4_big_data,"Convert a list column to a series of columns, often resulting in additional rows"
+tidyr,unnest,7.4_big_data,"Convert a list column to a series of columns, often resulting in additional rows"
+tidyselect,everything,3.2_subsetting,"Used in combination with select, this selects all but the specified columns."
+tidyselect,matches,4.4_subsetting_vectors,"When used with select, this allows you to subset names with string matching"
+tidyselect,where,3.2_subsetting,Select a variable with a function that returns `TRUE` or `FALSE`
+tidyverse,tidyverse_packages,1.3_objects,Generate a character vector of package names in the tidyverse metapackage
+tidyverse,tidyverse_update,1.2_getting_started,Update packages in the tidyverse metapackage
+utils,?,0.1-intro_to_r_and_rstudio,Prefix operator to retrieve the help file for a function
+utils,install.packages,0.1-intro_to_r_and_rstudio,Download and install one or more packages onto your computer
+utils,news,1.2_getting_started,View the version history of a package
+utils,str,0.4-indexing,View the structure of a data object

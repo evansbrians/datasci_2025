@@ -29,7 +29,7 @@ GitHub provides an efficient, well-organized, workflow for collaborating with co
 Notes: 
 
 * The script file `homework1_key.R` in the example repository that I use is very old and therefore does not follow this course's style guide!
-* You will hear me say I did not want to teach you about dates and times until later in the course. That is because this lesson used to be included in the first module of this course.
+* This lesson used to be included in the first module of this course, so you may hear me reference material covered later in the course
 
 {{< video https://www.youtube.com/embed/bMBgOkXf6SY >}}
 

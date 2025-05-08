@@ -356,3 +356,49 @@ fun_through_module_7 %>%
 fun_through_module_7 %>% 
   plot_fun_accumulation("Module 7")
 
+# Get functions used, Module 8 --------------------------------------------
+
+# Module 8, all functions:
+
+fun_module_8 <- 
+  get_module_functions("module_8")
+
+fun_module_8 %>% 
+  print(n = Inf)
+
+# Write functions by lesson:
+
+write_function_tables("module_8")
+
+# Get new functions learned in each lesson:
+
+fun_through_module_8 <-
+  bind_rows(
+    fun_introductory_material,
+    fun_module_1,
+    fun_module_2,
+    fun_module_3,
+    fun_module_4,
+    fun_module_5,
+    fun_module_6,
+    fun_module_7,
+    fun_module_7
+  ) %>% 
+  get_new_functions()
+
+fun_through_module_8 %>% 
+  print(n = Inf)
+
+fun_through_module_8 %>% 
+  write_module_functions_table("module_8")
+
+# Plot new functions used:
+
+fun_through_module_8 %>% 
+  plot_new_functions("Preliminary lessons")
+
+# Plot function accumulation curve:
+
+fun_through_module_8 %>% 
+  plot_fun_accumulation("Module 8")
+

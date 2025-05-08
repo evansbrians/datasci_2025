@@ -1,21 +1,31 @@
 ---
-title: "8.2. Collaborating with R packages"
+title: "8.2 Collaborating with R packages"
 format:
   html:
     embed-resouces: true
     self-contained: true
     standalone: true
-    toc: false
+    toc: true
+    toc-location: left
     number-sections: false
     search: true
     theme: 
       - cosmo
-      - custom_style.scss
+      - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 <hr>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  error = TRUE)
+
+rm(has_annotations)
+```
 
 ![](../../images/hex_complex.png){.intro_image}
 
@@ -25,10 +35,148 @@ R packages are a key tool for collaboration. They provide us with a mechanism to
 * How to create a custom R package;
 * How to publish your package to GitHub.
 
+## Video lesson
+
 A couple of things to note prior to watching the video:
 
+* The layout of the GitHub website has slightly changed since this video was recorded. For example, there is no longer a checkbox to "Add .gitignore" or "Choose a license". Instead, make sure you choose ".gitignore template: None" and "License: None" from the drop-down menus when creating your repository.
 * I use `.` to represent my variable in `map()` ... I suggest reserving `.` for a placeholder and instead using `.x` when referring to a variable in an iteration.
+* You may receive different `NOTE` messages in your `check()` output.
 * This video is several years old ... I do not quite follow the code formatting conventions for this class!
 
 {{< video https://www.youtube.com/embed/BBMTHVkfZBo >}}
+
+```{r include = FALSE, eval=FALSE}
+usethis::create_package()
+
+usethis::use_mit_license()
+
+usethis::use_r()
+
+devtools::load_all()
+
+devtools::check()
+
+usethis::use_package() # Import a pre-built package to your custom package
+
+devtools::document()
+
+tibble()
+
+library()
+
+ggplot()
+
+aes()
+
+geom_point()
+
+theme()
+
+element_line()
+
+element_rect()
+
+element_text()
+
+ggplot::+
+  
+%>% 
+  
+devtools::install()
+```
+
+## Reference
+
+<button class="accordion">Glossary</button>
+::: panel
+
+* **Environment** (of a function): The location of a function's variables.
+* **Function**: A set of instructions used to complete a given task.
+* **Package environment**: A collection of variable names associated with objects in a package.
+* **Project**: A collection of files that is referenced by a `.RProj` file.
+
+:::
+
+<button class="accordion">Functions</button>
+::: panel
+
+::: mysecret
+
+{{< fa user-secret size=2x >}} [**Important!**]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+* Primitive functions, as well as functions in the *base*, *stats*, and *utils* packages, are loaded by default when you start an R session. Functions in *dplyr*, *ggplot2*, *lubridate*, *purrr*, *readr*, *stringr*, *tibble*, *tidyr*, and *tidyverse* are loaded with `library(tidyverse)`.
+* The functions `magrittr::%>%`, `rlang::{{}}`, `rlang::set_names` are attached with `library(tidyverse)`
+* I do not include functions that I recommend avoiding.
+* Regular expressions metacharacters are not functions!
+:::
+
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_8.2_r_packages.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+
+:::
+
+:::
+
+<button class="accordion">Bash commands</button>
+::: panel
+
+:::{style="background-color: white; font-size: 14px;"}
+|Command                          | Operation        
+|:--------------------------------|:--------------------------------------------------------|
+| cd [directory name]              | Navigate to a different directory
+| cd ..                            | Navigate to a parent folder
+| git add                          | Stage a file to be committed (to be stored in your local repository)
+| git commit -m                    | Add a file to your local repository, with a message 
+| git config --global user.name    | Configure the user name of your global options
+| git config --global user.email   | Configure the user email of your global options
+| git pull                         | Download any changes from your online GitHub repository
+| git push                         | Upload any changes to your online GitHub repository
+| git status                       | View the current state of your local and online repositories
+| ls [directory name]              | List files in a directory
+| mkdir [directory name]           | Make directory
+| mv [current name] [new path]     | Move a file or change its name
+| pwd                              | Print working directory
+| rm [file name]                   | Remove a file   
+| rm -rf                           | Remove a directory
+
+:::
+:::
+
+<button class="accordion">R Studio panes</button>
+::: panel
+Throughout this class, I will refer to the panes (sections) of the R Studio window. This graphic should help you remember them:
+<img src = '../../images/rstudio_panes.png' style = "max-width: 100%; height: auto; padding-top: 20px; padding-bottom: 12px"></img>
+*Note: I sometimes also describe the "workspace" pane as the "environment" pane.*
+:::
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.display === "block") {
+panel.style.display = "none";
+} else {
+panel.style.display = "block";
+}
+});
+}
+</script>
 

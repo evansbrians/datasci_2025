@@ -1,0 +1,44 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,[…],Extraction operator used to index multiple values from a data object (LHS) based on the position or values specified inside the brackets
+.Primitive,$,Infix operator that extracts the values associated with a name (RHS) from a recursive object (LHS)
+.Primitive,==,Infix relational operator (is equal to)
+.Primitive,!,Prefix logical operator (not)
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,-,Infix arithmetic operator (subtract) or prefix negative symbol operator
+.Primitive,*,Infix arithmetic operator (multiply)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,c,Combine values to form an atomic vector
+.Primitive,function,Write a custom function
+.Primitive,if,"If a logical value is TRUE, evaluate a statement"
+.Primitive,list,"Combine multiple objects of any type into a single, recursive, data object"
+.Primitive,max,Return the highest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+.Primitive,min,Return the lowest value in a numeric vector (integer or double) as a one-value numeric or integer vector (depending on input)
+base,function,Initiate the creation of a custom function
+base,library,Attach the package environment for a given package to the current R session
+base,sort,Arrange a vector in ascending order
+base,source,Execute a source script (in its entirety)
+dplyr,filter,Subset a data frame by logical condition
+dplyr,group_by,Group the data in a data frame by a given variable such that one or more subsequent analyses are run separately on each group
+dplyr,left_join,"A mutating join that joins a source table to a target table and maintains all records found in the target table, regardless of matching key values"
+dplyr,mutate,Add or modify a column in a data frame
+dplyr,pull,Extract a column from a data frame as a vector
+dplyr,select,Subset columns in a data frame by name (without quotes!)
+dplyr,summarize,Calculate one or more summary statistics on a variable or variables in a data frame (often used in conjunction with `group_by()` but may also be used with `.by = ...`)
+dplyr,ungroup,Remove any grouping on a data frame
+ggplot2,+,ggplot's pipe operator (adds a layer to a plot)
+ggplot2,aes,Define aesthetics
+ggplot2,geom_line,Create a line geometry (that connects points)
+ggplot2,ggplot,"Set the data and, potentially, the aesthetics of a plot"
+ggplot2,theme_minimal,"Generate a pre-packaged theme that has no axis lines, a white background, and light gray plot grid"
+lubridate,as_date,"Convert properly formatted date, stored as a character or datetime vector, to a date class object"
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+readr,read_csv,Read a tabular csv file into R as a tibble data frame
+tidyr,pivot_longer,Convert a data frame from wide to long format
+utils,?,Prefix operator to retrieve the help file for a function
+base,head,Return the first 6 rows of a data frame (by default)
