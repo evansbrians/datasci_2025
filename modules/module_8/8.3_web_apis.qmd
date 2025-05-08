@@ -1,5 +1,5 @@
 ---
-title: "7.4 Web APIs"
+title: "8.3 Web APIs"
 format:
   html:
     embed-resouces: true
@@ -13,8 +13,6 @@ format:
       - cosmo
       - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 <hr>
 
@@ -25,7 +23,7 @@ Ecological datasets often include a combination of data that we collect in the f
 * Learn what a web API is and how it works;
 * Learn how to download data from *any* web API using the *httr* package;
 * Explore more applications of *stringr* package functions;
-* Get some more practice with *purrr* maps  (and learn some new tricks!);
+* Get some more practice with *purrr* maps  (and learn some new tricks!).
 
 ## What is a web API?
 
@@ -118,7 +116,7 @@ We can use `purrr::pluck()` to extract the values associated with a name:
 pluck(zoo, "Plot")
 ```
 
-We can combine multiple variables of interest into a one-row tibble data frame with `bind_cols()` (remember the `bind_cols` function? We have not used it since Module 1!):
+We can combine multiple variables of interest into a one-row tibble data frame with `bind_cols()`:
 
 ```{r}
 bind_cols(
@@ -198,7 +196,7 @@ Because of this behavior, it was not necesary to globally assign `var_names`!
 rm(var_names)
 ```
 
-Instead, we can pipe the character vector into `set_names()` and refer to the character vector itself (with a placeholder) as the reference for those names:
+Instead, we can pipe the character vector into `set_names()` and refer to the character vector itself as the reference for those names:
 
 ```{r}
 c(
@@ -207,7 +205,7 @@ c(
   "Plot",
   "Poster"
 ) %>% 
-  set_names(.) %>% 
+  set_names() %>% 
   map(
     \(x) pluck(zoo, x)
   ) %>%   
@@ -235,7 +233,7 @@ zoo_frame <-
     "Plot",
     "Poster"
   ) %>% 
-  set_names(.) %>% 
+  set_names() %>% 
   map(
     \(x) pluck(zoo, x)
   ) %>% 
@@ -248,7 +246,7 @@ idiocracy_frame <-
     "Plot",
     "Poster"
   ) %>% 
-  set_names(.) %>% 
+  set_names() %>% 
   map(
     \(x) pluck(idiocracy, x)
   ) %>% 
@@ -277,7 +275,7 @@ list(zoo, idiocracy) %>%
         "Plot",
         "Poster"
       ) %>% 
-        set_names(.) %>% 
+        set_names() %>% 
         map(
           \(x) pluck(movie, x)
         ) %>% 
@@ -293,7 +291,7 @@ It was not necessary to globally assign names to our content. We can use `str_c(
 str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", "Zoolander")
 ```
 
-This can be passed into our query and data extraction operations (not run, to save space):
+This can be passed into our query and data extraction operations (I do not run this here to avoid the lengthy output):
 
 ```{r, eval = FALSE}
 str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", "Zoolander") %>% 
@@ -308,7 +306,7 @@ c("Zoolander", "Idiocracy") %>%
   str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", .)
 ```
 
-... and, as such, we can query and extract the data for our movies iteratively (not run here, but just to save space):
+... and, as such, we can query and extract the data for our movies iteratively (I do not run this here, but just to save space):
 
 ```{r, eval = FALSE}
 c("Zoolander", "Idiocracy") %>% 
@@ -321,7 +319,7 @@ c("Zoolander", "Idiocracy") %>%
   )
 ```
 
-The output of the above is a list of lists. Inside of the map function, we can assign the list to name, and bind the rows of the resultant list object:
+The output of the above is a list of lists. Inside of the map function, we can assign the list to the name `movie_description`, and bind the rows of the resultant list object:
 
 ```{r}
 c("Zoolander", "Idiocracy") %>% 
@@ -338,7 +336,7 @@ c("Zoolander", "Idiocracy") %>%
         "Plot",
         "Poster"
       ) %>% 
-        set_names(.) %>% 
+        set_names() %>% 
         map(
           \(x) pluck(movie_description, x)
         ) %>% 
@@ -459,7 +457,7 @@ c(
         "Plot",
         "Poster"
       ) %>% 
-        set_names(.) %>% 
+        set_names() %>% 
         map(
           \(x) pluck(movie_description, x)
         ) %>% 
@@ -499,7 +497,7 @@ str_c(
   content()
 ```
 
-As I add more filters, I like to use `str_c()` to connect my queries. Below, I continue with the above and filter to `taxon_name=Terrapene carolina carolina` (Eastern Box Turtle) `quality_grade=research`:
+As I add more filters, I like to use `str_c()` to connect my queries. Below, I continue with the above and filter to `taxon_name=Terrapene carolina carolina` (Eastern Box Turtle):
 
 ```{r}
 str_c(
@@ -515,7 +513,7 @@ str_c(
   content()
 ```
 
-You might have noticed that each of the returns above returned 30 rows, regardless of how we subset the records. This is the default number of returns from the iNaturalist API. We can increase this up to 200 (any higher requires an API key) with the `per_page` parameter:
+You might have noticed that each of the operations above returned 30 rows, regardless of how we subset the records. This is the default number of returns from the iNaturalist API. We can increase this up to 200 (any higher requires an API key) with the `per_page` parameter:
 
 ```{r}
 str_c(
