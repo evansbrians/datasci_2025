@@ -534,6 +534,13 @@ str_c(
 
 ## Reference
 
+<button class="accordion">Glossary</button>
+::: panel
+* **Query**: A request to return values for specific parameters.
+* **Uniform Resource Locator (URL)**: The address of a resource on the internet.
+* **Web API**: An application processing interface between a web server and web browser.
+:::
+
 <button class="accordion">Functions</button>
 ::: panel
 
@@ -547,29 +554,74 @@ str_c(
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
-* `.Primitive, names`: Retrieve the names (or names attribute) assigned to an R object
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `dplyr::bind_cols`: Combine two variables or columns of two tibbles to create a new tibble
-* `dplyr::bind_rows`: Combine rows of two or more tibbles to create a new tibble
-* `httr::content`: Extract content from a web API request
-* `httr::GET`: Request information from a URL
-* `lobstr::ref`: View the structure of an object in your computer's memory
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::map`: Iterate across a vector and return a list
-* `purrr::pluck`: Extract a list item from a list
-* `rlang::set_names`: Assign names to values in a vector or items in a list
-* `stringr::str_c`: Concatenate strings, with or without (default) a separator
-* `stringr::str_replace`: Replace a given pattern in a string with a new pattern
-* `stringr::str_replace_all`: Replace a multiple instances of a given pattern in a string with a new pattern
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_8.3_web_apis.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Metacharacter escape**, `\\`: Treat a metacharacter as a literal character
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+:::
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
+:::
 :::
 
 <button class="accordion">R Studio panes</button>
