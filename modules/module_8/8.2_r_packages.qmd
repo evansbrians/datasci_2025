@@ -35,30 +35,31 @@ R packages are a key tool for collaboration. They provide us with a mechanism to
 * How to create a custom R package;
 * How to publish your package to GitHub.
 
+## Video lesson
+
 A couple of things to note prior to watching the video:
 
 * The layout of the GitHub website has slightly changed since this video was recorded. For example, there is no longer a checkbox to "Add .gitignore" or "Choose a license". Instead, make sure you choose ".gitignore template: None" and "License: None" from the drop-down menus when creating your repository.
-* You may receive a different `NOTE` message at 13:20 about verifying the current time.
 * I use `.` to represent my variable in `map()` ... I suggest reserving `.` for a placeholder and instead using `.x` when referring to a variable in an iteration.
+* You may receive different `NOTE` messages in your `check()` output.
 * This video is several years old ... I do not quite follow the code formatting conventions for this class!
-* You may receive a `NOTE` message at 23:24 that says "Namespaces in Imports field not imported from: 'dplyr' 'magrittr'. All desclared Imports should be used."
 
 {{< video https://www.youtube.com/embed/BBMTHVkfZBo >}}
 
-```{r include = FALSE}
+```{r include = FALSE, eval=FALSE}
 usethis::create_package()
 
 usethis::use_mit_license()
 
-use_r()
+usethis::use_r()
 
-load_all()
+devtools::load_all()
 
-check()
+devtools::check()
 
-use_package() # Import a pre-built package to your custom package
+usethis::use_package() # Import a pre-built package to your custom package
 
-document()
+devtools::document()
 
 tibble()
 
@@ -82,7 +83,7 @@ ggplot::+
   
 %>% 
   
-install()
+devtools::install()
 ```
 
 ## Reference
@@ -90,9 +91,10 @@ install()
 <button class="accordion">Glossary</button>
 ::: panel
 
-* **Package**
+* **Environment** (of a function): The location of a function's variables.
+* **Function**: A set of instructions used to complete a given task.
+* **Package environment**: A collection of variable names associated with objects in a package.
 * **Project**: A collection of files that is referenced by a `.RProj` file.
-* **Roxygen skeleton**
 
 :::
 

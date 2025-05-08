@@ -1,0 +1,28 @@
+Package,Function,Definition
+.Primitive,(...),Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
+.Primitive,{…},Operator that passes the last operation in `{...}` to the global environment
+.Primitive,<-,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should be used for global assignments!
+.Primitive,=,Infix operator that assigns an object on the right-hand-side (RHS) to a name on the left-hand-side (LHS) -- this should not be used for global assignments!
+.Primitive,:,Infix operator that generates a regular sequence of adjacent values
+.Primitive,::,Infix operator that can be used to access a package environment without attaching the whole package environment to your current session
+.Primitive,&,Prefix logical operator (and)
+.Primitive,+,Infix arithmetic operator (addition)
+.Primitive,/,Infix arithmetic operator (divide)
+.Primitive,c,Combine values to form an atomic vector
+.Primitive,list,"Combine multiple objects of any type into a single, recursive, data object"
+.Primitive,names,Retrieve the names (or names attribute) assigned to an R object (generates a character vector)
+base,library,Attach the package environment for a given package to the current R session
+base,rm,Remove a name from a specified environment (default is the global environment)
+dplyr,bind_cols,Combine two variables or columns of two tibbles to create a new tibble
+dplyr,bind_rows,Combine rows of two or more tibbles to create a new tibble
+httr,content,Extract content from a web API request
+httr,GET,Retrieve information from a URL.
+lobstr,ref,View the structure of an object in your computer's memory
+magrittr,%>%,The pipe operator passes the output of the LHS argument to the function on the right
+purrr,map,Iterate across a vector and return a list
+purrr,pluck,Extract a list item from a list
+rlang,set_names,Assign names to values in a vector or items in a list
+stringr,str_c,"Concatenate strings, with or without (default) a separator"
+stringr,str_replace,Replace a given pattern in a string with a new pattern
+stringr,str_replace_all,Replace a multiple instances of a given pattern in a string with a new pattern
+utils,?,Prefix operator to retrieve the help file for a function
