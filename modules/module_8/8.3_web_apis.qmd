@@ -1,5 +1,5 @@
 ---
-title: "7.4 Web APIs"
+title: "8.3 Web APIs"
 format:
   html:
     embed-resouces: true
@@ -13,8 +13,6 @@ format:
       - cosmo
       - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 <hr>
 
@@ -25,7 +23,7 @@ Ecological datasets often include a combination of data that we collect in the f
 * Learn what a web API is and how it works;
 * Learn how to download data from *any* web API using the *httr* package;
 * Explore more applications of *stringr* package functions;
-* Get some more practice with *purrr* maps  (and learn some new tricks!);
+* Get some more practice with *purrr* maps  (and learn some new tricks!).
 
 ## What is a web API?
 
@@ -118,7 +116,7 @@ We can use `purrr::pluck()` to extract the values associated with a name:
 pluck(zoo, "Plot")
 ```
 
-We can combine multiple variables of interest into a one-row tibble data frame with `bind_cols()` (remember the `bind_cols` function? We have not used it since Module 1!):
+We can combine multiple variables of interest into a one-row tibble data frame with `bind_cols()`:
 
 ```{r}
 bind_cols(
@@ -198,7 +196,7 @@ Because of this behavior, it was not necesary to globally assign `var_names`!
 rm(var_names)
 ```
 
-Instead, we can pipe the character vector into `set_names()` and refer to the character vector itself (with a placeholder) as the reference for those names:
+Instead, we can pipe the character vector into `set_names()` and refer to the character vector itself as the reference for those names:
 
 ```{r}
 c(
@@ -207,7 +205,7 @@ c(
   "Plot",
   "Poster"
 ) %>% 
-  set_names(.) %>% 
+  set_names() %>% 
   map(
     \(x) pluck(zoo, x)
   ) %>%   
@@ -235,7 +233,7 @@ zoo_frame <-
     "Plot",
     "Poster"
   ) %>% 
-  set_names(.) %>% 
+  set_names() %>% 
   map(
     \(x) pluck(zoo, x)
   ) %>% 
@@ -248,7 +246,7 @@ idiocracy_frame <-
     "Plot",
     "Poster"
   ) %>% 
-  set_names(.) %>% 
+  set_names() %>% 
   map(
     \(x) pluck(idiocracy, x)
   ) %>% 
@@ -277,7 +275,7 @@ list(zoo, idiocracy) %>%
         "Plot",
         "Poster"
       ) %>% 
-        set_names(.) %>% 
+        set_names() %>% 
         map(
           \(x) pluck(movie, x)
         ) %>% 
@@ -293,7 +291,7 @@ It was not necessary to globally assign names to our content. We can use `str_c(
 str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", "Zoolander")
 ```
 
-This can be passed into our query and data extraction operations (not run, to save space):
+This can be passed into our query and data extraction operations (I do not run this here to avoid the lengthy output):
 
 ```{r, eval = FALSE}
 str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", "Zoolander") %>% 
@@ -308,7 +306,7 @@ c("Zoolander", "Idiocracy") %>%
   str_c("http://www.omdbapi.com/?apikey=6fa7876b&t=", .)
 ```
 
-... and, as such, we can query and extract the data for our movies iteratively (not run here, but just to save space):
+... and, as such, we can query and extract the data for our movies iteratively (I do not run this here, but just to save space):
 
 ```{r, eval = FALSE}
 c("Zoolander", "Idiocracy") %>% 
@@ -321,7 +319,7 @@ c("Zoolander", "Idiocracy") %>%
   )
 ```
 
-The output of the above is a list of lists. Inside of the map function, we can assign the list to name, and bind the rows of the resultant list object:
+The output of the above is a list of lists. Inside of the map function, we can assign the list to the name `movie_description`, and bind the rows of the resultant list object:
 
 ```{r}
 c("Zoolander", "Idiocracy") %>% 
@@ -338,7 +336,7 @@ c("Zoolander", "Idiocracy") %>%
         "Plot",
         "Poster"
       ) %>% 
-        set_names(.) %>% 
+        set_names() %>% 
         map(
           \(x) pluck(movie_description, x)
         ) %>% 
@@ -459,7 +457,7 @@ c(
         "Plot",
         "Poster"
       ) %>% 
-        set_names(.) %>% 
+        set_names() %>% 
         map(
           \(x) pluck(movie_description, x)
         ) %>% 
@@ -499,7 +497,7 @@ str_c(
   content()
 ```
 
-As I add more filters, I like to use `str_c()` to connect my queries. Below, I continue with the above and filter to `taxon_name=Terrapene carolina carolina` (Eastern Box Turtle) `quality_grade=research`:
+As I add more filters, I like to use `str_c()` to connect my queries. Below, I continue with the above and filter to `taxon_name=Terrapene carolina carolina` (Eastern Box Turtle):
 
 ```{r}
 str_c(
@@ -515,7 +513,7 @@ str_c(
   content()
 ```
 
-You might have noticed that each of the returns above returned 30 rows, regardless of how we subset the records. This is the default number of returns from the iNaturalist API. We can increase this up to 200 (any higher requires an API key) with the `per_page` parameter:
+You might have noticed that each of the operations above returned 30 rows, regardless of how we subset the records. This is the default number of returns from the iNaturalist API. We can increase this up to 200 (any higher requires an API key) with the `per_page` parameter:
 
 ```{r}
 str_c(
@@ -536,6 +534,13 @@ str_c(
 
 ## Reference
 
+<button class="accordion">Glossary</button>
+::: panel
+* **Query**: A request to return values for specific parameters.
+* **Uniform Resource Locator (URL)**: The address of a resource on the internet.
+* **Web API**: An application processing interface between a web server and web browser.
+:::
+
 <button class="accordion">Functions</button>
 ::: panel
 
@@ -549,29 +554,74 @@ str_c(
 * Regular expressions metacharacters are not functions!
 :::
 
-* `.Primitive, ()`: Operator that evaluates the function name on the left-hand-side (LHS) of the opening parentheses using the arguments enclosed by the parentheses
-* `.Primitive, {`: Operator that passes the last operation in `{...}` to the global environment
-* `.Primitive, <-`: Infix operator that assigns a name (LHS) to the object on the right-hand-side (RHS) -- this should be used for global assignments!
-* `.Primitive, =`: Infix operator that assigns a name (LHS) to the object on the RHS -- this should not be used for global assignments!
-* `.Primitive, ~`: The formula operator separates the left- and right-hand sides (LHS and RHS) in a formula.
-* `.Primitive, :`: Infix operator that generates a regular sequence of adjacent values
-* `.Primitive, c`: Combine values to form an atomic vector
-* `.Primitive, list`: Combine multiple objects of any type into a single, recursive, data object
-* `.Primitive, names`: Retrieve the names (or names attribute) assigned to an R object
-* `base::library`: Attach the package environment for a given package to the current R session
-* `base::rm`: Remove a name from a specified environment (default is the global environment)
-* `dplyr::bind_cols`: Combine two variables or columns of two tibbles to create a new tibble
-* `dplyr::bind_rows`: Combine rows of two or more tibbles to create a new tibble
-* `httr::content`: Extract content from a web API request
-* `httr::GET`: Request information from a URL
-* `lobstr::ref`: View the structure of an object in your computer's memory
-* `magrittr::%>%`: The pipe operator passes the output of the LHS argument to the function on the right
-* `purrr::map`: Iterate across a vector and return a list
-* `purrr::pluck`: Extract a list item from a list
-* `rlang::set_names`: Assign names to values in a vector or items in a list
-* `stringr::str_c`: Concatenate strings, with or without (default) a separator
-* `stringr::str_replace`: Replace a given pattern in a string with a new pattern
-* `stringr::str_replace_all`: Replace a multiple instances of a given pattern in a string with a new pattern
+::: function_table
+
+```{r, message = FALSE, echo = FALSE}
+file.path(
+  "function_tables",
+  "functions_8.3_web_apis.csv"
+) %>%
+  read_csv() %>%
+  kableExtra::kable(
+    align = c("c", "c", "l")
+  ) %>%
+  kableExtra::kable_styling(
+    font_size = 12,
+    bootstrap_options = "hover")
+```
+:::
+
+:::
+
+<button class="accordion">Metacharacters in regex</button>
+::: panel
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Metacharacters are not R functions!]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+When you are given a list of functions that you may use in a given problem set, recall that regex metacharacters are not functions. As such, they will not be included in your function list. You may use *any* metacharacter to address a given problem!
+:::
+
+* **Alternation constraint**, `(...)`: Constrains the use of a metacharacter to just the symbols inside of parentheses
+* **Anchor**, `^...`: Specify the start of a string
+* **Anchor**, `...$`: Specify the end of a string
+* **Character class**, `[...]`: Define a *set* of symbols that you would like to match
+* **Metacharacter escape**, `\\`: Treat a metacharacter as a literal character
+* **Optional match**, `?`: Specify that the preceding symbol is optional
+* **Range** (in a character class), `[...-...]`: Define a *range* of symbols that you would like to match in a given position
+* **Or**, `...|...`: Specify a match of one string "or" another string
+* **Repetition**, `...*`: Specify that a symbol can appear no times or an unlimited number of times
+* **Repetition**, `...+`: Specify that a symbol appears at least once or an unlimited number of times
+* **Repetition**, `{...}`: Specify the number of times a symbol should appear
+* **Repetition**, `{...,...}`: Specify that a symbol may appear within a range of repetitions
+* **Wild card**, `.`: Specify that a character value at a given location can be any symbol
+:::
+
+<button class="accordion">Keyboard shortcuts</button>
+::: panel
+
+The most common keyboard shortcuts are provided below for Windows and Mac operating systems.
+
+:::{style="background-color: white; font-size: 14px;"}
+| Task                          | Windows          | Mac
+|:------------------------------|:----------------:|:-------------------:|
+| View all keyboard shortcuts   | Ctrl + Alt + K   | shift + option + K
+| Select all                    | Ctrl + A         | command + A
+| Copy                          | Ctrl + C         | command + C
+| Paste                         | Ctrl + V         | command + V
+| Open an existing script       | Ctrl + O         | command + O
+| Create a new script           | Ctrl + shift + N | command + shift + N
+| Save script file              | Ctrl + S         | command + S
+| Add a new code section        | Ctrl + shift + R | command + shift + R
+| Run code block                | Ctrl + Enter     | command + return
+| Run code section              | Ctrl + Alt + T   | command + option + T
+| Run code from start to cursor | Ctrl + Alt + B   | command + option + B
+| Fix indentation               | Ctrl + I         | command + I
+| Comment or un-comment code    | Ctrl + shift + C | command + shift C
+| Comments as multiple lines    | Ctrl + shift + ? | Ctrl + shift + ?
+| Add a pipe operator           | Ctrl + shift + M | command + shift + M
+| Add an assignment operator    | Alt + dash       | option + dash
+:::
 :::
 
 <button class="accordion">R Studio panes</button>
