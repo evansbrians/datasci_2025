@@ -1,19 +1,18 @@
 ---
-title: "8.3. Introduction to Quarto"
+title: "8.4 Introduction to Quarto"
 format:
   html:
     embed-resouces: true
     self-contained: true
     standalone: true
-    toc: false
+    toc: true
+    toc-location: left
     number-sections: false
     search: true
     theme: 
       - cosmo
       - ../../custom_style.scss
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 <hr>

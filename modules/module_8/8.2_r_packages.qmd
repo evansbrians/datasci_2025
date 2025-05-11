@@ -39,6 +39,7 @@ R packages are a key tool for collaboration. They provide us with a mechanism to
 
 A couple of things to note prior to watching the video:
 
+* Please use the script file [r_packages_source.R]{.mono} instead of [source_script.R]{.mono}!
 * The layout of the GitHub website has slightly changed since this video was recorded. For example, there is no longer a checkbox to "Add .gitignore" or "Choose a license". Instead, make sure you choose ".gitignore template: None" and "License: None" from the drop-down menus when creating your repository.
 * I use `.` to represent my variable in `map()` ... I suggest reserving `.` for a placeholder and instead using `.x` when referring to a variable in an iteration.
 * You may receive different `NOTE` messages in your `check()` output.
