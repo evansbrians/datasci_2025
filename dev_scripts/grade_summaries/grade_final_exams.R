@@ -61,6 +61,9 @@ grades_start %>%
     .by = student_name_last
   )
 
+grades_start %>% 
+  filter(question == 11)
+
 # calculate scores --------------------------------------------------------
 
 # Bind first six questions and the four highest scores from 7-12:
@@ -82,7 +85,13 @@ grades_start %>%
       
       # Subset to 7-12:
       
-      filter(question > 6) %>% 
+      filter(
+        between(
+          question,
+          7, 
+          12
+        )
+      ) %>% 
       
       # Get the four questions with the lowest points off:
       
@@ -91,7 +100,9 @@ grades_start %>%
         n = 4,
         by = student_name_last,
         with_ties = FALSE
-      )
+      ),
+    grades_start %>% 
+      filter(question > 12)
   ) %>% 
   
   # Get the total points off:
@@ -104,5 +115,6 @@ grades_start %>%
   # Calculate the grade for the final exam:
   
   mutate(
-    score = 30 - pts_off
+    score = 30 - pts_off,
+    percent = score / 30 * 100
   )
