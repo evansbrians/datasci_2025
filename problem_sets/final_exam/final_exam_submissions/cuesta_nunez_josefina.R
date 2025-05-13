@@ -636,6 +636,9 @@ yearly_collisions %>%
     axis.title.x = element_text(size = 11)
   )
 
+# [[-0.50]] Incorrect: Use of your road file meant that your collision 
+# numbers per county were not correct.
+
 # [[-0.30]] Code formatting:
 # * Assigned names should be written in snake_case.
 # * If a code block spans more than one line of code, add a new line after the
@@ -825,6 +828,10 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
       )
   )
 
+# [[+2.70]] It is a pretty neat solution, but we had to take some parsimony
+# points off for that assigned function -- sometimes a little bit of repetition 
+# makes the code more readable.
+
 # extra credit 2 ----------------------------------------------------------
 
 # Complete memo 11 in a single piped statement:
@@ -895,6 +902,10 @@ collisions_tidy %>%
     axis.text.y = element_text(size = 11),
     axis.title.x = element_text(size = 11)
   )
+
+# [[+2.20]] Nicely done! Note points off for this extra credit reflect the
+# points taken off on the original question. Therefore, this score
+# represents the maximum points available.
 
 # extra credit 3 ----------------------------------------------------------
 
@@ -994,3 +1005,4 @@ collisions_tidy %>%
     axis.title = element_text(size = 12)
   )
 
+# [[+3.0]] 🤘!

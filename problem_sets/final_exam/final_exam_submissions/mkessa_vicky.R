@@ -701,6 +701,19 @@ collisions_tidy %>%
     axis.text = element_text(size = 10)
   )
 
+# [[-0.30]] Code formatting:
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * If you provide three or more arguments to a function, place each argument
+#   on its own line.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+
+# [[+1.0]] We love your plot! Your colors really pop, especially with the line
+# around the bars!
+
 # extra credit 1 ----------------------------------------------------------
 
 # Complete questions 2-5 in a single piped statement
@@ -759,6 +772,12 @@ collisions <- read_rds("data/raw/va_wildlife_collisions.rds") %>%
       day, 
       long)
   )
+
+# [[+2.85]] Nicely done! Note points off for code formatting:
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
 
 # extra credit 2 ----------------------------------------------------------
 

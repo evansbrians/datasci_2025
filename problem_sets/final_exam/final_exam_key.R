@@ -870,12 +870,10 @@ collisions_tidy %>%
       # Order time-of-year, from Winter through Fall:
       
       fct_relevel(
-        c(
-          "Winter",
-          "Spring",
-          "Summer",
-          "Fall"
-        )
+        "Winter",
+        "Spring",
+        "Summer",
+        "Fall"
       )
   ) %>% 
   

@@ -607,6 +607,15 @@ collisions_tidy$data_crash %>%
     ) +
   theme_bw()
 
+# [[-0.15]] Code formatting:
+# * The first argument in a function should be indented two spaces (one tab
+#   stop) relative to the start of the line above.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+
+# [[+0.50]] We like your plot, but when creating a bar plot with count data it
+# is best to start your bars at zero.
+
 # extra credit 1 ----------------------------------------------------------
 
 # Complete questions 2-5 in a single piped statement
@@ -670,6 +679,10 @@ collisions_coord_fix <-
     ) %>% 
     select(!x:y)
 
+# [[+2.92]] Nicely done! Note points off for this extra credit reflect the
+# points taken off on the original questions 2-5. Therefore, this score
+# represents the maximum points available.
+
 # extra credit 2 ----------------------------------------------------------
 
 # Complete memo 11 in a single piped statement:
@@ -726,6 +739,10 @@ collisions_tidy$data_crash %>%
         )
     ) +
   theme_bw()
+
+# [[+2.70]] Nicely done! Note points off for this extra credit reflect the
+# points taken off on the original question. Therefore, this score
+# represents the maximum points available.
 
 # extra credit 3 ----------------------------------------------------------
 
@@ -805,3 +822,5 @@ collisions_tidy$data_crash %>%
     )
 
 # thank you!
+
+# [[+3.0]] Way to go! Thank *you* for all of your hard work!

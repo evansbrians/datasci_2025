@@ -738,6 +738,10 @@ collisions_tidy %>%
 # * Code within a single code block should not be separated by blank lines
 #   unless it is separated by a comment.
 
+# [[+0.25]] We like your plot, but few of the defaults were altered and, more
+# importantly, when creating a bar plot with count data it is best to start your
+# bars at zero.
+
 # extra credit 1 ----------------------------------------------------------
 
 # Complete questions 2-5 in a single piped statement
@@ -822,6 +826,10 @@ bind_rows(
     latitude = lat, 
     county_population:county_sunset
   )
+
+# [[+2.96]] Nicely done! Note points off for this extra credit reflect the
+# points taken off on the original questions 2-5. Therefore, this score
+# represents the maximum points available.
 
 # extra credit 2 ----------------------------------------------------------
 

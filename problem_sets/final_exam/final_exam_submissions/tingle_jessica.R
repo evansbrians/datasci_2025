@@ -849,6 +849,8 @@ collisions_tidy %>%
       )
   ) 
 
+# [[+1.0]] Your picky boss (Tara) says "whoa!!!!"
+
 # extra credit 1 ----------------------------------------------------------
 
 # Complete questions 2-5 in a single piped statement
@@ -931,11 +933,15 @@ collisions_pipe_flex <-
 imager::load.image("https://tobacco-img.stanford.edu/wp-content/uploads/cigars/pipes/pipe_12.jpg") %>% 
   plot()
 
+# [[+3.0]] You make grading so fun!
+
 # extra credit 2 ----------------------------------------------------------
 
 # Complete memo 11 in a single piped statement:
 
 # [done in original answer]
+
+# [[+3.0]]
 
 # extra credit 3 ----------------------------------------------------------
 
@@ -1086,3 +1092,6 @@ collisions_tidy %>%
         size = 10
       )
   )
+
+# [[+3.0]] Mama always told me not to look into the eyes of the sun ... unless
+# you're driving, in which case you should always look into the eyes of the sun.

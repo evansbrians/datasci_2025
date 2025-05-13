@@ -536,6 +536,10 @@ read_rds("data/raw/va_wildlife_collisions.rds") %>%
     )
   )
 
+# [[+2.54]] Nicely done! Note points off for this extra credit reflect the
+# points taken off on the original questions 2-5. Therefore, this score
+# represents the maximum points available.
+
 # extra credit 2 ----------------------------------------------------------
 
 # Complete memo 11 in a single piped statement:
@@ -577,6 +581,10 @@ collisions_tidy %>%
     y = "County",
     title = "Distribution of annual crashes for top 10 counties"
   )
+
+# [[+0.25]] We could not award you many points for this because you did not
+# receive any points for Q11. However, we gave you some for doing this within
+# a single code block without any global assignments.
 
 # extra credit 3 ----------------------------------------------------------
 
