@@ -117,4 +117,5 @@ grades_start %>%
   mutate(
     score = 30 - pts_off,
     percent = score / 30 * 100
-  )
+  ) %>% 
+  arrange(student_name_last)
