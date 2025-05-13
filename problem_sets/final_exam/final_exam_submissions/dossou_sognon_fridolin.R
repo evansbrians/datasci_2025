@@ -268,6 +268,10 @@ collisions_tidy <-
 
 rm(collisions_coord_fix)
 
+# [[-0.50]] Incorrect levels of observation for `road` (see key). Note that the
+# road and county variables do not need to be treated as their own level of
+# observation because a road can span multiple counties.
+
 # 7 -----------------------------------------------------------------------
 
 # Generate a summary table of the total number of the total number of collisions
@@ -385,6 +389,11 @@ collisions_tidy %>%
     axis.text = element_text(size = 12), 
     strip.text = element_text(size = 14)
   )
+
+# [[-0.15]] Code formatting: Code within a single code block should not be
+# separated by blank lines unless it is separated by a comment
+
+# [[+1.0]] We like your plot!
 
 # 9 -----------------------------------------------------------------------
 

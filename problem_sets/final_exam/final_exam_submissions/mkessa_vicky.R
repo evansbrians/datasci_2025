@@ -216,6 +216,9 @@ collisions_tidy <-
 
 rm(collisions_coord_fix)
 
+# [[No points removed]] `county_id` is a much safer key variable than
+# `county_name`!
+
 # 7 -----------------------------------------------------------------------
 
 # Generate a summary table of the total number of the total number of collisions
@@ -357,6 +360,11 @@ collisions_tidy %>%
     axis.text = element_text(size = 10),
     strip.text = element_text(size = 10)
   )
+
+# [[-0.15]] Code formatting: Infix functions should be separated from
+# surrounding code with a single leading and trailing space.
+
+# [[+1.0]] We like your plot!
 
 # 9 -----------------------------------------------------------------------
 

@@ -93,6 +93,10 @@ collisions_date_fix <-
 
 rm(collisions)
 
+# [[-1.0]] Incorrect: 
+# * Did not remove transitive columns.
+# * Did not arrange the table from earliest to most recent collisions.
+
 # [[-0.30]] Code parsimony: Avoid repeating functions. Here, crash_time,
 # county_sunrise, and county_sunset operations could have been combined inside
 # of `across()`.
@@ -188,6 +192,8 @@ collisions_tidy <-
 
 rm(collisions_coord_fix)
 
+# [[-1.0]] Incorrect: Missed a level of observation (see key)!
+
 # 7 -----------------------------------------------------------------------
 
 # Generate a summary table of the total number of the total number of collisions
@@ -205,6 +211,11 @@ collisions_tidy %>%
     names_from = species,
     values_from = n
   )
+
+# [[No points removed]] Code parsimony: Because you did not need to calculate
+# year, it would have been more parsimonious to use `.by =` instead of
+# `group_by`. This would have allowed you to skip the `.groups = "drop"`
+# argument.
 
 # 8 -----------------------------------------------------------------------
 
@@ -251,6 +262,8 @@ collisions_tidy %>%
     element_rect(fill = "white"),
     panel.grid.major = element_line()
   )
+
+# [[+1.0]] We like your plot!
 
 # 9 -----------------------------------------------------------------------
 

@@ -205,6 +205,20 @@ collisions_tidy <-
 
 rm(collisions_coord_fix)
 
+# [[-1.0]] Incorrect levels of observation for collisions_data and road_data
+# (see key)! Note that:
+# * You need to have a foreign key in your collision data -- county_id. Without
+#   that, you cannot join the tables.
+# * The road and county variables do not need to be treated as their own level
+#   of observation because a road can span multiple counties.
+# * Sunrise and sunset times vary at the level of county and day.
+
+# [[-0.15]] Code formatting:
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * Code within a single code block should not be separated by blank lines 
+#   unless it is separated by a comment.
+
 # 7 -----------------------------------------------------------------------
 
 # Generate a summary table of the total number of the total number of collisions
@@ -244,6 +258,10 @@ collisions_tidy %>%
     values_from = N
   )
 
+# [[-0.15]] Code formatting: 
+# * Assigned names should be written in snake_case.
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
 
 # 8 -----------------------------------------------------------------------
 
@@ -333,10 +351,10 @@ collisions_tidy %>%
   # Show all years on x-axis
   
   scale_x_continuous(
-    breaks = collisions_tidy %>% 
-      pluck("collisions_data") %>% 
-      pull(crash_time) %>% 
-      year() %>% 
+    breaks = collisions_tidy %>%
+      pluck("collisions_data") %>%
+      pull(crash_time) %>%
+      year() %>%
       unique()
   ) +
   
@@ -355,6 +373,14 @@ collisions_tidy %>%
     ),
     legend.position = "none"
   )
+
+# [[-0.15]] Code formatting:
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+
+# [[+1.0]] We like your plot!
 
 # 9 -----------------------------------------------------------------------
 

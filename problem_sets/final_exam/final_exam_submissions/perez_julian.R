@@ -95,8 +95,10 @@ bind_rows(
 
 rm(collisions)
 
-# [[-0.15]] Code formatting:  If a function spans more than one line of code,
-# closing parentheses should be placed on their own line.
+# [[-0.15]] Code formatting:  
+# * If a function spans more than one line of code, closing parentheses should 
+#   be placed on their own line.
+# * Indentation is off
 
 # 4 -----------------------------------------------------------------------
 
@@ -230,6 +232,18 @@ collisions_tidy <- list(
 
 rm(collisions_coord_fix)
 
+# [[-0.25]] Incorrect: It is not necessary to include `crash_time` within your
+# `data_time` table.
+
+# [[-0.30]] Code formatting:
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+# * Maintain one blank line between code blocks and comments. In your version
+#   there were additional spaces prior to the section header.
 
 # 7 -----------------------------------------------------------------------
 
@@ -257,6 +271,14 @@ collisions_tidy$data_crash %>%
     values_from = n,
     values_fill = 0
     )
+
+# [[-0.30]] Code parsimony: Because none of the groups had a count of `0`,
+# `values_fill = 0` did not affect the output.
+
+# [[-0.15]] Code formatting:
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+# * Include no more than one prefix function per line of code.
 
 # 8 -----------------------------------------------------------------------
 
@@ -312,6 +334,16 @@ collisions_tidy$data_crash %>%
         )
   ) + 
   theme_bw()
+
+# [[-0.30]] Code parsimony: Your `str_c(year)` did not alter the output.
+
+# [[-0.30]] Code formatting: 
+# * Include no more than one prefix function per line of code.
+# * Add a single space between the hashtag (#) and comment.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+
+# [[+1.0]] We like your plot!
 
 # 9 -----------------------------------------------------------------------
 

@@ -244,6 +244,8 @@ collisions_tidy <-
 
 rm(collisions_coord_fix)
 
+# [[No points removed]] Not crazy about the use of `unique()` in this context.
+
 # 7 -----------------------------------------------------------------------
 
 # Generate a summary table of the total number of the total number of collisions
@@ -374,6 +376,8 @@ collisions_tidy %>%
         hjust = 0.01
       )
   )
+
+# [[+1.0]] We like your plot, but it was missing an epic guitar solo!
 
 # 9 -----------------------------------------------------------------------
 
