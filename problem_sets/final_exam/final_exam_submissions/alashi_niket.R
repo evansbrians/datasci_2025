@@ -319,6 +319,19 @@ collisions_tidy %>%
       )
   )
 
+# [[-0.15]] Code formatting: If a code block spans more than one line of code,
+# add a new line after the assignment operator.
+
+# [[+0.50]] We like your plot, but when creating a bar plot with count data it
+# is best to start your bars at zero.
+
+# [[No points removed]]:
+# * It is best to use `pull()` instead of `pluck()` when extracting a variable
+#   from a data frame. That lets your reader know the type of object you are
+#   extracting from.
+# * It is confusing to use `pluck()` and `[[...]]` within the same code block
+#   (an odd mix of language forms).
+
 # 10 ----------------------------------------------------------------------
 
 # Check small animal collision reports. In a single code block, please:
@@ -349,6 +362,13 @@ collisions_tidy %>%
     )
   ) %>%
   pull(county_name)
+
+# [[-1.50]] Incorrect: This didn't quite work (see key).
+
+# [[-0.30]] Code parsimony: This could have been greatly simplified.
+
+# [[-0.15]] Code formatting: If a function spans more than one line of code,
+# closing parentheses should be placed on their own line.
 
 # 11 ----------------------------------------------------------------------
 
@@ -404,6 +424,22 @@ collisions_tidy %>%
     title = "Distribution of annual crashes for top 10 counties"
   )
 
+# [[-1.20]] Incorrect: Your numbers ended up very high due to the `right_join()`
+# ... never trust a many-to-many relationship unless you really want that!
+
+# [[-1.50]] `right_join` is not among the functions that we have used in this
+# course.
+
+# [[-0.30]] Code formatting:
+# * Add a single space between the hashtag (#) and comment.
+# * Code and comments should not exceed 80 characters in width (if it is
+#   avoidable) – add a line break, if possible.
+# * If you provide three or more arguments to a function, place each argument
+#   on its own line.
+# * Include no more than one prefix function per line of code.
+# * If you have more than one = in a function, place each argument on its own
+#   line.
+
 # 12 ----------------------------------------------------------------------
 
 # Create a visualization of collisions by season (Sept-Nov = Fall; Dec-Feb =
@@ -418,7 +454,7 @@ collisions_tidy %>%
 #   years.
 # * Ensure that the fill color of the bars is determined by `species`.
 
-
+# [[-3.0]] Not answered.
 
 # extra credit 1 ----------------------------------------------------------
 

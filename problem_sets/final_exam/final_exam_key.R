@@ -394,6 +394,44 @@ collisions_tidy <-
     
     counties =
       collisions_coord_fix %>% 
+      distinct(
+        county_id, 
+        county_name,
+        county_area,
+        county_population
+      ),
+    
+    # Data in which the level of observation is a county on a given day:
+    
+    county_sunrise_sunset = 
+      collisions_coord_fix %>% 
+      distinct(
+        county_id, 
+        county_sunrise,
+        county_sunset
+      ),
+    
+    # Crash level data:
+    
+    crashes =
+      collisions_coord_fix %>% 
+      select(
+        !c(
+          county_population,
+          county_name:county_sunset
+        )
+      )
+  )
+
+# Or (but less parsimonious):
+
+collisions_tidy <-
+  list(
+    
+    # County-level data:
+    
+    counties =
+      collisions_coord_fix %>% 
       select(
         county_id, 
         county_name,
@@ -479,8 +517,7 @@ collisions_tidy %>%
   
   summarize(
     n = n(),
-    .by = 
-      c(species, year)
+    .by = c(species, year)
   ) %>% 
   
   # Pivot the table:
@@ -628,6 +665,66 @@ collisions_tidy %>%
       filter(
         year(crash_time) == 2017,
         species %in% c("Opossum", "Raccoon")
+      ),
+    by = "county_id"
+  ) %>% 
+  
+  # Extract a character vector of county names:
+  
+  pull(county_name)
+
+# Or:
+
+collisions_tidy %>%
+  
+  # Extract counties list item:
+  
+  pluck("counties") %>% 
+  
+  # Subset to counties NOT in the counties below:
+  
+  anti_join(
+    collisions_tidy %>%
+      
+      # Extract crashes list item:
+      
+      pluck("crashes") %>%
+      
+      # Subset to reported crashes with Opossums and Raccoons in 2017:
+      
+      filter(
+        year(crash_time) == 2017,
+        str_detect(species, "Opossum|Raccoon")
+      ),
+    by = "county_id"
+  ) %>% 
+  
+  # Extract a character vector of county names:
+  
+  pull(county_name)
+
+# Or even:
+
+collisions_tidy %>%
+  
+  # Extract counties list item:
+  
+  pluck("counties") %>% 
+  
+  # Subset to counties NOT in the counties below:
+  
+  anti_join(
+    collisions_tidy %>%
+      
+      # Extract crashes list item:
+      
+      pluck("crashes") %>%
+      
+      # Subset to reported crashes with Opossums and Raccoons in 2017:
+      
+      filter(
+        year(crash_time) == 2017,
+        str_detect(species, "^[OR]")
       ),
     by = "county_id"
   ) %>% 

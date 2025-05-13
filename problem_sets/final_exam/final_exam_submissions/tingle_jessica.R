@@ -521,6 +521,9 @@ collisions_tidy %>%
       )
   )
 
+# [[+1.0]] Whoa!!!! You taught a cool new trick and really explored the space
+# Gene!
+
 # 10 ----------------------------------------------------------------------
 
 # Check small animal collision reports. In a single code block, please:
@@ -565,6 +568,8 @@ collisions_tidy %>%
   # Shame the underreporting counties:
   
   pull(county_name)
+
+# [[-0.30]] Code parsimony: This could have been greatly simplified.
 
 # 11 ----------------------------------------------------------------------
 
@@ -698,6 +703,9 @@ collisions_tidy %>%
     y = 310,
     height = 3
   )
+
+# [[+1.0]] Love Roadkill Rocky (or maybe Rocky Road Raccoon?), you are
+# brilliant!!!
 
 # 12 ----------------------------------------------------------------------
 

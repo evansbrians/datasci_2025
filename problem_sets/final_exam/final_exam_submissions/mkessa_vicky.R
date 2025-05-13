@@ -453,6 +453,14 @@ collisions_tidy %>%
       )
   )
 
+# [[-0.15]] Code formatting: 
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
+# * Parentheses and square bracket operators should not be preceded or followed
+#   by a space.
+
+# [[+1.0]] We like your plot!
+
 # 10 ----------------------------------------------------------------------
 
 # Check small animal collision reports. In a single code block, please:
@@ -488,6 +496,9 @@ collisions_tidy %>%
   # opossum collision
   
   .[["county_name"]]
+
+# [[-0.30]] Code parsimony: The or operator is not super parsimonious here
+# (avoid repetition whenever possible.
   
 # 11 ----------------------------------------------------------------------
 
@@ -593,6 +604,11 @@ filtered_counties %>%
     axis.title = element_text(size = 12),
     axis.text = element_text(size = 10)
   )
+
+# [[No points removed]]: You were not asked to remove the outliers ... they are
+# often important in a boxplot!
+
+# [[+1.0]] We like your plot!
 
 # 12 ----------------------------------------------------------------------
 

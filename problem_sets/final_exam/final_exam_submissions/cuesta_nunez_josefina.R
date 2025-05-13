@@ -374,9 +374,10 @@ collisions_tidy %>%
     legend.position = "none"
   )
 
-# [[-0.15]] Code formatting:
+# [[-0.30]] Code formatting:
 # * Infix functions should be separated from surrounding code with a single
 #   leading and trailing space.
+# * Assigned names should be written in snake_case.
 # * If a code block spans more than one line of code, add a new line after the
 #   assignment operator.
 
@@ -470,6 +471,15 @@ collisions_tidy %>%
       )
   )
 
+# [[-0.15]] Code formatting:
+# * Assigned names should be written in snake_case.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+
+# [[+0.75]] We like your plot, but it is best to have some space at the top
+# of your bars (especially when the axis scale does not display those upper
+# values).
+
 # 10 ----------------------------------------------------------------------
 
 # Check small animal collision reports. In a single code block, please:
@@ -511,6 +521,10 @@ collisions_tidy %>%
   # Extract just the county names as a vector
   
   pull(county_name)
+
+# [[-1.50]] Incorrect: This didn't quite work (see key).
+
+# [[-0.30]] Code parsimony: This could have been greatly simplified.
 
 # 11 ----------------------------------------------------------------------
 
@@ -622,6 +636,17 @@ yearly_collisions %>%
     axis.title.x = element_text(size = 11)
   )
 
+# [[-0.30]] Code formatting:
+# * Assigned names should be written in snake_case.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+# * If you have more than one = in a function, place each argument on its own
+#   line.
+
+# [[+1.0]] We like your plot!
+
 # 12 ----------------------------------------------------------------------
 
 # Create a visualization of collisions by season (Sept-Nov = Fall; Dec-Feb =
@@ -731,6 +756,18 @@ collisions_tidy %>%
     legend.position = c(0.8, 0.8),
     legend.background = element_rect(color = "black")
   )
+
+# [[-0.30]] Code formatting:
+# * Maintain one blank line between code blocks and comments.
+# * Assigned names should be written in snake_case.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * If you provide three or more arguments to a function, place each argument
+#   on its own line.
+# * Infix functions should be separated from surrounding code with a single
+#   leading and trailing space.
+
+# [[+1.0]] We like your plot!
 
 # extra credit 1 ----------------------------------------------------------
 

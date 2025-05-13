@@ -474,6 +474,15 @@ collisions_tidy %>%
       )
   )
 
+# [[-0.15]] Code formatting:
+# * If a function spans more than one line of code, closing parentheses 
+#   should be placed on their own line.
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
+
+# [[+0.50]] We like your plot, but when creating a bar plot with count data it
+# is best to start your bars at zero.
+
 # 10 ----------------------------------------------------------------------
 
 # Check small animal collision reports. In a single code block, please:
@@ -513,6 +522,8 @@ collisions_tidy %>%
   # Return the names of counties that are missing such reports
   
   pull(county_name)
+
+# [[-0.30]] Code parsimony: `distinct(county_id)` did not alter the output.
 
 # 11 ----------------------------------------------------------------------
 
@@ -637,6 +648,11 @@ observation_per_county %>%
 
 rm(top_ten_counties, observation_per_county)
 
+# [[No points removed]]: You were not asked to remove the outliers ... they are
+# often important in a boxplot!
+
+# [[+1.0]] We like your plot!
+
 # 12 ----------------------------------------------------------------------
 
 # Create a visualization of collisions by season (Sept-Nov = Fall; Dec-Feb =
@@ -708,6 +724,19 @@ collisions_tidy %>%
     strip.text = element_text(size = 14)
     
   )
+
+# [[-1.50]] `as.factor()` is not a function that we used in this course.
+
+# [[-0.30]] Code parsimony: Quotes are not necessary when referring to a 
+# variable name or names with `.by = ...`.
+
+# [[-0.30]] Code formatting:
+# * If a function spans more than one line of code, the opening parentheses 
+#   should be followed by a line break.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+# * Code within a single code block should not be separated by blank lines
+#   unless it is separated by a comment.
 
 # extra credit 1 ----------------------------------------------------------
 

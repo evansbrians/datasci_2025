@@ -392,6 +392,17 @@ collisions_tidy$data_crash %>%
       )
   )
 
+# [[-1.50]] Split is not a function that we used in this course (but it is a 
+# very cool solution!).
+
+# [[-0.15]] Code formatting: 
+# * Include no more than one prefix function per line of code.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+
+# [[+0.50]] We like your plot, but when creating a bar plot with count data it
+# is best to start your bars at zero.
+
 # 10 ----------------------------------------------------------------------
 
 # Check small animal collision reports. In a single code block, please:
@@ -445,6 +456,8 @@ collisions_tidy$data_county %>%
     by = "county_id"
   ) %>%
   pull(county_name)
+
+# [[-0.30]] Code parsimony: `distinct(county_id)` did not alter the output.
 
 # 11 ----------------------------------------------------------------------
 
@@ -516,6 +529,16 @@ ggplot(
         )
     ) +
   theme_bw()
+
+# [[-0.30]] Code formatting:
+# * Include no more than one prefix function per line of code.
+# * Indentation: Closing parentheses should be indented to the same level as
+#   the start of the function.
+# * If a code block spans more than one line of code, add a new line after the
+#   assignment operator.
+
+# [[+0.50]] We like your plot but you could have gone a bit further in 
+# styling it.
 
 # 12 ----------------------------------------------------------------------
 
