@@ -1,5 +1,5 @@
 ---
-title: "8.4 Introduction to Quarto"
+title: "8.4 Building web documents with Quarto"
 format:
   html:
     embed-resouces: true
@@ -19,24 +19,21 @@ editor: source
 
 ![](../../images/hex_complex.png){.intro_image}
 
-Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports with our data without having to leave the comfort of RStudio! Examples of what R Markdown can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that I am in charge of, and [here is an R Markdown field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} during my study on cicadas. Of course, you have interacted with a lot of Markdown-generated documents already -- all of the content for this course was was created using Markdown (via Quarto).
+**What is Quarto?** Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports with our data without having to leave the comfort of RStudio! Examples of what Quarto can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that Tara and I manage at the National Zoo, and [here is a field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} that I created during my study on cicadas. Of course, you have interacted with a lot of Quarto-generated documents already -- all of the content for this course was was created using Quarto).
 
--   What Markdown is
+-   Introduction to the Markdown language
 -   How to create a Quarto document
 -   Some introductory Quarto techniques
 
-## What is Markdown?
+# Introduction to the Markdown
 
-Markdown was created in 2004 and is a type of "markup" language. Markup language is a combination of literal characters and other elements (e.g., images) where the style is determined by annotations called tags. While the term may seem unfamiliar to you, I am willing to guess that you have been working with markup languages for years. For example, when we type in a Word document we are using a "What you see is what you get" (WYSIWYG) markup language.
+Quarto documents are written in the Markdown language. Markdown was created in 2004 and is a type of "markup" language. Markup language is a combination of literal characters and other elements (e.g., images) where the style is determined by annotations called tags. While the term may seem unfamiliar to you, I am willing to guess that you have been working with markup languages for years. For example, when we type in a Word document we are using a "What you see is what you get" (WYSIWYG) markup language.
 
 Consider, for example, the following sentence as it would be typed in Microsoft Word:
 
+[Here is an example sentence with some *italic* and **bold** text.]{.fake_code}
 
-::: {class="fake_code"}
-Here is an example sentence with some *italic* and **bold** text.
-:::
-
-To create the above, you use keyboard shortcuts or buttons to define the *italic* and **bold** text. Behind-the-scenes, you are assigning tags to those literal symbols that define how those words are presented. For presentational markup like Microsoft Word documents, all of the code is hidden from the user by default.
+To create the above, you would use keyboard shortcuts or buttons to define the *italic* and **bold** text. Behind-the-scenes, you are assigning tags to those literal symbols that define how those words are presented. For WYSIWYG markup like Microsoft Word documents, all of the code is hidden from the user by default.
 
 Advantages of WYSIWYG markup include:
 
@@ -53,9 +50,7 @@ There are also several disadvantages to WYSIWYG markup:
 Let's have a look at our sentence written using the hypertext markup language (HTML), the standard markup language for web documents:
 
 ```         
-<p style="font-family: \"Times;">
-  Here is an example sentence with some <i>italic</i> and <b>bold</b> text.
-</p>
+<p>Here is an example sentence with some <i>italic</i> and <b>bold</b> text.</p>
 ```
 
 In the above:
@@ -66,9 +61,7 @@ In the above:
 
 On a user's web browser, the HTML is then converted to:
 
-::: {class="fake_code"}
-Here is an example sentence with some *italic* and **bold** text.
-:::
+[Here is an example sentence with some *italic* and **bold** text.]{.fake_code}
 
 Advantages of HTML include:
 
@@ -89,24 +82,84 @@ Here is an example sentence with some *italic* and **bold** text.
 
 In the above, the italic text is defined by `*italic*`, the bold text is defined by `**bold**` and the rest of the text is written just like the Word version. This is nearly as simple to read as the Word version but has all of the fine-tuning advantages as the HTML version! 
 
-As you might imagine, the output of the above is:
+When generating web pages with Markdown (including with RMarkdown and Quarto), you **render** the document. Rendering converts the Markdown to HTML. As you might imagine, rendering the above returns:
 
-::: {class="fake_code"}
-Here is an example sentence with some *italic* and **bold** text.
-:::
+[Here is an example sentence with some *italic* and **bold** text.]{.fake_code}
 
 Advantages of using the markdown language are the same as the HTML version but the learning curve is *much* less steep!
 
-## Building web documents with Quarto
+# Getting started
 
-### Parts of a Quarto document
+Quarto is the next generation of the  ...
 
-### Adding code blocks and output
+To get started with building a Quarto document, navigate to the "File" menu, select "New File", and "Quarto Document ...":
 
-### The YAML header
+![](open_quarto.gif)
 
-### Styling your Quarto documents with SCSS
+This opens a new window. Select "Empty document":
+
+![](new_quarto.gif)
+
+And choose "Source" (the other editor is WYSIWYG):
+
+![](not_visual_editor.gif)
+
+## Parts of a Quarto document
+
+## Adding code blocks and output
+
+## The YAML header
+
+## Styling your Quarto documents
+
+### Sections
+
+Web pages are divided into sections that act as invisible containers for HTML elements. Sections can have their own style and behavior. Below, I created a section for my sentence about Tara's font preference and defined the font-family of the section as Times New Roman. 
+
+:::{style="font-family: Times;"}
+Tara prefers to write documents in Times New Roman.
+:::
+
+In HTML, such sections can be created by the `<div>` tag, which stands for division:
+
+```
+<div style="font-family: Times;">
+<p>Tara prefers to write documents in Times New Roman.</p>
+</div>
+```
+
+Notice in the above that I defined the font-family for the entire section of the document.
+
+With Quarto, you can define a section be wrapping it inside of `:::` and, if desired, apply styling to the section inside of curly braces:
+
+```
+:::{style="font-family: Trebuchet MS;"}
+Brian is old and thus remembers when Times New Roman was the default font for Microsoft Word. Because he is problematically font-opinionated, Brian avoids Times New Roman at all costss.
+:::
+```
+
+The above produces:
+
+:::{style="font-family: Trebuchet MS;"}
+Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
+:::
 
 
+#### Spans
 
+We often want to change an element within a document without adding a new line. For example, we can change the word "green" in the sentence below to the color green:
+
+It's not easy being [green]{style="color: green;"}.
+
+To replicate this with HTML, we use the `<span>` tag:
+
+```
+<p>It's not easy being <span style="color: green;">green</span>.</p>
+```
+
+To replicate this with Quarto, we define elements of the span inside square brackets and add the styling within curly braces:
+
+```
+It's not easy being [green]{style="color: green;"}.
+```
 

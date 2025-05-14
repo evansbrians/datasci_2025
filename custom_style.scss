@@ -55,15 +55,17 @@ code {
 }
 
 .fake_code {
-  font-family: monospace;
-  font-size: 10px;
+  display: block;
+  overflow: auto;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-size: 0.81em !important;
   border: 1px solid #999999;
   border-style: solid; 
   background-color: #efefef;
   padding-top: 6px;
   padding-right: 2px;
-  padding-bottom: 0px;
-  padding-left: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
   border-radius: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
