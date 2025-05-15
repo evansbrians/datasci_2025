@@ -90,7 +90,7 @@ Advantages of using the markdown language are the same as the HTML version but t
 
 # Getting started
 
-Quarto is the next generation of the  ...
+Quarto is the next generation of the program "R Markdown". While it is not currently intended to replace R Markdown, Quarto has additional flexibility that is beneficial (e.g., you can provide and execute code in multiple languages, such as Python).
 
 To get started with building a Quarto document, navigate to the "File" menu, select "New File", and "Quarto Document ...":
 
@@ -104,7 +104,30 @@ And choose "Source" (the other editor is WYSIWYG):
 
 ![](not_visual_editor.gif)
 
-## Parts of a Quarto document
+# Parts of a Quarto document
+
+Now that we have created a Quarto document, let's start to make some content. The first part of the document has been written for us. The content between the two `---` is what is known as a "YAML" header. YAML stands for "YAML Ain't Markup Language" (though it was originally named "Yet Another Markup Language"). It is where you provide metadata for the document as well as instructions for how the whole document will be structured and styled.
+
+```
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+```
+
+Notice in the above that, though we clicked the "Source" button when we set up the document, it is still listed as `editor: visual`. This means that the document will open with the Visual editor each time we open it. Let's change that:
+
+```
+---
+title: "Untitled"
+format: html
+editor: source
+---
+```
+
+
+
 
 ## Adding code blocks and output
 
