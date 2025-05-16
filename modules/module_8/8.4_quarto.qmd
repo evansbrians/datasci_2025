@@ -168,6 +168,20 @@ Typically, though, I often click the checkbox "Render on Save" and then knit the
 
 ## Adding code blocks and output
 
+If we want to include our code and its output, we can create a "code chunk" with:
+
+``` {r}
+
+```
+
+To include only the output of our code, but not the code itself, we can specify `echo=FALSE`:
+
+``` {r echo=FALSE}
+
+```
+
+Throughout this course, however, you have seen *lots* of code, but not as much output. To get just the code itself, we can specify xxx
+
 ## The YAML header
 
 ## Styling your Quarto documents
