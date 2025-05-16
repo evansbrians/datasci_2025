@@ -128,7 +128,7 @@ editor: visual
 ---
 ```
 
-The above provides the title of the document, defines that the format of the document is a web page, and that the document will open in the Visual (WYSIWYG) editor by defulat. Notice in the above that, though we clicked the "Source" button when we set up the document, it is still listed as `editor: visual`, unfortunately. Let's change that:
+The above provides the title of the document, defines that the format of the document is a web page, and that the document will open in the Visual (WYSIWYG) editor by default. Notice in the above that, though we clicked the "Source" button when we set up the document, it is still listed as `editor: visual`, unfortunately. Let's change that:
 
 ```
 ---
@@ -168,16 +168,42 @@ Typically, though, I often click the checkbox "Render on Save" and then knit the
 
 ## Adding code blocks and output
 
-If we want to include our code and its output, we can create a "code chunk" with:
+The power of Quarto (and its predecessor R Markdown) is that you can include code and output within a document.
+
+If we want to include our code and its output, we insert what is known as a **code chunk**. A code chunk can be used to execute code in a specified language. In the below, three backtick symbols at the start and end define the boundaries of the chunk and `{}` defines the program or language to use when executing the chunk:
 
 ``` {r}
-
+library(tidyverse)
 ```
 
-To include only the output of our code, but not the code itself, we can specify `echo=FALSE`:
+You can add instructions to the execution of the code block. For example, to remove the printed messages after attaching the tidyverse packages, you can use `message = FALSE` (please add to you document and knit):
 
-``` {r echo=FALSE}
+```{r, message = FALSE}
+library(tidyverse)
+```
 
+Let's add a tibble to our code block:
+
+```{r, message = FALSE}
+library(tidyverse)
+
+tibble(
+  boy = c(1, 1),
+  howdy = 2:3
+)
+```
+
+We can see that, while `message = FALSE` suppressed the printed output of `library(tidyverse)`, knitting the code block still returned the output of the code and the code used to generate the output.
+
+Sometimes we want to include only the output (e.g., for public reports or when showing your data to non-R-savvy advisors). To include only the output of our code, but not the code itself, specify `{r echo = FALSE}`:
+
+``` {r, echo = FALSE}
+library(tidyverse)
+
+tibble(
+  boy = c(1, 1),
+  howdy = 2:3
+)
 ```
 
 Throughout this course, however, you have seen *lots* of code, but not as much output. To get just the code itself, we can specify xxx
