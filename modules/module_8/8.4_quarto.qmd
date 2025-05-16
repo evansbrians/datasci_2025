@@ -152,7 +152,7 @@ editor: source
 Here is an example sentence with some *italic* and **bold** text.
 ```
 
-To convert the Quarto document to HTML, we need to knit the document. There are a few options for this.
+To convert the Quarto document to HTML, we need to knit the document. Knitting the document, also called "rendering", means to create and view the web output. There are a few options for this.
 
 You *could* click the "Render" button (but I do not advise this method):
 
