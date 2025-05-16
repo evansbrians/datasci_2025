@@ -19,7 +19,7 @@ editor: source
 
 ![](../../images/hex_complex.png){.intro_image}
 
-**What is Quarto?** Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports with our data without having to leave the comfort of RStudio! Examples of what Quarto can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that Tara and I manage at the National Zoo, and [here is a field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} that I created during my study on cicadas. Of course, you have interacted with a lot of Quarto-generated documents already -- all of the content for this course was was created using Quarto).
+**What is Quarto?** Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports (e.g., websites, manuscripts, newsletters) with our data without having to leave the comfort of RStudio! Examples of what Quarto can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that Tara and I manage at the National Zoo, and [here is a field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} that I created during my study on cicadas. Of course, you have interacted with a lot of Quarto-generated documents already -- all of the content for this course was was created using Quarto).
 
 -   Introduction to the Markdown language
 -   How to create a Quarto document
@@ -27,7 +27,7 @@ editor: source
 
 # Introduction to the Markdown
 
-Quarto documents are written in the Markdown language. Markdown was created in 2004 and is a type of "markup" language. Markup language is a combination of literal characters and other elements (e.g., images) where the style is determined by annotations called tags. While the term may seem unfamiliar to you, I am willing to guess that you have been working with markup languages for years. For example, when we type in a Word document we are using a "What you see is what you get" (WYSIWYG) markup language.
+Quarto documents are written in the Markdown language. A computer language allows us to write instructions that control our computers behavior. Markdown was created in 2004 and is a type of "markup" language. Markup language is a combination of literal characters and other elements (e.g., images) where the style is determined by annotations called tags. While the term may seem unfamiliar to you, I am willing to guess that you have been working with markup languages for years. For example, when we type in a Word document we are using a "What you see is what you get" (WYSIWYG) markup language.
 
 Consider, for example, the following sentence as it would be typed in Microsoft Word:
 
@@ -104,6 +104,10 @@ And choose "Source" (the other editor is WYSIWYG):
 
 ![](not_visual_editor.gif)
 
+Before proceeding, please save the file with the name of your choosing with Control (Windows) or command (Mac) + shift + S:
+
+![](name_file_boy_howdy.gif)
+
 # Parts of a Quarto document
 
 Now that we have created a Quarto document, let's start to make some content. The first part of the document has been written for us. The content between the two `---` is what is known as a "YAML" header. YAML stands for "YAML Ain't Markup Language" (though it was originally named "Yet Another Markup Language"). It is where you provide metadata for the document as well as instructions for how the whole document will be structured and styled.
@@ -116,7 +120,7 @@ editor: visual
 ---
 ```
 
-Notice in the above that, though we clicked the "Source" button when we set up the document, it is still listed as `editor: visual`. This means that the document will open with the Visual editor each time we open it. Let's change that:
+The above provides the title of the document, defines that the format of the document is a web page, and that the document will open in the Visual (WYSIWYG) editor by defulat. Notice in the above that, though we clicked the "Source" button when we set up the document, it is still listed as `editor: visual`, unfortunately. Let's change that:
 
 ```
 ---
@@ -126,8 +130,31 @@ editor: source
 ---
 ```
 
+After our YAML header, we are now ready to add the content of our web page!
 
+```
+---
+title: "Untitled"
+format: html
+editor: source
+---
 
+Here is an example sentence with some *italic* and **bold** text.
+```
+
+To convert the Markdown document to HTML, we need to knit the document. There are a few options for this.
+
+You *could* click the "Render" button (but I do not advise this method):
+
+![](render_button.gif)
+
+Alternatively, hitting the keyboard shortcut Control (Windows) or command (Mac) + shift + K will knit the document:
+
+![](render_shortcut.gif)
+
+Typically, though, I often click the checkbox "Render on Save" and then knit the document with the keyboard shortcut Control (Windows) or command (Mac) + shift + S:
+
+![](render_on_save.gif)
 
 ## Adding code blocks and output
 
