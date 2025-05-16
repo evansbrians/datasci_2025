@@ -110,7 +110,15 @@ Before proceeding, please save the file with the name of your choosing with Cont
 
 # Parts of a Quarto document
 
-Now that we have created a Quarto document, let's start to make some content. The first part of the document has been written for us. The content between the two `---` is what is known as a "YAML" header. YAML stands for "YAML Ain't Markup Language" (though it was originally named "Yet Another Markup Language"). It is where you provide metadata for the document as well as instructions for how the whole document will be structured and styled.
+Now that we have created a Quarto document, let's start to make some content. A basic Quarto document contains three types of content:
+
+* A YAML header
+* Markdown text
+* Code Chunks
+
+## The YAML header
+
+The first part of the document has been written for us. The content between the two `---` is what is known as a "YAML" header. YAML stands for "YAML Ain't Markup Language" (though it was originally named "Yet Another Markup Language"). It is where you provide metadata for the document as well as instructions for how the whole document will be structured and styled.
 
 ```
 ---
@@ -130,6 +138,8 @@ editor: source
 ---
 ```
 
+## Adding markdown & knitting
+
 After our YAML header, we are now ready to add the content of our web page!
 
 ```
@@ -142,7 +152,7 @@ editor: source
 Here is an example sentence with some *italic* and **bold** text.
 ```
 
-To convert the Markdown document to HTML, we need to knit the document. There are a few options for this.
+To convert the Quarto document to HTML, we need to knit the document. There are a few options for this.
 
 You *could* click the "Render" button (but I do not advise this method):
 
@@ -152,7 +162,7 @@ Alternatively, hitting the keyboard shortcut Control (Windows) or command (Mac) 
 
 ![](render_shortcut.gif)
 
-Typically, though, I often click the checkbox "Render on Save" and then knit the document with the keyboard shortcut Control (Windows) or command (Mac) + shift + S:
+Typically, though, I often click the checkbox "Render on Save" and then knit the document with the keyboard shortcut Control (Windows) or command (Mac) + S:
 
 ![](render_on_save.gif)
 
