@@ -286,7 +286,6 @@ The final app we will build is:
 # setup -------------------------------------------------------------------
 
 library(lubridate)
-library(sf)
 library(shinydashboard)
 library(tidyverse)
 
@@ -393,7 +392,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -421,7 +420,7 @@ server <-
             left_join(population_states,
                       by = 'state') %>% 
             mutate(n = n/population*100) %>% 
-            select(-population)
+            select(!population)
         } else {
           covid_filtered()
         }
@@ -980,14 +979,14 @@ We are not interested in the fips code, so we'll remove that:
 
 ```{r}
 read_csv(nyt_covid_url) %>% 
-  select(-fips)
+  select(!fips)
 ```
 
 I want to be able to filter the data to cases or deaths (rather than selecting cases or deaths -- you'll see why in a little bit). That's a problem given the current structure of the data. To address this, I'll pivot the data:
 
 ```{r}
 read_csv(nyt_covid_url) %>% 
-  select(-fips) %>% 
+  select(!fips) %>% 
   pivot_longer(cases:deaths, 
                names_to = 'metric',
                values_to = 'n')
@@ -998,7 +997,7 @@ And we'll assign a name to the resultant object:
 ```{r}
 covid_states <-
   read_csv(nyt_covid_url) %>% 
-  select(-fips) %>% 
+  select(!fips) %>% 
   pivot_longer(cases:deaths, 
                names_to = 'metric',
                values_to = 'n')
@@ -1079,7 +1078,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -1210,7 +1209,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -1238,7 +1237,7 @@ server <-
             left_join(population_states,
                       by = 'state') %>% 
             mutate(n = n/population*100) %>% 
-            select(-population)
+            select(!population)
         } else {
           covid_filtered()
         }
@@ -1779,7 +1778,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -1843,7 +1842,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -1907,7 +1906,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -1973,7 +1972,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -2058,7 +2057,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -2254,7 +2253,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -2282,7 +2281,7 @@ server <-
             left_join(population_states,
                       by = 'state') %>% 
             mutate(n = n/population*100) %>% 
-            select(-population)
+            select(!population)
         } else {
           covid_filtered()
         }
@@ -2480,7 +2479,7 @@ server <-
     
     covid_states <-
       read_csv(nyt_covid_url) %>% 
-      select(-fips) %>% 
+      select(!fips) %>% 
       pivot_longer(cases:deaths, 
                    names_to = 'metric',
                    values_to = 'n')
@@ -2508,7 +2507,7 @@ server <-
             left_join(population_states,
                       by = 'state') %>% 
             mutate(n = n/population*100) %>% 
-            select(-population)
+            select(!population)
         } else {
           covid_filtered()
         }

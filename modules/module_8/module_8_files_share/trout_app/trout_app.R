@@ -3,8 +3,6 @@
 
 library(shiny)
 library(lubridate)
-library(tmap)
-library(sf)
 library(tidyverse)
 
 # Options:
@@ -84,9 +82,8 @@ server <-
       })
     
     # Summary table:
+  
     
-    
-    # Map:
     
   }
 
