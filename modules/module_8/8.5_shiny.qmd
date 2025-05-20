@@ -1,5 +1,5 @@
 ---
-title: "8.4. Introduction to shiny apps"
+title: "8.4 Introduction to shiny apps"
 format:
   html:
     embed-resouces: true
@@ -20,9 +20,9 @@ editor_options:
 
 ![](../../images/hex_complex.png){.intro_image}
 
-In our previous lesson, you learned how to create static websites using R Markdown (or Quarto). Although such websites may contain interactive features, interactivity is somewhat limited and requires coding in other languages. For example, the "Functions that you may use ..." buttons in your problem sets are written in JavaScript and CSS (Cascading Style Sheets). Any interactivity on a website is constrained by the programs available to the web server. When you run an R code chunk in an R Markdown or Quarto document, that code chunk is evaluated in program R on *your computer*, thus none of the interactive elements in a Markdown-generated website are powered by program R (at least not out-of-the-box). This is where *shiny* applications come in -- a *shiny* app is a website in which the web server is running program R. Because program R is running in the background, you can use R to develop interactive elements! For example, the preliminary lessons for this course (e.g., [Preliminary Lesson 2: Values](https://smbc.shinyapps.io/L1-rValues/ "https://smbc.shinyapps.io/L1-rValues/"){target="_blank"}) are *shiny* apps -- this is why you can write and evaluate code in the lessons. I use *shiny* apps for all sorts of things, from developing interactive content for middle schools students (e.g., [Follow that bird!](https://smbc.shinyapps.io/followthatbird/){target="_blank"}), and even as a data entry portal for a participatory science project ([Neighborhood Nestwatch](https://smbc.shinyapps.io/NeighborhoodNestwatch/){target="_blank"}).
+In our previous lesson, you learned how to create static websites using Quarto. Although such websites may contain interactive features, interactivity is somewhat limited and requires coding in other languages. For example, the "Functions that you may use ..." buttons in your problem sets are written in JavaScript and CSS (Cascading Style Sheets). Any interactivity on a website is constrained by the programs available to the web server. When you run an R code chunk in an R Markdown or Quarto document, that code chunk is evaluated in program R on *your computer*, thus none of the interactive elements in a Markdown-generated website are powered by program R (at least not out-of-the-box). This is where *shiny* applications come in -- a *shiny* app is a website in which the web server is running program R. Because program R is running in the background, you can use R to develop interactive elements! For example, the preliminary lessons for this course (e.g., [Preliminary Lesson 2: Values](https://smbc.shinyapps.io/L1-rValues/ "https://smbc.shinyapps.io/L1-rValues/"){target="_blank"}) are *shiny* apps -- this is why you can write and evaluate code in the lessons. I use *shiny* apps for all sorts of things, from developing interactive content for middle schools students (e.g., [Follow that bird!](https://smbc.shinyapps.io/followthatbird/){target="_blank"}), and even as a data entry portal for a participatory science project ([Neighborhood Nestwatch](https://smbc.shinyapps.io/NeighborhoodNestwatch/){target="_blank"}).
 
-In this lesson (our last lesson of the course!), you will learn the core knowledge required to start developing your own shiny applications. Specifically, you will learn: 
+In this video (runtime 23:31) and written lesson, you will learn the core knowledge required to start developing your own shiny applications. Specifically, you will learn: 
 
 * What a *shiny* app is
 * How *shiny* apps are structured (User Interface and Server)
@@ -32,11 +32,11 @@ In this lesson (our last lesson of the course!), you will learn the core knowled
 
 ## Video content: Shiny app basics
 
-**Note**: In this video I suggest that you learned how to "develop interactive maps" ... can you believe that this course *also* used to include an entire week on using R as a GIS (?!). That was dumb because this course had *way too much content*, so we now have a class dedicated to the topic (if you are interested in that application of R, have a look at the course description of **[GIS in R: Fundamentals and applications for ecologists](https://smconservation.gmu.edu/programs/graduate-and-professional/gis-ol/){target="_blank"})**.
+**Note**: As I introduce the video, I suggest that you learned how to "develop interactive maps" ... can you believe that this course *also* used to include an entire week on using R as a GIS (?!). That was dumb because this course had *way too much content*, so we now have a class dedicated to the topic (if you are interested in that application of R, have a look at the course description of **[GIS in R: Fundamentals and applications for ecologists](https://smconservation.gmu.edu/programs/graduate-and-professional/gis-ol/){target="_blank"})**.
 
-**Also note**: I unfortunately used `setwd()` in this lesson. This could have (and should have) been avoided. I never use `setwd()` in the real world!
+**Also note**: I use the function `renderDataTable` in this lesson, which has deprecated and thus may produce a warning message for you. I recommend instead using `DT:renderDT` (you may need to install the `DT` package to do so).
 
-{{< video https://www.youtube.com/embed/E3yLtQfR3vc >}}
+{{< video https://youtu.be/7xiEyU4fzs0 >}}
 
 ## Tutorial content: A *shiny* dashboard
 
