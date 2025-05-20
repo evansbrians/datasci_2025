@@ -37,7 +37,7 @@ Markdown was created in 2004 and is a type of "markup" language. Markup language
 
 Consider, for example, the following sentence as it would be typed in Microsoft Word:
 
-[Here is an example sentence with some *italic* and **bold** text.]{.fake_code}
+[Here is an example sentence with some *italic* and **bold** text.]{.quarto_box}
 
 To create the above, you would use keyboard shortcuts or buttons to define the *italic* and **bold** text. Behind-the-scenes, you are assigning tags to those literal symbols that define how the words are presented. For WYSIWYG markup like Microsoft Word documents, all of the code is hidden from the user by default.
 
@@ -67,7 +67,7 @@ In the above:
 
 On a user's web browser, the HTML is then converted to:
 
-[Here is an example sentence with some *italic* and **bold** text.]{.fake_code}
+[Here is an example sentence with some *italic* and **bold** text.]{.quarto_box}
 
 Advantages of HTML include:
 
@@ -90,7 +90,7 @@ In the above, the italic text is defined by `*italic*`, the bold text is defined
 
 When generating web pages with Markdown (including with RMarkdown and Quarto), you **render** the document. Rendering converts the Markdown to HTML. As you might imagine, rendering the above returns:
 
-[Here is an example sentence with some *italic* and **bold** text.]{.fake_code}
+[Here is an example sentence with some *italic* and **bold** text.]{.quarto_box}
 
 Advantages of using the markdown language are the same as the HTML version but the learning curve is *much* less steep!
 
@@ -198,7 +198,7 @@ Rendering converts the Markdown to HTML:
 
 The end-user will see:
 
-::: {.fake_code}
+::: quarto_box
 # Top heading
 ## Second-level heading
 ### Third-level heading
@@ -206,6 +206,97 @@ The end-user will see:
 :::
 
 #### Lists
+
+Lists come in two primary flavors:
+
+* **Ordered lists** should be used when the sequence of events matters and list items are typically preceded by numbers or letters. For example, you might use an ordered list to describe the steps in a process or the rank of list items.
+* **Unordered lists** (like this one!) are used to communicate conceptual groupings in situations in which their sequence is not important abd are typically preceded by bullet points. Unordered lists are useful for communicating information quickly and sorting or displaying the hierarchy of list items.
+
+##### Ordered lists
+
+You can create an ordered list by preceding a list item with a number followed by a period symbol.
+
+```
+1. first
+2. second
+3. third
+4. fourth
+```
+In rendering, this is converted to HTML, where the tag `<ol>` represents the list itself and `<li>` represents a list item:
+
+```
+<ol>
+<li>first</li>
+<li>second</li>
+<li>third</li>
+<li>fourth</li>
+</ol>
+```
+Your end-users will see:
+
+::: quarto_box
+1. first
+2. second
+3. third
+4. fourth
+:::
+
+Because the HTML for each list item does not include the number assigned, you do not have to provide the correct number for each list item:
+
+```
+1. first
+1. second
+2. third
+3. fourth
+```
+
+... the above produces:
+
+::: quarto_box
+1. first
+1. second
+2. third
+3. fourth
+:::
+
+##### Unordered lists
+
+Unordered (Bulleted) lists ... lorem ipsum
+
+```
+* hello
+* world
+* boy
+* howdy
+```
+In rendering, this is converted to HTML, where the tag `<ul>` represents the list itself and `<li>` represents a list item:
+
+```
+<ul>
+<li>hello</li>
+<li>world</li>
+<li>boy</li>
+<li>howdy</li>
+</ul>
+```
+
+Your end-users will see:
+
+::: quarto_box
+* hello
+* world
+* boy
+* howdy
+:::
+
+::: mysecret
+{{< fa user-secret size=2x >}} [Surprise, surprise, Brian has opinions about lists]{style="font-size: 1.25em; padding-left: 0.5em;"}
+
+Lists are very useful but knowing when *not* to use lists is important! Avoid using a list when:
+
+* You only have one list item: There is no organizational benefit to a list of one.
+* You end up writing a lot for each list item: If you find yourself writing two or three sentences for each list item, you are probably better off writing paragraphs.
+:::
 
 #### Images
 
@@ -310,7 +401,7 @@ Brian is old and thus remembers when Times New Roman was the default font for Mi
 
 The above produces:
 
-:::{style="font-family: Trebuchet MS;"}
+::: {class=quarto_box style="font-family: Trebuchet MS;"}
 Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
 :::
 
