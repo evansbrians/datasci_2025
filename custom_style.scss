@@ -71,6 +71,21 @@ code {
   margin-bottom: 10px;
 }
 
+.quarto_box {
+  display: block;
+  overflow: auto;
+  border: 1px solid #999;
+  border-style: solid; 
+  background-color: #fefefe;
+  padding-top: 6px;
+  padding-right: 2px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .intro_image {
   float: right; 
   padding-left: 2em; 
