@@ -32,9 +32,16 @@ In this video (runtime 23:31) and written lesson, you will learn the core knowle
 
 ## Video content: Shiny app basics
 
-**Note**: As I introduce the video, I suggest that you learned how to "develop interactive maps" ... can you believe that this course *also* used to include an entire week on using R as a GIS (?!). That was dumb because this course had *way too much content*, so we now have a class dedicated to the topic (if you are interested in that application of R, have a look at the course description of **[GIS in R: Fundamentals and applications for ecologists](https://smconservation.gmu.edu/programs/graduate-and-professional/gis-ol/){target="_blank"})**.
+**Note**: As I introduce the video, I suggest that you learned how to "develop interactive maps" ... can you believe that this course *also* used to include an entire week on using R as a GIS (?!). That was dumb because this course had *way* too much content, so we now have a class dedicated to the topic (if you are interested in that application of R, have a look at the course description of **[GIS in R: Fundamentals and applications for ecologists](https://smconservation.gmu.edu/programs/graduate-and-professional/gis-ol/){target="_blank"})**.
 
 **Also note**: I use the function `renderDataTable` in this lesson, which has deprecated and thus may produce a warning message for you. I recommend instead using `DT:renderDT` (you may need to install the `DT` package to do so).
+
+### Before you begin:
+
+1. Download the attached zip filter [trout_app.zip]{.mono}
+2. Save the zip file inside of the folder [data_sci/output]{.mono}
+3. Unzip the file
+4. Open the RStudio project [trout_app.Rproj]{.mono}
 
 {{< video https://youtu.be/7xiEyU4fzs0 >}}
 
