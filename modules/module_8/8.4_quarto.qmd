@@ -172,9 +172,9 @@ Typically, though, I often click the checkbox "Render on Save" and then knit the
 
 ![](render_on_save.gif)
 
-## Markdown elements
+### Markdown elements
 
-### Headings
+#### Headings
 
 Headings are hierarchical titles for sections of your document. Headings are designated by hashtags (`#`), with the number of hashtags representing the level of the heading.
 
@@ -199,20 +199,20 @@ Rendering converts the Markdown to HTML:
 The end-user will see:
 
 ::: quarto_box
-# Top heading
-## Second-level heading
-### Third-level heading
-#### Fourth-level heading
+# Top heading {.unnumbered .unlisted}
+## Second-level heading {.unnumbered .unlisted}
+### Third-level heading {.unnumbered .unlisted}
+#### Fourth-level heading {.unnumbered .unlisted}
 :::
 
-### Lists
+#### Lists
 
 Lists come in two primary flavors:
 
 * **Ordered lists** should be used when the sequence of events matters and list items are typically preceded by numbers or letters. For example, you might use an ordered list to describe the steps in a process or the rank of list items.
 * **Unordered lists** (like this one!) are used to communicate conceptual groupings in situations in which their sequence is not important abd are typically preceded by bullet points. Unordered lists are useful for communicating information quickly and sorting or displaying the hierarchy of list items.
 
-#### Ordered lists
+##### Ordered lists
 
 You can create an ordered list by preceding a list item with a number followed by a period symbol.
 
@@ -309,7 +309,7 @@ Basic git workflow:
 5. git push
 :::
 
-#### Unordered lists
+##### Unordered lists
 
 Unordered (bulleted) lists are created by preceding the list item with an asterisk ...
 
@@ -356,7 +356,7 @@ Brian's silly examples:
 * howdy
 :::
 
-#### Multi-level lists
+##### Multi-level lists
 
 To create a hierarchical unordered list, you simply indent the lower-level list items by one tab stop:
 
@@ -436,7 +436,7 @@ Lists are very useful but knowing when *not* to use lists is important! Avoid us
 * You end up writing a lot for each list item: If you find yourself writing two or three sentences for each list item, you are probably better off writing paragraphs.
 :::
 
-### Images
+#### Images
 
 You can add an image to your Quarto document by using the structure `![](image address)`. The following Markdown code inserts an image from an online location:
 
@@ -527,11 +527,13 @@ The above is super useful if you are writing a report and want to include code o
 
 ### Styling your Quarto documents
 
-#### Sections
+To modify the style of your Quarto document, or elements within your Quarto document, you use Cascading Style Sheets (CSS). Luckily, you have a head start on using CSS because the theme elements you add with `ggplot2::theme()` are modeled after CSS!
+
+#### Add styling to sections
 
 Web pages are divided into sections that act as invisible containers for HTML elements. Sections can have their own style and behavior. Below, I created a section for my sentence about Tara's font preference and defined the font-family of the section as Times New Roman. 
 
-:::{style="font-family: Times;"}
+:::{class=quarto_box style="font-family: Times;"}
 Tara prefers to write documents in Times New Roman.
 :::
 
@@ -548,8 +550,8 @@ Notice in the above that I defined the font-family for the entire section of the
 With Quarto, you can define a section be wrapping it inside of `:::` and, if desired, apply styling to the section inside of curly braces:
 
 ```
-:::{style="font-family: Trebuchet MS;"}
-Brian is old and thus remembers when Times New Roman was the default font for Microsoft Word. Because he is problematically font-opinionated, Brian avoids Times New Roman at all costss.
+::: {style="font-family: Trebuchet MS;"}
+Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
 :::
 ```
 
@@ -559,11 +561,13 @@ The above produces:
 Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
 :::
 
-#### Spans
+#### Add styling to spans
 
 We often want to change an element within a document without adding a new line. For example, we can change the word "green" in the sentence below to the color green:
 
+::: quarto_box
 It's not easy being [green]{style="color: green;"}.
+:::
 
 To replicate this with HTML, we use the `<span>` tag:
 
@@ -577,7 +581,86 @@ To replicate this with Quarto, we define elements of the span inside square brac
 It's not easy being [green]{style="color: green;"}.
 ```
 
-#### Basic CSS
+Note that you can add multiple style elements to a span or div by separating each with a semi-colon:
+
+```
+It's not easy being [green]{style="color: green; font-family: Times;"}.
+```
+
+::: quarto_box
+It's not easy being [green]{style="color: green; font-family: Times;"}.
+:::
+
+#### Applying styles across a document
+
+We can define a style using CSS by adding a CSS code chunk. Similar to adding an R code chunk, the chunk is defines by opening and closing triple backtick quotes. Inside of curly braces you specify that you are adding CSS.
+
+```{css}
+.tara_style {
+  font-family: Times;
+}
+```
+
+In the above, I defined a style class called `.tara_style`. I added my style parameters inside of curly braces. Now, I can refer to my custom style class using:
+
+```
+::: {class=tara_style}
+Tara prefers to write documents in Times New Roman.
+:::
+```
+
+... or, more simply:
+
+```
+::: tara_style
+Tara prefers to write documents in Times New Roman.
+:::
+```
+
+... both of which produce:
+
+::: quarto_box
+::: tara_style
+Tara prefers to write documents in Times New Roman.
+:::
+:::
+
+You can class add a style to a predefined class:
+
+```
+::: {class=tara_style style="color: green;"}
+Tara prefers to write documents in Times New Roman.
+:::
+```
+
+::: quarto_box
+::: {class=tara_style style="color: green;"}
+Tara prefers to write documents in Times New Roman.
+:::
+:::
+
+If you intend to apply additional styles across `tara_style` content, you can add it to your CSS, separating each style element with a semi-colon:
+
+```{css}
+.tara_style_green {
+  font-family: Times;
+  color: green;
+}
+```
+
+```
+::: tara_style_green
+Tara prefers to write documents in Times New Roman.
+:::
+```
+
+Which produces:
+
+::: quarto_box
+::: tara_style_green
+Tara prefers to write documents in Times New Roman.
+:::
+:::
 
 ### The YAML header, revisited
 
