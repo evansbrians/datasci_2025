@@ -300,6 +300,8 @@ Lists are very useful but knowing when *not* to use lists is important! Avoid us
 
 #### Images
 
+![](https://clip.cafe/16x9/for-me-will-always-be-glorious-birds.jpg)
+
 ### Adding code blocks and output
 
 The power of Quarto (and its predecessor R Markdown) is that you can include code and output within a document.
