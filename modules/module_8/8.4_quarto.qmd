@@ -114,7 +114,7 @@ Before proceeding, please save the file with the name of your choosing with Cont
 
 ![](name_file_boy_howdy.gif)
 
-## Parts of a Quarto document
+## The Quarto document
 
 Now that we have created a Quarto document, let's start to make some content. A basic Quarto document contains three types of content:
 
@@ -144,7 +144,7 @@ editor: source
 ---
 ```
 
-### Adding markdown & knitting
+### Rendering your Quarto document
 
 After our YAML header, we are now ready to add the content of our web page!
 
@@ -172,9 +172,9 @@ Typically, though, I often click the checkbox "Render on Save" and then knit the
 
 ![](render_on_save.gif)
 
-### Markdown elements
+## Markdown elements
 
-#### Headings
+### Headings
 
 Headings are hierarchical titles for sections of your document. Headings are designated by hashtags (`#`), with the number of hashtags representing the level of the heading.
 
@@ -205,73 +205,138 @@ The end-user will see:
 #### Fourth-level heading
 :::
 
-#### Lists
+### Lists
 
 Lists come in two primary flavors:
 
 * **Ordered lists** should be used when the sequence of events matters and list items are typically preceded by numbers or letters. For example, you might use an ordered list to describe the steps in a process or the rank of list items.
 * **Unordered lists** (like this one!) are used to communicate conceptual groupings in situations in which their sequence is not important abd are typically preceded by bullet points. Unordered lists are useful for communicating information quickly and sorting or displaying the hierarchy of list items.
 
-##### Ordered lists
+#### Ordered lists
 
 You can create an ordered list by preceding a list item with a number followed by a period symbol.
 
 ```
-1. first
-2. second
-3. third
-4. fourth
+1. git pull
+2. modify content
+3. git add
+4. git commit -m "commit message"
+5. git push
 ```
 In rendering, this is converted to HTML, where the tag `<ol>` represents the list itself and `<li>` represents a list item:
 
 ```
 <ol>
-<li>first</li>
-<li>second</li>
-<li>third</li>
-<li>fourth</li>
+<li>git pull</li>
+<li>modify content</li>
+<li>git add</li>
+<li>git commit -m "commit message"</li>
+<li>git push</li>
 </ol>
 ```
 Your end-users will see:
 
 ::: quarto_box
-1. first
-2. second
-3. third
-4. fourth
+1. git pull
+2. modify content
+3. git add
+4. git commit -m "commit message"
+5. git push
 :::
 
 Because the HTML for each list item does not include the number assigned, you do not have to provide the correct number for each list item:
 
 ```
-1. first
-1. second
-2. third
-3. fourth
+1. git pull
+1. modify content
+2. git add
+3. git commit -m "commit message"
+5. git push
 ```
 
 ... the above produces:
 
 ::: quarto_box
-1. first
-1. second
-2. third
-3. fourth
+1. git pull
+1. modify content
+2. git add
+3. git commit -m "commit message"
+5. git push
 :::
 
-##### Unordered lists
-
-Unordered (Bulleted) lists ... lorem ipsum
+One thing to note is that a list *must* be preceded by a blank line. For example, the following code ...
 
 ```
+Basic git workflow:
+1. git pull
+2. modify content
+3. git add
+4. git commit -m "commit message"
+5. git push
+```
+... does not produce a numbered list:
+
+::: quarto_box
+Basic git workflow:
+1. git pull
+2. modify content
+3. git add
+4. git commit -m "commit message"
+5. git push
+:::
+
+But this ...
+
+```
+Basic git workflow:
+
+1. git pull
+2. modify content
+3. git add
+4. git commit -m "commit message"
+5. git push
+```
+
+... does:
+
+::: quarto_box
+Basic git workflow:
+
+1. git pull
+2. modify content
+3. git add
+4. git commit -m "commit message"
+5. git push
+:::
+
+#### Unordered lists
+
+Unordered (bulleted) lists are created by preceding the list item with an asterisk ...
+
+```
+Brian's silly examples:
+
 * hello
 * world
 * boy
 * howdy
 ```
+... or a dash:
+
+```
+Brian's silly examples:
+
+- hello
+- world
+- boy
+- howdy
+```
+
 In rendering, this is converted to HTML, where the tag `<ul>` represents the list itself and `<li>` represents a list item:
 
 ```
+<p>Brian's silly examples:</p>
+
 <ul>
 <li>hello</li>
 <li>world</li>
@@ -283,11 +348,84 @@ In rendering, this is converted to HTML, where the tag `<ul>` represents the lis
 Your end-users will see:
 
 ::: quarto_box
+Brian's silly examples:
+
 * hello
 * world
 * boy
 * howdy
 :::
+
+#### Multi-level lists
+
+To create a hierarchical unordered list, you simply indent the lower-level list items by one tab stop:
+
+```
+Brian's silly examples:
+
+* Phrase one:
+  * Hello
+  * World
+* Phrase two:
+  * Boy
+  * Howdy
+```
+
+::: quarto_box
+Brian's silly examples:
+
+* Phrase one:
+  * Hello
+  * World
+* Phrase two:
+  * Boy
+  * Howdy
+:::
+  
+To make the document more readable prior to knitting, I like to use a different symbol for the lower-level list:
+
+```
+Brian's silly examples:
+
+* Phrase one:
+  - Hello
+  - World
+* Phrase two:
+  - Boy
+  - Howdy
+```
+
+::: quarto_box
+Brian's silly examples:
+
+* Phrase one:
+  - Hello
+  - World
+* Phrase two:
+  - Boy
+  - Howdy
+:::
+
+Note that, in the above, the sub-bullets are stored in their own lists. The HTML to create this would be written as:
+
+```
+<p>Brian's silly examples:</p>
+
+<ul>
+  <li>Phrase one:
+    <ul>
+      <li>Hello</li>
+      <li>World</li>
+    </ul>
+  </li>
+  <li>Phrase two:
+    <ul>
+      <li>Boy</li>
+      <li>Howdy</li>
+    </ul>
+  </li>
+</ul>
+```
 
 ::: mysecret
 {{< fa user-secret size=2x >}} [Surprise, surprise, Brian has opinions about lists]{style="font-size: 1.25em; padding-left: 0.5em;"}
@@ -298,9 +436,25 @@ Lists are very useful but knowing when *not* to use lists is important! Avoid us
 * You end up writing a lot for each list item: If you find yourself writing two or three sentences for each list item, you are probably better off writing paragraphs.
 :::
 
-#### Images
+### Images
+
+You can add an image to your Quarto document by using the structure `![](image address)`. The following Markdown code inserts an image from an online location:
+
+```
+![](https://clip.cafe/16x9/for-me-will-always-be-glorious-birds.jpg)
+```
 
 ![](https://clip.cafe/16x9/for-me-will-always-be-glorious-birds.jpg)
+
+*Note that you can also specify a location on your computer. In doing so, ensure that the image address is provided relative to the location of the folder that the Quarto document is stored in.*
+
+If you would like to add a caption to an image, place the caption inside of the square brackets:
+
+```
+![Figure 1. This is the scene in which Maude says "For me they will always be glorious birds"](https://clip.cafe/16x9/for-me-will-always-be-glorious-birds.jpg)
+```
+
+![Figure 1. For me they will always be glorious birds](https://clip.cafe/16x9/for-me-will-always-be-glorious-birds.jpg)
 
 ### Adding code blocks and output
 
@@ -365,13 +519,11 @@ The mean of the numbers 1 through 5 is `r mean(1:5)`.
 
 ... produces:
 
+::: quarto_box
 The mean of the numbers 1 through 5 is `r mean(1:5)`.
+:::
 
 The above is super useful if you are writing a report and want to include code output within the text! If a value in your text changes often, but the code that calculates that value does not, it is much more time efficient to use inline code.
-
-### The YAML header
-
-Table of contents
 
 ### Styling your Quarto documents
 
@@ -407,7 +559,6 @@ The above produces:
 Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
 :::
 
-
 #### Spans
 
 We often want to change an element within a document without adding a new line. For example, we can change the word "green" in the sentence below to the color green:
@@ -427,3 +578,7 @@ It's not easy being [green]{style="color: green;"}.
 ```
 
 #### Basic CSS
+
+### The YAML header, revisited
+
+Table of contents
