@@ -266,8 +266,6 @@ margin-bottom: 15px;
 
 library(RCurl)
 
-source("https://raw.githubusercontent.com/bsevansunc/workshop_languageOfR/master/sourceCode.R")
-
 library(knitr)
 library(kableExtra)
 library(tidyverse)
@@ -527,11 +525,9 @@ Generate a new R Studio project called `covid_app.prj` inside of the `covid_app`
 
 Download the zip file `covid_app.zip` from your course web page and unzip the file to the folder `covid_app`.
 
-Open the file `covid_app.R` in your source pane.
-
 ### File structure
 
-The zip folder contains the app file itself, `covid_app.R`, and two folders, `data` and `www`. 
+The zip folder contains two folders, `data` and `www`. 
 
 #### The data folder
 
