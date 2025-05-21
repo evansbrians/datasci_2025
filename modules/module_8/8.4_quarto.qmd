@@ -55,7 +55,7 @@ There are also several disadvantages to WYSIWYG markup:
 
 Let's have a look at our sentence written using the hypertext markup language (HTML), the standard markup language for web documents:
 
-```         
+```        
 <p>Here is an example sentence with some <i>italic</i> and <b>bold</b> text.</p>
 ```
 
@@ -234,7 +234,7 @@ In rendering, this is converted to HTML, where the tag `<ol>` represents the lis
 <li>git push</li>
 </ol>
 ```
-Your end-users will see:
+Your readers will see:
 
 ::: quarto_box
 1. git pull
@@ -345,7 +345,7 @@ In rendering, this is converted to HTML, where the tag `<ul>` represents the lis
 </ul>
 ```
 
-Your end-users will see:
+Your readers will see:
 
 ::: quarto_box
 Brian's silly examples:
@@ -462,19 +462,40 @@ The power of Quarto (and its predecessor R Markdown) is that you can include cod
 
 If we want to include our code and its output, we insert what is known as a **code chunk**. A code chunk can be used to execute code in a specified language. In the below, three backtick symbols at the start and end define the boundaries of the chunk and `{}` defines the program or language to use when executing the chunk:
 
-``` {r}
+````
+```{{r}}
+library(tidyverse)
+```
+````
+
+```{r, echo = FALSE}
 library(tidyverse)
 ```
 
-You can add instructions to the execution of the code block. For example, to remove the printed messages after attaching the tidyverse packages, you can use `message = FALSE` (please add to you document and knit):
+You can add instructions to the execution of the code block. For example, to remove the printed messages after attaching the tidyverse packages, you can use `message = FALSE` (please add to your document and knit):
 
-```{r, message = FALSE}
+````
+```{{r message = FALSE}}
 library(tidyverse)
 ```
+````
 
 Let's add a tibble to our code block:
 
-```{r, message = FALSE}
+````
+```{{r message = FALSE}}
+library(tidyverse)
+
+tibble(
+  boy = c(1, 1),
+  howdy = 2:3
+)
+```
+````
+
+Once rendered, this returns: 
+
+```{r message = FALSE}
 library(tidyverse)
 
 tibble(
@@ -487,7 +508,20 @@ We can see that, while `message = FALSE` suppressed the printed output of `libra
 
 Sometimes we want to include only the output (e.g., for public reports or when showing your data to non-R-savvy advisors). To include only the output of our code, but not the code itself, specify `{r echo = FALSE}`:
 
-``` {r, echo = FALSE}
+````
+```{{r echo = FALSE}}
+library(tidyverse)
+
+tibble(
+  boy = c(1, 1),
+  howdy = 2:3
+)
+```
+````
+
+In the rendered document, this produces:
+
+```{r echo = FALSE}
 library(tidyverse)
 
 tibble(
@@ -498,7 +532,20 @@ tibble(
 
 To display the code itself, without running it, we can specify `{r eval = FALSE}`:
 
-``` {r, eval = FALSE}
+````
+```{{r eval = FALSE}}
+library(tidyverse)
+
+tibble(
+  boy = c(1, 1),
+  howdy = 2:3
+)
+```
+````
+
+Which returns, when rendered:
+
+```{r eval = FALSE}
 library(tidyverse)
 
 tibble(
@@ -540,7 +587,7 @@ Tara prefers to write documents in Times New Roman.
 In HTML, such sections can be created by the `<div>` tag, which stands for division:
 
 ```
-<div style="font-family: Times;">
+<div style = "font-family: Times;">
 <p>Tara prefers to write documents in Times New Roman.</p>
 </div>
 ```
@@ -593,9 +640,18 @@ It's not easy being [green]{style="color: green; font-family: Times;"}.
 
 #### Applying styles across a document
 
-We can define a style using CSS by adding a CSS code chunk. Similar to adding an R code chunk, the chunk is defines by opening and closing triple backtick quotes. Inside of curly braces you specify that you are adding CSS.
+We can define a style across our entire document by adding a CSS code chunk. Because this modifies the CSS of the entire document, I always do this at the beginning of my script. Similar to adding an R code chunk, the chunk is defines by opening and closing triple backtick quotes. Inside of curly braces you specify that you are adding CSS.
 
-```{css}
+````
+```{{css, echo = FALSE}}
+.tara_style {
+  font-family: Times;
+}
+```
+````
+*Note on the above: We used* `echo = FALSE` *because we do not want show our reader our CSS!*
+
+```{css, echo = FALSE}
 .tara_style {
   font-family: Times;
 }
@@ -662,6 +718,23 @@ Tara prefers to write documents in Times New Roman.
 :::
 :::
 
-### The YAML header, revisited
+::: mysecret
+{{< fa user-secret size=2x >}} [Code chunks are evaluated before Markdown content!]{style="font-size: 1.25em; padding-left: 0.5em;"}
 
-Table of contents
+While I prefer to place my CSS code chunk near the top of a document, you can actually place it anywhere. Styles defined by a CSS code chunk are applied across the whole document, regardless of the position of that chunk. For example, executing the following at any place in in the document ...
+
+````
+```{{css, echo = FALSE}}
+p {
+  font-family: Times;
+}
+```
+````
+
+... will convert all of the paragraph text to Times New Roman!
+
+:::
+
+<hr>
+
+We have just barely scratched the surface of what you can do with Quarto. For the sake of brevity, we have only included the basic elements to get you started with using Quarto. For example, we typically define our CSS with an external file and also tend to include JavaScript and HTML within each Quarto document that we produce! We strongly recommend reading the Quarto documentation at [this link](https://quarto.org/docs/guide/){target="_blank"} ... you will even learn how to create hyperlink (`[this link](https://quarto.org/docs/guide/){target="_blank"}`)!
