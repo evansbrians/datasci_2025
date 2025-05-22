@@ -19,7 +19,7 @@ editor: source
 
 ![](../../images/hex_complex.png){.intro_image}
 
-**What is Quarto?** Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports (e.g., websites, manuscripts, newsletters) with our data without having to leave the comfort of RStudio! Examples of what Quarto can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that Tara and I manage at the National Zoo, and [here is a field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} that I created during my study on cicadas. Of course, you have interacted with a lot of Quarto-generated documents already -- all of the content for this course was was created using Quarto.
+**What is Quarto?** Quarto provides us with the ability to create documents and embed the output of code, or the code itself, within the document. This allows us to quickly generate and share reports (e.g., websites, manuscripts, newsletters) with our data without having to leave the comfort of RStudio! Examples of what Quarto can do include [this link](https://rpubs.com/bsevansunc/guest_counts){target="_blank"}, which provides an overview of guest visits to an exhibit that Tara and I manage at the National Zoo, and [here is a field notebook](https://rpubs.com/bsevansunc/cicada_notebook){target="_blank"} that I created during my study on cicadas. Of course, you have interacted with a lot of Quarto-generated documents already -- all of the content for this course was created using Quarto.
 
 This lesson will include:
 
@@ -51,7 +51,7 @@ There are also several disadvantages to WYSIWYG markup:
 
 -   It can often be difficult and time consuming to bypass the default formatting of document elements
 -   It typically takes a long time to develop the advanced skills required to generate professional output
--   It is often time consuming to maintain consistent formatting of elements within a document and replicate of elements (e.g., styling) across documents
+-   It is often time consuming to maintain consistent formatting of elements within a document and replicate elements (e.g., styling) across documents
 
 Let's have a look at our sentence written using the hypertext markup language (HTML), the standard markup language for web documents:
 
@@ -209,8 +209,8 @@ The end-user will see:
 
 Lists come in two primary flavors:
 
-* **Ordered lists** should be used when the sequence of events matters and list items are typically preceded by numbers or letters. For example, you might use an ordered list to describe the steps in a process or the rank of list items.
-* **Unordered lists** (like this one!) are used to communicate conceptual groupings in situations in which their sequence is not important abd are typically preceded by bullet points. Unordered lists are useful for communicating information quickly and sorting or displaying the hierarchy of list items.
+* **Ordered lists** should be used when the sequence of events matters and list items are preceded by numbers or letters. For example, you might use an ordered list to describe the steps in a process or the rank of list items.
+* **Unordered lists** (like this one!) are used to communicate conceptual groupings in situations in which their sequence is not important and are typically preceded by bullet points. Unordered lists are useful for communicating information quickly and sorting or displaying the hierarchy of list items.
 
 ##### Ordered lists
 
@@ -458,7 +458,7 @@ If you would like to add a caption to an image, place the caption inside of the 
 
 ### Adding code blocks and output
 
-The power of Quarto (and its predecessor R Markdown) is that you can include code and output within a document.
+The power of Quarto (and it's predecessor, R Markdown) is that you can include code and output within a document.
 
 If we want to include our code and its output, we insert what is known as a **code chunk**. A code chunk can be used to execute code in a specified language. In the below, three backtick symbols at the start and end define the boundaries of the chunk and `{}` defines the program or language to use when executing the chunk:
 
@@ -468,7 +468,9 @@ library(tidyverse)
 ```
 ````
 
-```{r, echo = FALSE}
+This will render as:
+
+```{r}
 library(tidyverse)
 ```
 
@@ -594,18 +596,18 @@ In HTML, such sections can be created by the `<div>` tag, which stands for divis
 
 Notice in the above that I defined the font-family for the entire section of the document.
 
-With Quarto, you can define a section be wrapping it inside of `:::` and, if desired, apply styling to the section inside of curly braces:
+With Quarto, you can define a section by wrapping it inside of `:::` and, if desired, apply styling to the section inside of curly braces:
 
 ```
 ::: {style="font-family: Trebuchet MS;"}
-Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
+Because he is old and problematically font-opinionated, Brian remembers when Times New Roman was the default font for Microsoft Word and prefers sans-serif fonts.
 :::
 ```
 
 The above produces:
 
 ::: {class=quarto_box style="font-family: Trebuchet MS;"}
-Because he is old, remembers when Times New Roman was the default font for Microsoft Word, and problematically font-opinionated, Brian prefers sans-serif fonts.
+Because he is old and problematically font-opinionated, Brian remembers when Times New Roman was the default font for Microsoft Word and prefers sans-serif fonts.
 :::
 
 #### Add styling to spans
@@ -640,7 +642,7 @@ It's not easy being [green]{style="color: green; font-family: Times;"}.
 
 #### Applying styles across a document
 
-We can define a style across our entire document by adding a CSS code chunk. Because this modifies the CSS of the entire document, I always do this at the beginning of my script. Similar to adding an R code chunk, the chunk is defines by opening and closing triple backtick quotes. Inside of curly braces you specify that you are adding CSS.
+We can define a style across our entire document by adding a CSS code chunk. Because this modifies the CSS of the entire document, I always do this at the beginning of my script. Similar to adding an R code chunk, the chunk is defined by opening and closing triple backtick quotes. Inside of curly braces, you specify that you are adding CSS.
 
 ````
 ```{{css, echo = FALSE}}
@@ -649,7 +651,7 @@ We can define a style across our entire document by adding a CSS code chunk. Bec
 }
 ```
 ````
-*Note on the above: We used* `echo = FALSE` *because we do not want show our reader our CSS!*
+*Note on the above: We used* `echo = FALSE` *because we do not want show the reader our CSS! Also note that the period in* `.tara_style` *defines a uniquely identified class.*
 
 ```{css, echo = FALSE}
 .tara_style {
@@ -657,7 +659,9 @@ We can define a style across our entire document by adding a CSS code chunk. Bec
 }
 ```
 
-In the above, I defined a style class called `.tara_style`. I added my style parameters inside of curly braces. Now, I can refer to my custom style class using:
+In the above, I defined a style class called `.tara_style` and added my style parameters inside of curly braces.
+
+Now, I can refer to my custom style class using:
 
 ```
 ::: {class=tara_style}
@@ -681,7 +685,7 @@ Tara prefers to write documents in Times New Roman.
 :::
 :::
 
-You can class add a style to a predefined class:
+You can also add a style to a predefined class:
 
 ```
 ::: {class=tara_style style="color: green;"}
@@ -737,4 +741,4 @@ p {
 
 <hr>
 
-We have just barely scratched the surface of what you can do with Quarto. For the sake of brevity, we have only included the basic elements to get you started with using Quarto. For example, we typically define our CSS with an external file and also tend to include JavaScript and HTML within each Quarto document that we produce! We strongly recommend reading the Quarto documentation at [this link](https://quarto.org/docs/guide/){target="_blank"} ... you will even learn how to create hyperlink (`[this link](https://quarto.org/docs/guide/){target="_blank"}`)!
+We have just barely scratched the surface of what you can do with Quarto. For the sake of brevity, we have only included the basic elements to get you started with using Quarto. For example, we typically define our CSS with an external file and also tend to include JavaScript and HTML within each Quarto document that we produce! We strongly recommend reading the Quarto documentation at [this link](https://quarto.org/docs/guide/){target="_blank"} ... you will even learn how to create hyperlinks (`[this link](https://quarto.org/docs/guide/){target="_blank"}`)!
