@@ -1,0 +1,202 @@
+---
+title: "Problem set 3: Question 8"
+format:
+  html:
+    embed-resouces: true
+    self-contained: true
+    standalone: true
+    toc: false
+    number-sections: false
+    search: true
+    theme: 
+      - cosmo
+      - ../../custom_style.scss
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+<script src="https://kit.fontawesome.com/03064bdd6c.js" crossorigin="anonymous"></script>
+<link rel="icon" 
+type="image/png" 
+href = "www/hex_icon.png" />
+</head>
+
+```{r, include = FALSE}
+library(tidyverse)
+
+read_rds("data/raw/caterpillars_count.rds") %>% 
+  list2env(.GlobalEnv)
+
+sites_dmv <- 
+  sites %>% 
+  
+  # Subset sites to DC, MD, and VA:
+  
+  filter(
+    region %in%
+      c(
+        "DC",
+        "MD", 
+        "VA"
+      )
+  )
+```
+
+This will help you figure how to address a question like Q8!
+
+:::{class="now_you"}
+
+8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys (`observation_method`). 
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Zeros are important!
+
+To properly address this question you will have to do something about surveys in which no caterpillars were observed. Excluding zero values will lead to very inflated count data!
+
+:::
+:::
+
+### Identify which objects to use
+
+The first step is to figure out which dataset(s) to use. We currently have five objects stored in our computer's memory:
+
+```{r}
+observations
+
+sites
+
+sites_dmv
+
+survey_locations
+
+surveys
+```
+
+Based on the question and the output above, we can see that the data of interest are `arthropod` and `arthropod_quantity`, which are referenced in the `observations` table, and `observation_method`, which is referenced in `surveys`. 
+
+### Identify whether a join is necessary
+
+We now know that we need information from two different tables and which tables to use. Because we need information across tables, we know that we need to use a join.
+
+Because we are sharing variables, as opposed to simply subsetting a table, we know that we need to use a mutating join (`left_join`, `inner_join`, or `full_join`) as opposed to a filtering join (`semi_join` or `anti_join`).
+
+### Identify key variables
+
+Joins are based on a common variable (typically a key variable). So we have to look for what variables the tables have in common:
+
+```{r}
+observations
+
+surveys
+```
+
+We can see that the variable that is shared between the tables is `survey_id`, so that is our key column. 
+
+### Identify the target and source tables
+
+Our next step is to determine which table is the target table (the table that will receive a new variable) and which is the source table (the table that will donate one or more variables). 
+A good rule of thumb for safely joining tables is to ensure that the key variable for the source table is a **primary key** (unique identifier for each observation/row) and that the corresponding variable in the target table is a **foreign key** (refers to the primary key of another table).
+
+Let's use a base R method to figure this out. To do so, we will look at the number of rows in each table and comparing it with the number of unique key values:
+
+```{r}
+nrow(observations)
+
+observations$survey_id %>% 
+  unique() %>% 
+  length()
+```
+
+We can see that, because the number of unique `survey_id` values is less than the number of rows, the variable cannot be a primary key!
+
+Let's see about `surveys`:
+
+```{r}
+nrow(surveys)
+
+surveys$survey_id %>% 
+  unique() %>% 
+  length()
+```
+
+Because the number of rows of `surveys` is equivalent to the number of unique `survey_id` values, this can be used as the primary key of the table.
+
+:::{class="mysecret"}
+<i class="fas fa-user-secret fa-2x"></i> Tibbles make life easier!
+
+The way tibbles are printed make this exploratory step pretty easy. Rather than extracting a unique vector and calculated its length, we could have determined the above with:
+
+```{r}
+observations
+
+observations %>% 
+  distinct(survey_id)
+
+surveys
+
+surveys %>% 
+  distinct(survey_id)
+
+
+```
+
+:::
+
+At this point, we know that:
+
+* We will be using a mutating join
+* Because `survey_id` is the primary key of `surveys` and the foreign key of `observations`, we will be joining `surveys` to `observations`.
+
+### Which join should we use?
+
+We are now ready to address the question of *which* mutating join will generate the desired result. Here are our choices:
+
+* `left_join()`: All rows in the target table are maintained and values are only donated from the source table for matching key values.
+* `inner_join()`: The source table donates values to the target table for matching key values and the target table is subset to only rows with matching key values.
+* `full_join()`: All key values in the source and target table are maintained. When the keys do not match, the values in the target table are given the value `NA`.
+
+A good first step is to verify that all key values are accounted for. One thing to notice in the above, is that the length of unique `survey_id` values in `observations` is the same as the number of rows in `surveys`. This is a clue that all `observations` have a corresponding `survey_id` in `surveys` *and* that all `surveys` have a corresponding `survey_id` in `observations`. We can verify this with an `anti_join()`:
+
+```{r}
+observations %>% 
+  anti_join(surveys, by = "survey_id")
+```
+
+```{r}
+surveys %>% 
+  anti_join(observations, by = "survey_id")
+```
+
+The above verifies that every survey had an observation and every observation had a survey. We are safe to join the data ... but which join should we choose?
+
+The question asks the number of caterpillars observed per survey, but was a caterpillar counted in each survey? Let's see:
+
+```{r}
+observations %>% 
+  distinct(survey_id)
+
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  distinct(survey_id)
+```
+
+They were not! We can also verify this with an `anti_join()`:
+
+```{r}
+surveys %>% 
+  anti_join(
+    observations %>% 
+      filter(arthropod == "caterpillar"),
+    by = "survey_id"
+  )
+```
+
+This informs our choice of joins! In this instance, we want to maintain surveys in which no caterpillars were counted.
+
+
