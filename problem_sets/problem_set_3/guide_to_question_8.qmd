@@ -62,9 +62,22 @@ To properly address this question you will have to do something about surveys in
 :::
 :::
 
+Below is how Tara and I would figure out how to address a question like this ...
+
+### Read the question carefully!
+
+The question often gives a hint of the functions to use how to address the question. Here, we see that:
+
+* We are making a summary table -- that almost always requires us to use `summarize()` with either `group_by()` or `.by == ...`. It does not make sense to use `summarize()` without a grouping variable.
+* The question asks for the average, and specifies that the average is a "mean". This suggests that `mean()` should be used to calculate the summary statistic for each group.
+* We see that caterpillars are our target taxa. Given that there are a bunch of different arthropod taxa in the data, this suggests that a `filter()` is necessary!
+* The question describes what the resultant object should be. Here, we see that we want a tibble with variable that describes the observation method and a variable that describes the mean number of caterpillars observed.
+
+Before planning how to address this question, we should take a moment to visualize our resultant object. Given that it is a summary table that describes the mean number of caterpillars for two different methods, we can visualize a table with two columns (method and average number of caterpillars) and two rows (one for each survey type).
+
 ### Identify which objects to use
 
-The first step is to figure out which dataset(s) to use. We currently have five objects stored in our computer's memory:
+The next step is to figure out which dataset(s) to use. We currently have five objects stored in our computer's memory:
 
 ```{r}
 observations
@@ -78,13 +91,23 @@ survey_locations
 surveys
 ```
 
-Based on the question and the output above, we can see that the data of interest are `arthropod` and `arthropod_quantity`, which are referenced in the `observations` table, and `observation_method`, which is referenced in `surveys`. 
+Based on the question and the output above, we can see that the variables of interest are `arthropod` and `arthropod_quantity`, which are referenced in the `observations` table, and `observation_method`, which is referenced in `surveys`. 
 
 ### Identify whether a join is necessary
 
 We now know that we need information from two different tables and which tables to use. Because we need information across tables, we know that we need to use a join.
 
-Because we are sharing variables, as opposed to simply subsetting a table, we know that we need to use a mutating join (`left_join`, `inner_join`, or `full_join`) as opposed to a filtering join (`semi_join` or `anti_join`).
+Because our resultant object will include variables that are currently contained in multiple tables, we know that we need to use a mutating join (`left_join`, `inner_join`, or `full_join`) as opposed to a filtering join (`semi_join` or `anti_join`). 
+
+At this point, we should have a sense that our code block will contain:
+
+* `summarize()`
+* `group_by()` or `.by = ...`
+* `mean()`
+* `filter()`
+* Either `left_join`, `inner_join`, or `full_join`
+
+We are narrowing things down!
 
 ### Identify key variables
 
@@ -100,10 +123,14 @@ We can see that the variable that is shared between the tables is `survey_id`, s
 
 ### Identify the target and source tables
 
-Our next step is to determine which table is the target table (the table that will receive a new variable) and which is the source table (the table that will donate one or more variables). 
-A good rule of thumb for safely joining tables is to ensure that the key variable for the source table is a **primary key** (unique identifier for each observation/row) and that the corresponding variable in the target table is a **foreign key** (refers to the primary key of another table).
+Our next step is to determine which table is the **target table** (the table that will receive a new variable) and which is the **source table** (the table that will donate one or more variables). 
 
-Let's use a base R method to figure this out. To do so, we will look at the number of rows in each table and comparing it with the number of unique key values:
+A good rule of thumb for safely joining tables is to ensure that the key variable in the ...
+
+* Source table is a **primary key**, which is a unique identifier for each observation/row;
+* Target table is a **foreign key**, which refers to the primary key of another table.
+
+Let's use a base R method to figure this out. To do so, we will look at the number of rows in each table and compare it with the number of unique key values:
 
 ```{r}
 nrow(observations)
@@ -148,55 +175,252 @@ surveys %>%
 
 :::
 
-At this point, we know that:
+At this point, we should have a sense that we need to use:
 
-* We will be using a mutating join
-* Because `survey_id` is the primary key of `surveys` and the foreign key of `observations`, we will be joining `surveys` to `observations`.
+* `summarize()`
+* `group_by()` or `.by = ...`
+* `mean()`
+* `filter()`
+* Either `left_join`, `inner_join`, or `full_join` to join `surveys` (source table) to `observations` (target table). We know this because `survey_id` is the primary key of `surveys` and the foreign key of `observations`.
+
+### Subset the data to what you are interested in
+
+To make things easier, this is a good time to subset the data to our goal.
+
+At first, we might perceive that we want the variables `survey_id` (foreign key), `arthropod`, and `arthropod_quantity` from the `observations` table:
+
+```{r}
+observations %>% 
+  select(
+    survey_id,
+    arthropod,
+    arthropod_quantity
+  )
+```
+
+... on closer look, however, the question is only asking for counts of caterpillars. This suggests that we need to filter the data:
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(
+    survey_id,
+    arthropod,
+    arthropod_quantity
+  )
+```
+
+Because every value in the column `arthropod` is now `"caterpillar"`, this could be simplified to:
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity)
+```
+
+For our `surveys` data, we know that we need to maintain the key column (`survey_id`) and type of survey `observation_method`:
+
+```{r}
+surveys %>% 
+  select(survey_id, observation_method)
+```
+
+Now we know that our code will contain:
+
+* `summarize()`
+* `group_by()` or `.by = ...`
+* `mean()`
+* `filter()` -- done!
+* Either `left_join`, `inner_join`, or `full_join` to join `surveys` (source table) to `observations` (target table)
 
 ### Which join should we use?
 
-We are now ready to address the question of *which* mutating join will generate the desired result. Here are our choices:
+We are now ready to address the question of *which* mutating join will generate the desired result. 
 
-* `left_join()`: All rows in the target table are maintained and values are only donated from the source table for matching key values.
-* `inner_join()`: The source table donates values to the target table for matching key values and the target table is subset to only rows with matching key values.
-* `full_join()`: All key values in the source and target table are maintained. When the keys do not match, the values in the target table are given the value `NA`.
+When we were identifying our key variable, we may have noticed that the length of unique `survey_id` values in `observations` is the same as the number of rows in `surveys`. This is a clue that all `observations` have a corresponding `survey_id` in `surveys` *and* that all `surveys` have a corresponding `survey_id` in `observations`. 
 
-A good first step is to verify that all key values are accounted for. One thing to notice in the above, is that the length of unique `survey_id` values in `observations` is the same as the number of rows in `surveys`. This is a clue that all `observations` have a corresponding `survey_id` in `surveys` *and* that all `surveys` have a corresponding `survey_id` in `observations`. We can verify this with an `anti_join()`:
+We can verify this by using `anti_join()` to subset `observations` based on *non-matching* key values. This will filter `observations` to only those that *do not* have a corresponding `survey_id` in `surveys`:
 
 ```{r}
 observations %>% 
   anti_join(surveys, by = "survey_id")
 ```
 
+... or, we can subset `surveys` for which the `survey_id` does not have a corresponding value in `observations`:
+
 ```{r}
 surveys %>% 
   anti_join(observations, by = "survey_id")
 ```
 
-The above verifies that every survey had an observation and every observation had a survey. We are safe to join the data ... but which join should we choose?
+So far so good!
 
-The question asks the number of caterpillars observed per survey, but was a caterpillar counted in each survey? Let's see:
+Is the same true, however, when we subset `observations` to `"caterpillars"`? 
 
 ```{r}
-observations %>% 
-  distinct(survey_id)
-
 observations %>% 
   filter(arthropod == "caterpillar") %>% 
-  distinct(survey_id)
-```
-
-They were not! We can also verify this with an `anti_join()`:
-
-```{r}
-surveys %>% 
+  select(survey_id, arthropod_quantity) %>% 
   anti_join(
-    observations %>% 
-      filter(arthropod == "caterpillar"),
+    surveys %>% 
+      select(survey_id, observation_method), 
     by = "survey_id"
   )
 ```
 
-This informs our choice of joins! In this instance, we want to maintain surveys in which no caterpillars were counted.
+That one checks out ... how about joining `observations` to `surveys`?
 
+```{r}
+surveys %>% 
+  select(survey_id, observation_method) %>% 
+  anti_join(
+    observations %>% 
+      filter(arthropod == "caterpillar") %>% 
+      select(survey_id, arthropod_quantity),
+    by = "survey_id"
+  )
+```
 
+Certainly not! This means that caterpillars were not recorded for every `survey_id` (aka every survey). 
+
+Remember that our goal is to get the average number of caterpillars per survey for each observation method. In order to do this, we are still missing a few pieces of information:
+
+* The type of survey
+* Surveys in which no caterpillars were observed ... Note that this clue was provided in the hint for this question!
+
+Here is where we need to figure out which join to use that will add the missing `survey_id` values from the `surveys` table to the `observations` table while also adding the variable `observation_method`. Our choices are:
+
+* `left_join()`: All rows in the target table are maintained and values are only donated from the source table for matching key values.
+* `inner_join()`: The source table donates values to the target table for matching key values and the target table is subset to only rows with matching key values.
+* `full_join()`: All key values in the source and target table are maintained. When the keys do not match, the values in the target table are given the value `NA`.
+
+We know that our resultant object at this stage will have more rows than the `observations` currently contains. The resultant object of `left_join()` contains the same number of rows as the target table. With `inner_join()`, we would end up with the same or less rows than the target table currently contains. Only a `full_join()` will add rows ... we now know the join to use!
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  )
+```
+
+With the above choices, only a `full_join()` will add `NA` values to `arthropod_quantity` for the non-matching `survey_id` key values. We can verify this by using `summary()` for each of the different types of mutating joins:
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  left_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  ) %>% 
+  summary()
+
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  inner_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  ) %>% 
+  summary()
+
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  ) %>% 
+  summary()
+```
+
+Notice that with our `full_join()` the length is much greater than that of other two joins, the length now matches the number of rows in our `surveys` table, and now we have a load of `NA` values in our `arthropod_quantity` variable.
+
+So, at this point we know that our code will contain:
+
+* `summarize()`
+* `group_by()` or `.by = ...`
+* `mean()`
+* `filter()` -- done!
+* `full_join()` to join `surveys` (source table) to `observations` (target table) -- done!
+
+### Are we ready to summarize?
+
+Now that we have those missing values, how can we create a summary table that describes the `mean()` number of caterpillars counted for each observation method?
+
+The `summarize()` function calculates a summary statistic for each group within the grouping variable that you define with `group_by()` or `.by = ...`.
+
+Here, we know that our summary statistic is "mean", so we can calculate that with `mean()`. We want to conduct this operation for each type of survey, so `observation_method` is our grouping variable.
+
+Surely we can summarize the `mean()` for each survey type, yeah? Let's have a look:
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  ) %>% 
+  summarize(
+    mean_caterpillars = mean(arthropod_quantity),
+    .by = observation_method
+  )
+```
+
+Ack! Both values were reported as `NA`! What do we do?
+
+We need to change those `NA` values to zeros! We can modify the values in the `arthropod_quantity` column using `mutate()`. Within our `mutate()` we use `replace_na()` to specify that any `arthropod_quantity` value that is currently `NA` should be replaced with `0`. We can verify that this worked with `summary()`:
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  ) %>% 
+  mutate(
+    arthropod_quantity = replace_na(arthropod_quantity, 0)
+  ) %>% 
+  summary()
+```
+
+... and then apply this to our `summarize()` operation:
+
+```{r}
+observations %>% 
+  filter(arthropod == "caterpillar") %>% 
+  select(survey_id, arthropod_quantity) %>% 
+  full_join(
+    surveys %>% 
+      select(survey_id, observation_method), 
+    by = "survey_id"
+  ) %>% 
+  mutate(
+    arthropod_quantity = replace_na(arthropod_quantity, 0)
+  ) %>% 
+  summarize(
+    mean_caterpillars = mean(arthropod_quantity),
+    .by = observation_method
+  )
+```
+
+You did it! You created a summary table of the average number of caterpillars observed for each survey type. You did this by exploring the data along the way to find the right steps to take. The steps were:
+
+1. Subset `observations` to where the `arthropod` value was `"caterpillar"`
+2. Subset `observations` and `surveys` to your variables of interest
+3. Conduct a `full_join()` to add rows that represent surveys in which no caterpillars were observed and add `NA` values to `arthropod_quantity` when this was the case
+4. Modify the `arthropod_quantity` variable, using `mutate()` and `replace_na()` to replace `NA` values with `0` 
+5. Summarize the resultant object with `summarize()`
+6. Calculate the mean with `mean()`
+7. Define the grouping variable with `.by = observation_method` to calculate the mean for each group
