@@ -221,12 +221,12 @@ Tidy data often require us to conduct joins that allow us to work with informati
 
 :::{class="now_you"}
 
-8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed in "Beat sheet" and "Visual" surveys (`observation_method`). 
+8\. [[2.5]]{class="score"}  Please generate a summary table that provides the average (mean) number of caterpillars observed for each type of survey ("Beat sheet" and "Visual"; `observation_method`).  
 
 :::{class="mysecret"}
 <i class="fas fa-user-secret fa-2x"></i> Zeros are important!
 
-To properly address this question you will have to do something about surveys in which no caterpillars were observed. Excluding zero values will lead to very inflated count data!
+To properly address this question you will have to do something about surveys in which no caterpillar observations were recorded. Excluding these surveys will lead to very inflated count data!
 
 :::
 :::
